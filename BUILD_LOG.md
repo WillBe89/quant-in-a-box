@@ -2,6 +2,18 @@
 
 Running log of autonomous build cycles. Newest entries at the top.
 
+## 2026-07-10 — GitHub repo + real cross-platform CI, with two real bugs caught and fixed
+
+**Built:**
+- Private repo created and pushed: [github.com/WillBe89/quant-in-a-box](https://github.com/WillBe89/quant-in-a-box).
+- `.github/workflows/build.yml`: typecheck+test on every push/PR; on a `v*` tag, Windows/macOS/Linux runners each build their native installer and publish all three to a draft GitHub Release; manual runs (`workflow_dispatch`) build and upload as workflow artifacts instead, for testing without cutting a release.
+
+**Bugs caught by actually running CI, not just reading the config:**
+1. `npm ci` failed on a clean checkout with "Missing: esbuild@0.28.1 from lock file." Root cause: `vitest@4.1.10`'s `peerDependencies` require `vite ^6/^7/^8`, incompatible with this project's `vite@^5.4` (pinned for `electron-vite`). npm was silently auto-installing that peer as a private nested `vite`+`esbuild@0.28.1` inside `vitest/node_modules` — a resolution that varied run-to-run locally and produced a lockfile `npm ci` correctly rejected as inconsistent on a fresh Linux checkout. First attempted fix (approving the extra esbuild script) treated the symptom, not the cause, and CI failed again identically. Real fix: downgraded to `vitest@3.2.7`, which depends directly on `vite: "^5.0.0 || ^6.0.0 || ^7.0.0-0"` — no nested copy needed at all. Verified with a genuine from-scratch `npm ci` locally (not just `npm install`) before pushing again.
+2. Electron-builder's `nsis` config rejected `allowToChangeInstallDirectory` — not a real property; correct name is `allowToChangeInstallationDirectory`. Caught immediately by electron-builder's own schema validation on the first packaging attempt.
+
+**Verified:** manually triggered the full workflow (`workflow_dispatch`) after the fixes — typecheck/test job green, and all three packaging jobs (windows-latest, macos-latest, ubuntu-latest) succeeded, producing real installer artifacts (~75-110MB each, sane sizes for an Electron app). Confirms a `v*` tag push will actually produce a working `.exe`, `.dmg`, and `.AppImage` in one GitHub Release.
+
 ## 2026-07-10 — Loop stopped: needs Will's input on the portfolio tracker
 
 Three cycles completed autonomously (watchlist persistence → quant.ts test suite → packaging config), each typechecked, tested, and built clean, with real bugs caught and fixed by the verification step each time (a test-fixture bug in cycle 2, a wrong electron-builder property name in cycle 3).
