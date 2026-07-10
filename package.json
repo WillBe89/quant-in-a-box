@@ -41,7 +41,8 @@
   },
   "allowScripts": {
     "electron@31.7.7": true,
-    "esbuild@0.21.5": true
+    "esbuild@0.21.5": true,
+    "esbuild@0.28.1": true
   },
   "build": {
     "appId": "com.quantinabox.app",
@@ -51,10 +52,14 @@
       "output": "release",
       "buildResources": "build"
     },
-    "files": ["out/**/*"],
+    "files": [
+      "out/**/*"
+    ],
     "asar": true,
     "win": {
-      "target": ["nsis"],
+      "target": [
+        "nsis"
+      ],
       "artifactName": "${productName}-Setup-${version}.${ext}"
     },
     "nsis": {
@@ -63,11 +68,15 @@
       "createDesktopShortcut": true
     },
     "mac": {
-      "target": ["dmg"],
+      "target": [
+        "dmg"
+      ],
       "category": "public.app-category.finance"
     },
     "linux": {
-      "target": ["AppImage"],
+      "target": [
+        "AppImage"
+      ],
       "category": "Finance"
     },
     "publish": {
