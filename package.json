@@ -1,0 +1,70 @@
+{
+  "name": "quant-in-a-box",
+  "version": "0.1.0",
+  "description": "Institutional-grade quant analytics for retail traders",
+  "main": "./out/main/index.js",
+  "author": "Quant In A Box",
+  "private": true,
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "typecheck": "tsc --noEmit -p tsconfig.web.json && tsc --noEmit -p tsconfig.node.json",
+    "test": "vitest run",
+    "postinstall": "electron-builder install-app-deps",
+    "build:win": "npm run build && electron-builder --win",
+    "build:mac": "npm run build && electron-builder --mac",
+    "build:linux": "npm run build && electron-builder --linux",
+    "build:unpacked": "npm run build && electron-builder --dir"
+  },
+  "dependencies": {
+    "@electron-toolkit/preload": "^3.0.1",
+    "@electron-toolkit/utils": "^3.0.0",
+    "lightweight-charts": "^4.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@electron-toolkit/tsconfig": "^1.0.1",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "electron": "^31.3.0",
+    "electron-builder": "^24.13.3",
+    "electron-vite": "^2.3.0",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.0",
+    "vitest": "^4.1.10"
+  },
+  "allowScripts": {
+    "electron@31.7.7": true,
+    "esbuild@0.21.5": true
+  },
+  "build": {
+    "appId": "com.quantinabox.app",
+    "productName": "Quant In A Box",
+    "copyright": "Copyright © 2026 Quant In A Box",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": ["out/**/*"],
+    "asar": true,
+    "win": {
+      "target": ["nsis"],
+      "artifactName": "${productName}-Setup-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    },
+    "mac": {
+      "target": ["dmg"],
+      "category": "public.app-category.finance"
+    },
+    "linux": {
+      "target": ["AppImage"],
+      "category": "Finance"
+    }
+  }
+}

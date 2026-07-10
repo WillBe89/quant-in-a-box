@@ -1,0 +1,55 @@
+export type AssetClass = 'stocks' | 'crypto' | 'bonds' | 'fx' | 're'
+
+export interface Asset {
+  symbol: string
+  name: string
+  klass: AssetClass
+  price: number
+  changePct: number
+  /** true when `price` is a yield/percentage rather than a currency amount */
+  isYield?: boolean
+}
+
+export interface Candle {
+  time: number // unix seconds
+  open: number
+  high: number
+  low: number
+  close: number
+  volume: number
+}
+
+export type Timeframe = '1D' | '1W' | '1M' | '3M' | '1Y' | '5Y'
+
+export interface NewsItem {
+  id: string
+  source: string
+  headline: string
+  summary: string
+  url: string
+  publishedAt: number // unix seconds
+  relatedSymbols: string[]
+}
+
+export interface OptionQuote {
+  strike: number
+  type: 'call' | 'put'
+  delta: number
+  gamma: number
+  theta: number
+  vega: number
+  rho: number
+  impliedVol: number
+  price: number
+}
+
+export interface PortfolioRiskStats {
+  sharpe: number
+  sortino: number
+  volatilityAnnualized: number
+  valueAtRisk95: number
+  maxDrawdown: number
+  beta: number
+}
+
+export type IndicatorId = 'ma20' | 'ma50' | 'boll' | 'rsi' | 'macd'
