@@ -2,6 +2,16 @@
 
 Running log of autonomous build cycles. Newest entries at the top.
 
+## 2026-07-11 — Ticker customization + sidebar redesign (direct request, mid-loop)
+
+**Built:**
+- Ticker tape settings gear: choose watchlist/portfolio/all as its source, persisted, with a proper empty-state message when the source has nothing.
+- Sidebar: removed the 6 duplicate asset-class buttons (topbar chips already do this — Will correctly flagged it as a pointless double-up). New "Make it yours" entry opens a Customize panel with real watchlist management: add via search, remove, reset to defaults.
+
+**Real bug caught during testing:** the ticker's source popover originally closed via `onMouseLeave`. Testing revealed this is fragile — a user's mouse moving from the gear button toward a menu item can exit the combined bounding box mid-path (there's a gap between the button and the popover, which sits `bottom: 40px` above it) and close the menu before they can click anything. Replaced with the standard click-outside-to-close pattern (document `mousedown` listener + refs). Also learned during testing that synthetic same-tick `.click()` + immediate DOM query in test scripts doesn't reliably reflect React's state flush — real interactions (separate ticks) work correctly; this was a test-harness artifact, not an app bug, confirmed by re-checking in separate calls each time.
+
+**Verified:** typecheck/test(27/27)/build clean. Full interactive flow confirmed in the browser: ticker source switching with correct empty states, watchlist add (via autocomplete)/remove/reset all working.
+
 ## 2026-07-11 — Real logo wired up (direct request, mid-loop)
 
 **Built:** Will dropped three logo assets into `assets/` (logo-full.png — combined lockup, transparent bg; logo-just.png — icon-only mark, black bg; logo-title.png — wordmark only, black bg) and asked for them to be used throughout the app as sensible, with logo-just as the app icon.
