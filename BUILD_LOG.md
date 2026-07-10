@@ -2,6 +2,18 @@
 
 Running log of autonomous build cycles. Newest entries at the top.
 
+## 2026-07-11 — i18n foundation: every string extracted, English verified
+
+**Built:** Installed `react-i18next` + `i18next`. Every hardcoded string in the app (topbar, rail, workspace toolbar, all three dock cards, the full Academy — including all 12 lessons' title/summary/formula/howToUse/watchOutFor text — and the Portfolio panel) now routes through `t()` against `src/renderer/src/i18n/locales/en.json`. `lessons.ts` was refactored to hold only metadata (id + category); display text lives entirely in the locale file so each language translates independently. Added a language switcher in the Topbar (persists like the theme toggle) and RTL-direction plumbing in `AppStateContext` (a `SUPPORTED_LANGUAGES` metadata list drives `document.dir`/`lang` attributes), ready for Arabic/Urdu.
+
+**Why this order:** this was flagged as the highest-risk step in the plan — a refactor touching nearly every component with real potential to silently break something (a missed string, a broken prop, a t() key typo showing raw dot-paths on screen) — so it had to be verified thoroughly before spending effort on 10 rounds of translation on top of a possibly-shaky foundation.
+
+**Verified:** typecheck/test (27/27)/build all clean. In the browser (via the same dev server now also open as a real Electron window for Will to test directly): confirmed the workspace, indicator chips, watchlist tooltips, and the Academy panel's full lesson content (spot-checked "Moving Average") all render byte-identical to before the refactor, sourced entirely from the new key structure. Confirmed the Portfolio panel's dialog and all its placeholders render correctly too. No console errors.
+
+**Housekeeping note:** `logo-full.png` appeared in the project root (not created by me — presumably an early logo draft Will dropped in). Left untracked/uncommitted rather than silently swept into this commit; flagged for Will to confirm what to do with it.
+
+**Next up:** translating into the 10 target languages, starting with the next loop cycle.
+
 ## 2026-07-10 — Portfolio tracker v1
 
 **Built:** A real "Your holdings" panel (topbar/rail button, opens like the Teaching Zone) where you add positions by symbol + quantity + average cost basis. Adding to an existing symbol blends into a new weighted average cost rather than duplicating the row. Shows per-position current price, market value, unrealized P&L $/%, and % of portfolio weight, plus portfolio-wide totals. Persisted to `localStorage` (`qiab:portfolio:v1`), same pattern as the watchlist.
