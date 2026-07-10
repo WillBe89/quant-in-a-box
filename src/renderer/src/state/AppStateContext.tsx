@@ -1,9 +1,20 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import type { Asset, AssetClass, IndicatorId, Timeframe } from '@renderer/types/market'
+import type { Asset, AssetClass, IndicatorId, PortfolioPosition, Timeframe } from '@renderer/types/market'
 import { ALL_ASSETS, ASSETS_BY_CLASS } from '@renderer/data/mockData'
 
 const WATCHLIST_STORAGE_KEY = 'qiab:watchlist:v1'
 const DEFAULT_WATCHLIST_SYMBOLS = ['NVDA', 'BTC', 'US10Y', 'EURUSD', 'VNQ']
+const PORTFOLIO_STORAGE_KEY = 'qiab:portfolio:v1'
+
+function loadPortfolio(): PortfolioPosition[] {
+  try {
+    const raw = localStorage.getItem(PORTFOLIO_STORAGE_KEY)
+    if (raw) return JSON.parse(raw)
+  } catch {
+    // corrupt/unavailable storage — start empty rather than crash
+  }
+  return []
+}
 
 function loadWatchlist(): Asset[] {
   try {
@@ -40,6 +51,12 @@ interface AppState {
   closeAcademy: () => void
   isInWatchlist: (symbol: string) => boolean
   toggleWatchlist: (asset: Asset) => void
+  portfolio: PortfolioPosition[]
+  addPosition: (symbol: string, quantity: number, costBasis: number) => void
+  removePosition: (symbol: string) => void
+  portfolioOpen: boolean
+  openPortfolio: () => void
+  closePortfolio: () => void
 }
 
 const AppStateCtx = createContext<AppState | null>(null)
@@ -59,6 +76,8 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
   const [academyOpen, setAcademyOpen] = useState(false)
   const [academyLessonId, setAcademyLessonId] = useState<string | null>(null)
+  const [portfolio, setPortfolio] = useState<PortfolioPosition[]>(() => loadPortfolio())
+  const [portfolioOpen, setPortfolioOpen] = useState(false)
 
   useEffect(() => {
     try {
@@ -67,6 +86,14 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       // best-effort persistence; ignore quota/availability errors
     }
   }, [watchlist])
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(PORTFOLIO_STORAGE_KEY, JSON.stringify(portfolio))
+    } catch {
+      // best-effort persistence; ignore quota/availability errors
+    }
+  }, [portfolio])
 
   const setAssetClass = useCallback((klass: AssetClass | 'all') => {
     setAssetClassState(klass)
@@ -99,6 +126,27 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
     )
   }, [])
 
+  const addPosition = useCallback((sym: string, quantity: number, costBasis: number) => {
+    setPortfolio((prev) => {
+      const existing = prev.find((p) => p.symbol === sym)
+      if (existing) {
+        // Adding to an existing holding blends into a new average cost basis
+        // rather than creating a duplicate row for the same symbol.
+        const totalQty = existing.quantity + quantity
+        const blendedCost = (existing.quantity * existing.costBasis + quantity * costBasis) / totalQty
+        return prev.map((p) => (p.symbol === sym ? { ...p, quantity: totalQty, costBasis: blendedCost } : p))
+      }
+      return [...prev, { symbol: sym, quantity, costBasis, addedAt: Math.floor(Date.now() / 1000) }]
+    })
+  }, [])
+
+  const removePosition = useCallback((sym: string) => {
+    setPortfolio((prev) => prev.filter((p) => p.symbol !== sym))
+  }, [])
+
+  const openPortfolio = useCallback(() => setPortfolioOpen(true), [])
+  const closePortfolio = useCallback(() => setPortfolioOpen(false), [])
+
   const value = useMemo<AppState>(
     () => ({
       assetClass,
@@ -117,7 +165,13 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       openAcademy,
       closeAcademy,
       isInWatchlist,
-      toggleWatchlist
+      toggleWatchlist,
+      portfolio,
+      addPosition,
+      removePosition,
+      portfolioOpen,
+      openPortfolio,
+      closePortfolio
     }),
     [
       assetClass,
@@ -135,7 +189,13 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       openAcademy,
       closeAcademy,
       isInWatchlist,
-      toggleWatchlist
+      toggleWatchlist,
+      portfolio,
+      addPosition,
+      removePosition,
+      portfolioOpen,
+      openPortfolio,
+      closePortfolio
     ]
   )
 

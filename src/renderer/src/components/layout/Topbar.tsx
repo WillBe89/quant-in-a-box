@@ -13,7 +13,8 @@ const CLASS_OPTIONS: Array<{ id: AssetClass | 'all'; label: string }> = [
 ]
 
 export default function Topbar(): JSX.Element {
-  const { assetClass, setAssetClass, selectSymbol, theme, toggleTheme, openAcademy } = useAppState()
+  const { assetClass, setAssetClass, selectSymbol, theme, toggleTheme, openAcademy, openPortfolio, portfolio } =
+    useAppState()
   const [query, setQuery] = useState('')
 
   const matches =
@@ -89,6 +90,9 @@ export default function Topbar(): JSX.Element {
 
       <div className="topbar-actions">
         <span className="scope-badge">Analytics only · no trade execution</span>
+        <button className="learn-btn" onClick={openPortfolio}>
+          <span className="cap">💼</span> Portfolio{portfolio.length > 0 ? ` (${portfolio.length})` : ''}
+        </button>
         <button className="learn-btn" onClick={() => openAcademy()}>
           <span className="cap">🎓</span> Learn
         </button>

@@ -11,7 +11,7 @@ const RAIL_ITEMS: Array<{ id: AssetClass | 'all'; icon: string; label: string }>
 ]
 
 export default function Rail(): JSX.Element {
-  const { assetClass, setAssetClass, selectSymbol, openAcademy, watchlist } = useAppState()
+  const { assetClass, setAssetClass, selectSymbol, openAcademy, openPortfolio, watchlist } = useAppState()
 
   return (
     <aside className="rail">
@@ -39,6 +39,10 @@ export default function Rail(): JSX.Element {
         ))}
       </div>
       <div className="rail-spacer" />
+      <button className="rail-btn" onClick={openPortfolio} title="Your portfolio">
+        💼
+        <span className="lbl">Your portfolio</span>
+      </button>
       <button className="rail-btn rail-learn" onClick={() => openAcademy()} title="Teaching zone">
         🎓
         <span className="lbl">Teaching zone</span>

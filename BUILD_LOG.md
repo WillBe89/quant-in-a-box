@@ -2,6 +2,18 @@
 
 Running log of autonomous build cycles. Newest entries at the top.
 
+## 2026-07-10 — Portfolio tracker v1
+
+**Built:** A real "Your holdings" panel (topbar/rail button, opens like the Teaching Zone) where you add positions by symbol + quantity + average cost basis. Adding to an existing symbol blends into a new weighted average cost rather than duplicating the row. Shows per-position current price, market value, unrealized P&L $/%, and % of portfolio weight, plus portfolio-wide totals. Persisted to `localStorage` (`qiab:portfolio:v1`), same pattern as the watchlist.
+
+The bigger piece: **Portfolio Analytics** now computes real weighted stats (Sharpe, Sortino, volatility, VaR, max drawdown, beta) across your *actual* holdings, not just whatever symbol happens to be selected in the main chart — `lib/portfolioMath.ts` blends each holding's daily-return series by its market-value weight into one portfolio-level return series, then feeds that into the same `lib/quant.ts` functions the single-symbol Risk card already uses. New unit tests (`portfolioMath.test.ts`, 4 tests) cover the blending and compounding math.
+
+**Scope decisions made without asking** (flagged here in case any should be revisited): single portfolio, not multiple; current positions only, no transaction/lot history — matches the most common "simple portfolio tracker" pattern and was explicit enough in what Will asked for ("track how it's going, apply the analytics to it") to build directly rather than re-asking.
+
+**Verified:** typecheck/test (27/27)/build all clean. Functional check in the browser: added NVDA (10 @ $120) — P&L and weight (100%) computed correctly, and portfolio analytics with one holding matched that symbol's own standalone Risk-card stats exactly (a strong correctness cross-check). Added BTC (0.05 @ $58,000) — totals, weights (30.8%/69.2%), and analytics all updated correctly. Removed NVDA — analytics correctly collapsed back to BTC's own standalone stats. Reloaded the page and confirmed both the position list and the topbar's "Portfolio (n)" count persist.
+
+**Bug caught and fixed:** opening the Teaching Zone from an info-icon *inside* the Portfolio panel opened Academy behind it (both modals shared `z-index: 100`, and Portfolio mounts later in the DOM so it won the tie). Fixed by giving Academy a higher `z-index` — it's a contextual reference lookup that should always stack above whatever invoked it.
+
 ## 2026-07-10 — GitHub repo + real cross-platform CI, with two real bugs caught and fixed
 
 **Built:**

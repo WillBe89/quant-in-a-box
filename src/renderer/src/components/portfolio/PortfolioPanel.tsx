@@ -1,0 +1,337 @@
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { useAppState } from '@renderer/state/AppStateContext'
+import { ALL_ASSETS } from '@renderer/data/mockData'
+import { dataService } from '@renderer/data/dataService'
+import { generateCandles } from '@renderer/data/mockData'
+import {
+  beta as betaCalc,
+  closesOf,
+  dailyReturns,
+  historicalVaR,
+  maxDrawdown,
+  sharpeRatio,
+  sortinoRatio,
+  volatilityAnnualized
+} from '@renderer/lib/quant'
+import { cumulativeValueSeries, weightedPortfolioReturns } from '@renderer/lib/portfolioMath'
+import InfoIcon from '@renderer/academy/InfoIcon'
+import type { Asset, PortfolioRiskStats } from '@renderer/types/market'
+import './portfolio.css'
+
+const BENCHMARK: Asset = { symbol: 'SPXPROXY', name: 'Broad market proxy', klass: 'stocks', price: 5500, changePct: 0.5 }
+
+interface Row {
+  asset: Asset
+  quantity: number
+  costBasis: number
+  currentPrice: number
+  marketValue: number
+  costTotal: number
+  pnl: number
+  pnlPct: number
+  weightPct: number
+}
+
+export default function PortfolioPanel(): JSX.Element | null {
+  const { portfolioOpen, closePortfolio, portfolio, addPosition, removePosition } = useAppState()
+  const dialogRef = useRef<HTMLDivElement>(null)
+
+  const [symbolQuery, setSymbolQuery] = useState('')
+  const [selectedSymbol, setSelectedSymbol] = useState<Asset | null>(null)
+  const [quantityInput, setQuantityInput] = useState('')
+  const [costBasisInput, setCostBasisInput] = useState('')
+
+  const [stats, setStats] = useState<PortfolioRiskStats | null>(null)
+  const [statsLoading, setStatsLoading] = useState(false)
+
+  useEffect(() => {
+    if (!portfolioOpen) return
+    function onKey(e: KeyboardEvent): void {
+      if (e.key === 'Escape') closePortfolio()
+    }
+    window.addEventListener('keydown', onKey)
+    dialogRef.current?.focus()
+    return () => window.removeEventListener('keydown', onKey)
+  }, [portfolioOpen, closePortfolio])
+
+  const rows = useMemo<Row[]>(() => {
+    const withAsset = portfolio
+      .map((p) => {
+        const asset = ALL_ASSETS.find((a) => a.symbol === p.symbol)
+        return asset ? { position: p, asset } : null
+      })
+      .filter((r): r is { position: (typeof portfolio)[number]; asset: Asset } => r !== null)
+
+    const totalMarketValue = withAsset.reduce((sum, r) => sum + r.asset.price * r.position.quantity, 0)
+
+    return withAsset.map(({ position, asset }) => {
+      const marketValue = asset.price * position.quantity
+      const costTotal = position.costBasis * position.quantity
+      const pnl = marketValue - costTotal
+      return {
+        asset,
+        quantity: position.quantity,
+        costBasis: position.costBasis,
+        currentPrice: asset.price,
+        marketValue,
+        costTotal,
+        pnl,
+        pnlPct: costTotal === 0 ? 0 : (pnl / costTotal) * 100,
+        weightPct: totalMarketValue === 0 ? 0 : (marketValue / totalMarketValue) * 100
+      }
+    })
+  }, [portfolio])
+
+  const totals = useMemo(() => {
+    const marketValue = rows.reduce((s, r) => s + r.marketValue, 0)
+    const costTotal = rows.reduce((s, r) => s + r.costTotal, 0)
+    const pnl = marketValue - costTotal
+    return { marketValue, costTotal, pnl, pnlPct: costTotal === 0 ? 0 : (pnl / costTotal) * 100 }
+  }, [rows])
+
+  useEffect(() => {
+    if (!portfolioOpen || rows.length === 0) {
+      setStats(null)
+      return
+    }
+    let cancelled = false
+    setStatsLoading(true)
+    Promise.all(
+      rows.map(async (r) => {
+        const candles = await dataService.getCandles(r.asset, '1Y')
+        return { weight: r.weightPct / 100, returns: dailyReturns(closesOf(candles)) }
+      })
+    ).then((holdings) => {
+      if (cancelled) return
+      const portReturns = weightedPortfolioReturns(holdings)
+      if (portReturns.length < 5) {
+        setStats(null)
+        setStatsLoading(false)
+        return
+      }
+      const valueSeries = cumulativeValueSeries(portReturns)
+      const benchmarkReturns = dailyReturns(closesOf(generateCandles(BENCHMARK, '1Y')))
+      setStats({
+        sharpe: sharpeRatio(portReturns),
+        sortino: sortinoRatio(portReturns),
+        volatilityAnnualized: volatilityAnnualized(portReturns),
+        valueAtRisk95: historicalVaR(portReturns, 0.95),
+        maxDrawdown: maxDrawdown(valueSeries),
+        beta: betaCalc(portReturns, benchmarkReturns)
+      })
+      setStatsLoading(false)
+    })
+    return () => {
+      cancelled = true
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [portfolioOpen, portfolio])
+
+  if (!portfolioOpen) return null
+
+  const matches =
+    symbolQuery.trim().length > 0
+      ? ALL_ASSETS.filter(
+          (a) =>
+            a.symbol.toLowerCase().includes(symbolQuery.toLowerCase()) ||
+            a.name.toLowerCase().includes(symbolQuery.toLowerCase())
+        ).slice(0, 6)
+      : []
+
+  function handleAdd(): void {
+    const quantity = parseFloat(quantityInput)
+    const costBasis = parseFloat(costBasisInput)
+    if (!selectedSymbol || !Number.isFinite(quantity) || quantity <= 0 || !Number.isFinite(costBasis) || costBasis < 0) {
+      return
+    }
+    addPosition(selectedSymbol.symbol, quantity, costBasis)
+    setSymbolQuery('')
+    setSelectedSymbol(null)
+    setQuantityInput('')
+    setCostBasisInput('')
+  }
+
+  return (
+    <div className="portfolio-scrim" onClick={closePortfolio}>
+      <div
+        className="portfolio-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Your portfolio"
+        tabIndex={-1}
+        ref={dialogRef}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="portfolio-header">
+          <div className="portfolio-title">
+            <span className="portfolio-badge">Portfolio</span>
+            <h2>Your holdings</h2>
+          </div>
+          <button className="icon-btn" onClick={closePortfolio} aria-label="Close">
+            ✕
+          </button>
+        </div>
+
+        <div className="portfolio-body">
+          <div className="portfolio-add">
+            <div className="portfolio-add-field portfolio-add-symbol">
+              <input
+                type="text"
+                placeholder="Symbol — AAPL, BTC…"
+                value={selectedSymbol ? selectedSymbol.symbol : symbolQuery}
+                onChange={(e) => {
+                  setSelectedSymbol(null)
+                  setSymbolQuery(e.target.value)
+                }}
+              />
+              {matches.length > 0 && !selectedSymbol && (
+                <div className="portfolio-add-results">
+                  {matches.map((a) => (
+                    <button key={a.symbol} onClick={() => setSelectedSymbol(a)}>
+                      <span className="sr-sym">{a.symbol}</span>
+                      <span className="sr-name">{a.name}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+            <input
+              className="portfolio-add-field"
+              type="number"
+              placeholder="Quantity"
+              min="0"
+              step="any"
+              value={quantityInput}
+              onChange={(e) => setQuantityInput(e.target.value)}
+            />
+            <input
+              className="portfolio-add-field"
+              type="number"
+              placeholder="Avg. cost basis"
+              min="0"
+              step="any"
+              value={costBasisInput}
+              onChange={(e) => setCostBasisInput(e.target.value)}
+            />
+            <button className="portfolio-add-btn" onClick={handleAdd}>
+              Add position
+            </button>
+          </div>
+
+          {rows.length === 0 ? (
+            <div className="portfolio-empty">
+              Add your first position above to start tracking performance and see real analytics
+              applied to your actual holdings.
+            </div>
+          ) : (
+            <>
+              <div className="portfolio-summary">
+                <div className="portfolio-summary-tile">
+                  <div className="lbl">Market value</div>
+                  <div className="val tnum">${totals.marketValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}</div>
+                </div>
+                <div className="portfolio-summary-tile">
+                  <div className="lbl">Cost basis</div>
+                  <div className="val tnum">${totals.costTotal.toLocaleString(undefined, { maximumFractionDigits: 2 })}</div>
+                </div>
+                <div className={'portfolio-summary-tile ' + (totals.pnl >= 0 ? 'up' : 'down')}>
+                  <div className="lbl">Unrealized P&amp;L</div>
+                  <div className="val tnum">
+                    {totals.pnl >= 0 ? '+' : ''}
+                    ${totals.pnl.toLocaleString(undefined, { maximumFractionDigits: 2 })} (
+                    {totals.pnl >= 0 ? '+' : ''}
+                    {totals.pnlPct.toFixed(2)}%)
+                  </div>
+                </div>
+              </div>
+
+              <div className="portfolio-table-wrap">
+                <table className="portfolio-table">
+                  <thead>
+                    <tr>
+                      <th>Symbol</th>
+                      <th>Qty</th>
+                      <th>Avg cost</th>
+                      <th>Price</th>
+                      <th>Value</th>
+                      <th>P&amp;L</th>
+                      <th>Weight</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rows.map((r) => (
+                      <tr key={r.asset.symbol}>
+                        <td className="portfolio-sym">{r.asset.symbol}</td>
+                        <td className="tnum">{r.quantity}</td>
+                        <td className="tnum">{r.costBasis.toFixed(2)}</td>
+                        <td className="tnum">{r.currentPrice.toFixed(2)}</td>
+                        <td className="tnum">{r.marketValue.toLocaleString(undefined, { maximumFractionDigits: 0 })}</td>
+                        <td className={'tnum ' + (r.pnl >= 0 ? 'up' : 'down')}>
+                          {r.pnl >= 0 ? '+' : ''}
+                          {r.pnlPct.toFixed(1)}%
+                        </td>
+                        <td className="tnum">{r.weightPct.toFixed(1)}%</td>
+                        <td>
+                          <button className="portfolio-remove" onClick={() => removePosition(r.asset.symbol)} title="Remove position">
+                            ✕
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="portfolio-analytics">
+                <div className="portfolio-analytics-head">
+                  <h3>Portfolio analytics</h3>
+                  <span className="portfolio-analytics-sub">Weighted across your actual holdings</span>
+                </div>
+                {statsLoading || !stats ? (
+                  <div className="stat-loading">Crunching weighted return history…</div>
+                ) : (
+                  <div className="stat-grid">
+                    <PStat tone="ok" label="Sharpe ratio" lessonId="sharpe" value={stats.sharpe.toFixed(2)} />
+                    <PStat tone="ok" label="Sortino" lessonId="sortino" value={stats.sortino.toFixed(2)} />
+                    <PStat
+                      tone="neutral"
+                      label="Volatility (ann.)"
+                      lessonId="volatility"
+                      value={`${(stats.volatilityAnnualized * 100).toFixed(1)}%`}
+                    />
+                    <PStat tone="warn" label="VaR (95%, 1d)" lessonId="var" value={`${(stats.valueAtRisk95 * 100).toFixed(1)}%`} />
+                    <PStat tone="warn" label="Max drawdown" lessonId="maxdd" value={`${(stats.maxDrawdown * 100).toFixed(1)}%`} />
+                    <PStat tone="neutral" label="Beta (vs market)" lessonId="beta" value={stats.beta.toFixed(2)} />
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function PStat({
+  tone,
+  label,
+  lessonId,
+  value
+}: {
+  tone: 'ok' | 'warn' | 'neutral'
+  label: string
+  lessonId: string
+  value: string
+}): JSX.Element {
+  return (
+    <div className={`stat-tile ${tone}`}>
+      <div className="stripe" />
+      <div className="lbl">
+        {label} <InfoIcon lessonId={lessonId} />
+      </div>
+      <div className="val tnum">{value}</div>
+    </div>
+  )
+}

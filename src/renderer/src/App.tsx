@@ -6,6 +6,7 @@ import Workspace from '@renderer/components/layout/Workspace'
 import Dock from '@renderer/components/layout/Dock'
 import TickerTape from '@renderer/components/layout/TickerTape'
 import AcademyPanel from '@renderer/academy/AcademyPanel'
+import PortfolioPanel from '@renderer/components/portfolio/PortfolioPanel'
 import '@renderer/components/layout/layout.css'
 
 function Shell(): JSX.Element {
@@ -25,6 +26,7 @@ function Shell(): JSX.Element {
       </div>
       <TickerTape />
       <AcademyPanel />
+      <PortfolioPanel />
     </div>
   )
 }

@@ -53,3 +53,10 @@ export interface PortfolioRiskStats {
 }
 
 export type IndicatorId = 'ma20' | 'ma50' | 'boll' | 'rsi' | 'macd'
+
+export interface PortfolioPosition {
+  symbol: string
+  quantity: number
+  costBasis: number // average price paid per unit
+  addedAt: number // unix seconds
+}
