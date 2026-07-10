@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useAppState } from '@renderer/state/AppStateContext'
 import { ALL_ASSETS } from '@renderer/data/mockData'
 import { dataService } from '@renderer/data/dataService'
@@ -33,6 +34,7 @@ interface Row {
 }
 
 export default function PortfolioPanel(): JSX.Element | null {
+  const { t } = useTranslation()
   const { portfolioOpen, closePortfolio, portfolio, addPosition, removePosition } = useAppState()
   const dialogRef = useRef<HTMLDivElement>(null)
 
@@ -157,17 +159,17 @@ export default function PortfolioPanel(): JSX.Element | null {
         className="portfolio-panel"
         role="dialog"
         aria-modal="true"
-        aria-label="Your portfolio"
+        aria-label={t('portfolio.heading')}
         tabIndex={-1}
         ref={dialogRef}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="portfolio-header">
           <div className="portfolio-title">
-            <span className="portfolio-badge">Portfolio</span>
-            <h2>Your holdings</h2>
+            <span className="portfolio-badge">{t('portfolio.badge')}</span>
+            <h2>{t('portfolio.heading')}</h2>
           </div>
-          <button className="icon-btn" onClick={closePortfolio} aria-label="Close">
+          <button className="icon-btn" onClick={closePortfolio} aria-label={t('common.close') ?? undefined}>
             ✕
           </button>
         </div>
@@ -177,7 +179,7 @@ export default function PortfolioPanel(): JSX.Element | null {
             <div className="portfolio-add-field portfolio-add-symbol">
               <input
                 type="text"
-                placeholder="Symbol — AAPL, BTC…"
+                placeholder={t('portfolio.symbolPlaceholder') ?? undefined}
                 value={selectedSymbol ? selectedSymbol.symbol : symbolQuery}
                 onChange={(e) => {
                   setSelectedSymbol(null)
@@ -198,7 +200,7 @@ export default function PortfolioPanel(): JSX.Element | null {
             <input
               className="portfolio-add-field"
               type="number"
-              placeholder="Quantity"
+              placeholder={t('portfolio.quantityPlaceholder') ?? undefined}
               min="0"
               step="any"
               value={quantityInput}
@@ -207,35 +209,32 @@ export default function PortfolioPanel(): JSX.Element | null {
             <input
               className="portfolio-add-field"
               type="number"
-              placeholder="Avg. cost basis"
+              placeholder={t('portfolio.costBasisPlaceholder') ?? undefined}
               min="0"
               step="any"
               value={costBasisInput}
               onChange={(e) => setCostBasisInput(e.target.value)}
             />
             <button className="portfolio-add-btn" onClick={handleAdd}>
-              Add position
+              {t('portfolio.addBtn')}
             </button>
           </div>
 
           {rows.length === 0 ? (
-            <div className="portfolio-empty">
-              Add your first position above to start tracking performance and see real analytics
-              applied to your actual holdings.
-            </div>
+            <div className="portfolio-empty">{t('portfolio.emptyState')}</div>
           ) : (
             <>
               <div className="portfolio-summary">
                 <div className="portfolio-summary-tile">
-                  <div className="lbl">Market value</div>
+                  <div className="lbl">{t('portfolio.marketValue')}</div>
                   <div className="val tnum">${totals.marketValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}</div>
                 </div>
                 <div className="portfolio-summary-tile">
-                  <div className="lbl">Cost basis</div>
+                  <div className="lbl">{t('portfolio.costBasis')}</div>
                   <div className="val tnum">${totals.costTotal.toLocaleString(undefined, { maximumFractionDigits: 2 })}</div>
                 </div>
                 <div className={'portfolio-summary-tile ' + (totals.pnl >= 0 ? 'up' : 'down')}>
-                  <div className="lbl">Unrealized P&amp;L</div>
+                  <div className="lbl">{t('portfolio.unrealizedPnl')}</div>
                   <div className="val tnum">
                     {totals.pnl >= 0 ? '+' : ''}
                     ${totals.pnl.toLocaleString(undefined, { maximumFractionDigits: 2 })} (
@@ -249,13 +248,13 @@ export default function PortfolioPanel(): JSX.Element | null {
                 <table className="portfolio-table">
                   <thead>
                     <tr>
-                      <th>Symbol</th>
-                      <th>Qty</th>
-                      <th>Avg cost</th>
-                      <th>Price</th>
-                      <th>Value</th>
-                      <th>P&amp;L</th>
-                      <th>Weight</th>
+                      <th>{t('portfolio.colSymbol')}</th>
+                      <th>{t('portfolio.colQty')}</th>
+                      <th>{t('portfolio.colAvgCost')}</th>
+                      <th>{t('portfolio.colPrice')}</th>
+                      <th>{t('portfolio.colValue')}</th>
+                      <th>{t('portfolio.colPnl')}</th>
+                      <th>{t('portfolio.colWeight')}</th>
                       <th></th>
                     </tr>
                   </thead>
@@ -273,7 +272,11 @@ export default function PortfolioPanel(): JSX.Element | null {
                         </td>
                         <td className="tnum">{r.weightPct.toFixed(1)}%</td>
                         <td>
-                          <button className="portfolio-remove" onClick={() => removePosition(r.asset.symbol)} title="Remove position">
+                          <button
+                            className="portfolio-remove"
+                            onClick={() => removePosition(r.asset.symbol)}
+                            title={t('portfolio.removePosition') ?? undefined}
+                          >
                             ✕
                           </button>
                         </td>
@@ -285,24 +288,34 @@ export default function PortfolioPanel(): JSX.Element | null {
 
               <div className="portfolio-analytics">
                 <div className="portfolio-analytics-head">
-                  <h3>Portfolio analytics</h3>
-                  <span className="portfolio-analytics-sub">Weighted across your actual holdings</span>
+                  <h3>{t('portfolio.analyticsTitle')}</h3>
+                  <span className="portfolio-analytics-sub">{t('portfolio.analyticsSub')}</span>
                 </div>
                 {statsLoading || !stats ? (
-                  <div className="stat-loading">Crunching weighted return history…</div>
+                  <div className="stat-loading">{t('portfolio.analyticsLoading')}</div>
                 ) : (
                   <div className="stat-grid">
-                    <PStat tone="ok" label="Sharpe ratio" lessonId="sharpe" value={stats.sharpe.toFixed(2)} />
-                    <PStat tone="ok" label="Sortino" lessonId="sortino" value={stats.sortino.toFixed(2)} />
+                    <PStat tone="ok" label={t('dock.risk.sharpe')} lessonId="sharpe" value={stats.sharpe.toFixed(2)} />
+                    <PStat tone="ok" label={t('dock.risk.sortino')} lessonId="sortino" value={stats.sortino.toFixed(2)} />
                     <PStat
                       tone="neutral"
-                      label="Volatility (ann.)"
+                      label={t('dock.risk.volatility')}
                       lessonId="volatility"
                       value={`${(stats.volatilityAnnualized * 100).toFixed(1)}%`}
                     />
-                    <PStat tone="warn" label="VaR (95%, 1d)" lessonId="var" value={`${(stats.valueAtRisk95 * 100).toFixed(1)}%`} />
-                    <PStat tone="warn" label="Max drawdown" lessonId="maxdd" value={`${(stats.maxDrawdown * 100).toFixed(1)}%`} />
-                    <PStat tone="neutral" label="Beta (vs market)" lessonId="beta" value={stats.beta.toFixed(2)} />
+                    <PStat
+                      tone="warn"
+                      label={t('dock.risk.var')}
+                      lessonId="var"
+                      value={`${(stats.valueAtRisk95 * 100).toFixed(1)}%`}
+                    />
+                    <PStat
+                      tone="warn"
+                      label={t('dock.risk.maxDrawdown')}
+                      lessonId="maxdd"
+                      value={`${(stats.maxDrawdown * 100).toFixed(1)}%`}
+                    />
+                    <PStat tone="neutral" label={t('dock.risk.beta')} lessonId="beta" value={stats.beta.toFixed(2)} />
                   </div>
                 )}
               </div>

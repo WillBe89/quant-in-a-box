@@ -1,21 +1,34 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import type { AssetClass } from '@renderer/types/market'
 import { ALL_ASSETS } from '@renderer/data/mockData'
 import { useAppState } from '@renderer/state/AppStateContext'
-
-const CLASS_OPTIONS: Array<{ id: AssetClass | 'all'; label: string }> = [
-  { id: 'all', label: 'All' },
-  { id: 'stocks', label: 'Stocks' },
-  { id: 'crypto', label: 'Crypto' },
-  { id: 'bonds', label: 'Bonds' },
-  { id: 'fx', label: 'FX' },
-  { id: 're', label: 'Real Estate' }
-]
+import { SUPPORTED_LANGUAGES } from '@renderer/i18n'
 
 export default function Topbar(): JSX.Element {
-  const { assetClass, setAssetClass, selectSymbol, theme, toggleTheme, openAcademy, openPortfolio, portfolio } =
-    useAppState()
+  const { t } = useTranslation()
+  const {
+    assetClass,
+    setAssetClass,
+    selectSymbol,
+    theme,
+    toggleTheme,
+    openAcademy,
+    openPortfolio,
+    portfolio,
+    language,
+    setLanguage
+  } = useAppState()
   const [query, setQuery] = useState('')
+
+  const CLASS_OPTIONS: Array<{ id: AssetClass | 'all'; label: string }> = [
+    { id: 'all', label: t('topbar.classAll') },
+    { id: 'stocks', label: t('topbar.classStocks') },
+    { id: 'crypto', label: t('topbar.classCrypto') },
+    { id: 'bonds', label: t('topbar.classBonds') },
+    { id: 'fx', label: t('topbar.classFx') },
+    { id: 're', label: t('topbar.classRe') }
+  ]
 
   const matches =
     query.trim().length > 0
@@ -41,7 +54,7 @@ export default function Topbar(): JSX.Element {
           </svg>
         </div>
         <div className="brand-name">
-          Quant <b>In A Box</b>
+          {t('topbar.brandFirst')} <b>{t('topbar.brandSecond')}</b>
         </div>
       </div>
 
@@ -53,7 +66,7 @@ export default function Topbar(): JSX.Element {
           </svg>
           <input
             type="text"
-            placeholder="Search any asset — AAPL, BTC, 10Y Treasury, VNQ…"
+            placeholder={t('topbar.searchPlaceholder')}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
@@ -89,14 +102,32 @@ export default function Topbar(): JSX.Element {
       </div>
 
       <div className="topbar-actions">
-        <span className="scope-badge">Analytics only · no trade execution</span>
+        <span className="scope-badge">{t('topbar.scopeBadge')}</span>
         <button className="learn-btn" onClick={openPortfolio}>
-          <span className="cap">💼</span> Portfolio{portfolio.length > 0 ? ` (${portfolio.length})` : ''}
+          <span className="cap">💼</span> {t('topbar.portfolioBtn')}
+          {portfolio.length > 0 ? ` (${portfolio.length})` : ''}
         </button>
         <button className="learn-btn" onClick={() => openAcademy()}>
-          <span className="cap">🎓</span> Learn
+          <span className="cap">🎓</span> {t('topbar.learnBtn')}
         </button>
-        <button className="icon-btn" onClick={toggleTheme} title="Toggle theme" aria-label="Toggle theme">
+        <select
+          className="lang-select"
+          value={language}
+          onChange={(e) => setLanguage(e.target.value)}
+          aria-label="Language"
+        >
+          {SUPPORTED_LANGUAGES.map((l) => (
+            <option key={l.code} value={l.code}>
+              {l.label}
+            </option>
+          ))}
+        </select>
+        <button
+          className="icon-btn"
+          onClick={toggleTheme}
+          title={t('topbar.toggleTheme')}
+          aria-label={t('topbar.toggleTheme')}
+        >
           {theme === 'dark' ? (
             <svg viewBox="0 0 24 24" width={16} height={16} fill="none" stroke="currentColor" strokeWidth={2}>
               <path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z" />

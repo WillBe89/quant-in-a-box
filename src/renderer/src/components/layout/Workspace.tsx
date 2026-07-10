@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import type { Candle, IndicatorId, Timeframe } from '@renderer/types/market'
 import { useAppState } from '@renderer/state/AppStateContext'
 import { dataService } from '@renderer/data/dataService'
@@ -7,13 +8,6 @@ import OscillatorPanel from '@renderer/components/chart/OscillatorPanel'
 import InfoIcon from '@renderer/academy/InfoIcon'
 
 const TIMEFRAMES: Timeframe[] = ['1D', '1W', '1M', '3M', '1Y', '5Y']
-const INDICATOR_META: Array<{ id: IndicatorId; label: string; lessonId: string }> = [
-  { id: 'ma20', label: 'MA 20', lessonId: 'ma' },
-  { id: 'ma50', label: 'MA 50', lessonId: 'ma' },
-  { id: 'boll', label: 'Bollinger', lessonId: 'boll' },
-  { id: 'rsi', label: 'RSI', lessonId: 'rsi' },
-  { id: 'macd', label: 'MACD', lessonId: 'macd' }
-]
 
 function formatPrice(price: number, isYield?: boolean): string {
   if (isYield) return `${price.toFixed(2)}%`
@@ -23,10 +17,19 @@ function formatPrice(price: number, isYield?: boolean): string {
 }
 
 export default function Workspace(): JSX.Element {
+  const { t } = useTranslation()
   const { symbol, timeframe, setTimeframe, indicators, toggleIndicator, theme, isInWatchlist, toggleWatchlist } =
     useAppState()
   const [candles, setCandles] = useState<Candle[]>([])
   const [lastBar, setLastBar] = useState<Candle | null>(null)
+
+  const INDICATOR_META: Array<{ id: IndicatorId; label: string; lessonId: string }> = [
+    { id: 'ma20', label: t('workspace.indicatorMa20'), lessonId: 'ma' },
+    { id: 'ma50', label: t('workspace.indicatorMa50'), lessonId: 'ma' },
+    { id: 'boll', label: t('workspace.indicatorBoll'), lessonId: 'boll' },
+    { id: 'rsi', label: t('workspace.indicatorRsi'), lessonId: 'rsi' },
+    { id: 'macd', label: t('workspace.indicatorMacd'), lessonId: 'macd' }
+  ]
 
   useEffect(() => {
     let cancelled = false
@@ -49,7 +52,7 @@ export default function Workspace(): JSX.Element {
         <span className="sym-name">{symbol.name}</span>
         <button
           className={'star-btn' + (isInWatchlist(symbol.symbol) ? ' active' : '')}
-          title={isInWatchlist(symbol.symbol) ? 'Remove from watchlist' : 'Add to watchlist'}
+          title={isInWatchlist(symbol.symbol) ? t('workspace.removeFromWatchlist') : t('workspace.addToWatchlist')}
           onClick={() => toggleWatchlist(symbol)}
         >
           {isInWatchlist(symbol.symbol) ? '★' : '☆'}
@@ -114,7 +117,7 @@ export default function Workspace(): JSX.Element {
       {showOsc && (
         <div className="subpanel">
           <span className="subpanel-label">
-            {oscMode === 'rsi' ? 'RSI (14)' : 'MACD (12, 26, 9)'}
+            {oscMode === 'rsi' ? t('workspace.rsiLabel') : t('workspace.macdLabel')}
             <InfoIcon lessonId={oscMode} />
           </span>
           <OscillatorPanel candles={candles} mode={oscMode} theme={theme} />

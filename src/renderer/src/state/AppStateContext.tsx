@@ -1,10 +1,20 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import type { Asset, AssetClass, IndicatorId, PortfolioPosition, Timeframe } from '@renderer/types/market'
 import { ALL_ASSETS, ASSETS_BY_CLASS } from '@renderer/data/mockData'
+import i18n, { languageDir } from '@renderer/i18n'
 
 const WATCHLIST_STORAGE_KEY = 'qiab:watchlist:v1'
 const DEFAULT_WATCHLIST_SYMBOLS = ['NVDA', 'BTC', 'US10Y', 'EURUSD', 'VNQ']
 const PORTFOLIO_STORAGE_KEY = 'qiab:portfolio:v1'
+const LANGUAGE_STORAGE_KEY = 'qiab:language:v1'
+
+function loadLanguage(): string {
+  try {
+    return localStorage.getItem(LANGUAGE_STORAGE_KEY) ?? 'en'
+  } catch {
+    return 'en'
+  }
+}
 
 function loadPortfolio(): PortfolioPosition[] {
   try {
@@ -57,6 +67,8 @@ interface AppState {
   portfolioOpen: boolean
   openPortfolio: () => void
   closePortfolio: () => void
+  language: string
+  setLanguage: (code: string) => void
 }
 
 const AppStateCtx = createContext<AppState | null>(null)
@@ -78,6 +90,18 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   const [academyLessonId, setAcademyLessonId] = useState<string | null>(null)
   const [portfolio, setPortfolio] = useState<PortfolioPosition[]>(() => loadPortfolio())
   const [portfolioOpen, setPortfolioOpen] = useState(false)
+  const [language, setLanguageState] = useState<string>(() => loadLanguage())
+
+  useEffect(() => {
+    i18n.changeLanguage(language)
+    document.documentElement.setAttribute('dir', languageDir(language))
+    document.documentElement.setAttribute('lang', language)
+    try {
+      localStorage.setItem(LANGUAGE_STORAGE_KEY, language)
+    } catch {
+      // best-effort persistence; ignore quota/availability errors
+    }
+  }, [language])
 
   useEffect(() => {
     try {
@@ -147,6 +171,8 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   const openPortfolio = useCallback(() => setPortfolioOpen(true), [])
   const closePortfolio = useCallback(() => setPortfolioOpen(false), [])
 
+  const setLanguage = useCallback((code: string) => setLanguageState(code), [])
+
   const value = useMemo<AppState>(
     () => ({
       assetClass,
@@ -171,7 +197,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       removePosition,
       portfolioOpen,
       openPortfolio,
-      closePortfolio
+      closePortfolio,
+      language,
+      setLanguage
     }),
     [
       assetClass,
@@ -195,7 +223,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       removePosition,
       portfolioOpen,
       openPortfolio,
-      closePortfolio
+      closePortfolio,
+      language,
+      setLanguage
     ]
   )
 

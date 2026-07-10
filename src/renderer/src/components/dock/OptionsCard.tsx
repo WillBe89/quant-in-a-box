@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useAppState } from '@renderer/state/AppStateContext'
 import { dataService } from '@renderer/data/dataService'
 import CardHead from './CardHead'
 import type { OptionQuote } from '@renderer/types/market'
 
 export default function OptionsCard(): JSX.Element {
+  const { t } = useTranslation()
   const { symbol } = useAppState()
   const [chain, setChain] = useState<OptionQuote[]>([])
   const [collapsed, setCollapsed] = useState(false)
@@ -21,13 +23,18 @@ export default function OptionsCard(): JSX.Element {
 
   return (
     <section className={'card' + (collapsed ? ' collapsed' : '')} data-card="options">
-      <CardHead title="Options · Greeks" lessonId="greeks" collapsed={collapsed} onToggle={() => setCollapsed((c) => !c)} />
+      <CardHead
+        title={t('dock.options.title')}
+        lessonId="greeks"
+        collapsed={collapsed}
+        onToggle={() => setCollapsed((c) => !c)}
+      />
       <div className="card-body">
         <div className="greeks-table">
           <table className="greeks">
             <thead>
               <tr>
-                <th>Strike</th>
+                <th>{t('dock.options.strike')}</th>
                 <th>Δ</th>
                 <th>Γ</th>
                 <th>Θ</th>

@@ -229,6 +229,22 @@
   color: var(--text);
   border-color: var(--border-strong);
 }
+.lang-select {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-dim);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 8px;
+  cursor: pointer;
+  outline: none;
+}
+.lang-select:hover,
+.lang-select:focus {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
 .learn-btn {
   display: flex;
   align-items: center;

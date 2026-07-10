@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useAppState } from '@renderer/state/AppStateContext'
 import { dataService } from '@renderer/data/dataService'
 import { generateCandles } from '@renderer/data/mockData'
@@ -19,6 +20,7 @@ import type { PortfolioRiskStats } from '@renderer/types/market'
 const BENCHMARK = { symbol: 'SPXPROXY', name: 'Broad market proxy', klass: 'stocks' as const, price: 5500, changePct: 0.5 }
 
 export default function RiskCard(): JSX.Element {
+  const { t } = useTranslation()
   const { symbol } = useAppState()
   const [stats, setStats] = useState<PortfolioRiskStats | null>(null)
   const [collapsed, setCollapsed] = useState(false)
@@ -46,40 +48,44 @@ export default function RiskCard(): JSX.Element {
 
   return (
     <section className={'card' + (collapsed ? ' collapsed' : '')} data-card="risk">
-      <CardHead title="Portfolio risk" lessonId="sharpe" collapsed={collapsed} onToggle={() => setCollapsed((c) => !c)} />
+      <CardHead
+        title={t('dock.risk.title')}
+        lessonId="sharpe"
+        collapsed={collapsed}
+        onToggle={() => setCollapsed((c) => !c)}
+      />
       <div className="card-body">
         {!stats ? (
-          <div className="stat-loading">Crunching return history…</div>
+          <div className="stat-loading">{t('dock.risk.loading')}</div>
         ) : (
           <div className="stat-grid">
-            <StatTile tone="ok" label="Sharpe ratio" lessonId="sharpe" value={stats.sharpe.toFixed(2)} />
-            <StatTile tone="ok" label="Sortino" lessonId="sortino" value={stats.sortino.toFixed(2)} />
+            <StatTile tone="ok" label={t('dock.risk.sharpe')} lessonId="sharpe" value={stats.sharpe.toFixed(2)} />
+            <StatTile tone="ok" label={t('dock.risk.sortino')} lessonId="sortino" value={stats.sortino.toFixed(2)} />
             <StatTile
               tone="neutral"
-              label="Volatility (ann.)"
+              label={t('dock.risk.volatility')}
               lessonId="volatility"
               value={`${(stats.volatilityAnnualized * 100).toFixed(1)}%`}
             />
             <StatTile
               tone="warn"
-              label="VaR (95%, 1d)"
+              label={t('dock.risk.var')}
               lessonId="var"
               value={`${(stats.valueAtRisk95 * 100).toFixed(1)}%`}
             />
             <StatTile
               tone="warn"
-              label="Max drawdown"
+              label={t('dock.risk.maxDrawdown')}
               lessonId="maxdd"
               value={`${(stats.maxDrawdown * 100).toFixed(1)}%`}
             />
-            <StatTile tone="neutral" label="Beta (vs market)" lessonId="beta" value={stats.beta.toFixed(2)} />
+            <StatTile tone="neutral" label={t('dock.risk.beta')} lessonId="beta" value={stats.beta.toFixed(2)} />
           </div>
         )}
       </div>
     </section>
   )
 }
-
 
 function StatTile({
   tone,
