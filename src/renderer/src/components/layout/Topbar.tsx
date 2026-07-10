@@ -4,6 +4,7 @@ import type { AssetClass } from '@renderer/types/market'
 import { ALL_ASSETS } from '@renderer/data/mockData'
 import { useAppState } from '@renderer/state/AppStateContext'
 import { SUPPORTED_LANGUAGES } from '@renderer/i18n'
+import logoMark from '@renderer/assets/logo-just.png'
 
 export default function Topbar(): JSX.Element {
   const { t } = useTranslation()
@@ -43,15 +44,7 @@ export default function Topbar(): JSX.Element {
     <header className="topbar">
       <div className="brand">
         <div className="brand-mark">
-          <svg viewBox="0 0 24 24" fill="none" width={16} height={16}>
-            <path
-              d="M3 17L9 10L13 14L21 5"
-              stroke="#08131a"
-              strokeWidth={2.4}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          <img src={logoMark} alt="" />
         </div>
         <div className="brand-name">
           {t('topbar.brandFirst')} <b>{t('topbar.brandSecond')}</b>

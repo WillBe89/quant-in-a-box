@@ -54,14 +54,16 @@
       "buildResources": "build"
     },
     "files": [
-      "out/**/*"
+      "out/**/*",
+      "resources/**/*"
     ],
     "asar": true,
     "win": {
       "target": [
         "nsis"
       ],
-      "artifactName": "${productName}-Setup-${version}.${ext}"
+      "artifactName": "${productName}-Setup-${version}.${ext}",
+      "icon": "resources/icon.png"
     },
     "nsis": {
       "oneClick": false,
@@ -72,13 +74,15 @@
       "target": [
         "dmg"
       ],
-      "category": "public.app-category.finance"
+      "category": "public.app-category.finance",
+      "icon": "resources/icon.png"
     },
     "linux": {
       "target": [
         "AppImage"
       ],
-      "category": "Finance"
+      "category": "Finance",
+      "icon": "resources/icon.png"
     },
     "publish": {
       "provider": "github",

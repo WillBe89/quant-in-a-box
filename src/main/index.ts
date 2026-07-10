@@ -12,6 +12,9 @@ function createWindow(): void {
     autoHideMenuBar: true,
     backgroundColor: '#0A0E14',
     titleBarStyle: 'hiddenInset',
+    // Same relative path in dev and packaged builds — resources/ is packaged
+    // alongside out/ (see package.json's build.files), so this resolves either way.
+    icon: join(__dirname, '../../resources/icon.png'),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
