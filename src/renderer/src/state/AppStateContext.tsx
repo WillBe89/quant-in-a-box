@@ -7,6 +7,19 @@ const WATCHLIST_STORAGE_KEY = 'qiab:watchlist:v1'
 const DEFAULT_WATCHLIST_SYMBOLS = ['NVDA', 'BTC', 'US10Y', 'EURUSD', 'VNQ']
 const PORTFOLIO_STORAGE_KEY = 'qiab:portfolio:v1'
 const LANGUAGE_STORAGE_KEY = 'qiab:language:v1'
+const TICKER_SOURCE_STORAGE_KEY = 'qiab:tickerSource:v1'
+
+export type TickerSource = 'watchlist' | 'portfolio' | 'all'
+
+function loadTickerSource(): TickerSource {
+  try {
+    const raw = localStorage.getItem(TICKER_SOURCE_STORAGE_KEY)
+    if (raw === 'watchlist' || raw === 'portfolio' || raw === 'all') return raw
+  } catch {
+    // fall through to default
+  }
+  return 'watchlist'
+}
 
 function loadLanguage(): string {
   try {
@@ -69,6 +82,12 @@ interface AppState {
   closePortfolio: () => void
   language: string
   setLanguage: (code: string) => void
+  tickerSource: TickerSource
+  setTickerSource: (source: TickerSource) => void
+  resetWatchlist: () => void
+  customizeOpen: boolean
+  openCustomize: () => void
+  closeCustomize: () => void
 }
 
 const AppStateCtx = createContext<AppState | null>(null)
@@ -91,6 +110,8 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   const [portfolio, setPortfolio] = useState<PortfolioPosition[]>(() => loadPortfolio())
   const [portfolioOpen, setPortfolioOpen] = useState(false)
   const [language, setLanguageState] = useState<string>(() => loadLanguage())
+  const [tickerSource, setTickerSourceState] = useState<TickerSource>(() => loadTickerSource())
+  const [customizeOpen, setCustomizeOpen] = useState(false)
 
   useEffect(() => {
     i18n.changeLanguage(language)
@@ -118,6 +139,14 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       // best-effort persistence; ignore quota/availability errors
     }
   }, [portfolio])
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(TICKER_SOURCE_STORAGE_KEY, tickerSource)
+    } catch {
+      // best-effort persistence; ignore quota/availability errors
+    }
+  }, [tickerSource])
 
   const setAssetClass = useCallback((klass: AssetClass | 'all') => {
     setAssetClassState(klass)
@@ -172,6 +201,18 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   const closePortfolio = useCallback(() => setPortfolioOpen(false), [])
 
   const setLanguage = useCallback((code: string) => setLanguageState(code), [])
+  const setTickerSource = useCallback((source: TickerSource) => setTickerSourceState(source), [])
+
+  const resetWatchlist = useCallback(() => {
+    setWatchlist(
+      DEFAULT_WATCHLIST_SYMBOLS.map((s) => ALL_ASSETS.find((a) => a.symbol === s)).filter((a): a is Asset =>
+        Boolean(a)
+      )
+    )
+  }, [])
+
+  const openCustomize = useCallback(() => setCustomizeOpen(true), [])
+  const closeCustomize = useCallback(() => setCustomizeOpen(false), [])
 
   const value = useMemo<AppState>(
     () => ({
@@ -199,7 +240,13 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       openPortfolio,
       closePortfolio,
       language,
-      setLanguage
+      setLanguage,
+      tickerSource,
+      setTickerSource,
+      resetWatchlist,
+      customizeOpen,
+      openCustomize,
+      closeCustomize
     }),
     [
       assetClass,
@@ -225,7 +272,13 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       openPortfolio,
       closePortfolio,
       language,
-      setLanguage
+      setLanguage,
+      tickerSource,
+      setTickerSource,
+      resetWatchlist,
+      customizeOpen,
+      openCustomize,
+      closeCustomize
     ]
   )
 

@@ -1,32 +1,16 @@
 import { useTranslation } from 'react-i18next'
-import type { AssetClass } from '@renderer/types/market'
 import { useAppState } from '@renderer/state/AppStateContext'
 
 export default function Rail(): JSX.Element {
   const { t } = useTranslation()
-  const { assetClass, setAssetClass, selectSymbol, openAcademy, openPortfolio, watchlist } = useAppState()
-
-  const RAIL_ITEMS: Array<{ id: AssetClass | 'all'; icon: string; label: string }> = [
-    { id: 'all', icon: '◎', label: t('rail.allAssets') },
-    { id: 'stocks', icon: '▤', label: t('rail.stocksEtfs') },
-    { id: 'crypto', icon: '◈', label: t('rail.crypto') },
-    { id: 'bonds', icon: '≋', label: t('rail.bondsFixedIncome') },
-    { id: 'fx', icon: '⇄', label: t('rail.fxCommodities') },
-    { id: 're', icon: '⌂', label: t('rail.realEstate') }
-  ]
+  const { selectSymbol, openAcademy, openPortfolio, openCustomize, watchlist } = useAppState()
 
   return (
     <aside className="rail">
-      {RAIL_ITEMS.map((item) => (
-        <button
-          key={item.id}
-          className={'rail-btn' + (assetClass === item.id ? ' active' : '')}
-          onClick={() => setAssetClass(item.id)}
-        >
-          {item.icon}
-          <span className="lbl">{item.label}</span>
-        </button>
-      ))}
+      <button className="rail-btn rail-customize" onClick={openCustomize} title={t('rail.customize') ?? undefined}>
+        ✨
+        <span className="lbl">{t('rail.customize')}</span>
+      </button>
       <div className="rail-divider" />
       <div className="rail-watch">
         {watchlist.length === 0 && (

@@ -7,6 +7,7 @@ import Dock from '@renderer/components/layout/Dock'
 import TickerTape from '@renderer/components/layout/TickerTape'
 import AcademyPanel from '@renderer/academy/AcademyPanel'
 import PortfolioPanel from '@renderer/components/portfolio/PortfolioPanel'
+import CustomizePanel from '@renderer/components/customize/CustomizePanel'
 import '@renderer/components/layout/layout.css'
 
 function Shell(): JSX.Element {
@@ -27,6 +28,7 @@ function Shell(): JSX.Element {
       <TickerTape />
       <AcademyPanel />
       <PortfolioPanel />
+      <CustomizePanel />
     </div>
   )
 }

@@ -384,6 +384,9 @@
 .rail-learn {
   color: var(--accent-a);
 }
+.rail-customize {
+  color: var(--accent-b);
+}
 
 /* ---------- Workspace ---------- */
 .workspace {
@@ -781,11 +784,73 @@ table.greeks td {
   height: 34px;
   border-top: 1px solid var(--border);
   background: var(--bg-elevated);
-  overflow: hidden;
+  display: flex;
+  align-items: stretch;
   position: relative;
 }
-.ticker::before,
-.ticker::after {
+.ticker-settings {
+  flex: none;
+  width: 34px;
+  border: none;
+  border-right: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-faint);
+  cursor: pointer;
+  font-size: 13px;
+  transition: color 0.15s ease;
+}
+.ticker-settings:hover {
+  color: var(--text);
+}
+.ticker-menu {
+  position: absolute;
+  bottom: 40px;
+  left: 8px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  padding: 6px;
+  z-index: 30;
+  min-width: 150px;
+}
+.ticker-menu-heading {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  padding: 6px 8px 4px;
+}
+.ticker-menu-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-size: 12.5px;
+  padding: 7px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.ticker-menu-item:hover {
+  background: var(--surface-2);
+  color: var(--text);
+}
+.ticker-menu-item.active {
+  background: var(--surface-2);
+  color: var(--text);
+  font-weight: 700;
+}
+.ticker-scroll-area {
+  flex: 1 1 auto;
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+}
+.ticker-scroll-area::before,
+.ticker-scroll-area::after {
   content: '';
   position: absolute;
   top: 0;
@@ -794,13 +859,24 @@ table.greeks td {
   z-index: 2;
   pointer-events: none;
 }
-.ticker::before {
+.ticker-scroll-area::before {
   left: 0;
   background: linear-gradient(90deg, var(--bg-elevated), transparent);
 }
-.ticker::after {
+.ticker-scroll-area::after {
   right: 0;
   background: linear-gradient(270deg, var(--bg-elevated), transparent);
+}
+.ticker-empty {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 16px;
+  font-size: 11.5px;
+  color: var(--text-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .ticker-track {
   display: flex;

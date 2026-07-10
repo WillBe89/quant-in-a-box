@@ -2,6 +2,25 @@
   "common": {
     "close": "Close"
   },
+  "customize": {
+    "badge": "Make it yours",
+    "heading": "Customize your watchlist",
+    "intro": "This is the list of symbols shown as stars, in the sidebar, and (optionally) in the bottom ticker — add whatever you actually want to keep an eye on.",
+    "addPlaceholder": "Add a symbol — AAPL, BTC…",
+    "addBtn": "Add",
+    "empty": "Your watchlist is empty.",
+    "reset": "Reset to defaults",
+    "remove": "Remove"
+  },
+  "ticker": {
+    "settingsLabel": "Ticker settings",
+    "sourceWatchlist": "Watchlist",
+    "sourcePortfolio": "Portfolio",
+    "sourceAll": "All assets",
+    "sourceHeading": "Show in ticker",
+    "emptyWatchlist": "Your watchlist is empty — star a symbol to see it here.",
+    "emptyPortfolio": "Your portfolio is empty — add a position to see it here."
+  },
   "topbar": {
     "brandFirst": "Quant",
     "brandSecond": "In A Box",
@@ -18,12 +37,7 @@
     "toggleTheme": "Toggle theme"
   },
   "rail": {
-    "allAssets": "All assets",
-    "stocksEtfs": "Stocks & ETFs",
-    "crypto": "Crypto",
-    "bondsFixedIncome": "Bonds & fixed income",
-    "fxCommodities": "FX & commodities",
-    "realEstate": "Real estate (REIT proxy)",
+    "customize": "Make it yours",
     "yourPortfolio": "Your portfolio",
     "teachingZone": "Teaching zone",
     "watchlistEmptyHint": "Star a symbol to pin it here"
