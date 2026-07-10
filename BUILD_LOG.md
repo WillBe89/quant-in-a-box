@@ -2,6 +2,18 @@
 
 Running log of autonomous build cycles. Newest entries at the top.
 
+## 2026-07-11 — Styling review: icons, tooltips, richer chart hover, news relevance, asset-class education (direct request, mid-loop)
+
+**Built (four pieces, three commits):**
+1. **Icon system + i18n tooltips** — new `Icons.tsx` (stroke-based SVG set) replaces every emoji/Unicode glyph app-wide. New `Tooltip` component wraps icon-only buttons with translated text, verified via real hover simulation (not synthetic events — see note below) and via ARIA labels.
+2. **Chart hover enrichment** — the crosshair readout now shows date, volume, change vs. the previous bar, and active indicator values (MA20/MA50/Bollinger), via a cached indicator-array lookup keyed to the hovered bar's index. Also fixed mock candle volume, which was a raw 0-1 fraction (fine when only used for bar-height, wrong once displayed as a number) — rescaled to a realistic 200K-8M range.
+3. **News relevance** — Market News can focus on whatever's selected, your watchlist, or your portfolio, chosen in Customize and persisted. Expanded the mock news pool 5→11 templates for real coverage differences between sources, with a fallback to the full feed when a filter matches nothing.
+4. **Teaching Zone asset-class lessons** — 5 new lessons (Stocks & ETFs, Crypto, Bonds, FX & Commodities, Real Estate/REITs) in a new "Asset Classes" category, placed first in the Academy nav. Each has a genuinely relevant formula per class and watchOutFor guidance aimed directly at the panic-buy/panic-sell instinct.
+
+**Testing note worth recording:** this session's screenshot tool was broken (`computer{action:"screenshot"}` timed out repeatedly), and synthetic `MouseEvent`/`PointerEvent` dispatch doesn't trigger either React's mouseenter/mouseleave (needs real `mouseover` with correct `relatedTarget`) or lightweight-charts' canvas interaction (the library's own event binding doesn't respond to script-dispatched events). Worked around this with: DOM/ARIA inspection instead of visual checks, `computer{action:"hover", ref:...}` (real OS-level mouse movement) for the one interaction that genuinely needed it, and relying on the actual Electron window being open for Will to verify anything requiring true visual/interactive confirmation.
+
+**Verified:** typecheck/test(27/27)/build clean across all three commits. Extensive DOM/ARIA-level verification in the browser for each piece (documented per-commit); CI green on all pushes.
+
 ## 2026-07-11 — Ticker customization + sidebar redesign (direct request, mid-loop)
 
 **Built:**
