@@ -2,6 +2,18 @@
 
 Running log of autonomous build cycles. Newest entries at the top.
 
+## 2026-07-11 — Real logo wired up (direct request, mid-loop)
+
+**Built:** Will dropped three logo assets into `assets/` (logo-full.png — combined lockup, transparent bg; logo-just.png — icon-only mark, black bg; logo-title.png — wordmark only, black bg) and asked for them to be used throughout the app as sensible, with logo-just as the app icon.
+- Topbar brand mark now shows the real icon (candlestick breakout from a wireframe box) instead of the placeholder checkmark SVG.
+- logo-just.png is now the actual packaged app icon (Windows/Mac/Linux via electron-builder) *and* shows correctly in the dev-mode taskbar (not just packaged builds) — required adding a `resources/` folder packaged alongside `out/` and pointing both electron-builder's icon config and the BrowserWindow's `icon` option at it.
+
+**Scope call:** didn't force logo-full.png or logo-title.png into the UI — neither has a natural fit in the current dense dashboard without redesigning something (both also have baked-in black backgrounds or an image aspect that doesn't suit the slim topbar), so they're kept as source assets for later (e.g. a splash/about screen) rather than shoehorned in.
+
+**Known limitation:** no ImageMagick/PIL/sharp available in this environment to pre-process the icon source. The 462×479 (non-square) source produced a working but single-resolution (256×256) `.ico` rather than a full multi-size set — looks correct at normal sizes, slightly soft at 16px taskbar size. A proper square 1024×1024 source would fix this.
+
+**Verified:** typecheck/test(27/27)/build clean. Confirmed in the browser that the topbar image loads with correct dimensions and the rounded badge CSS applies. Ran a real `build:unpacked` packaging pass — the "default Electron icon is used" warning is gone, confirming a real `icon.ico` now generates from our source.
+
 ## 2026-07-11 — i18n foundation: every string extracted, English verified
 
 **Built:** Installed `react-i18next` + `i18next`. Every hardcoded string in the app (topbar, rail, workspace toolbar, all three dock cards, the full Academy — including all 12 lessons' title/summary/formula/howToUse/watchOutFor text — and the Portfolio panel) now routes through `t()` against `src/renderer/src/i18n/locales/en.json`. `lessons.ts` was refactored to hold only metadata (id + category); display text lives entirely in the locale file so each language translates independently. Added a language switcher in the Topbar (persists like the theme toggle) and RTL-direction plumbing in `AppStateContext` (a `SUPPORTED_LANGUAGES` metadata list drives `document.dir`/`lang` attributes), ready for Arabic/Urdu.
