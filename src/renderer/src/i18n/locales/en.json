@@ -88,6 +88,7 @@
   "academy": {
     "badge": "Teaching Zone",
     "heading": "Learn what you're looking at",
+    "categoryAssetTypes": "Asset Classes",
     "categoryTrend": "Trend & Momentum",
     "categoryRisk": "Risk & Portfolio",
     "categoryOptions": "Options & Derivatives",
@@ -97,6 +98,41 @@
     "infoTooltip": "Learn: {{title}}",
     "infoTooltipGeneric": "Learn more",
     "lessons": {
+      "assetStocks": {
+        "title": "Stocks & ETFs",
+        "summary": "A share of stock is a small ownership stake in a real company — you own a slice of its future profits (and losses). An ETF bundles many stocks into one tradeable basket, spreading that ownership across a whole sector or market instead of a single company.",
+        "formula": "Total Return = (Price_end − Price_start + Dividends) / Price_start",
+        "howToUse": "Individual stocks carry company-specific risk (a bad product launch, a scandal, a bad quarter) on top of overall market risk — diversifying across many stocks, or simply buying a broad ETF, removes most of that company-specific risk at the cost of some upside if you'd picked a big winner. Time horizon matters: stocks are volatile day-to-day but have historically trended upward over long (5-10+ year) periods.",
+        "watchOutFor": "A single bad headline can move an individual stock 10-20% in a day — that volatility is normal, not necessarily a signal to panic-sell. A stock that's \"gone up a lot\" isn't automatically overvalued, and one that's \"gone down a lot\" isn't automatically cheap — check the metrics, not just the sticker price."
+      },
+      "assetCrypto": {
+        "title": "Cryptocurrencies",
+        "summary": "A cryptocurrency is a digital asset secured by cryptography and recorded on a decentralized ledger (a blockchain) rather than issued or backed by any government or company. Unlike a stock, there's no underlying business generating profit — value comes entirely from what the market is willing to pay for it.",
+        "formula": "Total Return = (Price_end − Price_start) / Price_start — no dividends or coupons, pure price appreciation or loss",
+        "howToUse": "Because there's no earnings report or cash flow to anchor a \"fair value\" the way there is for a stock or bond, price is driven almost entirely by sentiment, adoption, and flows — treat crypto as a high-volatility, speculative allocation sized so a large drawdown wouldn't be financially painful, not as a core holding.",
+        "watchOutFor": "Crypto can move 10-20%+ in a single day — far beyond what's normal for stocks or bonds. It trades 24/7 with no circuit breakers, is more exposed to regulatory headlines, and direct custody carries security risks this app doesn't manage — always understand exactly what you're holding and where."
+      },
+      "assetBonds": {
+        "title": "Bonds & Fixed Income",
+        "summary": "A bond is a loan — you lend money to a government or company for a fixed period in exchange for regular interest payments and your principal back at maturity. It's a claim on a borrower's promise to pay, not ownership in anything.",
+        "formula": "Current Yield ≈ Annual Coupon Payment / Current Price",
+        "howToUse": "Bonds are generally used for stability and income rather than growth — a bond ladder (staggered maturities) is a common way to manage the tradeoff between yield and how long your money is locked up. Government bonds carry far less default risk than corporate bonds, which pay more specifically because they carry more risk.",
+        "watchOutFor": "Bond prices move inversely to interest rates — when rates rise, existing lower-yielding bonds become less attractive and their price falls, even though nothing about the borrower changed. Longer-maturity bonds feel this more than short-term ones. A higher yield than a comparable government bond usually means the market is pricing in real default risk, not a free lunch."
+      },
+      "assetFx": {
+        "title": "Forex & Commodities",
+        "summary": "Forex (FX) is the trading of one currency against another — driven by interest rate differences, trade flows, and macroeconomic conditions between countries. Commodities are raw physical goods (gold, oil, agricultural products) traded on their own supply and demand.",
+        "formula": "EUR/USD = X means 1 EUR buys X USD — a rising number means the first currency is strengthening against the second",
+        "howToUse": "FX and commodities are usually the domain of macro/institutional traders or businesses hedging real currency or commodity exposure, more than a core retail holding — if trading them speculatively, treat it as a smaller, higher-risk allocation.",
+        "watchOutFor": "FX is very frequently traded with leverage, which magnifies both gains and losses far beyond the underlying price move — a 1% currency move can wipe out a heavily leveraged position. Both FX and commodities are highly sensitive to central bank decisions and geopolitical events, which can move prices sharply with little warning."
+      },
+      "assetRealEstate": {
+        "title": "Real Estate (REITs)",
+        "summary": "Real estate is ownership of physical property — but this app tracks it through REITs (Real Estate Investment Trusts), companies that own and operate income-producing property and trade like a stock, distributing most of their rental income to shareholders.",
+        "formula": "Dividend Yield = Annual Distribution per Share / Share Price — a REIT's version of a landlord's cap rate",
+        "howToUse": "REITs give real-estate exposure with stock-like liquidity — you can buy or sell instantly, unlike selling an actual building — while still paying out income the way a rental property would. Often used for diversification and income, since real estate doesn't always move in lockstep with the broader stock market.",
+        "watchOutFor": "REITs are more interest-rate sensitive than most people expect — valued partly like a bond (for the income stream) and partly like a stock, so rising rates can pressure REIT prices even when the underlying properties are performing fine. A REIT is also not the same as owning a specific building — you own a share of a diversified portfolio managed by someone else."
+      },
       "ma": {
         "title": "Moving Average (MA)",
         "summary": "The average closing price over the last N days, plotted as a smooth line. It filters out day-to-day noise so you can see the underlying trend.",

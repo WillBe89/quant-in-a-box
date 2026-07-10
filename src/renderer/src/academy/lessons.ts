@@ -1,4 +1,4 @@
-export type LessonCategory = 'trend' | 'risk' | 'options'
+export type LessonCategory = 'assetTypes' | 'trend' | 'risk' | 'options'
 
 export interface LessonMeta {
   id: string
@@ -9,6 +9,11 @@ export interface LessonMeta {
  *  watchOutFor) lives in the i18n resources under academy.lessons.<id>.* so
  *  it can be translated per language. See src/renderer/src/i18n/locales/*.json. */
 export const LESSONS: LessonMeta[] = [
+  { id: 'assetStocks', category: 'assetTypes' },
+  { id: 'assetCrypto', category: 'assetTypes' },
+  { id: 'assetBonds', category: 'assetTypes' },
+  { id: 'assetFx', category: 'assetTypes' },
+  { id: 'assetRealEstate', category: 'assetTypes' },
   { id: 'ma', category: 'trend' },
   { id: 'boll', category: 'trend' },
   { id: 'rsi', category: 'trend' },

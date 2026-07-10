@@ -2,11 +2,26 @@ import { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAppState } from '@renderer/state/AppStateContext'
 import { LESSONS, type LessonCategory } from './lessons'
-import { IconClose } from '@renderer/components/icons/Icons'
+import {
+  IconBond,
+  IconClose,
+  IconCrypto,
+  IconFx,
+  IconRealEstate,
+  IconStocks
+} from '@renderer/components/icons/Icons'
 import Tooltip from '@renderer/components/ui/Tooltip'
 import './academy.css'
 
-const CATEGORY_ORDER: LessonCategory[] = ['trend', 'risk', 'options']
+const CATEGORY_ORDER: LessonCategory[] = ['assetTypes', 'trend', 'risk', 'options']
+
+const ASSET_TYPE_ICONS: Record<string, (props: { size?: number }) => JSX.Element> = {
+  assetStocks: IconStocks,
+  assetCrypto: IconCrypto,
+  assetBonds: IconBond,
+  assetFx: IconFx,
+  assetRealEstate: IconRealEstate
+}
 
 export default function AcademyPanel(): JSX.Element | null {
   const { t } = useTranslation()
@@ -14,6 +29,7 @@ export default function AcademyPanel(): JSX.Element | null {
   const dialogRef = useRef<HTMLDivElement>(null)
 
   const categoryLabel: Record<LessonCategory, string> = {
+    assetTypes: t('academy.categoryAssetTypes'),
     trend: t('academy.categoryTrend'),
     risk: t('academy.categoryRisk'),
     options: t('academy.categoryOptions')
@@ -69,15 +85,19 @@ export default function AcademyPanel(): JSX.Element | null {
             {CATEGORY_ORDER.map((cat) => (
               <div key={cat} className="academy-nav-group">
                 <div className="academy-nav-heading">{categoryLabel[cat]}</div>
-                {grouped.get(cat)?.map((lesson) => (
-                  <button
-                    key={lesson.id}
-                    className={'academy-nav-item' + (lesson.id === activeLesson.id ? ' active' : '')}
-                    onClick={() => openAcademy(lesson.id)}
-                  >
-                    {t(`academy.lessons.${lesson.id}.title`)}
-                  </button>
-                ))}
+                {grouped.get(cat)?.map((lesson) => {
+                  const AssetIcon = ASSET_TYPE_ICONS[lesson.id]
+                  return (
+                    <button
+                      key={lesson.id}
+                      className={'academy-nav-item' + (lesson.id === activeLesson.id ? ' active' : '')}
+                      onClick={() => openAcademy(lesson.id)}
+                    >
+                      {AssetIcon && <AssetIcon size={14} />}
+                      {t(`academy.lessons.${lesson.id}.title`)}
+                    </button>
+                  )
+                })}
               </div>
             ))}
           </nav>

@@ -103,7 +103,9 @@
   padding: 6px 10px 4px;
 }
 .academy-nav-item {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   width: 100%;
   text-align: left;
   background: transparent;
@@ -113,6 +115,10 @@
   padding: 8px 10px;
   border-radius: var(--radius-sm);
   cursor: pointer;
+}
+.academy-nav-item svg {
+  flex: none;
+  opacity: 0.75;
 }
 .academy-nav-item:hover {
   background: var(--surface);
