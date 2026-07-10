@@ -5,6 +5,10 @@
   "main": "./out/main/index.js",
   "author": "Quant In A Box",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WillBe89/quant-in-a-box.git"
+  },
   "scripts": {
     "dev": "electron-vite dev",
     "build": "electron-vite build",
@@ -65,6 +69,11 @@
     "linux": {
       "target": ["AppImage"],
       "category": "Finance"
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "WillBe89",
+      "repo": "quant-in-a-box"
     }
   }
 }
