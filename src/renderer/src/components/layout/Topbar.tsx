@@ -4,6 +4,8 @@ import type { AssetClass } from '@renderer/types/market'
 import { ALL_ASSETS } from '@renderer/data/mockData'
 import { useAppState } from '@renderer/state/AppStateContext'
 import { SUPPORTED_LANGUAGES } from '@renderer/i18n'
+import { IconAcademy, IconPortfolio } from '@renderer/components/icons/Icons'
+import Tooltip from '@renderer/components/ui/Tooltip'
 import logoMark from '@renderer/assets/logo-just.png'
 
 export default function Topbar(): JSX.Element {
@@ -96,13 +98,17 @@ export default function Topbar(): JSX.Element {
 
       <div className="topbar-actions">
         <span className="scope-badge">{t('topbar.scopeBadge')}</span>
-        <button className="learn-btn" onClick={openPortfolio}>
-          <span className="cap">💼</span> {t('topbar.portfolioBtn')}
-          {portfolio.length > 0 ? ` (${portfolio.length})` : ''}
-        </button>
-        <button className="learn-btn" onClick={() => openAcademy()}>
-          <span className="cap">🎓</span> {t('topbar.learnBtn')}
-        </button>
+        <Tooltip label={t('topbar.portfolioBtn')}>
+          <button className="icon-btn icon-btn-badge" onClick={openPortfolio} aria-label={t('topbar.portfolioBtn')}>
+            <IconPortfolio size={16} />
+            {portfolio.length > 0 && <span className="icon-badge">{portfolio.length}</span>}
+          </button>
+        </Tooltip>
+        <Tooltip label={t('topbar.learnBtn')}>
+          <button className="icon-btn" onClick={() => openAcademy()} aria-label={t('topbar.learnBtn')}>
+            <IconAcademy size={16} />
+          </button>
+        </Tooltip>
         <select
           className="lang-select"
           value={language}
@@ -115,23 +121,20 @@ export default function Topbar(): JSX.Element {
             </option>
           ))}
         </select>
-        <button
-          className="icon-btn"
-          onClick={toggleTheme}
-          title={t('topbar.toggleTheme')}
-          aria-label={t('topbar.toggleTheme')}
-        >
-          {theme === 'dark' ? (
-            <svg viewBox="0 0 24 24" width={16} height={16} fill="none" stroke="currentColor" strokeWidth={2}>
-              <path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z" />
-            </svg>
-          ) : (
-            <svg viewBox="0 0 24 24" width={16} height={16} fill="none" stroke="currentColor" strokeWidth={2}>
-              <circle cx="12" cy="12" r="4.2" />
-              <path d="M12 2.5v2.4M12 19.1v2.4M4.4 4.4l1.7 1.7M17.9 17.9l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.4 19.6l1.7-1.7M17.9 6.1l1.7-1.7" />
-            </svg>
-          )}
-        </button>
+        <Tooltip label={t('topbar.toggleTheme')}>
+          <button className="icon-btn" onClick={toggleTheme} aria-label={t('topbar.toggleTheme')}>
+            {theme === 'dark' ? (
+              <svg viewBox="0 0 24 24" width={16} height={16} fill="none" stroke="currentColor" strokeWidth={2}>
+                <path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z" />
+              </svg>
+            ) : (
+              <svg viewBox="0 0 24 24" width={16} height={16} fill="none" stroke="currentColor" strokeWidth={2}>
+                <circle cx="12" cy="12" r="4.2" />
+                <path d="M12 2.5v2.4M12 19.1v2.4M4.4 4.4l1.7 1.7M17.9 17.9l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.4 19.6l1.7-1.7M17.9 6.1l1.7-1.7" />
+              </svg>
+            )}
+          </button>
+        </Tooltip>
       </div>
     </header>
   )

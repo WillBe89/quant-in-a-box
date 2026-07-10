@@ -1,6 +1,8 @@
 import { useTranslation } from 'react-i18next'
 import { useAppState } from '@renderer/state/AppStateContext'
 import { getLesson } from './lessons'
+import { IconInfo } from '@renderer/components/icons/Icons'
+import Tooltip from '@renderer/components/ui/Tooltip'
 
 export default function InfoIcon({ lessonId }: { lessonId: string }): JSX.Element {
   const { t } = useTranslation()
@@ -11,16 +13,17 @@ export default function InfoIcon({ lessonId }: { lessonId: string }): JSX.Elemen
     : t('academy.infoTooltipGeneric')
 
   return (
-    <button
-      className="info-icon"
-      title={tooltip}
-      aria-label={tooltip}
-      onClick={(e) => {
-        e.stopPropagation()
-        openAcademy(lessonId)
-      }}
-    >
-      i
-    </button>
+    <Tooltip label={tooltip}>
+      <button
+        className="info-icon"
+        aria-label={tooltip}
+        onClick={(e) => {
+          e.stopPropagation()
+          openAcademy(lessonId)
+        }}
+      >
+        <IconInfo size={11} />
+      </button>
+    </Tooltip>
   )
 }

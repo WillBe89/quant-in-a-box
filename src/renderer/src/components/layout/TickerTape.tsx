@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { ALL_ASSETS } from '@renderer/data/mockData'
 import { useAppState, type TickerSource } from '@renderer/state/AppStateContext'
 import type { Asset } from '@renderer/types/market'
+import { IconGear } from '@renderer/components/icons/Icons'
+import Tooltip from '@renderer/components/ui/Tooltip'
 
 const SOURCES: TickerSource[] = ['watchlist', 'portfolio', 'all']
 
@@ -51,15 +53,16 @@ export default function TickerTape(): JSX.Element {
 
   return (
     <footer className="ticker">
-      <button
-        ref={settingsBtnRef}
-        className="ticker-settings"
-        onClick={() => setMenuOpen((o) => !o)}
-        title={t('ticker.settingsLabel') ?? undefined}
-        aria-label={t('ticker.settingsLabel') ?? undefined}
-      >
-        ⚙
-      </button>
+      <Tooltip label={t('ticker.settingsLabel')} side="right">
+        <button
+          ref={settingsBtnRef}
+          className="ticker-settings"
+          onClick={() => setMenuOpen((o) => !o)}
+          aria-label={t('ticker.settingsLabel') ?? undefined}
+        >
+          <IconGear size={15} />
+        </button>
+      </Tooltip>
       {menuOpen && (
         <div className="ticker-menu" ref={menuRef}>
           <div className="ticker-menu-heading">{t('ticker.sourceHeading')}</div>

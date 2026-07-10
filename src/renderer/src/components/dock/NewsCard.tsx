@@ -4,6 +4,7 @@ import type { TFunction } from 'i18next'
 import { useAppState } from '@renderer/state/AppStateContext'
 import { dataService } from '@renderer/data/dataService'
 import CardHead from './CardHead'
+import { IconArrowLeft, IconExternalLink } from '@renderer/components/icons/Icons'
 import type { NewsItem } from '@renderer/types/market'
 
 function timeAgo(unixSeconds: number, t: TFunction): string {
@@ -14,20 +15,28 @@ function timeAgo(unixSeconds: number, t: TFunction): string {
 
 export default function NewsCard(): JSX.Element {
   const { t } = useTranslation()
-  const { symbol } = useAppState()
+  const { symbol, newsSource, watchlist, portfolio } = useAppState()
   const [news, setNews] = useState<NewsItem[]>([])
   const [collapsed, setCollapsed] = useState(false)
   const [openItem, setOpenItem] = useState<NewsItem | null>(null)
 
+  const relevantSymbols =
+    newsSource === 'watchlist'
+      ? watchlist.map((a) => a.symbol)
+      : newsSource === 'portfolio'
+        ? portfolio.map((p) => p.symbol)
+        : [symbol.symbol]
+
   useEffect(() => {
     let cancelled = false
-    dataService.getNews(symbol.symbol).then((data) => {
+    dataService.getNews(relevantSymbols).then((data) => {
       if (!cancelled) setNews(data)
     })
     return () => {
       cancelled = true
     }
-  }, [symbol])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newsSource, symbol, watchlist, portfolio])
 
   return (
     <section className={'card' + (collapsed ? ' collapsed' : '') + (openItem ? ' reader-mode' : '')} data-card="news">
@@ -36,7 +45,7 @@ export default function NewsCard(): JSX.Element {
         {openItem ? (
           <div className="reader">
             <button className="reader-back" onClick={() => setOpenItem(null)}>
-              {t('dock.news.back')}
+              <IconArrowLeft size={12} /> {t('dock.news.back')}
             </button>
             <div className="src">{openItem.source}</div>
             <h4>{openItem.headline}</h4>
@@ -45,7 +54,7 @@ export default function NewsCard(): JSX.Element {
             </div>
             <p>{openItem.summary}</p>
             <a className="full-link" href={openItem.url} target="_blank" rel="noreferrer">
-              {t('dock.news.openFull')}
+              {t('dock.news.openFull')} <IconExternalLink size={12} />
             </a>
           </div>
         ) : (

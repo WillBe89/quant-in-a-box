@@ -8,8 +8,10 @@ const DEFAULT_WATCHLIST_SYMBOLS = ['NVDA', 'BTC', 'US10Y', 'EURUSD', 'VNQ']
 const PORTFOLIO_STORAGE_KEY = 'qiab:portfolio:v1'
 const LANGUAGE_STORAGE_KEY = 'qiab:language:v1'
 const TICKER_SOURCE_STORAGE_KEY = 'qiab:tickerSource:v1'
+const NEWS_SOURCE_STORAGE_KEY = 'qiab:newsSource:v1'
 
 export type TickerSource = 'watchlist' | 'portfolio' | 'all'
+export type NewsSource = 'selected' | 'watchlist' | 'portfolio'
 
 function loadTickerSource(): TickerSource {
   try {
@@ -19,6 +21,16 @@ function loadTickerSource(): TickerSource {
     // fall through to default
   }
   return 'watchlist'
+}
+
+function loadNewsSource(): NewsSource {
+  try {
+    const raw = localStorage.getItem(NEWS_SOURCE_STORAGE_KEY)
+    if (raw === 'selected' || raw === 'watchlist' || raw === 'portfolio') return raw
+  } catch {
+    // fall through to default
+  }
+  return 'selected'
 }
 
 function loadLanguage(): string {
@@ -88,6 +100,8 @@ interface AppState {
   customizeOpen: boolean
   openCustomize: () => void
   closeCustomize: () => void
+  newsSource: NewsSource
+  setNewsSource: (source: NewsSource) => void
 }
 
 const AppStateCtx = createContext<AppState | null>(null)
@@ -112,6 +126,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   const [language, setLanguageState] = useState<string>(() => loadLanguage())
   const [tickerSource, setTickerSourceState] = useState<TickerSource>(() => loadTickerSource())
   const [customizeOpen, setCustomizeOpen] = useState(false)
+  const [newsSource, setNewsSourceState] = useState<NewsSource>(() => loadNewsSource())
 
   useEffect(() => {
     i18n.changeLanguage(language)
@@ -147,6 +162,14 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       // best-effort persistence; ignore quota/availability errors
     }
   }, [tickerSource])
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(NEWS_SOURCE_STORAGE_KEY, newsSource)
+    } catch {
+      // best-effort persistence; ignore quota/availability errors
+    }
+  }, [newsSource])
 
   const setAssetClass = useCallback((klass: AssetClass | 'all') => {
     setAssetClassState(klass)
@@ -213,6 +236,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
 
   const openCustomize = useCallback(() => setCustomizeOpen(true), [])
   const closeCustomize = useCallback(() => setCustomizeOpen(false), [])
+  const setNewsSource = useCallback((source: NewsSource) => setNewsSourceState(source), [])
 
   const value = useMemo<AppState>(
     () => ({
@@ -246,7 +270,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       resetWatchlist,
       customizeOpen,
       openCustomize,
-      closeCustomize
+      closeCustomize,
+      newsSource,
+      setNewsSource
     }),
     [
       assetClass,
@@ -278,7 +304,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       resetWatchlist,
       customizeOpen,
       openCustomize,
-      closeCustomize
+      closeCustomize,
+      newsSource,
+      setNewsSource
     ]
   )
 

@@ -4,13 +4,19 @@
   },
   "customize": {
     "badge": "Make it yours",
-    "heading": "Customize your watchlist",
+    "heading": "Your preferences",
+    "watchlistHeading": "Watchlist",
     "intro": "This is the list of symbols shown as stars, in the sidebar, and (optionally) in the bottom ticker — add whatever you actually want to keep an eye on.",
     "addPlaceholder": "Add a symbol — AAPL, BTC…",
     "addBtn": "Add",
     "empty": "Your watchlist is empty.",
     "reset": "Reset to defaults",
-    "remove": "Remove"
+    "remove": "Remove",
+    "newsHeading": "Market news relevance",
+    "newsIntro": "Choose what the Market News card should focus on.",
+    "newsSelected": "Whatever I'm viewing",
+    "newsWatchlist": "My watchlist",
+    "newsPortfolio": "My portfolio"
   },
   "ticker": {
     "settingsLabel": "Ticker settings",
@@ -51,7 +57,9 @@
     "indicatorRsi": "RSI",
     "indicatorMacd": "MACD",
     "rsiLabel": "RSI (14)",
-    "macdLabel": "MACD (12, 26, 9)"
+    "macdLabel": "MACD (12, 26, 9)",
+    "volLabel": "Vol",
+    "maLabel": "MA"
   },
   "dock": {
     "risk": {
@@ -70,9 +78,9 @@
     },
     "news": {
       "title": "Market news",
-      "back": "← Back to headlines",
+      "back": "Back to headlines",
       "sideBySideNote": "displayed side-by-side with your chart",
-      "openFull": "Open full article ↗",
+      "openFull": "Open full article",
       "minutesAgo": "{{count}}m ago",
       "hoursAgo": "{{count}}h ago"
     }

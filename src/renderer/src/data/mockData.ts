@@ -84,7 +84,9 @@ export function generateCandles(asset: Asset, timeframe: Timeframe): Candle[] {
       high,
       low,
       close,
-      volume: rand()
+      // Scaled to a realistic share-volume range (hundreds of thousands to single-digit millions)
+      // rather than the raw 0-1 fraction — this is displayed directly in the chart hover readout.
+      volume: Math.round(200_000 + rand() * 7_800_000)
     })
     price = close
   }
@@ -154,14 +156,67 @@ const NEWS_TEMPLATES: Array<Omit<NewsItem, 'id' | 'publishedAt'>> = [
       'On-chain data showed a notable uptick in exchange outflows overnight, which some analysts read as accumulation, even as spot price pulled back from recent highs.',
     url: 'https://www.cnbc.com/cryptoworld/',
     relatedSymbols: ['BTC', 'ETH']
+  },
+  {
+    source: 'Bloomberg',
+    headline: 'Apple supplier checks point to steady handset demand into year-end',
+    summary:
+      'Component-level checks across the supply chain suggest order volumes are holding up better than the cautious guidance implied last quarter, easing some concern about a demand air pocket.',
+    url: 'https://www.bloomberg.com/markets',
+    relatedSymbols: ['AAPL']
+  },
+  {
+    source: 'Reuters',
+    headline: 'Cloud spend reacceleration lifts enterprise software and infrastructure names',
+    summary:
+      'Several large enterprise customers signaled renewed multi-year commitments to cloud infrastructure spend, a read-through investors are treating as broadly positive for the sector.',
+    url: 'https://www.reuters.com/technology/',
+    relatedSymbols: ['MSFT']
+  },
+  {
+    source: 'CoinDesk',
+    headline: 'Ethereum network upgrade proposal advances toward testnet rollout',
+    summary:
+      'Core developers moved a long-discussed upgrade proposal into testnet staging, with a mainnet timeline still pending further review — historically a period of elevated volatility for the token.',
+    url: 'https://www.coindesk.com/tech/',
+    relatedSymbols: ['ETH']
+  },
+  {
+    source: 'The Block',
+    headline: 'Solana network activity hits multi-month high on renewed retail interest',
+    summary:
+      'On-chain transaction counts and active wallet metrics climbed to their highest levels in several months, though analysts caution activity metrics can be inflated by low-value automated transactions.',
+    url: 'https://www.theblock.co/',
+    relatedSymbols: ['SOL']
+  },
+  {
+    source: 'Reuters',
+    headline: 'Dollar steadies as traders weigh diverging central bank paths',
+    summary:
+      'The greenback held recent gains against major peers as markets priced in a slower pace of rate cuts domestically than in several other developed economies.',
+    url: 'https://www.reuters.com/markets/currencies/',
+    relatedSymbols: ['EURUSD', 'GBPUSD']
+  },
+  {
+    source: 'MarketWatch',
+    headline: 'Gold holds near highs as investors weigh safe-haven demand against rate path',
+    summary:
+      'Bullion prices consolidated near recent highs, with continued central bank buying offsetting some pressure from a steadier dollar and diminished expectations for near-term rate cuts.',
+    url: 'https://www.marketwatch.com/investing/future/gold',
+    relatedSymbols: ['XAUUSD']
   }
 ]
 
-export function generateNews(): NewsItem[] {
+export function generateNews(relevantSymbols?: string[]): NewsItem[] {
   const now = Math.floor(Date.now() / 1000)
-  return NEWS_TEMPLATES.map((item, i) => ({
+  const withIds = NEWS_TEMPLATES.map((item, i) => ({
     ...item,
     id: `mock-${i}`,
     publishedAt: now - (i + 1) * (25 * 60)
   }))
+  if (!relevantSymbols || relevantSymbols.length === 0) return withIds
+  const filtered = withIds.filter((item) => item.relatedSymbols.some((s) => relevantSymbols.includes(s)))
+  // Fall back to the full feed rather than showing an empty card when nothing matches —
+  // this small mock pool doesn't cover every symbol, and "no news" reads as broken, not filtered.
+  return filtered.length > 0 ? filtered : withIds
 }

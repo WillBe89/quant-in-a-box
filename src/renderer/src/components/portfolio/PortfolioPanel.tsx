@@ -16,6 +16,8 @@ import {
 } from '@renderer/lib/quant'
 import { cumulativeValueSeries, weightedPortfolioReturns } from '@renderer/lib/portfolioMath'
 import InfoIcon from '@renderer/academy/InfoIcon'
+import { IconClose } from '@renderer/components/icons/Icons'
+import Tooltip from '@renderer/components/ui/Tooltip'
 import type { Asset, PortfolioRiskStats } from '@renderer/types/market'
 import './portfolio.css'
 
@@ -169,9 +171,11 @@ export default function PortfolioPanel(): JSX.Element | null {
             <span className="portfolio-badge">{t('portfolio.badge')}</span>
             <h2>{t('portfolio.heading')}</h2>
           </div>
-          <button className="icon-btn" onClick={closePortfolio} aria-label={t('common.close') ?? undefined}>
-            ✕
-          </button>
+          <Tooltip label={t('common.close') ?? ''}>
+            <button className="icon-btn" onClick={closePortfolio} aria-label={t('common.close') ?? undefined}>
+              <IconClose size={15} />
+            </button>
+          </Tooltip>
         </div>
 
         <div className="portfolio-body">
@@ -272,13 +276,15 @@ export default function PortfolioPanel(): JSX.Element | null {
                         </td>
                         <td className="tnum">{r.weightPct.toFixed(1)}%</td>
                         <td>
-                          <button
-                            className="portfolio-remove"
-                            onClick={() => removePosition(r.asset.symbol)}
-                            title={t('portfolio.removePosition') ?? undefined}
-                          >
-                            ✕
-                          </button>
+                          <Tooltip label={t('portfolio.removePosition') ?? ''}>
+                            <button
+                              className="portfolio-remove"
+                              onClick={() => removePosition(r.asset.symbol)}
+                              aria-label={t('portfolio.removePosition') ?? undefined}
+                            >
+                              <IconClose size={12} />
+                            </button>
+                          </Tooltip>
                         </td>
                       </tr>
                     ))}

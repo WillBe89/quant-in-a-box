@@ -2,6 +2,8 @@ import { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAppState } from '@renderer/state/AppStateContext'
 import { LESSONS, type LessonCategory } from './lessons'
+import { IconClose } from '@renderer/components/icons/Icons'
+import Tooltip from '@renderer/components/ui/Tooltip'
 import './academy.css'
 
 const CATEGORY_ORDER: LessonCategory[] = ['trend', 'risk', 'options']
@@ -55,9 +57,11 @@ export default function AcademyPanel(): JSX.Element | null {
             <span className="academy-badge">{t('academy.badge')}</span>
             <h2>{t('academy.heading')}</h2>
           </div>
-          <button className="icon-btn" onClick={closeAcademy} aria-label={t('common.close') ?? undefined}>
-            ✕
-          </button>
+          <Tooltip label={t('common.close') ?? ''}>
+            <button className="icon-btn" onClick={closeAcademy} aria-label={t('common.close') ?? undefined}>
+              <IconClose size={15} />
+            </button>
+          </Tooltip>
         </div>
 
         <div className="academy-body">

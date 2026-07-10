@@ -60,3 +60,19 @@ export interface PortfolioPosition {
   costBasis: number // average price paid per unit
   addedAt: number // unix seconds
 }
+
+/** Everything the chart knows about whatever bar the cursor is currently over —
+ *  drives the readout panel so hovering surfaces more than just OHLC. */
+export interface ChartHoverInfo {
+  time: number
+  open: number
+  high: number
+  low: number
+  close: number
+  volume: number
+  prevClose: number | null
+  ma20: number | null
+  ma50: number | null
+  bollUpper: number | null
+  bollLower: number | null
+}

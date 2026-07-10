@@ -1,13 +1,18 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useAppState } from '@renderer/state/AppStateContext'
+import { useAppState, type NewsSource } from '@renderer/state/AppStateContext'
 import { ALL_ASSETS } from '@renderer/data/mockData'
 import type { Asset } from '@renderer/types/market'
+import { IconClose } from '@renderer/components/icons/Icons'
+import Tooltip from '@renderer/components/ui/Tooltip'
 import './customize.css'
+
+const NEWS_SOURCES: NewsSource[] = ['selected', 'watchlist', 'portfolio']
 
 export default function CustomizePanel(): JSX.Element | null {
   const { t } = useTranslation()
-  const { customizeOpen, closeCustomize, watchlist, toggleWatchlist, resetWatchlist } = useAppState()
+  const { customizeOpen, closeCustomize, watchlist, toggleWatchlist, resetWatchlist, newsSource, setNewsSource } =
+    useAppState()
   const dialogRef = useRef<HTMLDivElement>(null)
   const [query, setQuery] = useState('')
   const [selected, setSelected] = useState<Asset | null>(null)
@@ -56,12 +61,15 @@ export default function CustomizePanel(): JSX.Element | null {
             <span className="customize-badge">{t('customize.badge')}</span>
             <h2>{t('customize.heading')}</h2>
           </div>
-          <button className="icon-btn" onClick={closeCustomize} aria-label={t('common.close') ?? undefined}>
-            ✕
-          </button>
+          <Tooltip label={t('common.close') ?? ''}>
+            <button className="icon-btn" onClick={closeCustomize} aria-label={t('common.close') ?? undefined}>
+              <IconClose size={15} />
+            </button>
+          </Tooltip>
         </div>
 
         <div className="customize-body">
+          <h3 className="customize-section-heading">{t('customize.watchlistHeading')}</h3>
           <p className="customize-intro">{t('customize.intro')}</p>
 
           <div className="customize-add">
@@ -101,13 +109,15 @@ export default function CustomizePanel(): JSX.Element | null {
                     <span className="customize-list-sym">{a.symbol}</span>
                     <span className="customize-list-name">{a.name}</span>
                   </div>
-                  <button
-                    className="customize-remove"
-                    onClick={() => toggleWatchlist(a)}
-                    title={t('customize.remove') ?? undefined}
-                  >
-                    ✕
-                  </button>
+                  <Tooltip label={t('customize.remove') ?? ''}>
+                    <button
+                      className="customize-remove"
+                      onClick={() => toggleWatchlist(a)}
+                      aria-label={t('customize.remove') ?? undefined}
+                    >
+                      <IconClose size={12} />
+                    </button>
+                  </Tooltip>
                 </div>
               ))}
             </div>
@@ -116,6 +126,20 @@ export default function CustomizePanel(): JSX.Element | null {
           <button className="customize-reset" onClick={resetWatchlist}>
             {t('customize.reset')}
           </button>
+
+          <h3 className="customize-section-heading customize-section-spaced">{t('customize.newsHeading')}</h3>
+          <p className="customize-intro">{t('customize.newsIntro')}</p>
+          <div className="customize-segmented">
+            {NEWS_SOURCES.map((s) => (
+              <button
+                key={s}
+                className={'customize-segmented-item' + (newsSource === s ? ' active' : '')}
+                onClick={() => setNewsSource(s)}
+              >
+                {t(`customize.news${s.charAt(0).toUpperCase()}${s.slice(1)}`)}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>

@@ -9,7 +9,9 @@ export interface DataService {
   listAssets(klass: AssetClass | 'all'): Promise<Asset[]>
   getCandles(asset: Asset, timeframe: Timeframe): Promise<Candle[]>
   getOptionChain(asset: Asset): Promise<OptionQuote[]>
-  getNews(symbol?: string): Promise<NewsItem[]>
+  /** `symbols`: the set of tickers news should be relevant to (e.g. the selected
+   *  symbol, the watchlist, or portfolio holdings) — omit for general market news. */
+  getNews(symbols?: string[]): Promise<NewsItem[]>
 }
 
 class MockDataService implements DataService {
@@ -22,8 +24,8 @@ class MockDataService implements DataService {
   async getOptionChain(asset: Asset): Promise<OptionQuote[]> {
     return generateOptionChain(asset)
   }
-  async getNews(): Promise<NewsItem[]> {
-    return generateNews()
+  async getNews(symbols?: string[]): Promise<NewsItem[]> {
+    return generateNews(symbols)
   }
 }
 
@@ -54,11 +56,16 @@ class FinnhubDataService implements DataService {
     return this.mock.getOptionChain(asset)
   }
 
-  async getNews(symbol?: string): Promise<NewsItem[]> {
+  async getNews(symbols?: string[]): Promise<NewsItem[]> {
     try {
-      return symbol ? await finnhub.fetchCompanyNews(symbol) : await finnhub.fetchGeneralNews()
+      // Finnhub's company-news endpoint takes one symbol at a time; for a single
+      // relevant symbol (the common case — viewing one asset) fetch its news
+      // directly. For a broader set (watchlist/portfolio) general market news is
+      // used instead of firing one request per symbol — revisit if that's too coarse.
+      if (symbols && symbols.length === 1) return await finnhub.fetchCompanyNews(symbols[0])
+      return await finnhub.fetchGeneralNews()
     } catch {
-      return this.mock.getNews()
+      return this.mock.getNews(symbols)
     }
   }
 }

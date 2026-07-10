@@ -5,7 +5,7 @@ import {
   type ISeriesApi,
   type UTCTimestamp
 } from 'lightweight-charts'
-import type { Candle, IndicatorId } from '@renderer/types/market'
+import type { Candle, ChartHoverInfo, IndicatorId } from '@renderer/types/market'
 import { bollingerBands, closesOf, sma } from '@renderer/lib/quant'
 import { chartColors } from '@renderer/lib/chartTheme'
 
@@ -15,10 +15,18 @@ interface Props {
   candles: Candle[]
   indicators: Record<IndicatorId, boolean>
   theme: 'dark' | 'light'
-  onLastBar?: (candle: Candle | null) => void
+  onHover?: (info: ChartHoverInfo | null) => void
 }
 
-export default function PriceChart({ candles, indicators, theme, onLastBar }: Props): JSX.Element {
+interface IndicatorCache {
+  candles: Candle[]
+  ma20: Array<number | null>
+  ma50: Array<number | null>
+  bollUpper: Array<number | null>
+  bollLower: Array<number | null>
+}
+
+export default function PriceChart({ candles, indicators, theme, onHover }: Props): JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null)
   const chartRef = useRef<IChartApi | null>(null)
   const candleSeriesRef = useRef<ISeriesApi<'Candlestick'> | null>(null)
@@ -27,6 +35,9 @@ export default function PriceChart({ candles, indicators, theme, onLastBar }: Pr
   const ma50SeriesRef = useRef<ISeriesApi<'Line'> | null>(null)
   const bollUpperRef = useRef<ISeriesApi<'Line'> | null>(null)
   const bollLowerRef = useRef<ISeriesApi<'Line'> | null>(null)
+  // Always holds the latest candles + computed indicator arrays so the crosshair
+  // handler (subscribed once, in the chart-creation effect) never reads stale closures.
+  const dataCacheRef = useRef<IndicatorCache>({ candles: [], ma20: [], ma50: [], bollUpper: [], bollLower: [] })
 
   // Create (or recreate, on theme change) the chart. Colors come from the explicit
   // chartColors() map, not the DOM — reading data-theme off <html> here would race
@@ -103,20 +114,31 @@ export default function PriceChart({ candles, indicators, theme, onLastBar }: Pr
     ro.observe(el)
 
     chart.subscribeCrosshairMove((param) => {
-      if (!onLastBar) return
-      const price = param.seriesData.get(candleSeries) as
-        | { open: number; high: number; low: number; close: number }
-        | undefined
-      if (price) {
-        onLastBar({
-          time: (param.time as UTCTimestamp) ?? 0,
-          open: price.open,
-          high: price.high,
-          low: price.low,
-          close: price.close,
-          volume: 0
-        })
+      if (!onHover) return
+      if (param.time == null) {
+        onHover(null)
+        return
       }
+      const cache = dataCacheRef.current
+      const index = cache.candles.findIndex((c) => c.time === param.time)
+      if (index === -1) {
+        onHover(null)
+        return
+      }
+      const candle = cache.candles[index]
+      onHover({
+        time: candle.time,
+        open: candle.open,
+        high: candle.high,
+        low: candle.low,
+        close: candle.close,
+        volume: candle.volume,
+        prevClose: index > 0 ? cache.candles[index - 1].close : null,
+        ma20: cache.ma20[index] ?? null,
+        ma50: cache.ma50[index] ?? null,
+        bollUpper: cache.bollUpper[index] ?? null,
+        bollLower: cache.bollLower[index] ?? null
+      })
     })
 
     return () => {
@@ -168,16 +190,20 @@ export default function PriceChart({ candles, indicators, theme, onLastBar }: Pr
         : []
     )
 
+    let bollUpper: Array<number | null> = []
+    let bollLower: Array<number | null> = []
     if (indicators.boll) {
-      const { upper, lower } = bollingerBands(closes, 20, 2)
+      const bands = bollingerBands(closes, 20, 2)
+      bollUpper = bands.upper
+      bollLower = bands.lower
       bollUpperRef.current?.setData(
         candles
-          .map((c, i) => (upper[i] == null ? null : { time: c.time as UTCTimestamp, value: upper[i] as number }))
+          .map((c, i) => (bands.upper[i] == null ? null : { time: c.time as UTCTimestamp, value: bands.upper[i] as number }))
           .filter((v): v is { time: UTCTimestamp; value: number } => v !== null)
       )
       bollLowerRef.current?.setData(
         candles
-          .map((c, i) => (lower[i] == null ? null : { time: c.time as UTCTimestamp, value: lower[i] as number }))
+          .map((c, i) => (bands.lower[i] == null ? null : { time: c.time as UTCTimestamp, value: bands.lower[i] as number }))
           .filter((v): v is { time: UTCTimestamp; value: number } => v !== null)
       )
     } else {
@@ -185,8 +211,27 @@ export default function PriceChart({ candles, indicators, theme, onLastBar }: Pr
       bollLowerRef.current?.setData([])
     }
 
+    dataCacheRef.current = { candles, ma20, ma50, bollUpper, bollLower }
+
     chartRef.current?.timeScale().fitContent()
-    onLastBar?.(candles[candles.length - 1] ?? null)
+    const last = candles[candles.length - 1]
+    onHover?.(
+      last
+        ? {
+            time: last.time,
+            open: last.open,
+            high: last.high,
+            low: last.low,
+            close: last.close,
+            volume: last.volume,
+            prevClose: candles.length > 1 ? candles[candles.length - 2].close : null,
+            ma20: ma20[candles.length - 1] ?? null,
+            ma50: ma50[candles.length - 1] ?? null,
+            bollUpper: bollUpper[candles.length - 1] ?? null,
+            bollLower: bollLower[candles.length - 1] ?? null
+          }
+        : null
+    )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [candles, indicators, theme])
 
