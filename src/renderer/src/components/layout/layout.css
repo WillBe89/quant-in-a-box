@@ -277,8 +277,13 @@
 .body {
   flex: 1 1 auto;
   display: grid;
-  grid-template-columns: 68px minmax(0, 1fr) 6px var(--dock-width, 320px);
+  /* The workspace column had no protective minimum, so dragging the dock wider (up to its
+     own 520px max) could squeeze the chart area down to an unreadably cramped width with
+     nothing stopping it. A floor here means widening the dock past this point causes the
+     window to need horizontal scroll instead of silently degrading the charts. */
+  grid-template-columns: 68px minmax(700px, 1fr) 6px var(--dock-width, 320px);
   min-height: 0;
+  overflow-x: auto;
 }
 
 .resize-handle {

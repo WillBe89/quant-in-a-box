@@ -2,6 +2,14 @@
 
 Running log of autonomous build cycles. Newest entries at the top.
 
+## 2026-07-11 - Gave the workspace a protective minimum width against a widened dock pane (direct request, with screenshot)
+
+**Built:** a screenshot showed that stretching the right-hand dock pane (Portfolio Risk/Options/Market News) all the way to its maximum width crushed the chart workspace down to an unreadably cramped size — toolbar rows wrapping onto multiple lines, price/volume labels stacking illegibly. Root cause: `.body`'s CSS grid gave the workspace column `minmax(0, 1fr)` — literally no protective minimum, so the dock's resize handle (already capped at 520px max) could still squeeze the workspace arbitrarily small depending on the window's overall width.
+
+**Fix:** changed the workspace column to `minmax(700px, 1fr)` and added `overflow-x: auto` to `.body`, so the dock can still be dragged to its full 520px width, but the workspace can never be squeezed below a legible floor — on a narrower window that can't fit both, the trade-off is a small horizontal scrollbar instead of silently degrading the charts into illegibility.
+
+**Verified:** live in the browser, dragged the dock resize handle to its exact maximum (520px, confirmed via `aria-valuenow`) at both a wide (1600px) and a moderately narrow (1280px) viewport. At 1600px the workspace easily clears the new floor (1006px, no scrollbar needed). At 1280px the workspace correctly holds at exactly 700px and the body gains a 14px horizontal overflow — and visually, the "1 + 2 grid" layout's secondary charts still render clean single-line toolbars with no wrapping, a large improvement over the reported cramped state. `npm run typecheck` clean; `npm test`/`build` deferred until the concurrently-running chart quick-switch feature (Phase 4) finishes, to avoid disturbing its in-progress native-module test state.
+
 ## 2026-07-11 - Made the RSI/MACD panel reachable via scroll in the "1 + 2 grid" layout (phase 5 of a reprioritized batch)
 
 **Built:** changed `.chart-slot { overflow: hidden }` to `overflow-y: auto; overflow-x: hidden` in `layout.css`. This is a direct follow-up to the ticker-bleed fix from earlier today: that fix correctly stopped the secondary charts in the "1 + 2 grid" layout from visually bleeding into the ticker tape, but as a side effect it also silently clipped the RSI/MACD oscillator subpanel out of view with no way to reach it whenever those charts didn't have enough room — Will caught this immediately ("I can't scroll down to see the RSI chart on the 1+2"). The fix keeps the existing `.chart-wrap` min-height override in place (so the chart canvas itself stays a sane size) and just lets the rest of the column become scrollable instead of clipped.
