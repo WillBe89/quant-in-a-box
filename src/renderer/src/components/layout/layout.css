@@ -24,6 +24,12 @@
 .topbar input {
   -webkit-app-region: no-drag;
 }
+:root[data-glass-chrome='true'] .topbar {
+  background: var(--glass-bg-chrome);
+  backdrop-filter: blur(var(--glass-blur-lg));
+  -webkit-backdrop-filter: blur(var(--glass-blur-lg));
+  border-bottom-color: var(--glass-border);
+}
 .topbar::before {
   content: '';
   position: absolute;
@@ -201,23 +207,6 @@
   flex: none;
   position: relative;
 }
-.scope-badge {
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.3px;
-  color: var(--text-dim);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  padding: 5px 10px;
-  border-radius: 999px;
-  white-space: nowrap;
-}
-.scope-badge::before {
-  content: '●';
-  color: var(--gain);
-  margin-right: 5px;
-  font-size: 8px;
-}
 .icon-btn {
   width: 32px;
   height: 32px;
@@ -330,6 +319,12 @@
   align-items: center;
   padding: 14px 0;
   gap: 6px;
+}
+:root[data-glass-chrome='true'] .rail {
+  background: var(--glass-bg-chrome);
+  backdrop-filter: blur(var(--glass-blur-lg));
+  -webkit-backdrop-filter: blur(var(--glass-blur-lg));
+  border-right-color: var(--glass-border);
 }
 .rail-btn {
   width: 44px;
@@ -786,6 +781,16 @@
   background: var(--surface);
   overflow: hidden;
   min-height: 200px;
+  box-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.25),
+    0 24px 48px -20px rgba(0, 0, 0, 0.45),
+    0 0 60px -24px color-mix(in srgb, var(--accent-a) 40%, transparent);
+}
+:root[data-glass-chart='true'] .chart-wrap {
+  background: var(--glass-bg-chart);
+  backdrop-filter: blur(var(--glass-blur-chart));
+  -webkit-backdrop-filter: blur(var(--glass-blur-chart));
+  border-color: var(--glass-border);
 }
 .readout {
   position: absolute;
@@ -801,6 +806,11 @@
   border-radius: var(--radius-sm);
   padding: 7px 10px;
   backdrop-filter: blur(4px);
+}
+:root[data-glass-chart='true'] .readout {
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  backdrop-filter: blur(6px);
+  border-color: var(--border-strong);
 }
 .readout-row {
   display: flex;
@@ -878,6 +888,12 @@
   overflow-y: auto;
   padding: 12px;
 }
+:root[data-glass-chrome='true'] .dock {
+  background: var(--glass-bg-dock);
+  backdrop-filter: blur(var(--glass-blur-lg));
+  -webkit-backdrop-filter: blur(var(--glass-blur-lg));
+  border-left-color: var(--glass-border);
+}
 .dock-list {
   display: flex;
   flex-direction: column;
@@ -890,6 +906,18 @@
   border-radius: var(--radius-lg);
   overflow: hidden;
   flex: none;
+}
+:root[data-glass-panels='true'] .card {
+  background: var(--glass-bg-card);
+  backdrop-filter: blur(var(--glass-blur-md));
+  -webkit-backdrop-filter: blur(var(--glass-blur-md));
+  border-color: var(--glass-border);
+}
+/* When chrome glass is also on, a dock card floating over already-translucent chrome would
+   double-stack blur over dense numeric data (Risk/Greeks tables) — raise the card's own
+   opacity floor in that specific compound case so the numbers stay legible. */
+:root[data-glass-panels='true'][data-glass-chrome='true'] .dock .card {
+  background: var(--glass-bg-card-on-glass);
 }
 .card-head {
   display: flex;
@@ -1145,6 +1173,12 @@ table.greeks td {
   align-items: stretch;
   position: relative;
 }
+:root[data-glass-chrome='true'] .ticker {
+  background: var(--glass-bg-chrome);
+  backdrop-filter: blur(var(--glass-blur-lg));
+  -webkit-backdrop-filter: blur(var(--glass-blur-lg));
+  border-top-color: var(--glass-border);
+}
 .ticker-settings {
   flex: none;
   width: 34px;
@@ -1173,6 +1207,13 @@ table.greeks td {
   padding: 6px;
   z-index: 30;
   min-width: 150px;
+}
+:root[data-glass-panels='true'] .search-results,
+:root[data-glass-panels='true'] .ticker-menu {
+  background: var(--glass-bg-popover);
+  backdrop-filter: blur(var(--glass-blur-sm));
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm));
+  border-color: var(--glass-border);
 }
 .ticker-menu-heading {
   font-size: 10px;
@@ -1226,6 +1267,12 @@ table.greeks td {
 .ticker-scroll-area::after {
   right: 0;
   background: linear-gradient(270deg, var(--bg-elevated), transparent);
+}
+:root[data-glass-chrome='true'] .ticker-scroll-area::before {
+  background: linear-gradient(90deg, var(--glass-bg-chrome), transparent);
+}
+:root[data-glass-chrome='true'] .ticker-scroll-area::after {
+  background: linear-gradient(270deg, var(--glass-bg-chrome), transparent);
 }
 .ticker-empty {
   display: flex;

@@ -15,6 +15,12 @@
   min-width: 180px;
   z-index: 20;
 }
+:root[data-glass-panels='true'] .portfolio-picker-menu {
+  background: var(--glass-bg-popover);
+  backdrop-filter: blur(var(--glass-blur-sm));
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm));
+  border-color: var(--glass-border);
+}
 .portfolio-picker-heading {
   font-size: 10px;
   font-weight: 700;

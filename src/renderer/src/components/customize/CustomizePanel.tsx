@@ -1,6 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useAppState, useDockLayout, type NewsSource, type DockCardId } from '@renderer/state/AppStateContext'
+import {
+  useAppState,
+  useDockLayout,
+  type NewsSource,
+  type DockCardId,
+  type GlassTier
+} from '@renderer/state/AppStateContext'
 import { ALL_ASSETS } from '@renderer/data/mockData'
 import { searchAssets } from '@renderer/lib/assetSearch'
 import {
@@ -21,6 +27,7 @@ import './customize.css'
 
 const NEWS_SOURCES: NewsSource[] = ['selected', 'watchlist', 'portfolio']
 const DOCK_CARD_IDS: DockCardId[] = ['risk', 'options', 'news']
+const GLASS_TIERS: GlassTier[] = ['panels', 'chrome', 'chart']
 
 function PortfolioRow({
   id,
@@ -205,7 +212,9 @@ export default function CustomizePanel(): JSX.Element {
     setNewsSource,
     portfolios,
     settingsVersion,
-    bumpSettingsVersion
+    bumpSettingsVersion,
+    glassTiers,
+    toggleGlassTier
   } = useAppState()
   const { dockHidden, toggleDockCardHidden, resetDockLayout } = useDockLayout()
   const [query, setQuery] = useState('')
@@ -279,6 +288,8 @@ export default function CustomizePanel(): JSX.Element {
       </div>
 
       <div className="overlay-body">
+        <p className="customize-scope-note">{t('customize.analyticsOnlyNote')}</p>
+
         <h3 className="customize-section-heading">{t('customize.watchlistHeading')}</h3>
         <p className="customize-intro">{t('customize.intro')}</p>
 
@@ -461,6 +472,20 @@ export default function CustomizePanel(): JSX.Element {
                 : t('portfolio.export.canceled')}
           </p>
         )}
+
+        <h3 className="customize-section-heading customize-section-spaced">{t('customize.glass.heading')}</h3>
+        <p className="customize-intro">{t('customize.glass.intro')}</p>
+        <div className="customize-list">
+          {GLASS_TIERS.map((tier) => (
+            <label className="customize-list-item customize-toggle-item" key={tier}>
+              <span className="customize-list-info">
+                <span className="customize-list-sym">{t(`customize.glass.${tier}Label`)}</span>
+                <span className="customize-list-name">{t(`customize.glass.${tier}Desc`)}</span>
+              </span>
+              <input type="checkbox" checked={glassTiers[tier]} onChange={() => toggleGlassTier(tier)} />
+            </label>
+          ))}
+        </div>
       </div>
     </OverlayPanel>
   )

@@ -9,11 +9,38 @@ body,
 body {
   margin: 0;
   background: var(--bg);
+  background-image:
+    radial-gradient(1100px 700px at 50% 50%, var(--bg-gradient-stop-1), transparent 60%),
+    radial-gradient(900px 800px at 50% 50%, var(--bg-gradient-stop-2), transparent 55%),
+    radial-gradient(1000px 900px at 50% 50%, var(--bg-gradient-stop-3), transparent 60%);
+  background-repeat: no-repeat;
+  background-position:
+    12% -10%,
+    110% 30%,
+    40% 120%;
+  background-size:
+    140% 140%,
+    140% 140%,
+    140% 140%;
+  animation: bgDrift 48s ease-in-out infinite alternate;
   color: var(--text);
   font-family: var(--font-ui);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
   user-select: none;
+}
+@keyframes bgDrift {
+  to {
+    background-position:
+      20% 0%,
+      95% 40%,
+      35% 105%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body {
+    animation: none;
+  }
 }
 input,
 button {

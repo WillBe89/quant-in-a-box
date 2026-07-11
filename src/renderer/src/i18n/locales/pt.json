@@ -3,6 +3,7 @@
     "close": "Fechar"
   },
   "customize": {
+    "analyticsOnlyNote": "Apenas análise · sem execução de ordens",
     "badge": "Torne-o seu",
     "heading": "As suas preferências",
     "watchlistHeading": "Lista de observação",
@@ -47,6 +48,16 @@
       "exportBtn": "Exportar arquivo",
       "success": "Arquivo guardado"
     },
+    "glass": {
+      "heading": "Aparência em vidro",
+      "intro": "Escolha quanto da interface flutua como vidro translúcido sobre o fundo. O fundo com gradiente suave permanece sempre ativo.",
+      "panelsLabel": "Painéis e cartões",
+      "panelsDesc": "Janelas modais, cartões do painel e menus suspensos",
+      "chromeLabel": "Estrutura da aplicação",
+      "chromeDesc": "Barra superior, barra lateral, painel do dock e ticker",
+      "chartLabel": "Fundo do gráfico",
+      "chartDesc": "O fundo próprio do gráfico de preços"
+    },
     "portfolioStyle": {
       "trigger": "Alterar ícone e cor",
       "iconHeading": "Ícone",
@@ -83,9 +94,6 @@
     "classBonds": "Obrigações",
     "classFx": "Câmbio",
     "classRe": "Imobiliário",
-    "scopeBadge": "Apenas análise · sem execução de ordens",
-    "portfolioBtn": "Carteira",
-    "learnBtn": "Aprender",
     "toggleTheme": "Alternar tema"
   },
   "rail": {

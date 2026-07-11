@@ -25,6 +25,7 @@ const CHART_SLOTS_STORAGE_KEY = 'qiab:chartSlots:v1'
 const FOCUSED_SLOT_STORAGE_KEY = 'qiab:focusedSlot:v1'
 const DOCK_WIDTH_STORAGE_KEY = 'qiab:dockWidthPx:v1'
 const OSCILLATOR_HEIGHT_STORAGE_KEY = 'qiab:oscillatorHeightPx:v1'
+const GLASS_TIERS_STORAGE_KEY = 'qiab:glassTiers:v1'
 
 const DOCK_WIDTH_DEFAULT = 320
 const DOCK_WIDTH_MIN = 260
@@ -39,6 +40,11 @@ export type DockCardId = 'risk' | 'options' | 'news'
 
 export type LayoutTemplateId = 'single' | 'twoEqual' | 'twoFocus' | 'threeEqual' | 'threeGrid'
 const LAYOUT_TEMPLATE_IDS: LayoutTemplateId[] = ['single', 'twoEqual', 'twoFocus', 'threeEqual', 'threeGrid']
+
+export type GlassTier = 'panels' | 'chrome' | 'chart'
+export type GlassTierState = Record<GlassTier, boolean>
+const DEFAULT_GLASS_TIERS: GlassTierState = { panels: true, chrome: false, chart: false }
+const GLASS_TIER_IDS: GlassTier[] = ['panels', 'chrome', 'chart']
 
 export interface ChartSlotState {
   id: string
@@ -110,6 +116,25 @@ function loadDockLayout(): DockLayoutState {
     // fall through to default
   }
   return { order: DEFAULT_DOCK_ORDER, hidden: [] }
+}
+
+function loadGlassTiers(): GlassTierState {
+  try {
+    const raw = localStorage.getItem(GLASS_TIERS_STORAGE_KEY)
+    if (raw) {
+      const parsed = JSON.parse(raw)
+      if (parsed && typeof parsed === 'object') {
+        const result = { ...DEFAULT_GLASS_TIERS }
+        for (const tier of GLASS_TIER_IDS) {
+          if (typeof parsed[tier] === 'boolean') result[tier] = parsed[tier]
+        }
+        return result
+      }
+    }
+  } catch {
+    // fall through to default
+  }
+  return DEFAULT_GLASS_TIERS
 }
 
 function loadTickerSource(): TickerSource {
@@ -335,6 +360,8 @@ interface AppState {
   setDockWidthPx: (px: number) => void
   oscillatorHeightPx: number
   setOscillatorHeightPx: (px: number) => void
+  glassTiers: GlassTierState
+  toggleGlassTier: (tier: GlassTier) => void
 }
 
 export interface DockLayoutContextValue {
@@ -359,6 +386,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   const [oscillatorHeightPx, setOscillatorHeightPxState] = useState<number>(() =>
     loadClampedPx(OSCILLATOR_HEIGHT_STORAGE_KEY, OSCILLATOR_HEIGHT_MIN, OSCILLATOR_HEIGHT_MAX, OSCILLATOR_HEIGHT_DEFAULT)
   )
+  const [glassTiers, setGlassTiers] = useState<GlassTierState>(() => loadGlassTiers())
   const focusedSlot = useMemo(
     () => chartSlots.find((s) => s.id === focusedSlotId) ?? chartSlots[0],
     [chartSlots, focusedSlotId]
@@ -482,6 +510,14 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
     }
   }, [oscillatorHeightPx])
 
+  useEffect(() => {
+    try {
+      localStorage.setItem(GLASS_TIERS_STORAGE_KEY, JSON.stringify(glassTiers))
+    } catch {
+      // best-effort persistence; ignore quota/availability errors
+    }
+  }, [glassTiers])
+
   const setLayoutTemplate = useCallback((tpl: LayoutTemplateId) => setLayoutTemplateState(tpl), [])
   const setFocusedSlotId = useCallback((id: string) => setFocusedSlotIdState(id), [])
 
@@ -490,6 +526,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   }, [])
   const setOscillatorHeightPx = useCallback((px: number) => {
     setOscillatorHeightPxState(Math.min(OSCILLATOR_HEIGHT_MAX, Math.max(OSCILLATOR_HEIGHT_MIN, px)))
+  }, [])
+  const toggleGlassTier = useCallback((tier: GlassTier) => {
+    setGlassTiers((prev) => ({ ...prev, [tier]: !prev[tier] }))
   }, [])
 
   const setSlotSymbol = useCallback((slotId: string, asset: Asset) => {
@@ -736,7 +775,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       dockWidthPx,
       setDockWidthPx,
       oscillatorHeightPx,
-      setOscillatorHeightPx
+      setOscillatorHeightPx,
+      glassTiers,
+      toggleGlassTier
     }),
     [
       assetClass,
@@ -798,7 +839,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       dockWidthPx,
       setDockWidthPx,
       oscillatorHeightPx,
-      setOscillatorHeightPx
+      setOscillatorHeightPx,
+      glassTiers,
+      toggleGlassTier
     ]
   )
 

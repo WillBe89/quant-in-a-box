@@ -15,6 +15,8 @@ export interface ChartColors {
   gainAreaBottom: string
   lossAreaTop: string
   lossAreaBottom: string
+  candleBorderUp: string
+  candleBorderDown: string
 }
 
 const DARK: ChartColors = {
@@ -27,7 +29,10 @@ const DARK: ChartColors = {
   gainAreaTop: 'rgba(62, 213, 152, 0.32)',
   gainAreaBottom: 'rgba(62, 213, 152, 0.04)',
   lossAreaTop: 'rgba(251, 113, 149, 0.32)',
-  lossAreaBottom: 'rgba(251, 113, 149, 0.04)'
+  lossAreaBottom: 'rgba(251, 113, 149, 0.04)',
+  // Darker/richer than the fill so candle bodies read with a visible edge rather than a flat block.
+  candleBorderUp: '#1f8f63',
+  candleBorderDown: '#c8375c'
 }
 
 const LIGHT: ChartColors = {
@@ -40,7 +45,9 @@ const LIGHT: ChartColors = {
   gainAreaTop: 'rgba(14, 154, 84, 0.28)',
   gainAreaBottom: 'rgba(14, 154, 84, 0.03)',
   lossAreaTop: 'rgba(214, 51, 90, 0.28)',
-  lossAreaBottom: 'rgba(214, 51, 90, 0.03)'
+  lossAreaBottom: 'rgba(214, 51, 90, 0.03)',
+  candleBorderUp: '#0a7943',
+  candleBorderDown: '#a52547'
 }
 
 export function chartColors(theme: 'dark' | 'light'): ChartColors {

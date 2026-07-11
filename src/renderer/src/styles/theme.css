@@ -32,6 +32,24 @@
   --duration-slow: 360ms;
   --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
   --ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --glass-blur-sm: 10px;
+  --glass-blur-md: 16px;
+  --glass-blur-lg: 18px;
+  --glass-blur-chart: 12px;
+  --glass-bg-panel: color-mix(in srgb, var(--bg-elevated) 72%, transparent);
+  --glass-bg-card: color-mix(in srgb, var(--surface) 70%, transparent);
+  --glass-bg-popover: color-mix(in srgb, var(--bg-elevated) 76%, transparent);
+  --glass-bg-chrome: color-mix(in srgb, var(--bg-elevated) 66%, transparent);
+  --glass-bg-dock: color-mix(in srgb, var(--bg-elevated) 80%, transparent);
+  --glass-bg-card-on-glass: color-mix(in srgb, var(--surface) 86%, transparent);
+  --glass-bg-chart: color-mix(in srgb, var(--surface) 52%, transparent);
+  --glass-border: var(--border-strong);
+  --glass-shadow: 0 1px 1px rgba(0, 0, 0, 0.3), 0 20px 40px -18px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --bg-gradient-stop-1: rgba(47, 224, 200, 0.14);
+  --bg-gradient-stop-2: rgba(140, 126, 247, 0.12);
+  --bg-gradient-stop-3: rgba(47, 224, 200, 0.08);
 }
 
 :root[data-theme='light'] {
@@ -53,6 +71,18 @@
   --warn: #b5760a;
   --warn-dim: rgba(181, 118, 10, 0.12);
   --shadow-soft: 0 1px 2px rgba(30, 40, 60, 0.06), 0 16px 32px -16px rgba(30, 40, 60, 0.18);
+  --glass-bg-panel: color-mix(in srgb, var(--bg-elevated) 84%, transparent);
+  --glass-bg-card: color-mix(in srgb, var(--surface) 82%, transparent);
+  --glass-bg-popover: color-mix(in srgb, var(--bg-elevated) 88%, transparent);
+  --glass-bg-chrome: color-mix(in srgb, var(--bg-elevated) 80%, transparent);
+  --glass-bg-dock: color-mix(in srgb, var(--bg-elevated) 90%, transparent);
+  --glass-bg-card-on-glass: color-mix(in srgb, var(--surface) 94%, transparent);
+  --glass-bg-chart: color-mix(in srgb, var(--surface) 70%, transparent);
+  --glass-shadow: 0 2px 4px rgba(30, 40, 60, 0.07), 0 20px 40px -18px rgba(30, 40, 60, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  --bg-gradient-stop-1: rgba(11, 168, 154, 0.1);
+  --bg-gradient-stop-2: rgba(107, 92, 224, 0.08);
+  --bg-gradient-stop-3: rgba(11, 168, 154, 0.05);
 }
 
 @media (prefers-color-scheme: light) {
@@ -75,5 +105,17 @@
     --warn: #b5760a;
     --warn-dim: rgba(181, 118, 10, 0.12);
     --shadow-soft: 0 1px 2px rgba(30, 40, 60, 0.06), 0 16px 32px -16px rgba(30, 40, 60, 0.18);
+    --glass-bg-panel: color-mix(in srgb, var(--bg-elevated) 84%, transparent);
+    --glass-bg-card: color-mix(in srgb, var(--surface) 82%, transparent);
+    --glass-bg-popover: color-mix(in srgb, var(--bg-elevated) 88%, transparent);
+    --glass-bg-chrome: color-mix(in srgb, var(--bg-elevated) 80%, transparent);
+    --glass-bg-dock: color-mix(in srgb, var(--bg-elevated) 90%, transparent);
+    --glass-bg-card-on-glass: color-mix(in srgb, var(--surface) 94%, transparent);
+    --glass-bg-chart: color-mix(in srgb, var(--surface) 70%, transparent);
+    --glass-shadow: 0 2px 4px rgba(30, 40, 60, 0.07), 0 20px 40px -18px rgba(30, 40, 60, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.65);
+    --bg-gradient-stop-1: rgba(11, 168, 154, 0.1);
+    --bg-gradient-stop-2: rgba(107, 92, 224, 0.08);
+    --bg-gradient-stop-3: rgba(11, 168, 154, 0.05);
   }
 }

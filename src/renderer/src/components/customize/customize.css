@@ -9,6 +9,21 @@
   color: var(--text-dim);
   margin: 0 0 16px;
 }
+.customize-scope-note {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-faint);
+  margin: 0 0 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.customize-scope-note::before {
+  content: '●';
+  color: var(--gain);
+  font-size: 8px;
+}
 .customize-section-heading {
   margin: 0 0 6px;
   font-family: var(--font-display);
@@ -83,6 +98,12 @@
   box-shadow: var(--shadow-soft);
   padding: 6px;
   z-index: 10;
+}
+:root[data-glass-panels='true'] .customize-add-results {
+  background: var(--glass-bg-popover);
+  backdrop-filter: blur(var(--glass-blur-sm));
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm));
+  border-color: var(--glass-border);
 }
 .customize-add-results button {
   display: flex;

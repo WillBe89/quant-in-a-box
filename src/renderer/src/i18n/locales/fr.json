@@ -3,6 +3,7 @@
     "close": "Fermer"
   },
   "customize": {
+    "analyticsOnlyNote": "Analyse uniquement · aucune exécution d'ordres",
     "badge": "Faites-la vôtre",
     "heading": "Vos préférences",
     "watchlistHeading": "Liste de suivi",
@@ -47,6 +48,16 @@
       "exportBtn": "Exporter l'archive",
       "success": "Archive enregistrée"
     },
+    "glass": {
+      "heading": "Apparence en verre",
+      "intro": "Choisissez la part de l'interface qui flotte sous forme de verre translucide au-dessus de l'arrière-plan. Le dégradé de fond en douceur reste toujours actif.",
+      "panelsLabel": "Panneaux et cartes",
+      "panelsDesc": "Fenêtres modales, cartes du tableau de bord et menus déroulants",
+      "chromeLabel": "Habillage de l'application",
+      "chromeDesc": "Barre supérieure, barre latérale, panneau du tableau de bord et bandeau défilant",
+      "chartLabel": "Arrière-plan du graphique",
+      "chartDesc": "L'arrière-plan propre au graphique de prix"
+    },
     "portfolioStyle": {
       "trigger": "Changer l'icône et la couleur",
       "iconHeading": "Icône",
@@ -83,9 +94,6 @@
     "classBonds": "Obligations",
     "classFx": "Forex",
     "classRe": "Immobilier",
-    "scopeBadge": "Analyse uniquement · aucune exécution d'ordres",
-    "portfolioBtn": "Portefeuille",
-    "learnBtn": "Apprendre",
     "toggleTheme": "Changer de thème"
   },
   "rail": {

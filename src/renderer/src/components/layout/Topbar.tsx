@@ -2,16 +2,13 @@ import { useTranslation } from 'react-i18next'
 import type { AssetClass } from '@renderer/types/market'
 import { useAppState } from '@renderer/state/AppStateContext'
 import { SUPPORTED_LANGUAGES } from '@renderer/i18n'
-import { IconAcademy, IconPortfolio } from '@renderer/components/icons/Icons'
 import Tooltip from '@renderer/components/ui/Tooltip'
 import AssetSearchBox from '@renderer/components/ui/AssetSearchBox'
-import PortfolioPicker from '@renderer/components/portfolio/PortfolioPicker'
 import logoMark from '@renderer/assets/logo-just.png'
 
 export default function Topbar(): JSX.Element {
   const { t } = useTranslation()
-  const { assetClass, setAssetClass, selectSymbol, theme, toggleTheme, openAcademy, allPortfolioSymbols, language, setLanguage } =
-    useAppState()
+  const { assetClass, setAssetClass, selectSymbol, theme, toggleTheme, language, setLanguage } = useAppState()
 
   const CLASS_OPTIONS: Array<{ id: AssetClass | 'all'; label: string }> = [
     { id: 'all', label: t('topbar.classAll') },
@@ -49,22 +46,6 @@ export default function Topbar(): JSX.Element {
       </div>
 
       <div className="topbar-actions">
-        <span className="scope-badge">{t('topbar.scopeBadge')}</span>
-        <PortfolioPicker
-          renderTrigger={(onClick) => (
-            <Tooltip label={t('topbar.portfolioBtn')}>
-              <button className="icon-btn icon-btn-badge" onClick={onClick} aria-label={t('topbar.portfolioBtn')}>
-                <IconPortfolio size={16} />
-                {allPortfolioSymbols.length > 0 && <span className="icon-badge">{allPortfolioSymbols.length}</span>}
-              </button>
-            </Tooltip>
-          )}
-        />
-        <Tooltip label={t('topbar.learnBtn')}>
-          <button className="icon-btn" onClick={() => openAcademy()} aria-label={t('topbar.learnBtn')}>
-            <IconAcademy size={16} />
-          </button>
-        </Tooltip>
         <select
           className="lang-select"
           value={language}

@@ -17,11 +17,17 @@ import '@renderer/components/layout/layout.css'
 
 function Shell(): JSX.Element {
   const { t } = useTranslation()
-  const { theme, dockWidthPx, setDockWidthPx } = useAppState()
+  const { theme, dockWidthPx, setDockWidthPx, glassTiers } = useAppState()
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
   }, [theme])
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-glass-panels', String(glassTiers.panels))
+    document.documentElement.setAttribute('data-glass-chrome', String(glassTiers.chrome))
+    document.documentElement.setAttribute('data-glass-chart', String(glassTiers.chart))
+  }, [glassTiers])
 
   return (
     <div className="app">

@@ -47,6 +47,7 @@
     }
   },
   "customize": {
+    "analyticsOnlyNote": "Analytics only · no trade execution",
     "badge": "Make it yours",
     "heading": "Your preferences",
     "watchlistHeading": "Watchlist",
@@ -106,6 +107,16 @@
       "symbolPlaceholder": "Leave blank to export everything stored",
       "exportBtn": "Export archive",
       "success": "Archive saved"
+    },
+    "glass": {
+      "heading": "Glass appearance",
+      "intro": "Choose how much of the interface floats as translucent glass over the background. The soft gradient background itself is always on.",
+      "panelsLabel": "Panels & cards",
+      "panelsDesc": "Modals, dock cards, and dropdown menus",
+      "chromeLabel": "App chrome",
+      "chromeDesc": "Topbar, sidebar, dock panel, and ticker tape",
+      "chartLabel": "Chart background",
+      "chartDesc": "The price chart's own background"
     }
   },
   "ticker": {
@@ -127,9 +138,6 @@
     "classBonds": "Bonds",
     "classFx": "FX",
     "classRe": "Real Estate",
-    "scopeBadge": "Analytics only · no trade execution",
-    "portfolioBtn": "Portfolio",
-    "learnBtn": "Learn",
     "toggleTheme": "Toggle theme"
   },
   "rail": {

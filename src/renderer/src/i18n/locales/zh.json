@@ -3,6 +3,7 @@
     "close": "关闭"
   },
   "customize": {
+    "analyticsOnlyNote": "仅供分析 · 不执行交易",
     "badge": "专属定制",
     "heading": "你的偏好设置",
     "watchlistHeading": "自选列表",
@@ -47,6 +48,16 @@
       "exportBtn": "导出存档",
       "success": "存档已保存"
     },
+    "glass": {
+      "heading": "玻璃质感外观",
+      "intro": "选择界面中有多少部分以半透明玻璃效果悬浮在背景之上。柔和的渐变背景本身始终保持开启。",
+      "panelsLabel": "面板与卡片",
+      "panelsDesc": "弹窗、侧边栏卡片和下拉菜单",
+      "chromeLabel": "应用外框",
+      "chromeDesc": "顶部栏、侧边栏、侧边面板和滚动行情条",
+      "chartLabel": "图表背景",
+      "chartDesc": "价格图表自身的背景"
+    },
     "portfolioStyle": {
       "trigger": "更改图标和颜色",
       "iconHeading": "图标",
@@ -83,9 +94,6 @@
     "classBonds": "债券",
     "classFx": "外汇",
     "classRe": "房地产",
-    "scopeBadge": "仅供分析 · 不执行交易",
-    "portfolioBtn": "持仓组合",
-    "learnBtn": "学习",
     "toggleTheme": "切换主题"
   },
   "rail": {

@@ -3,6 +3,7 @@
     "close": "Cerrar"
   },
   "customize": {
+    "analyticsOnlyNote": "Solo análisis · sin ejecución de operaciones",
     "badge": "Hazlo a tu manera",
     "heading": "Tus preferencias",
     "watchlistHeading": "Lista de seguimiento",
@@ -47,6 +48,16 @@
       "exportBtn": "Exportar archivo",
       "success": "Archivo guardado"
     },
+    "glass": {
+      "heading": "Apariencia de cristal",
+      "intro": "Elige cuánta parte de la interfaz flota como cristal translúcido sobre el fondo. El fondo con degradado suave siempre está activado.",
+      "panelsLabel": "Paneles y tarjetas",
+      "panelsDesc": "Ventanas modales, tarjetas del panel y menús desplegables",
+      "chromeLabel": "Interfaz de la aplicación",
+      "chromeDesc": "Barra superior, barra lateral, panel del dock y ticker",
+      "chartLabel": "Fondo del gráfico",
+      "chartDesc": "El fondo propio del gráfico de precios"
+    },
     "portfolioStyle": {
       "trigger": "Cambiar icono y color",
       "iconHeading": "Icono",
@@ -83,9 +94,6 @@
     "classBonds": "Bonos",
     "classFx": "Divisas",
     "classRe": "Inmobiliario",
-    "scopeBadge": "Solo análisis · sin ejecución de operaciones",
-    "portfolioBtn": "Cartera",
-    "learnBtn": "Aprender",
     "toggleTheme": "Cambiar tema"
   },
   "rail": {

@@ -132,7 +132,9 @@ export default function PriceChart({ candles, indicators, chartStyle, theme, onH
         mainSeries = chart.addCandlestickSeries({
           upColor: colors.gain,
           downColor: colors.loss,
-          borderVisible: false,
+          borderVisible: true,
+          borderUpColor: colors.candleBorderUp,
+          borderDownColor: colors.candleBorderDown,
           wickUpColor: colors.gain,
           wickDownColor: colors.loss
         })
