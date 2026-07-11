@@ -3,6 +3,15 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { getPortfolioInsights, isClaudeCliAvailable, type PortfolioInsightsRequest } from './aiInsights'
 import { loadAnthropicKeyIntoMemory, getAnthropicKey, saveAnthropicKey, clearAnthropicKey } from './secureSettings'
+import {
+  initDb,
+  getCachedCandles,
+  storeCandles,
+  getCachedNews,
+  storeNews,
+  type Candle,
+  type NewsItem
+} from './localDb'
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -47,6 +56,7 @@ app.whenReady().then(() => {
   })
 
   loadAnthropicKeyIntoMemory()
+  initDb()
 
   ipcMain.handle('ai:checkAvailability', async () => ({
     claudeCode: await isClaudeCliAvailable(),
@@ -63,6 +73,27 @@ app.whenReady().then(() => {
 
   ipcMain.handle('settings:clearAnthropicKey', async () => {
     clearAnthropicKey()
+  })
+
+  ipcMain.handle(
+    'data:getCachedCandles',
+    async (_event, source: string, symbol: string, timeframe: string, maxAgeMs: number) =>
+      getCachedCandles(source, symbol, timeframe, maxAgeMs)
+  )
+
+  ipcMain.handle(
+    'data:storeCandles',
+    async (_event, source: string, symbol: string, timeframe: string, candles: Candle[]) => {
+      storeCandles(source, symbol, timeframe, candles)
+    }
+  )
+
+  ipcMain.handle('data:getCachedNews', async (_event, symbolsKey: string, maxAgeMs: number) =>
+    getCachedNews(symbolsKey, maxAgeMs)
+  )
+
+  ipcMain.handle('data:storeNews', async (_event, symbolsKey: string, items: NewsItem[]) => {
+    storeNews(symbolsKey, items)
   })
 
   createWindow()
