@@ -11,6 +11,11 @@ import pt from './locales/pt.json'
 import ru from './locales/ru.json'
 import ur from './locales/ur.json'
 import th from './locales/th.json'
+// Quiz-content strings live in their own namespace, separate from the main translation
+// bundle above, and are English-only for now (see academy/quizQuestions.ts). Other locales
+// fall back to this English bundle via `fallbackLng` below rather than needing an empty
+// per-locale placeholder file.
+import enQuiz from './locales/academy-quiz/en.json'
 
 export interface LanguageMeta {
   code: string
@@ -40,7 +45,7 @@ export function languageDir(code: string): 'ltr' | 'rtl' {
 
 i18n.use(initReactI18next).init({
   resources: {
-    en: { translation: en },
+    en: { translation: en, 'academy-quiz': enQuiz },
     zh: { translation: zh },
     hi: { translation: hi },
     es: { translation: es },
@@ -52,6 +57,8 @@ i18n.use(initReactI18next).init({
     ur: { translation: ur },
     th: { translation: th }
   },
+  ns: ['translation', 'academy-quiz'],
+  defaultNS: 'translation',
   lng: 'en',
   fallbackLng: 'en',
   interpolation: { escapeValue: false }

@@ -27,6 +27,12 @@ import {
   type PortfolioReportInput,
   type MarketArchiveCandleRow
 } from './exportData'
+import {
+  generateCertificatePdf,
+  saveCertificateViaDialog,
+  formatCertificateFilename,
+  type CertificateRequest
+} from './certificate'
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -151,6 +157,12 @@ app.whenReady().then(() => {
     const buffer = buildMarketArchiveWorkbook({ candles, news })
     const defaultFileName = `market-archive-${sanitizeFileNamePart(symbol ?? 'all')}.xlsx`
     return saveWorkbookViaDialog(buffer, defaultFileName)
+  })
+
+  ipcMain.handle('academy:downloadCertificate', async (_event, request: CertificateRequest) => {
+    const buffer = await generateCertificatePdf(request)
+    const defaultFileName = formatCertificateFilename(request.moduleTitle, request.earnedAtIso)
+    return saveCertificateViaDialog(buffer, defaultFileName)
   })
 
   createWindow()

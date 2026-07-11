@@ -12,6 +12,11 @@ import type {
 import { ALL_ASSETS, ASSETS_BY_CLASS } from '@renderer/data/mockData'
 import { defaultStyleForPortfolio } from '@renderer/lib/portfolioStyle'
 import i18n, { languageDir } from '@renderer/i18n'
+import type { ModuleId } from '@renderer/academy/modules'
+import { loadAcademyProgress, saveAcademyProgress, type AcademyProgressState } from '@renderer/data/academyProgressStore'
+import { applyAttempt, isModuleUnlocked as checkModuleUnlocked } from '@renderer/lib/badgeEarning'
+import { scoreAttempt } from '@renderer/lib/academyScoring'
+import { remainingCooldownMs as computeRemainingCooldownMs } from '@renderer/lib/academyCooldown'
 
 const WATCHLIST_STORAGE_KEY = 'qiab:watchlist:v1'
 const DEFAULT_WATCHLIST_SYMBOLS = ['NVDA', 'BTC', 'US10Y', 'EURUSD', 'VNQ']
@@ -38,6 +43,7 @@ const OSCILLATOR_HEIGHT_MAX = 260
 export type TickerSource = 'watchlist' | 'portfolio' | 'all'
 export type NewsSource = 'selected' | 'watchlist' | 'portfolio'
 export type DockCardId = 'risk' | 'options' | 'news'
+export type AcademyMode = 'library' | 'modules'
 
 export type LayoutTemplateId = 'single' | 'twoEqual' | 'twoFocus' | 'threeEqual' | 'threeGrid'
 const LAYOUT_TEMPLATE_IDS: LayoutTemplateId[] = ['single', 'twoEqual', 'twoFocus', 'threeEqual', 'threeGrid']
@@ -316,6 +322,7 @@ interface AppState {
   theme: 'dark' | 'light'
   academyOpen: boolean
   academyLessonId: string | null
+  academyMode: AcademyMode
 
   setAssetClass: (klass: AssetClass | 'all') => void
   selectSymbol: (asset: Asset) => void
@@ -324,6 +331,7 @@ interface AppState {
   toggleTheme: () => void
   openAcademy: (lessonId?: string) => void
   closeAcademy: () => void
+  setAcademyMode: (mode: AcademyMode) => void
   isInWatchlist: (symbol: string) => boolean
   toggleWatchlist: (asset: Asset) => void
   portfolios: Portfolio[]
@@ -383,8 +391,27 @@ export interface DockLayoutContextValue {
   resetDockLayout: () => void
 }
 
+export interface AttemptOutcome {
+  scorePct: number
+  passed: boolean
+  /** True only if this exact attempt is what flipped this module's `passed` from false to true
+   *  (i.e. the badge was just earned) — used to trigger the badge-unlock celebration once. */
+  justEarned: boolean
+}
+
+/** Deliberately a separate, smaller context from AppState (mirrors DockLayoutCtx just below) —
+ *  nothing outside Academy needs to read quiz/badge progress, so it stays out of the already-
+ *  large global AppState interface/useAppState() hook. */
+export interface AcademyProgressContextValue {
+  progress: AcademyProgressState
+  isModuleUnlocked: (moduleId: ModuleId) => boolean
+  remainingCooldownMs: (moduleId: ModuleId, now?: number) => number
+  recordAttempt: (moduleId: ModuleId, correctCount: number, totalCount: number, now?: number) => AttemptOutcome
+}
+
 const AppStateCtx = createContext<AppState | null>(null)
 const DockLayoutCtx = createContext<DockLayoutContextValue | null>(null)
+const AcademyProgressCtx = createContext<AcademyProgressContextValue | null>(null)
 
 export function AppStateProvider({ children }: { children: React.ReactNode }): JSX.Element {
   const [assetClass, setAssetClassState] = useState<AssetClass | 'all'>('all')
@@ -409,6 +436,11 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
   const [academyOpen, setAcademyOpen] = useState(false)
   const [academyLessonId, setAcademyLessonId] = useState<string | null>(null)
+  // Ephemeral, not persisted — mirrors academyOpen/academyLessonId exactly (resets to Library
+  // on every app launch). Only openAcademy(lessonId) forces it back to 'library'; the Rail
+  // button (openAcademy() with no id) intentionally leaves whatever mode was last showing.
+  const [academyMode, setAcademyModeState] = useState<AcademyMode>('library')
+  const [academyProgress, setAcademyProgress] = useState<AcademyProgressState>(() => loadAcademyProgress())
   const [portfolios, setPortfolios] = useState<Portfolio[]>(() => loadPortfolios())
   const [openPortfolioIds, setOpenPortfolioIds] = useState<string[]>([])
   const [lastActivePortfolioId, setLastActivePortfolioId] = useState<string | null>(null)
@@ -530,6 +562,10 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
     }
   }, [glassTiers])
 
+  useEffect(() => {
+    saveAcademyProgress(academyProgress)
+  }, [academyProgress])
+
   const setLayoutTemplate = useCallback((tpl: LayoutTemplateId) => setLayoutTemplateState(tpl), [])
   const setFocusedSlotId = useCallback((id: string) => setFocusedSlotIdState(id), [])
 
@@ -589,9 +625,35 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
 
   const openAcademy = useCallback((lessonId?: string) => {
     setAcademyLessonId(lessonId ?? null)
+    // Only a deep-link (called WITH a lessonId, e.g. an InfoIcon) forces Library — the Rail
+    // "Teaching Zone" button calls this with no id and should leave academyMode as-is.
+    if (lessonId) setAcademyModeState('library')
     setAcademyOpen(true)
   }, [])
   const closeAcademy = useCallback(() => setAcademyOpen(false), [])
+  const setAcademyMode = useCallback((mode: AcademyMode) => setAcademyModeState(mode), [])
+
+  const recordAttempt = useCallback(
+    (moduleId: ModuleId, correctCount: number, totalCount: number, now: number = Date.now()): AttemptOutcome => {
+      const { scorePct, passed } = scoreAttempt(correctCount, totalCount)
+      const prevRecord = academyProgress[moduleId]
+      const nextRecord = applyAttempt(prevRecord, scorePct, passed, now)
+      const justEarned = prevRecord?.passed !== true && nextRecord.passed
+      setAcademyProgress((prev) => ({ ...prev, [moduleId]: nextRecord }))
+      return { scorePct, passed, justEarned }
+    },
+    [academyProgress]
+  )
+
+  const isModuleUnlockedFn = useCallback(
+    (moduleId: ModuleId) => checkModuleUnlocked(moduleId, academyProgress),
+    [academyProgress]
+  )
+
+  const remainingCooldownMsFn = useCallback(
+    (moduleId: ModuleId, now: number = Date.now()) => computeRemainingCooldownMs(academyProgress[moduleId]?.lastAttemptAt, now),
+    [academyProgress]
+  )
 
   const isInWatchlist = useCallback(
     (sym: string) => watchlist.some((a) => a.symbol === sym),
@@ -728,6 +790,16 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
     [dockLayout, setDockOrder, toggleDockCardHidden, resetDockLayout]
   )
 
+  const academyProgressValue = useMemo<AcademyProgressContextValue>(
+    () => ({
+      progress: academyProgress,
+      isModuleUnlocked: isModuleUnlockedFn,
+      remainingCooldownMs: remainingCooldownMsFn,
+      recordAttempt
+    }),
+    [academyProgress, isModuleUnlockedFn, remainingCooldownMsFn, recordAttempt]
+  )
+
   const value = useMemo<AppState>(
     () => ({
       assetClass,
@@ -738,6 +810,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       theme,
       academyOpen,
       academyLessonId,
+      academyMode,
       setAssetClass,
       selectSymbol,
       setTimeframe,
@@ -745,6 +818,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       toggleTheme,
       openAcademy,
       closeAcademy,
+      setAcademyMode,
       isInWatchlist,
       toggleWatchlist,
       portfolios,
@@ -804,12 +878,14 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       theme,
       academyOpen,
       academyLessonId,
+      academyMode,
       setAssetClass,
       selectSymbol,
       toggleIndicator,
       toggleTheme,
       openAcademy,
       closeAcademy,
+      setAcademyMode,
       isInWatchlist,
       toggleWatchlist,
       portfolios,
@@ -864,7 +940,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
 
   return (
     <AppStateCtx.Provider value={value}>
-      <DockLayoutCtx.Provider value={dockLayoutValue}>{children}</DockLayoutCtx.Provider>
+      <DockLayoutCtx.Provider value={dockLayoutValue}>
+        <AcademyProgressCtx.Provider value={academyProgressValue}>{children}</AcademyProgressCtx.Provider>
+      </DockLayoutCtx.Provider>
     </AppStateCtx.Provider>
   )
 }
@@ -878,5 +956,11 @@ export function useAppState(): AppState {
 export function useDockLayout(): DockLayoutContextValue {
   const ctx = useContext(DockLayoutCtx)
   if (!ctx) throw new Error('useDockLayout must be used within AppStateProvider')
+  return ctx
+}
+
+export function useAcademyProgress(): AcademyProgressContextValue {
+  const ctx = useContext(AcademyProgressCtx)
+  if (!ctx) throw new Error('useAcademyProgress must be used within AppStateProvider')
   return ctx
 }

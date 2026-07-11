@@ -197,6 +197,56 @@
     "watchOutFor": "注意事项",
     "infoTooltip": "了解：{{title}}",
     "infoTooltipGeneric": "了解更多",
+    "modeLibrary": "资料库",
+    "modeModules": "课程模块",
+    "modules": {
+      "finalTitle": "期末测验",
+      "lessonCount": "{{count}} 节课",
+      "startBtn": "开始测验",
+      "retakeBtn": "重新测验",
+      "passedLabel": "已通过",
+      "bestScore": "最高分 {{pct}}%",
+      "attempts": "尝试 {{count}} 次",
+      "lockedFinalHint": "通过全部 4 个模块以解锁期末测验",
+      "cooldownHint": "{{time}} 后可重试"
+    },
+    "quiz": {
+      "disclaimerTitle": "这是为了你自己，不是为了徽章",
+      "disclaimerBody": "借助 AI 或他人的答案蒙混过关，只会让这个徽章无法反映你真正掌握的知识。慢慢来，如果某道题难住了你，可以回顾资料库中的课程，并用你真正掌握的知识作答。",
+      "disclaimerFooter": "这是为了你自己，不是为了徽章——请用你真正掌握的知识作答。",
+      "questionOf": "第 {{n}} 题，共 {{total}} 题",
+      "prevBtn": "上一题",
+      "nextBtn": "下一题",
+      "submitBtn": "提交测验",
+      "exitBtn": "退出测验"
+    },
+    "results": {
+      "heading": "测验结果",
+      "scoreLine": "{{total}} 题中答对 {{correct}} 题 — {{pct}}%",
+      "passedTitle": "已通过",
+      "failedTitle": "还差一点",
+      "passedBody": "你获得了 {{pct}}% 的分数，达到了该模块 80% 的及格线。",
+      "failedBody": "及格需要 80%。请重新学习资料库课程，待冷却时间结束后再试一次。",
+      "cooldownNotice": "你可以在 {{time}} 后重新测验。",
+      "badgeEarnedTitle": "获得徽章！",
+      "continueBtn": "继续",
+      "backBtn": "返回模块",
+      "retakeBtn": "立即重试"
+    },
+    "certificate": {
+      "downloadBtn": "下载证书",
+      "nameLabel": "证书上打印的姓名",
+      "namePlaceholder": "你的姓名",
+      "generateBtn": "生成 PDF",
+      "success": "证书已保存",
+      "canceled": "已取消",
+      "error": "无法生成证书"
+    },
+    "badges": {
+      "lockedHint": "通过{{module}}测验以解锁此徽章",
+      "lockedFinalHint": "通过全部 4 个模块以解锁期末测验徽章",
+      "earnedOn": "获得于 {{date}}"
+    },
     "lessons": {
       "assetStocks": {
         "title": "股票与ETF",

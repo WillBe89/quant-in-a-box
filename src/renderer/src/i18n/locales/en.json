@@ -242,6 +242,56 @@
     "watchOutFor": "Watch out for",
     "infoTooltip": "Learn: {{title}}",
     "infoTooltipGeneric": "Learn more",
+    "modeLibrary": "Library",
+    "modeModules": "Modules",
+    "modules": {
+      "finalTitle": "Final Exam",
+      "lessonCount": "{{count}} lessons",
+      "startBtn": "Start quiz",
+      "retakeBtn": "Retake quiz",
+      "passedLabel": "Passed",
+      "bestScore": "Best score {{pct}}%",
+      "attempts": "{{count}} attempts",
+      "lockedFinalHint": "Pass all 4 modules to unlock the Final Exam",
+      "cooldownHint": "Try again in {{time}}"
+    },
+    "quiz": {
+      "disclaimerTitle": "This is for you, not for the badge",
+      "disclaimerBody": "Using AI or someone else's answers to get through only means the badge won't reflect what you understand. Take your time, revisit the library lesson if a question stumps you, and answer with what you actually know.",
+      "disclaimerFooter": "This is for you, not for the badge — answer with what you actually know.",
+      "questionOf": "Question {{n}} of {{total}}",
+      "prevBtn": "Back",
+      "nextBtn": "Next",
+      "submitBtn": "Submit quiz",
+      "exitBtn": "Exit quiz"
+    },
+    "results": {
+      "heading": "Quiz results",
+      "scoreLine": "{{correct}} of {{total}} correct — {{pct}}%",
+      "passedTitle": "Passed",
+      "failedTitle": "Not this time",
+      "passedBody": "You scored {{pct}}%, clearing this module's 80% pass mark.",
+      "failedBody": "You needed 80% to pass. Revisit the library lessons and try again once the cooldown clears.",
+      "cooldownNotice": "You can retake this quiz in {{time}}.",
+      "badgeEarnedTitle": "Badge earned!",
+      "continueBtn": "Continue",
+      "backBtn": "Back to modules",
+      "retakeBtn": "Retake now"
+    },
+    "certificate": {
+      "downloadBtn": "Download certificate",
+      "nameLabel": "Name to print on the certificate",
+      "namePlaceholder": "Your name",
+      "generateBtn": "Generate PDF",
+      "success": "Certificate saved",
+      "canceled": "Canceled",
+      "error": "Couldn't generate the certificate"
+    },
+    "badges": {
+      "lockedHint": "Pass the {{module}} quiz to unlock this badge",
+      "lockedFinalHint": "Pass all 4 modules to unlock the Final Exam badge",
+      "earnedOn": "Earned {{date}}"
+    },
     "lessons": {
       "assetStocks": {
         "title": "Stocks & ETFs",

@@ -198,6 +198,56 @@
     "watchOutFor": "À surveiller",
     "infoTooltip": "En savoir plus : {{title}}",
     "infoTooltipGeneric": "En savoir plus",
+    "modeLibrary": "Bibliothèque",
+    "modeModules": "Modules",
+    "modules": {
+      "finalTitle": "Examen final",
+      "lessonCount": "{{count}} leçons",
+      "startBtn": "Commencer le quiz",
+      "retakeBtn": "Repasser le quiz",
+      "passedLabel": "Réussi",
+      "bestScore": "Meilleur score {{pct}} %",
+      "attempts": "{{count}} tentatives",
+      "lockedFinalHint": "Réussissez les 4 modules pour débloquer l'examen final",
+      "cooldownHint": "Réessayez dans {{time}}"
+    },
+    "quiz": {
+      "disclaimerTitle": "C'est pour vous, pas pour le badge",
+      "disclaimerBody": "Utiliser l'IA ou les réponses de quelqu'un d'autre pour réussir signifie seulement que le badge ne reflétera pas ce que vous comprenez réellement. Prenez votre temps, relisez la leçon de la bibliothèque si une question vous bloque, et répondez avec ce que vous savez vraiment.",
+      "disclaimerFooter": "C'est pour vous, pas pour le badge — répondez avec ce que vous savez vraiment.",
+      "questionOf": "Question {{n}} sur {{total}}",
+      "prevBtn": "Retour",
+      "nextBtn": "Suivant",
+      "submitBtn": "Envoyer le quiz",
+      "exitBtn": "Quitter le quiz"
+    },
+    "results": {
+      "heading": "Résultats du quiz",
+      "scoreLine": "{{correct}} sur {{total}} correctes — {{pct}} %",
+      "passedTitle": "Réussi",
+      "failedTitle": "Pas cette fois",
+      "passedBody": "Vous avez obtenu {{pct}} %, dépassant la barre de réussite de 80 % pour ce module.",
+      "failedBody": "Il fallait 80 % pour réussir. Relisez les leçons de la bibliothèque et réessayez une fois le délai d'attente écoulé.",
+      "cooldownNotice": "Vous pourrez repasser ce quiz dans {{time}}.",
+      "badgeEarnedTitle": "Badge obtenu !",
+      "continueBtn": "Continuer",
+      "backBtn": "Retour aux modules",
+      "retakeBtn": "Réessayer maintenant"
+    },
+    "certificate": {
+      "downloadBtn": "Télécharger le certificat",
+      "nameLabel": "Nom à imprimer sur le certificat",
+      "namePlaceholder": "Votre nom",
+      "generateBtn": "Générer le PDF",
+      "success": "Certificat enregistré",
+      "canceled": "Annulé",
+      "error": "Impossible de générer le certificat"
+    },
+    "badges": {
+      "lockedHint": "Réussissez le quiz {{module}} pour débloquer ce badge",
+      "lockedFinalHint": "Réussissez les 4 modules pour débloquer le badge de l'examen final",
+      "earnedOn": "Obtenu le {{date}}"
+    },
     "lessons": {
       "assetStocks": {
         "title": "Actions et ETF",

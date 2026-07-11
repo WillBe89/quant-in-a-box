@@ -198,6 +198,56 @@
     "watchOutFor": "Cuidados a ter",
     "infoTooltip": "Aprender: {{title}}",
     "infoTooltipGeneric": "Saiba mais",
+    "modeLibrary": "Biblioteca",
+    "modeModules": "Módulos",
+    "modules": {
+      "finalTitle": "Exame final",
+      "lessonCount": "{{count}} aulas",
+      "startBtn": "Iniciar teste",
+      "retakeBtn": "Refazer teste",
+      "passedLabel": "Aprovado",
+      "bestScore": "Melhor pontuação {{pct}}%",
+      "attempts": "{{count}} tentativas",
+      "lockedFinalHint": "Aprove-se nos 4 módulos para desbloquear o Exame final",
+      "cooldownHint": "Tente novamente em {{time}}"
+    },
+    "quiz": {
+      "disclaimerTitle": "Isto é para você, não para o distintivo",
+      "disclaimerBody": "Usar IA ou respostas de outra pessoa para passar só significa que o distintivo não vai refletir o que você realmente entende. Não tenha pressa, revise a lição da biblioteca se uma pergunta te confundir, e responda com o que você realmente sabe.",
+      "disclaimerFooter": "Isto é para você, não para o distintivo — responda com o que você realmente sabe.",
+      "questionOf": "Pergunta {{n}} de {{total}}",
+      "prevBtn": "Voltar",
+      "nextBtn": "Próxima",
+      "submitBtn": "Enviar teste",
+      "exitBtn": "Sair do teste"
+    },
+    "results": {
+      "heading": "Resultados do teste",
+      "scoreLine": "{{correct}} de {{total}} corretas — {{pct}}%",
+      "passedTitle": "Aprovado",
+      "failedTitle": "Não desta vez",
+      "passedBody": "Você obteve {{pct}}%, superando os 80% necessários para passar neste módulo.",
+      "failedBody": "Você precisava de 80% para passar. Revise as lições da biblioteca e tente novamente quando o tempo de espera acabar.",
+      "cooldownNotice": "Você poderá refazer este teste em {{time}}.",
+      "badgeEarnedTitle": "Distintivo conquistado!",
+      "continueBtn": "Continuar",
+      "backBtn": "Voltar aos módulos",
+      "retakeBtn": "Tentar novamente agora"
+    },
+    "certificate": {
+      "downloadBtn": "Baixar certificado",
+      "nameLabel": "Nome para imprimir no certificado",
+      "namePlaceholder": "Seu nome",
+      "generateBtn": "Gerar PDF",
+      "success": "Certificado salvo",
+      "canceled": "Cancelado",
+      "error": "Não foi possível gerar o certificado"
+    },
+    "badges": {
+      "lockedHint": "Aprove-se no teste de {{module}} para desbloquear este distintivo",
+      "lockedFinalHint": "Aprove-se nos 4 módulos para desbloquear o distintivo do Exame final",
+      "earnedOn": "Conquistado em {{date}}"
+    },
     "lessons": {
       "assetStocks": {
         "title": "Ações e ETFs",

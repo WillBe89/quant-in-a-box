@@ -198,6 +198,56 @@
     "watchOutFor": "Ten cuidado con",
     "infoTooltip": "Aprende: {{title}}",
     "infoTooltipGeneric": "Más información",
+    "modeLibrary": "Biblioteca",
+    "modeModules": "Módulos",
+    "modules": {
+      "finalTitle": "Examen final",
+      "lessonCount": "{{count}} lecciones",
+      "startBtn": "Iniciar cuestionario",
+      "retakeBtn": "Repetir cuestionario",
+      "passedLabel": "Aprobado",
+      "bestScore": "Mejor puntuación {{pct}}%",
+      "attempts": "{{count}} intentos",
+      "lockedFinalHint": "Aprueba los 4 módulos para desbloquear el Examen final",
+      "cooldownHint": "Vuelve a intentarlo en {{time}}"
+    },
+    "quiz": {
+      "disclaimerTitle": "Esto es para ti, no para la insignia",
+      "disclaimerBody": "Usar IA o las respuestas de otra persona para pasar solo significa que la insignia no reflejará lo que realmente entiendes. Tómate tu tiempo, repasa la lección de la biblioteca si una pregunta te confunde, y responde con lo que realmente sabes.",
+      "disclaimerFooter": "Esto es para ti, no para la insignia — responde con lo que realmente sabes.",
+      "questionOf": "Pregunta {{n}} de {{total}}",
+      "prevBtn": "Atrás",
+      "nextBtn": "Siguiente",
+      "submitBtn": "Enviar cuestionario",
+      "exitBtn": "Salir del cuestionario"
+    },
+    "results": {
+      "heading": "Resultados del cuestionario",
+      "scoreLine": "{{correct}} de {{total}} correctas — {{pct}}%",
+      "passedTitle": "Aprobado",
+      "failedTitle": "Esta vez no",
+      "passedBody": "Obtuviste un {{pct}}%, superando el 80% necesario para aprobar este módulo.",
+      "failedBody": "Necesitabas un 80% para aprobar. Repasa las lecciones de la biblioteca e inténtalo de nuevo cuando termine el tiempo de espera.",
+      "cooldownNotice": "Podrás repetir este cuestionario en {{time}}.",
+      "badgeEarnedTitle": "¡Insignia obtenida!",
+      "continueBtn": "Continuar",
+      "backBtn": "Volver a los módulos",
+      "retakeBtn": "Repetir ahora"
+    },
+    "certificate": {
+      "downloadBtn": "Descargar certificado",
+      "nameLabel": "Nombre para imprimir en el certificado",
+      "namePlaceholder": "Tu nombre",
+      "generateBtn": "Generar PDF",
+      "success": "Certificado guardado",
+      "canceled": "Cancelado",
+      "error": "No se pudo generar el certificado"
+    },
+    "badges": {
+      "lockedHint": "Aprueba el cuestionario de {{module}} para desbloquear esta insignia",
+      "lockedFinalHint": "Aprueba los 4 módulos para desbloquear la insignia del Examen final",
+      "earnedOn": "Obtenida el {{date}}"
+    },
     "lessons": {
       "assetStocks": {
         "title": "Acciones y ETFs",

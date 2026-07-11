@@ -2,6 +2,7 @@ import { ElectronAPI } from '@electron-toolkit/preload'
 import type { PortfolioInsightsRequest, PortfolioInsightsResult } from '../main/aiInsights'
 import type { Candle, CompanyProfile, NewsItem } from '../main/localDb'
 import type { PortfolioReportInput, SaveWorkbookResult } from '../main/exportData'
+import type { CertificateRequest, CertificateSaveResult } from '../main/certificate'
 
 export interface AiAvailability {
   claudeCode: boolean
@@ -38,6 +39,7 @@ export interface QiabApi {
   storeProfile: (symbol: string, source: string, profile: CompanyProfile) => Promise<void>
   exportPortfolioReport: (input: PortfolioReportInput) => Promise<SaveWorkbookResult>
   exportMarketArchive: (symbol?: string) => Promise<SaveWorkbookResult>
+  downloadCertificate: (request: CertificateRequest) => Promise<CertificateSaveResult>
 }
 
 declare global {

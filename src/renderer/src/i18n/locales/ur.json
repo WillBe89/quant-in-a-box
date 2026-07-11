@@ -198,6 +198,56 @@
     "watchOutFor": "ان باتوں کا خیال رکھیں",
     "infoTooltip": "سیکھیں: {{title}}",
     "infoTooltipGeneric": "مزید جانیں",
+    "modeLibrary": "لائبریری",
+    "modeModules": "ماڈیولز",
+    "modules": {
+      "finalTitle": "حتمی امتحان",
+      "lessonCount": "{{count}} اسباق",
+      "startBtn": "کوئز شروع کریں",
+      "retakeBtn": "کوئز دوبارہ دیں",
+      "passedLabel": "کامیاب",
+      "bestScore": "بہترین اسکور {{pct}}%",
+      "attempts": "{{count}} کوششیں",
+      "lockedFinalHint": "حتمی امتحان کھولنے کے لیے تمام 4 ماڈیولز پاس کریں",
+      "cooldownHint": "{{time}} میں دوبارہ کوشش کریں"
+    },
+    "quiz": {
+      "disclaimerTitle": "یہ آپ کے لیے ہے، بیج کے لیے نہیں",
+      "disclaimerBody": "AI یا کسی اور کے جوابات استعمال کر کے پاس ہونے کا مطلب صرف یہ ہوگا کہ بیج آپ کی اصل سمجھ کی عکاسی نہیں کرے گا۔ اپنا وقت لیں، اگر کوئی سوال مشکل لگے تو لائبریری کا سبق دوبارہ دیکھیں، اور وہی جواب دیں جو آپ واقعی جانتے ہیں۔",
+      "disclaimerFooter": "یہ آپ کے لیے ہے، بیج کے لیے نہیں — وہی جواب دیں جو آپ واقعی جانتے ہیں۔",
+      "questionOf": "سوال {{n}} از {{total}}",
+      "prevBtn": "پیچھے",
+      "nextBtn": "اگلا",
+      "submitBtn": "کوئز جمع کروائیں",
+      "exitBtn": "کوئز سے باہر نکلیں"
+    },
+    "results": {
+      "heading": "کوئز کے نتائج",
+      "scoreLine": "{{total}} میں سے {{correct}} درست — {{pct}}%",
+      "passedTitle": "کامیاب",
+      "failedTitle": "اس بار نہیں",
+      "passedBody": "آپ نے {{pct}}% اسکور کیا، جو اس ماڈیول کی 80% پاسنگ حد سے زیادہ ہے۔",
+      "failedBody": "پاس ہونے کے لیے 80% درکار تھا۔ لائبریری کے اسباق دوبارہ دیکھیں اور کول ڈاؤن ختم ہونے پر دوبارہ کوشش کریں۔",
+      "cooldownNotice": "آپ {{time}} میں یہ کوئز دوبارہ دے سکتے ہیں۔",
+      "badgeEarnedTitle": "بیج حاصل ہو گیا!",
+      "continueBtn": "جاری رکھیں",
+      "backBtn": "ماڈیولز پر واپس جائیں",
+      "retakeBtn": "ابھی دوبارہ کوشش کریں"
+    },
+    "certificate": {
+      "downloadBtn": "سرٹیفکیٹ ڈاؤن لوڈ کریں",
+      "nameLabel": "سرٹیفکیٹ پر چھپنے والا نام",
+      "namePlaceholder": "آپ کا نام",
+      "generateBtn": "PDF بنائیں",
+      "success": "سرٹیفکیٹ محفوظ ہو گیا",
+      "canceled": "منسوخ کر دیا گیا",
+      "error": "سرٹیفکیٹ نہیں بن سکا"
+    },
+    "badges": {
+      "lockedHint": "یہ بیج کھولنے کے لیے {{module}} کوئز پاس کریں",
+      "lockedFinalHint": "حتمی امتحان کا بیج کھولنے کے لیے تمام 4 ماڈیولز پاس کریں",
+      "earnedOn": "{{date}} کو حاصل ہوا"
+    },
     "lessons": {
       "assetStocks": {
         "title": "اسٹاکس اور ای ٹی ایفس",

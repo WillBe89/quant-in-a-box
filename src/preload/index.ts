@@ -3,6 +3,7 @@ import { electronAPI } from '@electron-toolkit/preload'
 import type { PortfolioInsightsRequest } from '../main/aiInsights'
 import type { Candle, CompanyProfile, NewsItem } from '../main/localDb'
 import type { PortfolioReportInput, SaveWorkbookResult } from '../main/exportData'
+import type { CertificateRequest, CertificateSaveResult } from '../main/certificate'
 
 const api = {
   checkAiAvailability: () => ipcRenderer.invoke('ai:checkAvailability'),
@@ -26,7 +27,9 @@ const api = {
   exportPortfolioReport: (input: PortfolioReportInput): Promise<SaveWorkbookResult> =>
     ipcRenderer.invoke('data:exportPortfolioReport', input),
   exportMarketArchive: (symbol?: string): Promise<SaveWorkbookResult> =>
-    ipcRenderer.invoke('data:exportMarketArchive', symbol)
+    ipcRenderer.invoke('data:exportMarketArchive', symbol),
+  downloadCertificate: (request: CertificateRequest): Promise<CertificateSaveResult> =>
+    ipcRenderer.invoke('academy:downloadCertificate', request)
 }
 
 if (process.contextIsolated) {

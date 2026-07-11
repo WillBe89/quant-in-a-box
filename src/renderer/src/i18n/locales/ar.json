@@ -201,6 +201,56 @@
     "watchOutFor": "احذر من",
     "infoTooltip": "تعلّم: {{title}}",
     "infoTooltipGeneric": "معرفة المزيد",
+    "modeLibrary": "المكتبة",
+    "modeModules": "الوحدات",
+    "modules": {
+      "finalTitle": "الامتحان النهائي",
+      "lessonCount": "{{count}} دروس",
+      "startBtn": "ابدأ الاختبار",
+      "retakeBtn": "إعادة الاختبار",
+      "passedLabel": "ناجح",
+      "bestScore": "أفضل نتيجة {{pct}}%",
+      "attempts": "{{count}} محاولات",
+      "lockedFinalHint": "اجتز الوحدات الأربع لفتح الامتحان النهائي",
+      "cooldownHint": "أعد المحاولة خلال {{time}}"
+    },
+    "quiz": {
+      "disclaimerTitle": "هذا من أجلك، وليس من أجل الشارة",
+      "disclaimerBody": "استخدام الذكاء الاصطناعي أو إجابات شخص آخر لاجتياز الاختبار يعني فقط أن الشارة لن تعكس ما تفهمه فعلاً. خذ وقتك، وراجع درس المكتبة إذا أشكل عليك سؤال ما، وأجب بما تعرفه حقًا.",
+      "disclaimerFooter": "هذا من أجلك، وليس من أجل الشارة — أجب بما تعرفه حقًا.",
+      "questionOf": "السؤال {{n}} من {{total}}",
+      "prevBtn": "السابق",
+      "nextBtn": "التالي",
+      "submitBtn": "إرسال الاختبار",
+      "exitBtn": "الخروج من الاختبار"
+    },
+    "results": {
+      "heading": "نتائج الاختبار",
+      "scoreLine": "{{correct}} من {{total}} إجابات صحيحة — {{pct}}%",
+      "passedTitle": "ناجح",
+      "failedTitle": "ليس هذه المرة",
+      "passedBody": "لقد حصلت على {{pct}}%، متجاوزًا نسبة النجاح البالغة 80% لهذه الوحدة.",
+      "failedBody": "كنت بحاجة إلى 80% للنجاح. راجع دروس المكتبة وحاول مرة أخرى بعد انتهاء فترة الانتظار.",
+      "cooldownNotice": "يمكنك إعادة هذا الاختبار خلال {{time}}.",
+      "badgeEarnedTitle": "لقد حصلت على شارة!",
+      "continueBtn": "متابعة",
+      "backBtn": "العودة إلى الوحدات",
+      "retakeBtn": "أعد المحاولة الآن"
+    },
+    "certificate": {
+      "downloadBtn": "تنزيل الشهادة",
+      "nameLabel": "الاسم الذي سيُطبع على الشهادة",
+      "namePlaceholder": "اسمك",
+      "generateBtn": "إنشاء PDF",
+      "success": "تم حفظ الشهادة",
+      "canceled": "تم الإلغاء",
+      "error": "تعذّر إنشاء الشهادة"
+    },
+    "badges": {
+      "lockedHint": "اجتز اختبار {{module}} لفتح هذه الشارة",
+      "lockedFinalHint": "اجتز الوحدات الأربع لفتح شارة الامتحان النهائي",
+      "earnedOn": "تم الحصول عليها في {{date}}"
+    },
     "lessons": {
       "assetStocks": {
         "title": "الأسهم وصناديق المؤشرات المتداولة (ETF)",

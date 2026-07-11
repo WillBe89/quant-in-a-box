@@ -12,6 +12,7 @@ import {
 } from '@renderer/components/icons/Icons'
 import Tooltip from '@renderer/components/ui/Tooltip'
 import OverlayPanel from '@renderer/components/ui/OverlayPanel'
+import ModulesHome from './ModulesHome'
 import './academy.css'
 
 const CATEGORY_ORDER: LessonCategory[] = ['assetTypes', 'trend', 'risk', 'options']
@@ -26,7 +27,7 @@ const ASSET_TYPE_ICONS: Record<string, (props: { size?: number }) => JSX.Element
 
 export default function AcademyPanel(): JSX.Element {
   const { t } = useTranslation()
-  const { academyOpen, academyLessonId, closeAcademy, openAcademy } = useAppState()
+  const { academyOpen, academyLessonId, academyMode, setAcademyMode, closeAcademy, openAcademy } = useAppState()
 
   const categoryLabel: Record<LessonCategory, string> = useMemo(
     () => ({
@@ -58,6 +59,14 @@ export default function AcademyPanel(): JSX.Element {
           <span className="overlay-badge">{t('academy.badge')}</span>
           <h2>{t('academy.heading')}</h2>
         </div>
+        <div className="segmented academy-mode-toggle">
+          <button className={academyMode === 'library' ? 'active' : ''} onClick={() => setAcademyMode('library')}>
+            {t('academy.modeLibrary')}
+          </button>
+          <button className={academyMode === 'modules' ? 'active' : ''} onClick={() => setAcademyMode('modules')}>
+            {t('academy.modeModules')}
+          </button>
+        </div>
         <Tooltip label={t('common.close') ?? ''}>
           <button className="icon-btn" onClick={closeAcademy} aria-label={t('common.close') ?? undefined}>
             <IconClose size={15} />
@@ -65,7 +74,12 @@ export default function AcademyPanel(): JSX.Element {
         </Tooltip>
       </div>
 
-      <div className="academy-body">
+      {academyMode === 'modules' ? (
+        <div className="academy-modules-body">
+          <ModulesHome />
+        </div>
+      ) : (
+        <div className="academy-body">
           <nav className="academy-nav">
             {CATEGORY_ORDER.map((cat) => (
               <div key={cat} className="academy-nav-group">
@@ -108,6 +122,7 @@ export default function AcademyPanel(): JSX.Element {
             </div>
           </article>
         </div>
+      )}
     </OverlayPanel>
   )
 }
