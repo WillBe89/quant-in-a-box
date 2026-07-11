@@ -2,6 +2,12 @@
 
 Running log of autonomous build cycles. Newest entries at the top.
 
+## 2026-07-11 - Made the RSI/MACD panel reachable via scroll in the "1 + 2 grid" layout (phase 5 of a reprioritized batch)
+
+**Built:** changed `.chart-slot { overflow: hidden }` to `overflow-y: auto; overflow-x: hidden` in `layout.css`. This is a direct follow-up to the ticker-bleed fix from earlier today: that fix correctly stopped the secondary charts in the "1 + 2 grid" layout from visually bleeding into the ticker tape, but as a side effect it also silently clipped the RSI/MACD oscillator subpanel out of view with no way to reach it whenever those charts didn't have enough room — Will caught this immediately ("I can't scroll down to see the RSI chart on the 1+2"). The fix keeps the existing `.chart-wrap` min-height override in place (so the chart canvas itself stays a sane size) and just lets the rest of the column become scrollable instead of clipped.
+
+**Verified:** confirmed live at the same ~1366x768 viewport used to diagnose the original bug — toggling RSI on a secondary chart in "1 + 2 grid" now produces a slot with 428px of content in a 306px box, genuinely scrollable, and scrolling down reveals the oscillator panel correctly. Re-confirmed the original ticker-bleed fix hasn't regressed (content still can't escape the slot's box). `npm run typecheck`/`build` clean.
+
 ## 2026-07-11 - Fixed the chart price scale getting stuck after switching symbols (direct request)
 
 **Built:** a one-line fix in `PriceChart.tsx` for a real UX bug Will described: after manually dragging the price (vertical) scale on a chart, switching to a different symbol with a very different price range left the chart looking blank — the price scale stayed locked to the old symbol's range rather than re-fitting to the new data.

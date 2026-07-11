@@ -462,8 +462,11 @@
   /* Guards against .chart-wrap's min-height forcing it taller than this slot's actual
      allocated space (routinely the case for the two secondary charts in the "1 + 2 grid"
      layout on shorter screens) — without this, the excess visually bleeds past the slot
-     and through whatever sits below the workspace (the ticker tape). */
-  overflow: hidden;
+     and through whatever sits below the workspace (the ticker tape). overflow-y: auto
+     (rather than hidden) means content that doesn't fit becomes scroll-reachable — e.g.
+     the RSI/MACD oscillator subpanel — instead of silently clipped out of view. */
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .chart-slot-row-twoFocus .chart-slot:nth-child(1) {
   flex: 1 1 68%;
