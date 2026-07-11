@@ -240,6 +240,21 @@
     "removePosition": "Remover posição",
     "analyticsTitle": "Análise da carteira",
     "analyticsSub": "Ponderada pelas suas posições efetivas",
-    "analyticsLoading": "A processar o histórico de retornos ponderados…"
+    "analyticsLoading": "A processar o histórico de retornos ponderados…",
+    "ai": {
+      "sectionTitle": "Perspetivas de IA sobre a carteira",
+      "sectionSub": "Comentário educativo geral — não é aconselhamento financeiro",
+      "getInsightsBtn": "Obter perspetivas de IA",
+      "regenerateBtn": "Regenerar",
+      "loading": "A analisar a sua carteira…",
+      "disclaimerTitle": "Não é aconselhamento financeiro",
+      "disclaimerBody": "Isto é apenas um comentário educativo geral gerado por IA. Não constitui aconselhamento de investimento personalizado e não deve servir de base a qualquer decisão de compra, venda ou manutenção. Faça sempre a sua própria pesquisa e consulte um consultor financeiro licenciado antes de agir.",
+      "sourceClaudeCode": "Gerado através da sua sessão local do Claude Code",
+      "sourceApiKey": "Gerado através da sua chave de API da Anthropic",
+      "connectTitle": "Ligue um backend de IA para ativar esta funcionalidade",
+      "connectBody": "Instale e inicie sessão na CLI do Claude Code neste computador, ou adicione uma ANTHROPIC_API_KEY ao seu ficheiro .env, para ativar o comentário de IA sobre a carteira.",
+      "errorTitle": "Não foi possível gerar as perspetivas",
+      "retryBtn": "Tentar novamente"
+    }
   }
 }

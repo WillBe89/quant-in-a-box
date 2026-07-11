@@ -16,10 +16,14 @@ import {
 } from '@renderer/lib/quant'
 import { cumulativeValueSeries, weightedPortfolioReturns } from '@renderer/lib/portfolioMath'
 import InfoIcon from '@renderer/academy/InfoIcon'
-import { IconClose } from '@renderer/components/icons/Icons'
+import { IconClose, IconSparkle, IconAlertTriangle } from '@renderer/components/icons/Icons'
 import Tooltip from '@renderer/components/ui/Tooltip'
+import { SUPPORTED_LANGUAGES } from '@renderer/i18n'
 import type { Asset, PortfolioRiskStats } from '@renderer/types/market'
 import './portfolio.css'
+
+type AiAvailability = { claudeCode: boolean; apiKey: boolean }
+type AiInsightsResult = { commentary: string; source: 'claude-code' | 'api-key' }
 
 const BENCHMARK: Asset = { symbol: 'SPXPROXY', name: 'Broad market proxy', klass: 'stocks', price: 5500, changePct: 0.5 }
 
@@ -36,7 +40,7 @@ interface Row {
 }
 
 export default function PortfolioPanel(): JSX.Element | null {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { portfolioOpen, closePortfolio, portfolio, addPosition, removePosition } = useAppState()
   const dialogRef = useRef<HTMLDivElement>(null)
 
@@ -48,6 +52,11 @@ export default function PortfolioPanel(): JSX.Element | null {
   const [stats, setStats] = useState<PortfolioRiskStats | null>(null)
   const [statsLoading, setStatsLoading] = useState(false)
 
+  const [aiAvailability, setAiAvailability] = useState<AiAvailability | null>(null)
+  const [aiLoading, setAiLoading] = useState(false)
+  const [aiResult, setAiResult] = useState<AiInsightsResult | null>(null)
+  const [aiError, setAiError] = useState<string | null>(null)
+
   useEffect(() => {
     if (!portfolioOpen) return
     function onKey(e: KeyboardEvent): void {
@@ -57,6 +66,24 @@ export default function PortfolioPanel(): JSX.Element | null {
     dialogRef.current?.focus()
     return () => window.removeEventListener('keydown', onKey)
   }, [portfolioOpen, closePortfolio])
+
+  useEffect(() => {
+    if (!portfolioOpen) return
+    let cancelled = false
+    Promise.resolve(window.api?.checkAiAvailability())
+      .catch(() => ({ claudeCode: false, apiKey: false }))
+      .then((avail) => {
+        if (!cancelled) setAiAvailability(avail ?? { claudeCode: false, apiKey: false })
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [portfolioOpen])
+
+  useEffect(() => {
+    setAiResult(null)
+    setAiError(null)
+  }, [portfolio])
 
   const rows = useMemo<Row[]>(() => {
     const withAsset = portfolio
@@ -153,6 +180,48 @@ export default function PortfolioPanel(): JSX.Element | null {
     setSelectedSymbol(null)
     setQuantityInput('')
     setCostBasisInput('')
+  }
+
+  async function handleGetInsights(): Promise<void> {
+    if (!stats || rows.length === 0) return
+    setAiLoading(true)
+    setAiError(null)
+    setAiResult(null)
+    const languageName = SUPPORTED_LANGUAGES.find((l) => l.code === i18n.language)?.label ?? 'English'
+    try {
+      if (!window.api) throw new Error('AI bridge unavailable')
+      const result = await window.api.getPortfolioInsights({
+        positions: rows.map((r) => ({
+          symbol: r.asset.symbol,
+          name: r.asset.name,
+          quantity: r.quantity,
+          costBasis: r.costBasis,
+          currentPrice: r.currentPrice,
+          marketValue: r.marketValue,
+          weightPct: r.weightPct,
+          pnlPct: r.pnlPct
+        })),
+        stats: {
+          sharpe: stats.sharpe,
+          sortino: stats.sortino,
+          volatilityAnnualized: stats.volatilityAnnualized,
+          valueAtRisk95: stats.valueAtRisk95,
+          maxDrawdown: stats.maxDrawdown,
+          beta: stats.beta
+        },
+        totalValue: totals.marketValue,
+        languageName
+      })
+      if (result.ok) {
+        setAiResult({ commentary: result.commentary, source: result.source })
+      } else {
+        setAiError(result.message)
+      }
+    } catch (e) {
+      setAiError(e instanceof Error ? e.message : 'Unknown error')
+    } finally {
+      setAiLoading(false)
+    }
   }
 
   return (
@@ -325,6 +394,68 @@ export default function PortfolioPanel(): JSX.Element | null {
                   </div>
                 )}
               </div>
+
+              {stats && !statsLoading && (
+                <div className="portfolio-ai">
+                  <div className="portfolio-analytics-head">
+                    <h3>
+                      <IconSparkle size={14} /> {t('portfolio.ai.sectionTitle')}
+                    </h3>
+                    <span className="portfolio-analytics-sub">{t('portfolio.ai.sectionSub')}</span>
+                  </div>
+
+                  {!aiAvailability ? null : !aiAvailability.claudeCode && !aiAvailability.apiKey ? (
+                    <div className="portfolio-ai-connect">
+                      <div className="portfolio-ai-connect-title">{t('portfolio.ai.connectTitle')}</div>
+                      <p>{t('portfolio.ai.connectBody')}</p>
+                    </div>
+                  ) : (
+                    <div className="portfolio-ai-body">
+                      {!aiResult && !aiError && !aiLoading && (
+                        <button className="portfolio-ai-btn" onClick={handleGetInsights}>
+                          <IconSparkle size={14} />
+                          {t('portfolio.ai.getInsightsBtn')}
+                        </button>
+                      )}
+
+                      {aiLoading && <div className="stat-loading">{t('portfolio.ai.loading')}</div>}
+
+                      {aiError && !aiLoading && (
+                        <div className="portfolio-ai-error">
+                          <div className="portfolio-ai-connect-title">{t('portfolio.ai.errorTitle')}</div>
+                          <p>{aiError}</p>
+                          <button className="portfolio-ai-btn" onClick={handleGetInsights}>
+                            {t('portfolio.ai.retryBtn')}
+                          </button>
+                        </div>
+                      )}
+
+                      {aiResult && !aiLoading && (
+                        <div className="portfolio-ai-result">
+                          <p className="portfolio-ai-commentary">{aiResult.commentary}</p>
+                          <div className="portfolio-ai-disclaimer">
+                            <IconAlertTriangle size={16} />
+                            <div>
+                              <div className="portfolio-ai-disclaimer-title">{t('portfolio.ai.disclaimerTitle')}</div>
+                              <p>{t('portfolio.ai.disclaimerBody')}</p>
+                            </div>
+                          </div>
+                          <div className="portfolio-ai-footer">
+                            <span>
+                              {aiResult.source === 'claude-code'
+                                ? t('portfolio.ai.sourceClaudeCode')
+                                : t('portfolio.ai.sourceApiKey')}
+                            </span>
+                            <button className="portfolio-ai-regenerate" onClick={handleGetInsights}>
+                              {t('portfolio.ai.regenerateBtn')}
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
             </>
           )}
         </div>

@@ -240,6 +240,21 @@
     "removePosition": "Supprimer la position",
     "analyticsTitle": "Analyse du portefeuille",
     "analyticsSub": "Pondérée sur l'ensemble de vos positions réelles",
-    "analyticsLoading": "Analyse de l'historique des rendements pondérés…"
+    "analyticsLoading": "Analyse de l'historique des rendements pondérés…",
+    "ai": {
+      "sectionTitle": "Analyses IA du portefeuille",
+      "sectionSub": "Commentaire éducatif général — ne constitue pas un conseil financier",
+      "getInsightsBtn": "Obtenir des analyses IA",
+      "regenerateBtn": "Régénérer",
+      "loading": "Analyse de votre portefeuille en cours…",
+      "disclaimerTitle": "Ne constitue pas un conseil financier",
+      "disclaimerBody": "Ceci est uniquement un commentaire éducatif général généré par IA. Il ne s'agit pas d'un conseil en investissement personnalisé et ne doit servir de base à aucune décision d'achat, de vente ou de conservation. Faites toujours vos propres recherches et consultez un conseiller financier agréé avant d'agir.",
+      "sourceClaudeCode": "Généré via votre session locale Claude Code",
+      "sourceApiKey": "Généré via votre clé API Anthropic",
+      "connectTitle": "Connectez un backend IA pour activer cette fonctionnalité",
+      "connectBody": "Installez et connectez-vous à la CLI Claude Code sur cet ordinateur, ou ajoutez une ANTHROPIC_API_KEY à votre fichier .env, pour activer le commentaire IA sur le portefeuille.",
+      "errorTitle": "Impossible de générer les analyses",
+      "retryBtn": "Réessayer"
+    }
   }
 }

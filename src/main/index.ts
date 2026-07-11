@@ -1,6 +1,7 @@
-import { app, shell, BrowserWindow } from 'electron'
+import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+import { getPortfolioInsights, isClaudeCliAvailable, type PortfolioInsightsRequest } from './aiInsights'
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -43,6 +44,15 @@ app.whenReady().then(() => {
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
+
+  ipcMain.handle('ai:checkAvailability', async () => ({
+    claudeCode: await isClaudeCliAvailable(),
+    apiKey: Boolean(process.env.ANTHROPIC_API_KEY)
+  }))
+
+  ipcMain.handle('ai:getPortfolioInsights', async (_event, request: PortfolioInsightsRequest) =>
+    getPortfolioInsights(request)
+  )
 
   createWindow()
 

@@ -254,6 +254,123 @@ table.portfolio-table td.down {
   color: var(--text-faint);
 }
 
+.portfolio-ai {
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.portfolio-ai .portfolio-analytics-head h3 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.portfolio-ai-connect,
+.portfolio-ai-error {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+}
+.portfolio-ai-connect-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.portfolio-ai-connect p,
+.portfolio-ai-error p {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--text-dim);
+  max-width: 60ch;
+}
+.portfolio-ai-error {
+  border-color: var(--warn-dim);
+}
+.portfolio-ai-error .portfolio-ai-btn {
+  margin-top: 10px;
+}
+
+.portfolio-ai-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent-gradient);
+  color: #08131a;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.portfolio-ai-result {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.portfolio-ai-commentary {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--text);
+  max-width: 68ch;
+}
+
+.portfolio-ai-disclaimer {
+  display: flex;
+  gap: 10px;
+  background: var(--warn-dim);
+  border: 1px solid var(--warn);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  color: var(--warn);
+}
+.portfolio-ai-disclaimer svg {
+  flex: none;
+  margin-top: 1px;
+}
+.portfolio-ai-disclaimer-title {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 3px;
+}
+.portfolio-ai-disclaimer p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--text-dim);
+  max-width: 62ch;
+}
+
+.portfolio-ai-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 11px;
+  color: var(--text-faint);
+}
+.portfolio-ai-regenerate {
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  color: var(--text-dim);
+  padding: 6px 12px;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.portfolio-ai-regenerate:hover {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
 @media (max-width: 640px) {
   .portfolio-summary {
     grid-template-columns: 1fr;

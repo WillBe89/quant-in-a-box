@@ -160,3 +160,22 @@ export function IconRealEstate({ size = 18, className }: IconProps): JSX.Element
     </svg>
   )
 }
+
+export function IconSparkle({ size = 18, className }: IconProps): JSX.Element {
+  return (
+    <svg width={size} height={size} className={className} {...base}>
+      <path d="M12 3v4M12 17v4M3 12h4M17 12h4" />
+      <path d="M12 8a4 4 0 0 0 4 4 4 4 0 0 0-4 4 4 4 0 0 0-4-4 4 4 0 0 0 4-4Z" />
+    </svg>
+  )
+}
+
+export function IconAlertTriangle({ size = 18, className }: IconProps): JSX.Element {
+  return (
+    <svg width={size} height={size} className={className} {...base}>
+      <path d="M10.6 3.9 2.4 18a1.8 1.8 0 0 0 1.55 2.7h16.1A1.8 1.8 0 0 0 21.6 18L13.4 3.9a1.8 1.8 0 0 0-2.8 0Z" />
+      <path d="M12 9.5v4" />
+      <path d="M12 17h.01" />
+    </svg>
+  )
+}

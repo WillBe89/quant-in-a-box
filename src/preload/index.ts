@@ -1,7 +1,11 @@
-import { contextBridge } from 'electron'
+import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import type { PortfolioInsightsRequest } from '../main/aiInsights'
 
-const api = {}
+const api = {
+  checkAiAvailability: () => ipcRenderer.invoke('ai:checkAvailability'),
+  getPortfolioInsights: (request: PortfolioInsightsRequest) => ipcRenderer.invoke('ai:getPortfolioInsights', request)
+}
 
 if (process.contextIsolated) {
   try {

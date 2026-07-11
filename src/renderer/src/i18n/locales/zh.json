@@ -240,6 +240,21 @@
     "removePosition": "移除仓位",
     "analyticsTitle": "组合分析",
     "analyticsSub": "基于你实际持仓的加权计算结果",
-    "analyticsLoading": "正在计算加权历史收益数据…"
+    "analyticsLoading": "正在计算加权历史收益数据…",
+    "ai": {
+      "sectionTitle": "AI 组合洞察",
+      "sectionSub": "通用教育性说明——并非财务建议",
+      "getInsightsBtn": "获取 AI 洞察",
+      "regenerateBtn": "重新生成",
+      "loading": "正在分析你的持仓组合…",
+      "disclaimerTitle": "并非财务建议",
+      "disclaimerBody": "此内容仅为 AI 生成的通用教育性说明，并非个性化投资建议，不应作为任何买入、卖出或持有决策的依据。请始终自行研究，并在采取行动前咨询持牌财务顾问。",
+      "sourceClaudeCode": "通过你本机的 Claude Code 会话生成",
+      "sourceApiKey": "通过你的 Anthropic API 密钥生成",
+      "connectTitle": "连接 AI 后端以启用此功能",
+      "connectBody": "在此电脑上安装并登录 Claude Code CLI，或在 .env 文件中添加 ANTHROPIC_API_KEY，即可启用 AI 组合说明。",
+      "errorTitle": "无法生成洞察",
+      "retryBtn": "重试"
+    }
   }
 }

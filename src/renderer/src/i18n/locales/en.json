@@ -240,6 +240,21 @@
     "removePosition": "Remove position",
     "analyticsTitle": "Portfolio analytics",
     "analyticsSub": "Weighted across your actual holdings",
-    "analyticsLoading": "Crunching weighted return history…"
+    "analyticsLoading": "Crunching weighted return history…",
+    "ai": {
+      "sectionTitle": "AI portfolio insights",
+      "sectionSub": "General educational commentary — not financial advice",
+      "getInsightsBtn": "Get AI insights",
+      "regenerateBtn": "Regenerate",
+      "loading": "Analyzing your portfolio…",
+      "disclaimerTitle": "Not financial advice",
+      "disclaimerBody": "AI-generated, general educational commentary only. It is not personalized investment advice and should not be the basis for any buy, sell, or hold decision. Always do your own research and consult a licensed financial advisor before acting.",
+      "sourceClaudeCode": "Generated via your local Claude Code session",
+      "sourceApiKey": "Generated via your Anthropic API key",
+      "connectTitle": "Connect an AI backend to enable this",
+      "connectBody": "Install and sign in to the Claude Code CLI on this computer, or add an ANTHROPIC_API_KEY to your .env file, to enable AI portfolio commentary.",
+      "errorTitle": "Couldn't generate insights",
+      "retryBtn": "Try again"
+    }
   }
 }
