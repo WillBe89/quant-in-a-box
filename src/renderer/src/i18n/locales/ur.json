@@ -107,7 +107,14 @@
       "threeGrid": "1+2 گرڈ"
     },
     "resizeDock": "ڈیش بورڈ کی چوڑائی ایڈجسٹ کریں",
-    "resizeOscillator": "انڈیکیٹر پینل کی اونچائی ایڈجسٹ کریں"
+    "resizeOscillator": "انڈیکیٹر پینل کی اونچائی ایڈجسٹ کریں",
+    "chartStyle": {
+      "candles": "کینڈل",
+      "bars": "بارز",
+      "line": "لائن",
+      "area": "ایریا",
+      "baseline": "بیس لائن"
+    }
   },
   "dock": {
     "risk": {

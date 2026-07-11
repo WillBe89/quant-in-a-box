@@ -1,5 +1,13 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import type { Asset, AssetClass, IndicatorId, Portfolio, PortfolioPosition, Timeframe } from '@renderer/types/market'
+import type {
+  Asset,
+  AssetClass,
+  ChartStyleId,
+  IndicatorId,
+  Portfolio,
+  PortfolioPosition,
+  Timeframe
+} from '@renderer/types/market'
 import { ALL_ASSETS, ASSETS_BY_CLASS } from '@renderer/data/mockData'
 import { defaultStyleForPortfolio } from '@renderer/lib/portfolioStyle'
 import i18n, { languageDir } from '@renderer/i18n'
@@ -37,10 +45,12 @@ export interface ChartSlotState {
   symbol: Asset
   timeframe: Timeframe
   indicators: Record<IndicatorId, boolean>
+  chartStyle: ChartStyleId
 }
 
 const SLOT_IDS = ['slot-0', 'slot-1', 'slot-2'] as const
 const VALID_TIMEFRAMES: Timeframe[] = ['1D', '1W', '1M', '3M', '1Y', '5Y']
+const VALID_CHART_STYLES: ChartStyleId[] = ['candles', 'bars', 'line', 'area', 'baseline']
 
 function isSlotId(x: unknown): x is (typeof SLOT_IDS)[number] {
   return x === 'slot-0' || x === 'slot-1' || x === 'slot-2'
@@ -48,6 +58,10 @@ function isSlotId(x: unknown): x is (typeof SLOT_IDS)[number] {
 
 function isTimeframe(x: unknown): x is Timeframe {
   return typeof x === 'string' && (VALID_TIMEFRAMES as string[]).includes(x)
+}
+
+function isChartStyle(x: unknown): x is ChartStyleId {
+  return typeof x === 'string' && (VALID_CHART_STYLES as string[]).includes(x)
 }
 
 function defaultIndicators(): Record<IndicatorId, boolean> {
@@ -65,7 +79,8 @@ function defaultChartSlots(): ChartSlotState[] {
     id,
     symbol: defaults[i],
     timeframe: '1M' as Timeframe,
-    indicators: defaultIndicators()
+    indicators: defaultIndicators(),
+    chartStyle: 'candles' as ChartStyleId
   }))
 }
 
@@ -185,6 +200,7 @@ interface StoredChartSlot {
   symbolTicker: string
   timeframe: Timeframe
   indicators: Record<IndicatorId, boolean>
+  chartStyle: ChartStyleId
 }
 
 function loadChartSlots(): ChartSlotState[] {
@@ -205,7 +221,8 @@ function loadChartSlots(): ChartSlotState[] {
             indicators:
               stored.indicators && typeof stored.indicators === 'object'
                 ? { ...def.indicators, ...stored.indicators }
-                : def.indicators
+                : def.indicators,
+            chartStyle: isChartStyle(stored.chartStyle) ? stored.chartStyle : def.chartStyle
           }
         })
       }
@@ -310,6 +327,7 @@ interface AppState {
   setSlotSymbol: (slotId: string, asset: Asset) => void
   setSlotTimeframe: (slotId: string, tf: Timeframe) => void
   toggleSlotIndicator: (slotId: string, id: IndicatorId) => void
+  setSlotChartStyle: (slotId: string, style: ChartStyleId) => void
   dockWidthPx: number
   setDockWidthPx: (px: number) => void
   oscillatorHeightPx: number
@@ -425,7 +443,8 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
         id: s.id,
         symbolTicker: s.symbol.symbol,
         timeframe: s.timeframe,
-        indicators: s.indicators
+        indicators: s.indicators,
+        chartStyle: s.chartStyle
       }))
       localStorage.setItem(CHART_SLOTS_STORAGE_KEY, JSON.stringify(serializable))
     } catch {
@@ -472,6 +491,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   }, [])
   const setSlotTimeframe = useCallback((slotId: string, tf: Timeframe) => {
     setChartSlots((prev) => prev.map((s) => (s.id === slotId ? { ...s, timeframe: tf } : s)))
+  }, [])
+  const setSlotChartStyle = useCallback((slotId: string, style: ChartStyleId) => {
+    setChartSlots((prev) => prev.map((s) => (s.id === slotId ? { ...s, chartStyle: style } : s)))
   }, [])
   const toggleSlotIndicator = useCallback((slotId: string, id: IndicatorId) => {
     setChartSlots((prev) =>
@@ -699,6 +721,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       setSlotSymbol,
       setSlotTimeframe,
       toggleSlotIndicator,
+      setSlotChartStyle,
       dockWidthPx,
       setDockWidthPx,
       oscillatorHeightPx,
@@ -757,6 +780,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       setSlotSymbol,
       setSlotTimeframe,
       toggleSlotIndicator,
+      setSlotChartStyle,
       dockWidthPx,
       setDockWidthPx,
       oscillatorHeightPx,

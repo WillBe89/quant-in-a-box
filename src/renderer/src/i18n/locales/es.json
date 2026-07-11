@@ -107,7 +107,14 @@
       "threeGrid": "Cuadrícula 1+2"
     },
     "resizeDock": "Cambiar el ancho del panel",
-    "resizeOscillator": "Cambiar la altura del panel de indicadores"
+    "resizeOscillator": "Cambiar la altura del panel de indicadores",
+    "chartStyle": {
+      "candles": "Velas",
+      "bars": "Barras",
+      "line": "Línea",
+      "area": "Área",
+      "baseline": "Línea base"
+    }
   },
   "dock": {
     "risk": {

@@ -11,6 +11,10 @@ export interface ChartColors {
   loss: string
   accentA: string
   accentB: string
+  gainAreaTop: string
+  gainAreaBottom: string
+  lossAreaTop: string
+  lossAreaBottom: string
 }
 
 const DARK: ChartColors = {
@@ -19,7 +23,11 @@ const DARK: ChartColors = {
   gain: '#3ed598',
   loss: '#fb7195',
   accentA: '#2fe0c8',
-  accentB: '#8c7ef7'
+  accentB: '#8c7ef7',
+  gainAreaTop: 'rgba(62, 213, 152, 0.32)',
+  gainAreaBottom: 'rgba(62, 213, 152, 0.04)',
+  lossAreaTop: 'rgba(251, 113, 149, 0.32)',
+  lossAreaBottom: 'rgba(251, 113, 149, 0.04)'
 }
 
 const LIGHT: ChartColors = {
@@ -28,7 +36,11 @@ const LIGHT: ChartColors = {
   gain: '#0e9a54',
   loss: '#d6335a',
   accentA: '#0ba89a',
-  accentB: '#6b5ce0'
+  accentB: '#6b5ce0',
+  gainAreaTop: 'rgba(14, 154, 84, 0.28)',
+  gainAreaBottom: 'rgba(14, 154, 84, 0.03)',
+  lossAreaTop: 'rgba(214, 51, 90, 0.28)',
+  lossAreaBottom: 'rgba(214, 51, 90, 0.03)'
 }
 
 export function chartColors(theme: 'dark' | 'light'): ChartColors {

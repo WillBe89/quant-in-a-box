@@ -107,7 +107,14 @@
       "threeGrid": "Grade 1+2"
     },
     "resizeDock": "Redimensionar a largura do painel",
-    "resizeOscillator": "Redimensionar a altura do painel de indicadores"
+    "resizeOscillator": "Redimensionar a altura do painel de indicadores",
+    "chartStyle": {
+      "candles": "Velas",
+      "bars": "Barras",
+      "line": "Linha",
+      "area": "Área",
+      "baseline": "Linha de base"
+    }
   },
   "dock": {
     "risk": {

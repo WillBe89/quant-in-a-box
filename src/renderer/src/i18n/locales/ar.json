@@ -107,7 +107,14 @@
       "threeGrid": "شبكة 1+2"
     },
     "resizeDock": "تغيير عرض لوحة المعلومات",
-    "resizeOscillator": "تغيير ارتفاع لوحة المؤشرات"
+    "resizeOscillator": "تغيير ارتفاع لوحة المؤشرات",
+    "chartStyle": {
+      "candles": "شموع",
+      "bars": "أعمدة",
+      "line": "خط",
+      "area": "منطقة",
+      "baseline": "خط الأساس"
+    }
   },
   "dock": {
     "risk": {

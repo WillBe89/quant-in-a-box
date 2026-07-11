@@ -145,6 +145,13 @@
     "maLabel": "MA",
     "resizeDock": "Resize dashboard width",
     "resizeOscillator": "Resize indicator panel height",
+    "chartStyle": {
+      "candles": "Candles",
+      "bars": "Bars",
+      "line": "Line",
+      "area": "Area",
+      "baseline": "Baseline"
+    },
     "template": {
       "single": "1 chart",
       "twoEqual": "2 charts",

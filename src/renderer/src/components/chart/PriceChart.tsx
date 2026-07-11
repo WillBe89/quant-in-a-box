@@ -1,19 +1,21 @@
 import { useEffect, useRef } from 'react'
 import {
   createChart,
+  LineType,
   type IChartApi,
   type ISeriesApi,
   type UTCTimestamp
 } from 'lightweight-charts'
-import type { Candle, ChartHoverInfo, IndicatorId } from '@renderer/types/market'
+import type { Candle, ChartHoverInfo, ChartStyleId, IndicatorId } from '@renderer/types/market'
 import { bollingerBands, closesOf, sma } from '@renderer/lib/quant'
-import { chartColors } from '@renderer/lib/chartTheme'
+import { chartColors, type ChartColors } from '@renderer/lib/chartTheme'
 
 const MONO_FONT_STACK = 'ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace'
 
 interface Props {
   candles: Candle[]
   indicators: Record<IndicatorId, boolean>
+  chartStyle: ChartStyleId
   theme: 'dark' | 'light'
   onHover?: (info: ChartHoverInfo | null) => void
 }
@@ -26,10 +28,31 @@ interface IndicatorCache {
   bollLower: Array<number | null>
 }
 
-export default function PriceChart({ candles, indicators, theme, onHover }: Props): JSX.Element {
+type MainSeries =
+  | ISeriesApi<'Candlestick'>
+  | ISeriesApi<'Bar'>
+  | ISeriesApi<'Line'>
+  | ISeriesApi<'Area'>
+  | ISeriesApi<'Baseline'>
+
+/** Whichever way the visible range has moved (last close vs first close) picks the
+ *  gain/loss color family for non-candle styles, which have no per-bar up/down coloring. */
+function trendColorSet(
+  candles: Candle[],
+  colors: ChartColors
+): { line: string; areaTop: string; areaBottom: string } {
+  const trendUp = candles.length > 1 ? candles[candles.length - 1].close >= candles[0].close : true
+  return {
+    line: trendUp ? colors.gain : colors.loss,
+    areaTop: trendUp ? colors.gainAreaTop : colors.lossAreaTop,
+    areaBottom: trendUp ? colors.gainAreaBottom : colors.lossAreaBottom
+  }
+}
+
+export default function PriceChart({ candles, indicators, chartStyle, theme, onHover }: Props): JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null)
   const chartRef = useRef<IChartApi | null>(null)
-  const candleSeriesRef = useRef<ISeriesApi<'Candlestick'> | null>(null)
+  const mainSeriesRef = useRef<MainSeries | null>(null)
   const volumeSeriesRef = useRef<ISeriesApi<'Histogram'> | null>(null)
   const ma20SeriesRef = useRef<ISeriesApi<'Line'> | null>(null)
   const ma50SeriesRef = useRef<ISeriesApi<'Line'> | null>(null)
@@ -66,14 +89,56 @@ export default function PriceChart({ candles, indicators, theme, onHover }: Prop
     })
     chartRef.current = chart
 
-    const candleSeries = chart.addCandlestickSeries({
-      upColor: colors.gain,
-      downColor: colors.loss,
-      borderVisible: false,
-      wickUpColor: colors.gain,
-      wickDownColor: colors.loss
-    })
-    candleSeriesRef.current = candleSeries
+    const trend = trendColorSet(candles, colors)
+    let mainSeries: MainSeries
+    switch (chartStyle) {
+      case 'bars':
+        mainSeries = chart.addBarSeries({
+          upColor: colors.gain,
+          downColor: colors.loss,
+          thinBars: false
+        })
+        break
+      case 'line':
+        mainSeries = chart.addLineSeries({
+          color: trend.line,
+          lineWidth: 2,
+          lineType: LineType.Curved
+        })
+        break
+      case 'area':
+        mainSeries = chart.addAreaSeries({
+          lineColor: trend.line,
+          topColor: trend.areaTop,
+          bottomColor: trend.areaBottom,
+          lineWidth: 2,
+          lineType: LineType.Curved
+        })
+        break
+      case 'baseline':
+        mainSeries = chart.addBaselineSeries({
+          baseValue: { type: 'price', price: candles.length > 0 ? candles[0].close : 0 },
+          topLineColor: colors.gain,
+          topFillColor1: colors.gainAreaTop,
+          topFillColor2: colors.gainAreaBottom,
+          bottomLineColor: colors.loss,
+          bottomFillColor1: colors.lossAreaBottom,
+          bottomFillColor2: colors.lossAreaTop,
+          lineWidth: 2
+        })
+        break
+      case 'candles':
+      default:
+        mainSeries = chart.addCandlestickSeries({
+          upColor: colors.gain,
+          downColor: colors.loss,
+          borderVisible: false,
+          wickUpColor: colors.gain,
+          wickDownColor: colors.loss
+        })
+        break
+    }
+    mainSeriesRef.current = mainSeries
 
     const volumeSeries = chart.addHistogramSeries({
       priceFormat: { type: 'volume' },
@@ -147,11 +212,11 @@ export default function PriceChart({ candles, indicators, theme, onHover }: Prop
       chartRef.current = null
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [theme])
+  }, [theme, chartStyle])
 
   // Push candle/volume/indicator data whenever it (or theme, for volume coloring) changes.
   useEffect(() => {
-    if (!candleSeriesRef.current || !volumeSeriesRef.current) return
+    if (!mainSeriesRef.current || !volumeSeriesRef.current) return
     const colors = chartColors(theme)
     const candleData = candles.map((c) => ({
       time: c.time as UTCTimestamp,
@@ -160,7 +225,42 @@ export default function PriceChart({ candles, indicators, theme, onHover }: Prop
       low: c.low,
       close: c.close
     }))
-    candleSeriesRef.current.setData(candleData)
+    const lineData = candles.map((c) => ({ time: c.time as UTCTimestamp, value: c.close }))
+    const trend = trendColorSet(candles, colors)
+
+    switch (chartStyle) {
+      case 'bars':
+        ;(mainSeriesRef.current as ISeriesApi<'Bar'>).setData(candleData)
+        break
+      case 'line':
+        ;(mainSeriesRef.current as ISeriesApi<'Line'>).applyOptions({ color: trend.line })
+        ;(mainSeriesRef.current as ISeriesApi<'Line'>).setData(lineData)
+        break
+      case 'area':
+        ;(mainSeriesRef.current as ISeriesApi<'Area'>).applyOptions({
+          lineColor: trend.line,
+          topColor: trend.areaTop,
+          bottomColor: trend.areaBottom
+        })
+        ;(mainSeriesRef.current as ISeriesApi<'Area'>).setData(lineData)
+        break
+      case 'baseline':
+        ;(mainSeriesRef.current as ISeriesApi<'Baseline'>).applyOptions({
+          baseValue: { type: 'price', price: candles.length > 0 ? candles[0].close : 0 },
+          topLineColor: colors.gain,
+          topFillColor1: colors.gainAreaTop,
+          topFillColor2: colors.gainAreaBottom,
+          bottomLineColor: colors.loss,
+          bottomFillColor1: colors.lossAreaBottom,
+          bottomFillColor2: colors.lossAreaTop
+        })
+        ;(mainSeriesRef.current as ISeriesApi<'Baseline'>).setData(lineData)
+        break
+      case 'candles':
+      default:
+        ;(mainSeriesRef.current as ISeriesApi<'Candlestick'>).setData(candleData)
+        break
+    }
 
     volumeSeriesRef.current.setData(
       candles.map((c) => ({
@@ -233,7 +333,7 @@ export default function PriceChart({ candles, indicators, theme, onHover }: Prop
         : null
     )
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [candles, indicators, theme])
+  }, [candles, indicators, theme, chartStyle])
 
   return <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
 }

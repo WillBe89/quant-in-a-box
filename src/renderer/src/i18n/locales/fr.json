@@ -107,7 +107,14 @@
       "threeGrid": "Grille 1+2"
     },
     "resizeDock": "Redimensionner la largeur du tableau de bord",
-    "resizeOscillator": "Redimensionner la hauteur du panneau d'indicateurs"
+    "resizeOscillator": "Redimensionner la hauteur du panneau d'indicateurs",
+    "chartStyle": {
+      "candles": "Chandeliers",
+      "bars": "Barres",
+      "line": "Ligne",
+      "area": "Zone",
+      "baseline": "Ligne de base"
+    }
   },
   "dock": {
     "risk": {

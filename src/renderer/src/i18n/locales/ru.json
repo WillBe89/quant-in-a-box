@@ -107,7 +107,14 @@
       "threeGrid": "Сетка 1+2"
     },
     "resizeDock": "Изменить ширину панели",
-    "resizeOscillator": "Изменить высоту панели индикаторов"
+    "resizeOscillator": "Изменить высоту панели индикаторов",
+    "chartStyle": {
+      "candles": "Свечи",
+      "bars": "Бары",
+      "line": "Линия",
+      "area": "Область",
+      "baseline": "Базовая линия"
+    }
   },
   "dock": {
     "risk": {

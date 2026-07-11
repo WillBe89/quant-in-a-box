@@ -107,7 +107,14 @@
       "threeGrid": "1+2 网格"
     },
     "resizeDock": "调整仪表盘宽度",
-    "resizeOscillator": "调整指标面板高度"
+    "resizeOscillator": "调整指标面板高度",
+    "chartStyle": {
+      "candles": "蜡烛图",
+      "bars": "条形图",
+      "line": "折线图",
+      "area": "面积图",
+      "baseline": "基准线"
+    }
   },
   "dock": {
     "risk": {

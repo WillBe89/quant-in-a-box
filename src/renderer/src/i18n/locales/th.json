@@ -107,7 +107,14 @@
       "threeGrid": "กริด 1+2"
     },
     "resizeDock": "ปรับความกว้างของแดชบอร์ด",
-    "resizeOscillator": "ปรับความสูงของแผงตัวชี้วัด"
+    "resizeOscillator": "ปรับความสูงของแผงตัวชี้วัด",
+    "chartStyle": {
+      "candles": "แท่งเทียน",
+      "bars": "แท่ง",
+      "line": "เส้น",
+      "area": "พื้นที่",
+      "baseline": "เส้นฐาน"
+    }
   },
   "dock": {
     "risk": {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { Candle, ChartHoverInfo, IndicatorId, Timeframe } from '@renderer/types/market'
+import type { Candle, ChartHoverInfo, ChartStyleId, IndicatorId, Timeframe } from '@renderer/types/market'
 import { useAppState } from '@renderer/state/AppStateContext'
 import { dataService } from '@renderer/data/dataService'
 import PriceChart from '@renderer/components/chart/PriceChart'
@@ -11,6 +11,7 @@ import Tooltip from '@renderer/components/ui/Tooltip'
 import ResizeHandle from './ResizeHandle'
 
 const TIMEFRAMES: Timeframe[] = ['1D', '1W', '1M', '3M', '1Y', '5Y']
+const CHART_STYLES: ChartStyleId[] = ['candles', 'bars', 'line', 'area', 'baseline']
 
 function formatPrice(price: number, isYield?: boolean): string {
   if (isYield) return `${price.toFixed(2)}%`
@@ -39,6 +40,7 @@ export default function ChartSlot({
     chartSlots,
     setSlotTimeframe,
     toggleSlotIndicator,
+    setSlotChartStyle,
     theme,
     isInWatchlist,
     toggleWatchlist,
@@ -119,6 +121,17 @@ export default function ChartSlot({
             </button>
           ))}
         </div>
+        <div className="segmented">
+          {CHART_STYLES.map((cs) => (
+            <button
+              key={cs}
+              className={slot.chartStyle === cs ? 'active' : ''}
+              onClick={() => setSlotChartStyle(slotId, cs)}
+            >
+              {t(`workspace.chartStyle.${cs}`)}
+            </button>
+          ))}
+        </div>
         <div className="indicator-row">
           {INDICATOR_META.map((ind) => (
             <button
@@ -136,7 +149,13 @@ export default function ChartSlot({
       </div>
 
       <div className="chart-wrap">
-        <PriceChart candles={candles} indicators={slot.indicators} theme={theme} onHover={setHover} />
+        <PriceChart
+          candles={candles}
+          indicators={slot.indicators}
+          chartStyle={slot.chartStyle}
+          theme={theme}
+          onHover={setHover}
+        />
         {hover && (
           <div className="readout">
             <div className="readout-row readout-date">
