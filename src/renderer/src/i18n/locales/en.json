@@ -70,6 +70,22 @@
     "deletePortfolio": "Delete portfolio",
     "confirmDelete": "Confirm delete?",
     "portfolioNameTaken": "You already have a portfolio with that name.",
+    "portfolioStyle": {
+      "trigger": "Change icon and color",
+      "iconHeading": "Icon",
+      "colorHeading": "Color",
+      "colorOption": "Color {{n}}",
+      "icon": {
+        "stocks": "Stocks",
+        "crypto": "Crypto",
+        "bond": "Bonds",
+        "fx": "FX",
+        "realEstate": "Real estate",
+        "sparkle": "Sparkle",
+        "portfolio": "Portfolio",
+        "star": "Star"
+      }
+    },
     "apiKeys": {
       "heading": "Data & API keys",
       "intro": "Connect your own free-tier keys for live market data and AI insights. Keys are stored on this device only. Without any keys, the app runs on realistic generated mock data.",

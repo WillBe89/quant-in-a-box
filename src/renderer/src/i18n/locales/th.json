@@ -39,6 +39,22 @@
       "statusMock": "ข้อมูลจำลอง",
       "statusConfigured": "ตั้งค่าแล้ว",
       "statusNotConfigured": "ยังไม่ได้ตั้งค่า"
+    },
+    "portfolioStyle": {
+      "trigger": "เปลี่ยนไอคอนและสี",
+      "iconHeading": "ไอคอน",
+      "colorHeading": "สี",
+      "colorOption": "สี {{n}}",
+      "icon": {
+        "stocks": "หุ้น",
+        "crypto": "คริปโต",
+        "bond": "พันธบัตร",
+        "fx": "อัตราแลกเปลี่ยน",
+        "realEstate": "อสังหาริมทรัพย์",
+        "sparkle": "ประกาย",
+        "portfolio": "พอร์ตโฟลิโอ",
+        "star": "ดาว"
+      }
     }
   },
   "ticker": {

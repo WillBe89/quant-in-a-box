@@ -1,11 +1,13 @@
 import { useTranslation } from 'react-i18next'
 import { useAppState } from '@renderer/state/AppStateContext'
 import { IconAcademy, IconPortfolio, IconSliders, IconStar } from '@renderer/components/icons/Icons'
+import { resolvePortfolioIcon, resolvePortfolioColor } from '@renderer/lib/portfolioStyle'
 import PortfolioPicker from '@renderer/components/portfolio/PortfolioPicker'
 
 export default function Rail(): JSX.Element {
   const { t } = useTranslation()
-  const { selectSymbol, openAcademy, openCustomize, watchlist, allPortfolioSymbols } = useAppState()
+  const { selectSymbol, openAcademy, openCustomize, watchlist, allPortfolioSymbols, portfolios, openPortfolio } =
+    useAppState()
 
   return (
     <aside className="rail">
@@ -26,6 +28,28 @@ export default function Rail(): JSX.Element {
           </button>
         ))}
       </div>
+      {portfolios.length > 0 && (
+        <>
+          <div className="rail-divider" />
+          <div className="rail-portfolios">
+            {portfolios.map((p) => {
+              const Icon = resolvePortfolioIcon(p.icon)
+              const color = resolvePortfolioColor(p.color)
+              return (
+                <button
+                  key={p.id}
+                  className="rail-dot rail-portfolio-dot"
+                  style={{ color }}
+                  title={p.name}
+                  onClick={() => openPortfolio(p.id)}
+                >
+                  <Icon size={16} />
+                </button>
+              )
+            })}
+          </div>
+        </>
+      )}
       <div className="rail-spacer" />
       <PortfolioPicker
         renderTrigger={(onClick) => (

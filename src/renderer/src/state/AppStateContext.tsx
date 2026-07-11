@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import type { Asset, AssetClass, IndicatorId, Portfolio, PortfolioPosition, Timeframe } from '@renderer/types/market'
 import { ALL_ASSETS, ASSETS_BY_CLASS } from '@renderer/data/mockData'
+import { defaultStyleForPortfolio } from '@renderer/lib/portfolioStyle'
 import i18n, { languageDir } from '@renderer/i18n'
 
 const WATCHLIST_STORAGE_KEY = 'qiab:watchlist:v1'
@@ -278,6 +279,7 @@ interface AppState {
   lastActivePortfolioId: string | null
   createPortfolio: (name?: string) => string
   renamePortfolio: (id: string, name: string) => boolean
+  updatePortfolioStyle: (id: string, style: { icon?: string; color?: string }) => void
   deletePortfolio: (id: string) => void
   addPosition: (portfolioId: string, symbol: string, quantity: number, costBasis: number) => void
   removePosition: (portfolioId: string, symbol: string) => void
@@ -555,7 +557,8 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
     const id = generatePortfolioId()
     setPortfolios((prev) => {
       const finalName = name && name.trim() && !isNameTaken(prev, name) ? name.trim() : nextDefaultPortfolioName(prev)
-      return [...prev, { id, name: finalName, positions: [] }]
+      const style = defaultStyleForPortfolio(prev.length)
+      return [...prev, { id, name: finalName, positions: [], icon: style.icon, color: style.color }]
     })
     return id
   }, [])
@@ -573,6 +576,10 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       return prev.map((p) => (p.id === id ? { ...p, name: trimmed } : p))
     })
     return success
+  }, [])
+
+  const updatePortfolioStyle = useCallback((id: string, style: { icon?: string; color?: string }) => {
+    setPortfolios((prev) => prev.map((p) => (p.id === id ? { ...p, ...style } : p)))
   }, [])
 
   const deletePortfolio = useCallback((id: string) => {
@@ -661,6 +668,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       lastActivePortfolioId,
       createPortfolio,
       renamePortfolio,
+      updatePortfolioStyle,
       deletePortfolio,
       addPosition,
       removePosition,
@@ -718,6 +726,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       lastActivePortfolioId,
       createPortfolio,
       renamePortfolio,
+      updatePortfolioStyle,
       deletePortfolio,
       addPosition,
       removePosition,

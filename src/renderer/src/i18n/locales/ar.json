@@ -39,6 +39,22 @@
       "statusMock": "بيانات وهمية",
       "statusConfigured": "تم الإعداد",
       "statusNotConfigured": "غير معدّ"
+    },
+    "portfolioStyle": {
+      "trigger": "تغيير الأيقونة واللون",
+      "iconHeading": "الأيقونة",
+      "colorHeading": "اللون",
+      "colorOption": "اللون {{n}}",
+      "icon": {
+        "stocks": "الأسهم",
+        "crypto": "العملات الرقمية",
+        "bond": "السندات",
+        "fx": "الفوركس",
+        "realEstate": "العقارات",
+        "sparkle": "بريق",
+        "portfolio": "المحفظة",
+        "star": "نجمة"
+      }
     }
   },
   "ticker": {

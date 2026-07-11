@@ -39,6 +39,22 @@
       "statusMock": "Тестовые данные",
       "statusConfigured": "Настроено",
       "statusNotConfigured": "Не настроено"
+    },
+    "portfolioStyle": {
+      "trigger": "Изменить значок и цвет",
+      "iconHeading": "Значок",
+      "colorHeading": "Цвет",
+      "colorOption": "Цвет {{n}}",
+      "icon": {
+        "stocks": "Акции",
+        "crypto": "Крипто",
+        "bond": "Облигации",
+        "fx": "Форекс",
+        "realEstate": "Недвижимость",
+        "sparkle": "Блеск",
+        "portfolio": "Портфель",
+        "star": "Звезда"
+      }
     }
   },
   "ticker": {

@@ -65,6 +65,8 @@ export interface Portfolio {
   id: string
   name: string
   positions: PortfolioPosition[]
+  icon?: string
+  color?: string
 }
 
 /** Everything the chart knows about whatever bar the cursor is currently over —

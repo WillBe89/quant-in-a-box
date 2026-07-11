@@ -39,6 +39,22 @@
       "statusMock": "Données simulées",
       "statusConfigured": "Configuré",
       "statusNotConfigured": "Non configuré"
+    },
+    "portfolioStyle": {
+      "trigger": "Changer l'icône et la couleur",
+      "iconHeading": "Icône",
+      "colorHeading": "Couleur",
+      "colorOption": "Couleur {{n}}",
+      "icon": {
+        "stocks": "Actions",
+        "crypto": "Crypto",
+        "bond": "Obligations",
+        "fx": "Forex",
+        "realEstate": "Immobilier",
+        "sparkle": "Étincelle",
+        "portfolio": "Portefeuille",
+        "star": "Étoile"
+      }
     }
   },
   "ticker": {

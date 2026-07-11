@@ -39,6 +39,22 @@
       "statusMock": "نقلی ڈیٹا",
       "statusConfigured": "ترتیب شدہ",
       "statusNotConfigured": "ترتیب نہیں دی گئی"
+    },
+    "portfolioStyle": {
+      "trigger": "آئیکن اور رنگ تبدیل کریں",
+      "iconHeading": "آئیکن",
+      "colorHeading": "رنگ",
+      "colorOption": "رنگ {{n}}",
+      "icon": {
+        "stocks": "اسٹاکس",
+        "crypto": "کرپٹو",
+        "bond": "بانڈز",
+        "fx": "ایف ایکس",
+        "realEstate": "رئیل اسٹیٹ",
+        "sparkle": "چمک",
+        "portfolio": "پورٹ فولیو",
+        "star": "ستارہ"
+      }
     }
   },
   "ticker": {

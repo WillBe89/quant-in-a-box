@@ -13,6 +13,8 @@ import {
 } from '@renderer/data/apiKeyStore'
 import type { Asset } from '@renderer/types/market'
 import { IconClose } from '@renderer/components/icons/Icons'
+import { resolvePortfolioIcon, resolvePortfolioColor } from '@renderer/lib/portfolioStyle'
+import PortfolioStylePicker from '@renderer/components/portfolio/PortfolioStylePicker'
 import Tooltip from '@renderer/components/ui/Tooltip'
 import OverlayPanel from '@renderer/components/ui/OverlayPanel'
 import './customize.css'
@@ -20,13 +22,25 @@ import './customize.css'
 const NEWS_SOURCES: NewsSource[] = ['selected', 'watchlist', 'portfolio']
 const DOCK_CARD_IDS: DockCardId[] = ['risk', 'options', 'news']
 
-function PortfolioRow({ id, name }: { id: string; name: string }): JSX.Element {
+function PortfolioRow({
+  id,
+  name,
+  icon,
+  color
+}: {
+  id: string
+  name: string
+  icon?: string
+  color?: string
+}): JSX.Element {
   const { t } = useTranslation()
-  const { renamePortfolio, deletePortfolio } = useAppState()
+  const { renamePortfolio, deletePortfolio, updatePortfolioStyle } = useAppState()
   const [editing, setEditing] = useState(false)
   const [draft, setDraft] = useState(name)
   const [nameTaken, setNameTaken] = useState(false)
   const [confirmingDelete, setConfirmingDelete] = useState(false)
+  const Icon = resolvePortfolioIcon(icon)
+  const resolvedColor = resolvePortfolioColor(color)
 
   function commitRename(): void {
     const trimmed = draft.trim()
@@ -46,32 +60,51 @@ function PortfolioRow({ id, name }: { id: string; name: string }): JSX.Element {
 
   return (
     <div className="customize-list-item">
-      <div className="customize-list-info portfolio-rename-info">
-        {editing ? (
-          <input
-            className="portfolio-rename-input"
-            value={draft}
-            autoFocus
-            onChange={(e) => {
-              setDraft(e.target.value)
-              setNameTaken(false)
-            }}
-            onBlur={commitRename}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') commitRename()
-              if (e.key === 'Escape') {
-                setDraft(name)
-                setEditing(false)
+      <div className="portfolio-row-main">
+        <PortfolioStylePicker
+          icon={icon}
+          color={color}
+          onChange={(style) => updatePortfolioStyle(id, style)}
+          renderTrigger={(onClick) => (
+            <Tooltip label={t('customize.portfolioStyle.trigger') ?? ''}>
+              <button
+                className="portfolio-style-trigger"
+                style={{ color: resolvedColor }}
+                onClick={onClick}
+                aria-label={t('customize.portfolioStyle.trigger') ?? undefined}
+              >
+                <Icon size={15} />
+              </button>
+            </Tooltip>
+          )}
+        />
+        <div className="customize-list-info portfolio-rename-info">
+          {editing ? (
+            <input
+              className="portfolio-rename-input"
+              value={draft}
+              autoFocus
+              onChange={(e) => {
+                setDraft(e.target.value)
                 setNameTaken(false)
-              }
-            }}
-          />
-        ) : (
-          <button className="portfolio-rename-trigger" onClick={() => setEditing(true)}>
-            {name}
-          </button>
-        )}
-        {nameTaken && <span className="portfolio-rename-error">{t('customize.portfolioNameTaken')}</span>}
+              }}
+              onBlur={commitRename}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') commitRename()
+                if (e.key === 'Escape') {
+                  setDraft(name)
+                  setEditing(false)
+                  setNameTaken(false)
+                }
+              }}
+            />
+          ) : (
+            <button className="portfolio-rename-trigger" onClick={() => setEditing(true)}>
+              {name}
+            </button>
+          )}
+          {nameTaken && <span className="portfolio-rename-error">{t('customize.portfolioNameTaken')}</span>}
+        </div>
       </div>
       {confirmingDelete ? (
         <button
@@ -316,7 +349,7 @@ export default function CustomizePanel(): JSX.Element {
         ) : (
           <div className="customize-list">
             {portfolios.map((p) => (
-              <PortfolioRow key={p.id} id={p.id} name={p.name} />
+              <PortfolioRow key={p.id} id={p.id} name={p.name} icon={p.icon} color={p.color} />
             ))}
           </div>
         )}

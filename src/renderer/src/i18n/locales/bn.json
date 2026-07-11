@@ -39,6 +39,22 @@
       "statusMock": "মক ডেটা",
       "statusConfigured": "কনফিগার করা হয়েছে",
       "statusNotConfigured": "কনফিগার করা হয়নি"
+    },
+    "portfolioStyle": {
+      "trigger": "আইকন এবং রঙ পরিবর্তন করুন",
+      "iconHeading": "আইকন",
+      "colorHeading": "রঙ",
+      "colorOption": "রঙ {{n}}",
+      "icon": {
+        "stocks": "স্টক",
+        "crypto": "ক্রিপ্টো",
+        "bond": "বন্ড",
+        "fx": "এফএক্স",
+        "realEstate": "রিয়েল এস্টেট",
+        "sparkle": "স্পার্কল",
+        "portfolio": "পোর্টফোলিও",
+        "star": "তারকা"
+      }
     }
   },
   "ticker": {

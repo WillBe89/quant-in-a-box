@@ -39,6 +39,22 @@
       "statusMock": "मॉक डेटा",
       "statusConfigured": "कॉन्फ़िगर किया गया",
       "statusNotConfigured": "कॉन्फ़िगर नहीं किया गया"
+    },
+    "portfolioStyle": {
+      "trigger": "आइकन और रंग बदलें",
+      "iconHeading": "आइकन",
+      "colorHeading": "रंग",
+      "colorOption": "रंग {{n}}",
+      "icon": {
+        "stocks": "स्टॉक",
+        "crypto": "क्रिप्टो",
+        "bond": "बॉन्ड",
+        "fx": "एफएक्स",
+        "realEstate": "रियल एस्टेट",
+        "sparkle": "स्पार्कल",
+        "portfolio": "पोर्टफोलियो",
+        "star": "स्टार"
+      }
     }
   },
   "ticker": {

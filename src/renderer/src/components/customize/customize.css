@@ -195,6 +195,13 @@
   color: var(--text);
 }
 
+.portfolio-row-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
 .portfolio-rename-info {
   display: flex;
   flex-direction: column;

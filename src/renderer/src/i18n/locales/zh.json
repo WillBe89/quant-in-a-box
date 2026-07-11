@@ -39,6 +39,22 @@
       "statusMock": "模拟数据",
       "statusConfigured": "已配置",
       "statusNotConfigured": "未配置"
+    },
+    "portfolioStyle": {
+      "trigger": "更改图标和颜色",
+      "iconHeading": "图标",
+      "colorHeading": "颜色",
+      "colorOption": "颜色 {{n}}",
+      "icon": {
+        "stocks": "股票",
+        "crypto": "加密货币",
+        "bond": "债券",
+        "fx": "外汇",
+        "realEstate": "房地产",
+        "sparkle": "闪光",
+        "portfolio": "投资组合",
+        "star": "星标"
+      }
     }
   },
   "ticker": {
