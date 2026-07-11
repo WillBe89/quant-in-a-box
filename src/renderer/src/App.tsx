@@ -10,6 +10,7 @@ import ResizeHandle from '@renderer/components/layout/ResizeHandle'
 import TickerTape from '@renderer/components/layout/TickerTape'
 import AcademyPanel from '@renderer/academy/AcademyPanel'
 import PortfolioWorkspace from '@renderer/components/portfolio/PortfolioWorkspace'
+import PortfolioOverviewPanel from '@renderer/components/portfolio/PortfolioOverviewPanel'
 import CustomizePanel from '@renderer/components/customize/CustomizePanel'
 import DockCardOverlay from '@renderer/components/dock/DockCardOverlay'
 import '@renderer/components/layout/layout.css'
@@ -42,6 +43,7 @@ function Shell(): JSX.Element {
       <TickerTape />
       <AcademyPanel />
       <PortfolioWorkspace />
+      <PortfolioOverviewPanel />
       <CustomizePanel />
       <DockCardOverlay />
     </div>

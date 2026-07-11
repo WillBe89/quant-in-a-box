@@ -129,7 +129,8 @@
     "customize": "Make it yours",
     "yourPortfolio": "Your portfolio",
     "teachingZone": "Teaching zone",
-    "watchlistEmptyHint": "Star a symbol to pin it here"
+    "watchlistEmptyHint": "Star a symbol to pin it here",
+    "overview": "Overview"
   },
   "workspace": {
     "addToWatchlist": "Add to watchlist",
@@ -377,6 +378,11 @@
       "connectBody": "Install and sign in to the Claude Code CLI on this computer, or add an ANTHROPIC_API_KEY to your .env file, to enable AI portfolio commentary.",
       "errorTitle": "Couldn't generate insights",
       "retryBtn": "Try again"
+    },
+    "overview": {
+      "badge": "Overview",
+      "heading": "All portfolios",
+      "emptyState": "Add positions to one of your portfolios to see a combined view of all your holdings here."
     }
   },
   "modelPortfolio": {

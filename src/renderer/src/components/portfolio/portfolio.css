@@ -4,6 +4,11 @@
   padding: 0;
 }
 
+.portfolio-overview-panel {
+  width: min(920px, 100%);
+  max-height: min(760px, 100%);
+}
+
 .portfolio-row {
   flex: 1 1 auto;
   display: flex;

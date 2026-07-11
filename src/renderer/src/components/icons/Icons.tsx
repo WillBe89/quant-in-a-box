@@ -22,6 +22,17 @@ export function IconPortfolio({ size = 18, className }: IconProps): JSX.Element 
   )
 }
 
+export function IconLayoutGrid({ size = 18, className }: IconProps): JSX.Element {
+  return (
+    <svg width={size} height={size} className={className} {...base}>
+      <rect x="3" y="3" width="8" height="8" rx="1.5" />
+      <rect x="13" y="3" width="8" height="8" rx="1.5" />
+      <rect x="3" y="13" width="8" height="8" rx="1.5" />
+      <rect x="13" y="13" width="8" height="8" rx="1.5" />
+    </svg>
+  )
+}
+
 export function IconAcademy({ size = 18, className }: IconProps): JSX.Element {
   return (
     <svg width={size} height={size} className={className} {...base}>

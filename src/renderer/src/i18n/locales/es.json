@@ -85,7 +85,8 @@
     "customize": "Hazlo a tu manera",
     "yourPortfolio": "Tu cartera",
     "teachingZone": "Zona de aprendizaje",
-    "watchlistEmptyHint": "Marca un símbolo con una estrella para anclarlo aquí"
+    "watchlistEmptyHint": "Marca un símbolo con una estrella para anclarlo aquí",
+    "overview": "Resumen"
   },
   "workspace": {
     "addToWatchlist": "Añadir a la lista de seguimiento",
@@ -333,7 +334,12 @@
     },
     "pickerHeading": "Tus carteras",
     "newPortfolioBtn": "+ Nueva cartera",
-    "defaultName": "Cartera {{n}}"
+    "defaultName": "Cartera {{n}}",
+    "overview": {
+      "badge": "Resumen",
+      "heading": "Todas las carteras",
+      "emptyState": "Añade posiciones a una de tus carteras para ver aquí una vista combinada de todas tus posiciones."
+    }
   },
   "card": {
     "expand": "Ampliar",

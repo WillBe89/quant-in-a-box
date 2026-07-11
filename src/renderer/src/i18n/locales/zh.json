@@ -85,7 +85,8 @@
     "customize": "专属定制",
     "yourPortfolio": "你的持仓组合",
     "teachingZone": "教学专区",
-    "watchlistEmptyHint": "给代码加星标即可固定显示在此处"
+    "watchlistEmptyHint": "给代码加星标即可固定显示在此处",
+    "overview": "总览"
   },
   "workspace": {
     "addToWatchlist": "加入自选列表",
@@ -333,7 +334,12 @@
     },
     "pickerHeading": "你的持仓组合",
     "newPortfolioBtn": "+ 新建组合",
-    "defaultName": "投资组合 {{n}}"
+    "defaultName": "投资组合 {{n}}",
+    "overview": {
+      "badge": "总览",
+      "heading": "所有投资组合",
+      "emptyState": "在您的某个投资组合中添加持仓，即可在此处查看所有持仓的汇总视图。"
+    }
   },
   "card": {
     "expand": "展开",

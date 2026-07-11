@@ -1,13 +1,21 @@
 import { useTranslation } from 'react-i18next'
 import { useAppState } from '@renderer/state/AppStateContext'
-import { IconAcademy, IconPortfolio, IconSliders, IconStar } from '@renderer/components/icons/Icons'
+import { IconAcademy, IconLayoutGrid, IconPortfolio, IconSliders, IconStar } from '@renderer/components/icons/Icons'
 import { resolvePortfolioIcon, resolvePortfolioColor } from '@renderer/lib/portfolioStyle'
 import PortfolioPicker from '@renderer/components/portfolio/PortfolioPicker'
 
 export default function Rail(): JSX.Element {
   const { t } = useTranslation()
-  const { selectSymbol, openAcademy, openCustomize, watchlist, allPortfolioSymbols, portfolios, openPortfolio } =
-    useAppState()
+  const {
+    selectSymbol,
+    openAcademy,
+    openCustomize,
+    watchlist,
+    allPortfolioSymbols,
+    portfolios,
+    openPortfolio,
+    openOverview
+  } = useAppState()
 
   return (
     <aside className="rail">
@@ -48,6 +56,10 @@ export default function Rail(): JSX.Element {
               )
             })}
           </div>
+          <button className="rail-btn rail-overview" onClick={openOverview} title={t('rail.overview') ?? undefined}>
+            <IconLayoutGrid size={17} />
+            <span className="lbl">{t('rail.overview')}</span>
+          </button>
         </>
       )}
       <div className="rail-spacer" />

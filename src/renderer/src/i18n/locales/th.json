@@ -85,7 +85,8 @@
     "customize": "ปรับแต่งให้เป็นของคุณ",
     "yourPortfolio": "พอร์ตของคุณ",
     "teachingZone": "โซนการเรียนรู้",
-    "watchlistEmptyHint": "กดดาวที่สัญลักษณ์เพื่อปักหมุดไว้ที่นี่"
+    "watchlistEmptyHint": "กดดาวที่สัญลักษณ์เพื่อปักหมุดไว้ที่นี่",
+    "overview": "ภาพรวม"
   },
   "workspace": {
     "addToWatchlist": "เพิ่มในรายการเฝ้าติดตาม",
@@ -333,7 +334,12 @@
     },
     "pickerHeading": "พอร์ตของคุณ",
     "newPortfolioBtn": "+ พอร์ตใหม่",
-    "defaultName": "พอร์ต {{n}}"
+    "defaultName": "พอร์ต {{n}}",
+    "overview": {
+      "badge": "ภาพรวม",
+      "heading": "พอร์ตทั้งหมด",
+      "emptyState": "เพิ่มโพซิชันในพอร์ตใดพอร์ตหนึ่งของคุณ เพื่อดูมุมมองรวมของโฮลดิ้งทั้งหมดของคุณที่นี่"
+    }
   },
   "card": {
     "expand": "ขยาย",

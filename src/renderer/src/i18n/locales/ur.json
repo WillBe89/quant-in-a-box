@@ -85,7 +85,8 @@
     "customize": "اپنی مرضی کے مطابق بنائیں",
     "yourPortfolio": "آپ کا پورٹ فولیو",
     "teachingZone": "تعلیمی زون",
-    "watchlistEmptyHint": "یہاں پن کرنے کے لیے کسی علامت کو ستارہ لگائیں"
+    "watchlistEmptyHint": "یہاں پن کرنے کے لیے کسی علامت کو ستارہ لگائیں",
+    "overview": "جائزہ"
   },
   "workspace": {
     "addToWatchlist": "واچ لسٹ میں شامل کریں",
@@ -333,7 +334,12 @@
     },
     "pickerHeading": "آپ کے پورٹ فولیوز",
     "newPortfolioBtn": "+ نیا پورٹ فولیو",
-    "defaultName": "پورٹ فولیو {{n}}"
+    "defaultName": "پورٹ فولیو {{n}}",
+    "overview": {
+      "badge": "جائزہ",
+      "heading": "تمام پورٹ فولیوز",
+      "emptyState": "اپنی تمام ہولڈنگز کا مشترکہ منظر یہاں دیکھنے کے لیے اپنے کسی پورٹ فولیو میں پوزیشنز شامل کریں۔"
+    }
   },
   "card": {
     "expand": "بڑا کریں",

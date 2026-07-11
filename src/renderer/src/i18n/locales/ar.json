@@ -85,7 +85,8 @@
     "customize": "اجعلها خاصة بك",
     "yourPortfolio": "محفظتك",
     "teachingZone": "منطقة التعلّم",
-    "watchlistEmptyHint": "ضع نجمة على رمز لتثبيته هنا"
+    "watchlistEmptyHint": "ضع نجمة على رمز لتثبيته هنا",
+    "overview": "نظرة عامة"
   },
   "workspace": {
     "addToWatchlist": "إضافة إلى قائمة المتابعة",
@@ -333,7 +334,12 @@
     },
     "pickerHeading": "محافظك",
     "newPortfolioBtn": "+ محفظة جديدة",
-    "defaultName": "محفظة {{n}}"
+    "defaultName": "محفظة {{n}}",
+    "overview": {
+      "badge": "نظرة عامة",
+      "heading": "جميع المحافظ",
+      "emptyState": "أضف مراكز إلى إحدى محافظك لرؤية عرض مجمّع لجميع ممتلكاتك هنا."
+    }
   },
   "card": {
     "expand": "توسيع",

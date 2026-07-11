@@ -312,6 +312,9 @@ interface AppState {
   customizeOpen: boolean
   openCustomize: () => void
   closeCustomize: () => void
+  overviewOpen: boolean
+  openOverview: () => void
+  closeOverview: () => void
   newsSource: NewsSource
   setNewsSource: (source: NewsSource) => void
   expandedCard: DockCardId | null
@@ -373,6 +376,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   const [language, setLanguageState] = useState<string>(() => loadLanguage())
   const [tickerSource, setTickerSourceState] = useState<TickerSource>(() => loadTickerSource())
   const [customizeOpen, setCustomizeOpen] = useState(false)
+  // Ephemeral, not persisted — mirrors customizeOpen exactly. Whether the aggregate Overview
+  // panel is open resets to closed on every app launch, same as Customize/Academy.
+  const [overviewOpen, setOverviewOpen] = useState(false)
   const [newsSource, setNewsSourceState] = useState<NewsSource>(() => loadNewsSource())
   const [dockLayout, setDockLayoutState] = useState<DockLayoutState>(() => loadDockLayout())
   const [expandedCard, setExpandedCard] = useState<DockCardId | null>(null)
@@ -637,6 +643,8 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
 
   const openCustomize = useCallback(() => setCustomizeOpen(true), [])
   const closeCustomize = useCallback(() => setCustomizeOpen(false), [])
+  const openOverview = useCallback(() => setOverviewOpen(true), [])
+  const closeOverview = useCallback(() => setOverviewOpen(false), [])
   const setNewsSource = useCallback((source: NewsSource) => setNewsSourceState(source), [])
 
   const setDockOrder = useCallback((order: DockCardId[]) => {
@@ -706,6 +714,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       customizeOpen,
       openCustomize,
       closeCustomize,
+      overviewOpen,
+      openOverview,
+      closeOverview,
       newsSource,
       setNewsSource,
       expandedCard,
@@ -765,6 +776,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       customizeOpen,
       openCustomize,
       closeCustomize,
+      overviewOpen,
+      openOverview,
+      closeOverview,
       newsSource,
       setNewsSource,
       expandedCard,

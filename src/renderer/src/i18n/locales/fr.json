@@ -85,7 +85,8 @@
     "customize": "Faites-la vôtre",
     "yourPortfolio": "Votre portefeuille",
     "teachingZone": "Espace pédagogique",
-    "watchlistEmptyHint": "Ajoutez un symbole en favori pour l'épingler ici"
+    "watchlistEmptyHint": "Ajoutez un symbole en favori pour l'épingler ici",
+    "overview": "Vue d'ensemble"
   },
   "workspace": {
     "addToWatchlist": "Ajouter à la liste de suivi",
@@ -333,7 +334,12 @@
     },
     "pickerHeading": "Vos portefeuilles",
     "newPortfolioBtn": "+ Nouveau portefeuille",
-    "defaultName": "Portefeuille {{n}}"
+    "defaultName": "Portefeuille {{n}}",
+    "overview": {
+      "badge": "Vue d'ensemble",
+      "heading": "Tous les portefeuilles",
+      "emptyState": "Ajoutez des positions à l'un de vos portefeuilles pour voir ici une vue combinée de toutes vos positions."
+    }
   },
   "card": {
     "expand": "Agrandir",

@@ -1,5 +1,5 @@
 import { ALL_ASSETS } from '@renderer/data/mockData'
-import type { Asset } from '@renderer/types/market'
+import type { Asset, Portfolio } from '@renderer/types/market'
 
 export interface ResolvedHoldingRow {
   asset: Asset
@@ -45,5 +45,40 @@ export function resolveHoldingRows(
       pnlPct: costTotal === 0 ? 0 : (pnl / costTotal) * 100,
       weightPct: totalMarketValue === 0 ? 0 : (marketValue / totalMarketValue) * 100
     }
+  })
+}
+
+/** Merges every position across every portfolio into one row per distinct symbol. Quantity is
+ *  summed; cost basis is quantity-weighted across all contributions — the exact generalization
+ *  of AppStateContext's addPosition blend formula (which for two contributions computes
+ *  `(existing.quantity * existing.costBasis + quantity * costBasis) / totalQty`) to N
+ *  contributions: `sum(quantity_i * costBasis_i) / sum(quantity_i)`. Row order is deterministic
+ *  (first-seen symbol order across portfolios, then positions within each portfolio). An empty
+ *  `portfolios` array, or portfolios that all have zero positions, returns []. */
+export function mergePortfolioHoldings(
+  portfolios: Portfolio[]
+): Array<{ symbol: string; quantity: number; costBasis: number }> {
+  const order: string[] = []
+  const totals = new Map<string, { quantity: number; costTotal: number }>()
+
+  for (const portfolio of portfolios) {
+    for (const position of portfolio.positions) {
+      const existing = totals.get(position.symbol)
+      if (existing) {
+        existing.quantity += position.quantity
+        existing.costTotal += position.quantity * position.costBasis
+      } else {
+        totals.set(position.symbol, {
+          quantity: position.quantity,
+          costTotal: position.quantity * position.costBasis
+        })
+        order.push(position.symbol)
+      }
+    }
+  }
+
+  return order.map((symbol) => {
+    const t = totals.get(symbol)!
+    return { symbol, quantity: t.quantity, costBasis: t.quantity === 0 ? 0 : t.costTotal / t.quantity }
   })
 }
