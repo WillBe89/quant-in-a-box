@@ -298,6 +298,18 @@
     "analyticsTitle": "تحليلات المحفظة",
     "analyticsSub": "مرجّحة وفق ممتلكاتك الفعلية",
     "analyticsLoading": "جارٍ تحليل سجل العوائد المرجّحة…",
+    "dashboard": {
+      "tabHoldings": "المراكز",
+      "tabDashboard": "لوحة المعلومات",
+      "classBreakdownTitle": "التوزيع حسب فئة الأصول",
+      "classBreakdownSub": "كيف تتوزع قيمة محفظتك بين الأسهم والعملات الرقمية والسندات والعملات الأجنبية والعقارات",
+      "holdingBreakdownTitle": "التوزيع حسب المركز",
+      "holdingBreakdownSub": "أكبر مراكزك الفردية، مرتبة حسب القيمة السوقية",
+      "emptyState": "أضف مركزًا لرؤية هذا التوزيع.",
+      "otherLabel": "أخرى ({{count}})",
+      "showAllBtn": "عرض جميع المراكز ({{count}})",
+      "showTopBtn": "عرض أفضل {{n}}"
+    },
     "ai": {
       "sectionTitle": "رؤى الذكاء الاصطناعي للمحفظة",
       "sectionSub": "تعليق تعليمي عام — وليس نصيحة مالية",

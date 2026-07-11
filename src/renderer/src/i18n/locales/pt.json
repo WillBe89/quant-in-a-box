@@ -298,6 +298,18 @@
     "analyticsTitle": "Análise da carteira",
     "analyticsSub": "Ponderada pelas suas posições efetivas",
     "analyticsLoading": "A processar o histórico de retornos ponderados…",
+    "dashboard": {
+      "tabHoldings": "Posições",
+      "tabDashboard": "Painel",
+      "classBreakdownTitle": "Distribuição por classe de ativo",
+      "classBreakdownSub": "Como o valor da sua carteira se divide entre ações, cripto, títulos, câmbio e imóveis",
+      "holdingBreakdownTitle": "Distribuição por posição",
+      "holdingBreakdownSub": "Suas maiores posições individuais, classificadas por valor de mercado",
+      "emptyState": "Adicione uma posição para ver esta distribuição.",
+      "otherLabel": "Outros ({{count}})",
+      "showAllBtn": "Mostrar todas as {{count}} posições",
+      "showTopBtn": "Mostrar as {{n}} principais"
+    },
     "ai": {
       "sectionTitle": "Perspetivas de IA sobre a carteira",
       "sectionSub": "Comentário educativo geral — não é aconselhamento financeiro",

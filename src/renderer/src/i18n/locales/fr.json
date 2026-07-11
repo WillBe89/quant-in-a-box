@@ -298,6 +298,18 @@
     "analyticsTitle": "Analyse du portefeuille",
     "analyticsSub": "Pondérée sur l'ensemble de vos positions réelles",
     "analyticsLoading": "Analyse de l'historique des rendements pondérés…",
+    "dashboard": {
+      "tabHoldings": "Positions",
+      "tabDashboard": "Tableau de bord",
+      "classBreakdownTitle": "Répartition par classe d'actifs",
+      "classBreakdownSub": "Comment la valeur de votre portefeuille se répartit entre actions, cryptos, obligations, devises et immobilier",
+      "holdingBreakdownTitle": "Répartition par position",
+      "holdingBreakdownSub": "Vos plus grandes positions individuelles, classées par valeur de marché",
+      "emptyState": "Ajoutez une position pour voir cette répartition.",
+      "otherLabel": "Autres ({{count}})",
+      "showAllBtn": "Afficher les {{count}} positions",
+      "showTopBtn": "Afficher le top {{n}}"
+    },
     "ai": {
       "sectionTitle": "Analyses IA du portefeuille",
       "sectionSub": "Commentaire éducatif général — ne constitue pas un conseil financier",

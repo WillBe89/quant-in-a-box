@@ -246,6 +246,123 @@ table.portfolio-table td.down {
   background: var(--loss-dim);
 }
 
+.portfolio-tab-strip {
+  margin-bottom: 16px;
+}
+
+.portfolio-dashboard-tab {
+  display: flex;
+  flex-direction: column;
+}
+
+.portfolio-dashboard-section-head {
+  margin-top: 22px;
+}
+
+.class-breakdown {
+  margin-bottom: 8px;
+}
+.class-breakdown-bar {
+  display: flex;
+  height: 14px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+.class-breakdown-seg {
+  flex: none;
+  height: 100%;
+}
+.class-breakdown-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 12px;
+}
+.class-breakdown-legend-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+}
+.class-breakdown-swatch {
+  display: inline-flex;
+  flex: none;
+}
+.class-breakdown-legend-name {
+  color: var(--text);
+  font-weight: 600;
+  flex: 1 1 auto;
+}
+.class-breakdown-legend-value {
+  color: var(--text-dim);
+}
+.class-breakdown-legend-pct {
+  color: var(--text-faint);
+  min-width: 4.5ch;
+  text-align: right;
+}
+
+.holdings-rank {
+  margin-bottom: 8px;
+}
+.holdings-rank-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.holdings-rank-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+}
+.holdings-rank-sym {
+  flex: none;
+  width: 9ch;
+  font-family: var(--font-display);
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.holdings-rank-bar-track {
+  flex: 1 1 auto;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.holdings-rank-bar-fill {
+  display: block;
+  height: 100%;
+  background: var(--accent-gradient);
+  border-radius: 999px;
+}
+.holdings-rank-pct {
+  flex: none;
+  min-width: 4.5ch;
+  text-align: right;
+  color: var(--text-dim);
+}
+.holdings-rank-toggle {
+  margin-top: 10px;
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  color: var(--text-dim);
+  padding: 6px 12px;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.holdings-rank-toggle:hover {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
 .portfolio-analytics-head {
   display: flex;
   align-items: baseline;

@@ -2,6 +2,18 @@
 
 Running log of autonomous build cycles. Newest entries at the top.
 
+## 2026-07-11 - Portfolio dashboard: breakdown by asset class and by holding (phase 2 of 2, pass 2 of 4)
+
+**Built:** each portfolio panel now has Holdings/Dashboard tabs. Holdings keeps today's add-position form, summary tiles, and table exactly as before. The new Dashboard tab adds two visual breakdowns above the existing risk-stat grid and AI Insights (both moved here unchanged): a "Breakdown by asset class" horizontal stacked bar (stocks/crypto/bonds/FX/real estate, with a legend showing $ value and %), and a "Breakdown by holding" ranked list (your top 8 positions by market value, with anything beyond that folded into one "Other (N)" row and a "show all" toggle to expand it).
+
+- New `lib/portfolioBreakdown.ts`: `computeAssetClassBreakdown()` groups resolved holdings by asset class in a fixed stocks→crypto→bonds→fx→re order (so colors/positions stay stable once a benchmark comparison is added in a later pass), omitting any class you don't hold rather than showing a 0%-width slice. `rankHoldingsWithOther()` sorts by weight and folds anything past the top 8 into a single combined bucket, never silently dropping data (the "show all" toggle always gets you back to every individual row). 9 new unit tests.
+- New `lib/assetClassStyle.ts`: a fixed color + icon per asset class, deliberately distinct from the `--gain`/`--loss`/`--warn` tokens so a class's color never reads as "up," "down," or "a warning."
+- New hand-rolled components (`ClassBreakdownBar.tsx`, `HoldingsRankBar.tsx`) — plain flex/CSS, no new charting dependency, matching this project's established preference for hand-rolling simple visuals.
+- New `PortfolioDashboardTab.tsx` is the shared composition (breakdowns + the existing risk grid + AI Insights) that a later pass will also reuse for a combined cross-portfolio overview, so that feature doesn't need a third copy of the same pipeline.
+- 10 new i18n keys, translated into all 10 other languages, key-parity script confirms 282/282 across all 11 locales.
+
+**Verified:** `npm run typecheck`/`test` (48/48, 9 new)/`build` all clean. Live in the browser, in a fresh tab (an initial check in a long-reused tab showed a stale React error from before these changes landed via HMR, which a fresh tab confirmed was leftover cache, not a real bug, matching a pattern seen repeatedly earlier in this project): a 10-position diversified portfolio correctly showed 5 asset-class percentages summing to 100% and an 8-plus-"Other (2)" holdings ranking that expanded to all 10 individual rows on "show all" and collapsed back correctly; a single-position portfolio showed one 100% class slice with no phantom zero-width segments for the other four; an empty portfolio showed the existing empty-state message with no NaN or broken math.
+
 ## 2026-07-11 - Portfolio dashboard groundwork: extracted shared holdings/risk-stats logic (phase 2 of 2, pass 1 of 4, pure refactor)
 
 **Built:** nothing user-visible. This is the foundation pass for a portfolio dashboard feature (breakdown by asset class, breakdown by holding, a benchmark comparison against a few model portfolios), which needs the existing per-portfolio quant pipeline reusable from more than one place before any of that can be built without a third copy-paste. Pulled the holdings-resolution and risk-stats logic that lived inline inside `PortfolioPane.tsx` (and was independently duplicated a second time in `RiskCard.tsx` just for its fake benchmark asset) out into shared, tested library code.

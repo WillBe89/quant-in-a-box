@@ -298,6 +298,18 @@
     "analyticsTitle": "پورٹ فولیو تجزیات",
     "analyticsSub": "آپ کی اصل ہولڈنگز میں وزن شدہ",
     "analyticsLoading": "وزن شدہ منافع کی تاریخ کا حساب لگایا جا رہا ہے…",
+    "dashboard": {
+      "tabHoldings": "ہولڈنگز",
+      "tabDashboard": "ڈیش بورڈ",
+      "classBreakdownTitle": "اثاثہ جات کی قسم کے مطابق تقسیم",
+      "classBreakdownSub": "آپ کے پورٹ فولیو کی مالیت اسٹاکس، کرپٹو، بانڈز، ایف ایکس اور رئیل اسٹیٹ میں کیسے تقسیم ہے",
+      "holdingBreakdownTitle": "ہولڈنگ کے مطابق تقسیم",
+      "holdingBreakdownSub": "مارکیٹ ویلیو کے لحاظ سے آپ کی سب سے بڑی ہولڈنگز",
+      "emptyState": "یہ تقسیم دیکھنے کے لیے ایک پوزیشن شامل کریں۔",
+      "otherLabel": "دیگر ({{count}})",
+      "showAllBtn": "تمام {{count}} ہولڈنگز دکھائیں",
+      "showTopBtn": "ٹاپ {{n}} دکھائیں"
+    },
     "ai": {
       "sectionTitle": "AI پورٹ فولیو بصیرت",
       "sectionSub": "عمومی تعلیمی تبصرہ — یہ مالی مشورہ نہیں ہے",

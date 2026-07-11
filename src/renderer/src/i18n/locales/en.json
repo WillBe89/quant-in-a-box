@@ -345,6 +345,18 @@
     "analyticsTitle": "Portfolio analytics",
     "analyticsSub": "Weighted across your actual holdings",
     "analyticsLoading": "Crunching weighted return history…",
+    "dashboard": {
+      "tabHoldings": "Holdings",
+      "tabDashboard": "Dashboard",
+      "classBreakdownTitle": "Breakdown by asset class",
+      "classBreakdownSub": "How your portfolio's value splits across stocks, crypto, bonds, FX, and real estate",
+      "holdingBreakdownTitle": "Breakdown by holding",
+      "holdingBreakdownSub": "Your largest individual positions, ranked by market value",
+      "emptyState": "Add a position to see this breakdown.",
+      "otherLabel": "Other ({{count}})",
+      "showAllBtn": "Show all {{count}} holdings",
+      "showTopBtn": "Show top {{n}}"
+    },
     "ai": {
       "sectionTitle": "AI portfolio insights",
       "sectionSub": "General educational commentary, not financial advice",

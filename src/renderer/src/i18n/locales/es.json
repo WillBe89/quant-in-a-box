@@ -298,6 +298,18 @@
     "analyticsTitle": "Análisis de la cartera",
     "analyticsSub": "Ponderado según tus posiciones actuales",
     "analyticsLoading": "Procesando historial de rendimientos ponderados…",
+    "dashboard": {
+      "tabHoldings": "Posiciones",
+      "tabDashboard": "Panel",
+      "classBreakdownTitle": "Desglose por clase de activo",
+      "classBreakdownSub": "Cómo se reparte el valor de tu cartera entre acciones, cripto, bonos, divisas y bienes raíces",
+      "holdingBreakdownTitle": "Desglose por posición",
+      "holdingBreakdownSub": "Tus mayores posiciones individuales, ordenadas por valor de mercado",
+      "emptyState": "Añade una posición para ver este desglose.",
+      "otherLabel": "Otros ({{count}})",
+      "showAllBtn": "Mostrar las {{count}} posiciones",
+      "showTopBtn": "Mostrar las {{n}} principales"
+    },
     "ai": {
       "sectionTitle": "Perspectivas de IA sobre la cartera",
       "sectionSub": "Comentario educativo general — no es asesoramiento financiero",

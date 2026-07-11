@@ -298,6 +298,18 @@
     "analyticsTitle": "组合分析",
     "analyticsSub": "基于你实际持仓的加权计算结果",
     "analyticsLoading": "正在计算加权历史收益数据…",
+    "dashboard": {
+      "tabHoldings": "持仓",
+      "tabDashboard": "仪表盘",
+      "classBreakdownTitle": "按资产类别划分",
+      "classBreakdownSub": "您的投资组合价值在股票、加密货币、债券、外汇和房地产之间的分布",
+      "holdingBreakdownTitle": "按持仓划分",
+      "holdingBreakdownSub": "按市值排名的最大持仓",
+      "emptyState": "添加一个持仓以查看此分布。",
+      "otherLabel": "其他 ({{count}})",
+      "showAllBtn": "显示全部 {{count}} 个持仓",
+      "showTopBtn": "显示前 {{n}} 个"
+    },
     "ai": {
       "sectionTitle": "AI 组合洞察",
       "sectionSub": "通用教育性说明——并非财务建议",
