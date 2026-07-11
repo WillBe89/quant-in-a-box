@@ -7,7 +7,7 @@ import Workspace from '@renderer/components/layout/Workspace'
 import Dock from '@renderer/components/layout/Dock'
 import TickerTape from '@renderer/components/layout/TickerTape'
 import AcademyPanel from '@renderer/academy/AcademyPanel'
-import PortfolioPanel from '@renderer/components/portfolio/PortfolioPanel'
+import PortfolioWorkspace from '@renderer/components/portfolio/PortfolioWorkspace'
 import CustomizePanel from '@renderer/components/customize/CustomizePanel'
 import DockCardOverlay from '@renderer/components/dock/DockCardOverlay'
 import '@renderer/components/layout/layout.css'
@@ -29,7 +29,7 @@ function Shell(): JSX.Element {
       </div>
       <TickerTape />
       <AcademyPanel />
-      <PortfolioPanel />
+      <PortfolioWorkspace />
       <CustomizePanel />
       <DockCardOverlay />
     </div>

@@ -15,14 +15,14 @@ function timeAgo(unixSeconds: number, t: TFunction): string {
 }
 
 export function useNewsFeed(): NewsItem[] {
-  const { symbol, newsSource, watchlist, portfolio } = useAppState()
+  const { symbol, newsSource, watchlist, allPortfolioSymbols } = useAppState()
   const [news, setNews] = useState<NewsItem[]>([])
 
   const relevantSymbols =
     newsSource === 'watchlist'
       ? watchlist.map((a) => a.symbol)
       : newsSource === 'portfolio'
-        ? portfolio.map((p) => p.symbol)
+        ? allPortfolioSymbols
         : [symbol.symbol]
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export function useNewsFeed(): NewsItem[] {
       cancelled = true
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newsSource, symbol, watchlist, portfolio])
+  }, [newsSource, symbol, watchlist, allPortfolioSymbols])
 
   return news
 }

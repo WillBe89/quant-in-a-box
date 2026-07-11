@@ -1,10 +1,11 @@
 import { useTranslation } from 'react-i18next'
 import { useAppState } from '@renderer/state/AppStateContext'
 import { IconAcademy, IconPortfolio, IconSliders, IconStar } from '@renderer/components/icons/Icons'
+import PortfolioPicker from '@renderer/components/portfolio/PortfolioPicker'
 
 export default function Rail(): JSX.Element {
   const { t } = useTranslation()
-  const { selectSymbol, openAcademy, openPortfolio, openCustomize, watchlist } = useAppState()
+  const { selectSymbol, openAcademy, openCustomize, watchlist, allPortfolioSymbols } = useAppState()
 
   return (
     <aside className="rail">
@@ -26,10 +27,15 @@ export default function Rail(): JSX.Element {
         ))}
       </div>
       <div className="rail-spacer" />
-      <button className="rail-btn" onClick={openPortfolio} title={t('rail.yourPortfolio') ?? undefined}>
-        <IconPortfolio size={17} />
-        <span className="lbl">{t('rail.yourPortfolio')}</span>
-      </button>
+      <PortfolioPicker
+        renderTrigger={(onClick) => (
+          <button className="rail-btn icon-btn-badge" onClick={onClick} title={t('rail.yourPortfolio') ?? undefined}>
+            <IconPortfolio size={17} />
+            {allPortfolioSymbols.length > 0 && <span className="icon-badge">{allPortfolioSymbols.length}</span>}
+            <span className="lbl">{t('rail.yourPortfolio')}</span>
+          </button>
+        )}
+      />
       <button className="rail-btn rail-learn" onClick={() => openAcademy()} title={t('rail.teachingZone') ?? undefined}>
         <IconAcademy size={17} />
         <span className="lbl">{t('rail.teachingZone')}</span>

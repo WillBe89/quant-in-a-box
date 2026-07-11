@@ -1,27 +1,19 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { AssetClass } from '@renderer/types/market'
 import { ALL_ASSETS } from '@renderer/data/mockData'
+import { searchAssets } from '@renderer/lib/assetSearch'
 import { useAppState } from '@renderer/state/AppStateContext'
 import { SUPPORTED_LANGUAGES } from '@renderer/i18n'
 import { IconAcademy, IconPortfolio } from '@renderer/components/icons/Icons'
 import Tooltip from '@renderer/components/ui/Tooltip'
+import PortfolioPicker from '@renderer/components/portfolio/PortfolioPicker'
 import logoMark from '@renderer/assets/logo-just.png'
 
 export default function Topbar(): JSX.Element {
   const { t } = useTranslation()
-  const {
-    assetClass,
-    setAssetClass,
-    selectSymbol,
-    theme,
-    toggleTheme,
-    openAcademy,
-    openPortfolio,
-    portfolio,
-    language,
-    setLanguage
-  } = useAppState()
+  const { assetClass, setAssetClass, selectSymbol, theme, toggleTheme, openAcademy, allPortfolioSymbols, language, setLanguage } =
+    useAppState()
   const [query, setQuery] = useState('')
 
   const CLASS_OPTIONS: Array<{ id: AssetClass | 'all'; label: string }> = [
@@ -33,14 +25,7 @@ export default function Topbar(): JSX.Element {
     { id: 're', label: t('topbar.classRe') }
   ]
 
-  const matches =
-    query.trim().length > 0
-      ? ALL_ASSETS.filter(
-          (a) =>
-            a.symbol.toLowerCase().includes(query.toLowerCase()) ||
-            a.name.toLowerCase().includes(query.toLowerCase())
-        ).slice(0, 6)
-      : []
+  const matches = useMemo(() => searchAssets(ALL_ASSETS, query), [query])
 
   return (
     <header className="topbar">
@@ -98,12 +83,16 @@ export default function Topbar(): JSX.Element {
 
       <div className="topbar-actions">
         <span className="scope-badge">{t('topbar.scopeBadge')}</span>
-        <Tooltip label={t('topbar.portfolioBtn')}>
-          <button className="icon-btn icon-btn-badge" onClick={openPortfolio} aria-label={t('topbar.portfolioBtn')}>
-            <IconPortfolio size={16} />
-            {portfolio.length > 0 && <span className="icon-badge">{portfolio.length}</span>}
-          </button>
-        </Tooltip>
+        <PortfolioPicker
+          renderTrigger={(onClick) => (
+            <Tooltip label={t('topbar.portfolioBtn')}>
+              <button className="icon-btn icon-btn-badge" onClick={onClick} aria-label={t('topbar.portfolioBtn')}>
+                <IconPortfolio size={16} />
+                {allPortfolioSymbols.length > 0 && <span className="icon-badge">{allPortfolioSymbols.length}</span>}
+              </button>
+            </Tooltip>
+          )}
+        />
         <Tooltip label={t('topbar.learnBtn')}>
           <button className="icon-btn" onClick={() => openAcademy()} aria-label={t('topbar.learnBtn')}>
             <IconAcademy size={16} />

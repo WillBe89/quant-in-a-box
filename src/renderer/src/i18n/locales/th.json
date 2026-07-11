@@ -19,7 +19,13 @@
     "newsPortfolio": "พอร์ตของฉัน",
     "dockSectionsHeading": "ส่วนต่างๆ ของแดชบอร์ด",
     "dockSectionsSub": "เลือกว่าส่วนใดจะแสดงในแถบด้านข้าง — ลากส่วนหัวเพื่อจัดลำดับใหม่",
-    "resetLayoutBtn": "รีเซ็ตเลย์เอาต์"
+    "resetLayoutBtn": "รีเซ็ตเลย์เอาต์",
+    "portfoliosHeading": "พอร์ต",
+    "portfoliosSub": "เปลี่ยนชื่อหรือลบพอร์ตที่บันทึกไว้ของคุณ คลิกที่ชื่อเพื่อเปลี่ยนชื่อ",
+    "noPortfolios": "คุณยังไม่ได้สร้างพอร์ตเลย",
+    "deletePortfolio": "ลบพอร์ต",
+    "confirmDelete": "ยืนยันการลบ?",
+    "portfolioNameTaken": "คุณมีพอร์ตที่ใช้ชื่อนี้อยู่แล้ว"
   },
   "ticker": {
     "settingsLabel": "ตั้งค่าแถบราคา",
@@ -258,7 +264,9 @@
       "connectBody": "ติดตั้งและลงชื่อเข้าใช้ Claude Code CLI บนเครื่องนี้ หรือเพิ่ม ANTHROPIC_API_KEY ในไฟล์ .env ของคุณ เพื่อเปิดใช้งานความเห็นพอร์ตจาก AI",
       "errorTitle": "ไม่สามารถสร้างข้อมูลเชิงลึกได้",
       "retryBtn": "ลองอีกครั้ง"
-    }
+    },
+    "pickerHeading": "พอร์ตของคุณ",
+    "newPortfolioBtn": "+ พอร์ตใหม่"
   },
   "card": {
     "expand": "ขยาย",

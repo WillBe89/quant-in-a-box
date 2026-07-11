@@ -19,7 +19,13 @@
     "newsPortfolio": "محفظتي",
     "dockSectionsHeading": "أقسام لوحة التحكم",
     "dockSectionsSub": "اختر الأقسام التي تظهر في الشريط الجانبي — اسحب عناوينها لإعادة ترتيبها.",
-    "resetLayoutBtn": "إعادة تعيين التخطيط"
+    "resetLayoutBtn": "إعادة تعيين التخطيط",
+    "portfoliosHeading": "المحافظ",
+    "portfoliosSub": "أعد تسمية محافظك المحفوظة أو احذفها. انقر على الاسم لإعادة تسميته.",
+    "noPortfolios": "لم تُنشئ أي محفظة بعد.",
+    "deletePortfolio": "حذف المحفظة",
+    "confirmDelete": "تأكيد الحذف؟",
+    "portfolioNameTaken": "لديك بالفعل محفظة بهذا الاسم."
   },
   "ticker": {
     "settingsLabel": "إعدادات الشريط المتحرك",
@@ -258,7 +264,9 @@
       "connectBody": "ثبّت أداة Claude Code CLI على هذا الجهاز وسجّل الدخول إليها، أو أضف ANTHROPIC_API_KEY إلى ملف .env الخاص بك، لتفعيل تعليقات الذكاء الاصطناعي على المحفظة.",
       "errorTitle": "تعذّر إنشاء الرؤى",
       "retryBtn": "أعد المحاولة"
-    }
+    },
+    "pickerHeading": "محافظك",
+    "newPortfolioBtn": "+ محفظة جديدة"
   },
   "card": {
     "expand": "توسيع",

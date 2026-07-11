@@ -19,7 +19,13 @@
     "newsPortfolio": "Mon portefeuille",
     "dockSectionsHeading": "Sections du tableau de bord",
     "dockSectionsSub": "Choisissez les sections affichées dans la barre latérale — faites glisser leurs en-têtes pour les réorganiser.",
-    "resetLayoutBtn": "Réinitialiser la disposition"
+    "resetLayoutBtn": "Réinitialiser la disposition",
+    "portfoliosHeading": "Portefeuilles",
+    "portfoliosSub": "Renommez ou supprimez vos portefeuilles enregistrés. Cliquez sur un nom pour le renommer.",
+    "noPortfolios": "Vous n'avez pas encore créé de portefeuille.",
+    "deletePortfolio": "Supprimer le portefeuille",
+    "confirmDelete": "Confirmer la suppression ?",
+    "portfolioNameTaken": "Vous avez déjà un portefeuille portant ce nom."
   },
   "ticker": {
     "settingsLabel": "Paramètres du bandeau défilant",
@@ -258,7 +264,9 @@
       "connectBody": "Installez et connectez-vous à la CLI Claude Code sur cet ordinateur, ou ajoutez une ANTHROPIC_API_KEY à votre fichier .env, pour activer le commentaire IA sur le portefeuille.",
       "errorTitle": "Impossible de générer les analyses",
       "retryBtn": "Réessayer"
-    }
+    },
+    "pickerHeading": "Vos portefeuilles",
+    "newPortfolioBtn": "+ Nouveau portefeuille"
   },
   "card": {
     "expand": "Agrandir",

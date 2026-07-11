@@ -196,6 +196,14 @@ export function IconExpand({ size = 14, className }: IconProps): JSX.Element {
   )
 }
 
+export function IconCheck({ size = 14, className }: IconProps): JSX.Element {
+  return (
+    <svg width={size} height={size} className={className} {...base}>
+      <path d="M4 12.5l5 5L20 6" />
+    </svg>
+  )
+}
+
 export function IconFaceGood({ size = 14, className }: IconProps): JSX.Element {
   return (
     <svg width={size} height={size} className={className} {...base}>

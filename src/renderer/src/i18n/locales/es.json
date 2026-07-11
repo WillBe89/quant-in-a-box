@@ -19,7 +19,13 @@
     "newsPortfolio": "Mi cartera",
     "dockSectionsHeading": "Secciones del panel",
     "dockSectionsSub": "Elige qué secciones aparecen en la barra lateral — arrastra sus cabeceras para reordenarlas.",
-    "resetLayoutBtn": "Restablecer diseño"
+    "resetLayoutBtn": "Restablecer diseño",
+    "portfoliosHeading": "Carteras",
+    "portfoliosSub": "Cambia el nombre o elimina tus carteras guardadas. Haz clic en un nombre para renombrarlo.",
+    "noPortfolios": "Aún no has creado ninguna cartera.",
+    "deletePortfolio": "Eliminar cartera",
+    "confirmDelete": "¿Confirmar eliminación?",
+    "portfolioNameTaken": "Ya tienes una cartera con ese nombre."
   },
   "ticker": {
     "settingsLabel": "Configuración del ticker",
@@ -258,7 +264,9 @@
       "connectBody": "Instala e inicia sesión en la CLI de Claude Code en este ordenador, o añade una ANTHROPIC_API_KEY a tu archivo .env, para activar el comentario de IA sobre la cartera.",
       "errorTitle": "No se pudieron generar las perspectivas",
       "retryBtn": "Intentar de nuevo"
-    }
+    },
+    "pickerHeading": "Tus carteras",
+    "newPortfolioBtn": "+ Nueva cartera"
   },
   "card": {
     "expand": "Ampliar",

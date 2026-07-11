@@ -1,7 +1,8 @@
 import type { Asset, AssetClass, Candle, NewsItem, OptionQuote, Timeframe } from '@renderer/types/market'
 import { blackScholes } from '@renderer/lib/quant'
+import { GENERATED_STOCK_ASSETS, GENERATED_CRYPTO_ASSETS } from './assetUniverse'
 
-export const ASSETS_BY_CLASS: Record<AssetClass, Asset[]> = {
+const CURATED_ASSETS_BY_CLASS: Record<AssetClass, Asset[]> = {
   stocks: [
     { symbol: 'NVDA', name: 'NVIDIA Corp · NASDAQ', klass: 'stocks', price: 142.87, changePct: 2.36 },
     { symbol: 'AAPL', name: 'Apple Inc · NASDAQ', klass: 'stocks', price: 231.1, changePct: 0.44 },
@@ -15,17 +16,78 @@ export const ASSETS_BY_CLASS: Record<AssetClass, Asset[]> = {
   bonds: [
     { symbol: 'US10Y', name: '10Y Treasury Yield', klass: 'bonds', price: 4.28, changePct: 0.04, isYield: true },
     { symbol: 'US2Y', name: '2Y Treasury Yield', klass: 'bonds', price: 4.62, changePct: -0.02, isYield: true },
-    { symbol: 'LQD', name: 'Inv. Grade Corp Bond ETF', klass: 'bonds', price: 109.3, changePct: 0.11 }
+    { symbol: 'LQD', name: 'Inv. Grade Corp Bond ETF', klass: 'bonds', price: 109.3, changePct: 0.11 },
+    { symbol: 'US1M', name: '1M Treasury Yield', klass: 'bonds', price: 5.32, changePct: 0.01, isYield: true },
+    { symbol: 'US3M', name: '3M Treasury Yield', klass: 'bonds', price: 5.24, changePct: 0.01, isYield: true },
+    { symbol: 'US6M', name: '6M Treasury Yield', klass: 'bonds', price: 5.05, changePct: -0.01, isYield: true },
+    { symbol: 'US1Y', name: '1Y Treasury Yield', klass: 'bonds', price: 4.78, changePct: -0.02, isYield: true },
+    { symbol: 'US5Y', name: '5Y Treasury Yield', klass: 'bonds', price: 4.15, changePct: 0.03, isYield: true },
+    { symbol: 'US20Y', name: '20Y Treasury Yield', klass: 'bonds', price: 4.51, changePct: 0.02, isYield: true },
+    { symbol: 'US30Y', name: '30Y Treasury Yield', klass: 'bonds', price: 4.46, changePct: 0.02, isYield: true },
+    { symbol: 'AGG', name: 'iShares Core US Aggregate Bond ETF', klass: 'bonds', price: 98.6, changePct: 0.08 },
+    { symbol: 'BND', name: 'Vanguard Total Bond Market ETF', klass: 'bonds', price: 72.9, changePct: 0.07 },
+    { symbol: 'TLT', name: 'iShares 20+ Year Treasury Bond ETF', klass: 'bonds', price: 92.4, changePct: 0.32 },
+    { symbol: 'IEF', name: 'iShares 7-10 Year Treasury Bond ETF', klass: 'bonds', price: 95.1, changePct: 0.14 },
+    { symbol: 'SHY', name: 'iShares 1-3 Year Treasury Bond ETF', klass: 'bonds', price: 82.3, changePct: 0.02 },
+    { symbol: 'HYG', name: 'iShares iBoxx High Yield Corp Bond ETF', klass: 'bonds', price: 78.5, changePct: -0.09 },
+    { symbol: 'JNK', name: 'SPDR Bloomberg High Yield Bond ETF', klass: 'bonds', price: 97.2, changePct: -0.08 },
+    { symbol: 'MUB', name: 'iShares National Muni Bond ETF', klass: 'bonds', price: 106.8, changePct: 0.05 },
+    { symbol: 'TIP', name: 'iShares TIPS Bond ETF', klass: 'bonds', price: 108.4, changePct: 0.06 },
+    { symbol: 'BNDX', name: 'Vanguard Total International Bond ETF', klass: 'bonds', price: 48.9, changePct: 0.03 },
+    { symbol: 'EMB', name: 'iShares JPM USD Emerging Markets Bond ETF', klass: 'bonds', price: 88.7, changePct: 0.15 },
+    { symbol: 'VCIT', name: 'Vanguard Interm.-Term Corp Bond ETF', klass: 'bonds', price: 80.6, changePct: 0.1 },
+    { symbol: 'VCSH', name: 'Vanguard Short-Term Corp Bond ETF', klass: 'bonds', price: 76.8, changePct: 0.03 },
+    { symbol: 'SPTL', name: 'SPDR Portfolio Long Term Treasury ETF', klass: 'bonds', price: 30.2, changePct: 0.28 }
   ],
   fx: [
     { symbol: 'EURUSD', name: 'Euro / US Dollar', klass: 'fx', price: 1.0842, changePct: 0.18 },
     { symbol: 'GBPUSD', name: 'British Pound / USD', klass: 'fx', price: 1.2735, changePct: -0.09 },
-    { symbol: 'XAUUSD', name: 'Gold Spot', klass: 'fx', price: 2384.2, changePct: 0.55 }
+    { symbol: 'XAUUSD', name: 'Gold Spot', klass: 'fx', price: 2384.2, changePct: 0.55 },
+    { symbol: 'USDJPY', name: 'US Dollar / Japanese Yen', klass: 'fx', price: 157.32, changePct: 0.12 },
+    { symbol: 'USDCHF', name: 'US Dollar / Swiss Franc', klass: 'fx', price: 0.8912, changePct: -0.06 },
+    { symbol: 'AUDUSD', name: 'Australian Dollar / USD', klass: 'fx', price: 0.6614, changePct: 0.21 },
+    { symbol: 'USDCAD', name: 'US Dollar / Canadian Dollar', klass: 'fx', price: 1.3695, changePct: -0.04 },
+    { symbol: 'NZDUSD', name: 'New Zealand Dollar / USD', klass: 'fx', price: 0.6098, changePct: 0.14 },
+    { symbol: 'EURJPY', name: 'Euro / Japanese Yen', klass: 'fx', price: 170.58, changePct: 0.25 },
+    { symbol: 'EURGBP', name: 'Euro / British Pound', klass: 'fx', price: 0.8514, changePct: -0.03 },
+    { symbol: 'GBPJPY', name: 'British Pound / Japanese Yen', klass: 'fx', price: 200.36, changePct: 0.19 },
+    { symbol: 'EURCHF', name: 'Euro / Swiss Franc', klass: 'fx', price: 0.9662, changePct: 0.02 },
+    { symbol: 'AUDJPY', name: 'Australian Dollar / Japanese Yen', klass: 'fx', price: 104.06, changePct: 0.31 },
+    { symbol: 'USDMXN', name: 'US Dollar / Mexican Peso', klass: 'fx', price: 18.24, changePct: -0.11 },
+    { symbol: 'USDZAR', name: 'US Dollar / South African Rand', klass: 'fx', price: 18.02, changePct: 0.28 },
+    { symbol: 'USDTRY', name: 'US Dollar / Turkish Lira', klass: 'fx', price: 32.85, changePct: 0.44 },
+    { symbol: 'USDSEK', name: 'US Dollar / Swedish Krona', klass: 'fx', price: 10.62, changePct: -0.08 },
+    { symbol: 'USDNOK', name: 'US Dollar / Norwegian Krone', klass: 'fx', price: 10.71, changePct: -0.07 },
+    { symbol: 'XAGUSD', name: 'Silver Spot', klass: 'fx', price: 29.14, changePct: 0.62 },
+    { symbol: 'XPTUSD', name: 'Platinum Spot', klass: 'fx', price: 967.5, changePct: 0.19 }
   ],
   re: [
     { symbol: 'VNQ', name: 'Vanguard Real Estate ETF (REIT proxy)', klass: 're', price: 88.41, changePct: 0.62 },
-    { symbol: 'IYR', name: 'iShares US Real Estate ETF (REIT proxy)', klass: 're', price: 92.05, changePct: 0.58 }
+    { symbol: 'IYR', name: 'iShares US Real Estate ETF (REIT proxy)', klass: 're', price: 92.05, changePct: 0.58 },
+    { symbol: 'O', name: 'Realty Income Corp', klass: 're', price: 56.3, changePct: 0.41 },
+    { symbol: 'PLD', name: 'Prologis, Inc.', klass: 're', price: 108.9, changePct: -0.22 },
+    { symbol: 'AMT', name: 'American Tower Corp', klass: 're', price: 196.4, changePct: 0.18 },
+    { symbol: 'EQIX', name: 'Equinix, Inc.', klass: 're', price: 812.6, changePct: 0.55 },
+    { symbol: 'PSA', name: 'Public Storage', klass: 're', price: 289.3, changePct: -0.14 },
+    { symbol: 'SPG', name: 'Simon Property Group', klass: 're', price: 154.2, changePct: 0.33 },
+    { symbol: 'AVB', name: 'AvalonBay Communities', klass: 're', price: 198.7, changePct: 0.09 },
+    { symbol: 'EQR', name: 'Equity Residential', klass: 're', price: 65.8, changePct: 0.12 },
+    { symbol: 'DLR', name: 'Digital Realty Trust', klass: 're', price: 152.4, changePct: 0.47 },
+    { symbol: 'WELL', name: 'Welltower Inc.', klass: 're', price: 118.6, changePct: 0.29 },
+    { symbol: 'CCI', name: 'Crown Castle Inc.', klass: 're', price: 104.2, changePct: -0.18 },
+    { symbol: 'EXR', name: 'Extra Space Storage', klass: 're', price: 143.9, changePct: 0.06 },
+    { symbol: 'MAA', name: 'Mid-America Apartment Communities', klass: 're', price: 137.5, changePct: 0.15 },
+    { symbol: 'ESS', name: 'Essex Property Trust', klass: 're', price: 268.3, changePct: 0.21 },
+    { symbol: 'SCHH', name: 'Schwab US REIT ETF', klass: 're', price: 20.1, changePct: 0.24 },
+    { symbol: 'XLRE', name: 'Real Estate Select Sector SPDR Fund', klass: 're', price: 39.6, changePct: 0.27 },
+    { symbol: 'RWR', name: 'SPDR Dow Jones REIT ETF', klass: 're', price: 92.8, changePct: 0.2 }
   ]
+}
+
+export const ASSETS_BY_CLASS: Record<AssetClass, Asset[]> = {
+  ...CURATED_ASSETS_BY_CLASS,
+  stocks: [...CURATED_ASSETS_BY_CLASS.stocks, ...GENERATED_STOCK_ASSETS],
+  crypto: [...CURATED_ASSETS_BY_CLASS.crypto, ...GENERATED_CRYPTO_ASSETS]
 }
 
 export const ALL_ASSETS: Asset[] = Object.values(ASSETS_BY_CLASS).flat()

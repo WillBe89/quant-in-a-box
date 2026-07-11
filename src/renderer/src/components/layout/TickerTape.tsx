@@ -10,7 +10,7 @@ const SOURCES: TickerSource[] = ['watchlist', 'portfolio', 'all']
 
 export default function TickerTape(): JSX.Element {
   const { t } = useTranslation()
-  const { tickerSource, setTickerSource, watchlist, portfolio } = useAppState()
+  const { tickerSource, setTickerSource, watchlist, allPortfolioSymbols } = useAppState()
   const [menuOpen, setMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const settingsBtnRef = useRef<HTMLButtonElement>(null)
@@ -35,12 +35,12 @@ export default function TickerTape(): JSX.Element {
   const assets = useMemo<Asset[]>(() => {
     if (tickerSource === 'all') return ALL_ASSETS
     if (tickerSource === 'portfolio') {
-      return portfolio
-        .map((p) => ALL_ASSETS.find((a) => a.symbol === p.symbol))
+      return allPortfolioSymbols
+        .map((sym) => ALL_ASSETS.find((a) => a.symbol === sym))
         .filter((a): a is Asset => Boolean(a))
     }
     return watchlist
-  }, [tickerSource, watchlist, portfolio])
+  }, [tickerSource, watchlist, allPortfolioSymbols])
 
   const emptyMessage =
     assets.length === 0

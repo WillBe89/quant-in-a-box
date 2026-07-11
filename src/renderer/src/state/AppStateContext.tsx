@@ -1,11 +1,12 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import type { Asset, AssetClass, IndicatorId, PortfolioPosition, Timeframe } from '@renderer/types/market'
+import type { Asset, AssetClass, IndicatorId, Portfolio, PortfolioPosition, Timeframe } from '@renderer/types/market'
 import { ALL_ASSETS, ASSETS_BY_CLASS } from '@renderer/data/mockData'
 import i18n, { languageDir } from '@renderer/i18n'
 
 const WATCHLIST_STORAGE_KEY = 'qiab:watchlist:v1'
 const DEFAULT_WATCHLIST_SYMBOLS = ['NVDA', 'BTC', 'US10Y', 'EURUSD', 'VNQ']
-const PORTFOLIO_STORAGE_KEY = 'qiab:portfolio:v1'
+const LEGACY_PORTFOLIO_STORAGE_KEY = 'qiab:portfolio:v1'
+const PORTFOLIOS_STORAGE_KEY = 'qiab:portfolios:v2'
 const LANGUAGE_STORAGE_KEY = 'qiab:language:v1'
 const TICKER_SOURCE_STORAGE_KEY = 'qiab:tickerSource:v1'
 const NEWS_SOURCE_STORAGE_KEY = 'qiab:newsSource:v1'
@@ -71,10 +72,45 @@ function loadLanguage(): string {
   }
 }
 
-function loadPortfolio(): PortfolioPosition[] {
+function generatePortfolioId(): string {
   try {
-    const raw = localStorage.getItem(PORTFOLIO_STORAGE_KEY)
-    if (raw) return JSON.parse(raw)
+    return crypto.randomUUID()
+  } catch {
+    return `p-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+  }
+}
+
+function isNameTaken(portfolios: Portfolio[], name: string, excludeId?: string): boolean {
+  const normalized = name.trim().toLowerCase()
+  return portfolios.some((p) => p.id !== excludeId && p.name.trim().toLowerCase() === normalized)
+}
+
+/** Smallest-unused-N "Portfolio N" name, not just count+1 (avoids reusing/colliding after a delete). */
+function nextDefaultPortfolioName(portfolios: Portfolio[]): string {
+  let n = 1
+  while (isNameTaken(portfolios, `Portfolio ${n}`)) n++
+  return `Portfolio ${n}`
+}
+
+function loadPortfolios(): Portfolio[] {
+  try {
+    const raw = localStorage.getItem(PORTFOLIOS_STORAGE_KEY)
+    if (raw) {
+      const parsed = JSON.parse(raw)
+      if (Array.isArray(parsed)) return parsed
+    }
+  } catch {
+    // fall through to migration/default
+  }
+  // Migrate the old single-portfolio shape (a bare PortfolioPosition[]) into a named portfolio.
+  try {
+    const legacyRaw = localStorage.getItem(LEGACY_PORTFOLIO_STORAGE_KEY)
+    if (legacyRaw) {
+      const legacyPositions: PortfolioPosition[] = JSON.parse(legacyRaw)
+      if (Array.isArray(legacyPositions) && legacyPositions.length > 0) {
+        return [{ id: generatePortfolioId(), name: 'Portfolio 1', positions: legacyPositions }]
+      }
+    }
   } catch {
     // corrupt/unavailable storage — start empty rather than crash
   }
@@ -116,12 +152,18 @@ interface AppState {
   closeAcademy: () => void
   isInWatchlist: (symbol: string) => boolean
   toggleWatchlist: (asset: Asset) => void
-  portfolio: PortfolioPosition[]
-  addPosition: (symbol: string, quantity: number, costBasis: number) => void
-  removePosition: (symbol: string) => void
-  portfolioOpen: boolean
-  openPortfolio: () => void
-  closePortfolio: () => void
+  portfolios: Portfolio[]
+  openPortfolioIds: string[]
+  lastActivePortfolioId: string | null
+  createPortfolio: (name?: string) => string
+  renamePortfolio: (id: string, name: string) => boolean
+  deletePortfolio: (id: string) => void
+  addPosition: (portfolioId: string, symbol: string, quantity: number, costBasis: number) => void
+  removePosition: (portfolioId: string, symbol: string) => void
+  openPortfolio: (id: string) => void
+  closePortfolioInstance: (id: string) => void
+  closeAllPortfolios: () => void
+  allPortfolioSymbols: string[]
   language: string
   setLanguage: (code: string) => void
   tickerSource: TickerSource
@@ -159,8 +201,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
   const [academyOpen, setAcademyOpen] = useState(false)
   const [academyLessonId, setAcademyLessonId] = useState<string | null>(null)
-  const [portfolio, setPortfolio] = useState<PortfolioPosition[]>(() => loadPortfolio())
-  const [portfolioOpen, setPortfolioOpen] = useState(false)
+  const [portfolios, setPortfolios] = useState<Portfolio[]>(() => loadPortfolios())
+  const [openPortfolioIds, setOpenPortfolioIds] = useState<string[]>([])
+  const [lastActivePortfolioId, setLastActivePortfolioId] = useState<string | null>(null)
   const [language, setLanguageState] = useState<string>(() => loadLanguage())
   const [tickerSource, setTickerSourceState] = useState<TickerSource>(() => loadTickerSource())
   const [customizeOpen, setCustomizeOpen] = useState(false)
@@ -189,11 +232,11 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
 
   useEffect(() => {
     try {
-      localStorage.setItem(PORTFOLIO_STORAGE_KEY, JSON.stringify(portfolio))
+      localStorage.setItem(PORTFOLIOS_STORAGE_KEY, JSON.stringify(portfolios))
     } catch {
       // best-effort persistence; ignore quota/availability errors
     }
-  }, [portfolio])
+  }, [portfolios])
 
   useEffect(() => {
     try {
@@ -250,26 +293,80 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
     )
   }, [])
 
-  const addPosition = useCallback((sym: string, quantity: number, costBasis: number) => {
-    setPortfolio((prev) => {
-      const existing = prev.find((p) => p.symbol === sym)
-      if (existing) {
-        // Adding to an existing holding blends into a new average cost basis
-        // rather than creating a duplicate row for the same symbol.
-        const totalQty = existing.quantity + quantity
-        const blendedCost = (existing.quantity * existing.costBasis + quantity * costBasis) / totalQty
-        return prev.map((p) => (p.symbol === sym ? { ...p, quantity: totalQty, costBasis: blendedCost } : p))
-      }
-      return [...prev, { symbol: sym, quantity, costBasis, addedAt: Math.floor(Date.now() / 1000) }]
+  const addPosition = useCallback((portfolioId: string, sym: string, quantity: number, costBasis: number) => {
+    setPortfolios((prev) =>
+      prev.map((p) => {
+        if (p.id !== portfolioId) return p
+        const existing = p.positions.find((pos) => pos.symbol === sym)
+        if (existing) {
+          // Adding to an existing holding blends into a new average cost basis
+          // rather than creating a duplicate row for the same symbol.
+          const totalQty = existing.quantity + quantity
+          const blendedCost = (existing.quantity * existing.costBasis + quantity * costBasis) / totalQty
+          return {
+            ...p,
+            positions: p.positions.map((pos) =>
+              pos.symbol === sym ? { ...pos, quantity: totalQty, costBasis: blendedCost } : pos
+            )
+          }
+        }
+        return {
+          ...p,
+          positions: [...p.positions, { symbol: sym, quantity, costBasis, addedAt: Math.floor(Date.now() / 1000) }]
+        }
+      })
+    )
+  }, [])
+
+  const removePosition = useCallback((portfolioId: string, sym: string) => {
+    setPortfolios((prev) =>
+      prev.map((p) => (p.id === portfolioId ? { ...p, positions: p.positions.filter((pos) => pos.symbol !== sym) } : p))
+    )
+  }, [])
+
+  const createPortfolio = useCallback((name?: string) => {
+    const id = generatePortfolioId()
+    setPortfolios((prev) => {
+      const finalName = name && name.trim() && !isNameTaken(prev, name) ? name.trim() : nextDefaultPortfolioName(prev)
+      return [...prev, { id, name: finalName, positions: [] }]
     })
+    return id
   }, [])
 
-  const removePosition = useCallback((sym: string) => {
-    setPortfolio((prev) => prev.filter((p) => p.symbol !== sym))
+  const renamePortfolio = useCallback((id: string, name: string): boolean => {
+    const trimmed = name.trim()
+    if (!trimmed) return false
+    let success = false
+    setPortfolios((prev) => {
+      if (isNameTaken(prev, trimmed, id)) {
+        success = false
+        return prev
+      }
+      success = true
+      return prev.map((p) => (p.id === id ? { ...p, name: trimmed } : p))
+    })
+    return success
   }, [])
 
-  const openPortfolio = useCallback(() => setPortfolioOpen(true), [])
-  const closePortfolio = useCallback(() => setPortfolioOpen(false), [])
+  const deletePortfolio = useCallback((id: string) => {
+    setPortfolios((prev) => prev.filter((p) => p.id !== id))
+    setOpenPortfolioIds((prev) => prev.filter((openId) => openId !== id))
+  }, [])
+
+  const openPortfolio = useCallback((id: string) => {
+    setOpenPortfolioIds((prev) => (prev.includes(id) ? prev : [...prev, id]))
+    setLastActivePortfolioId(id)
+  }, [])
+  const closePortfolioInstance = useCallback((id: string) => {
+    setOpenPortfolioIds((prev) => prev.filter((openId) => openId !== id))
+  }, [])
+  const closeAllPortfolios = useCallback(() => setOpenPortfolioIds([]), [])
+
+  const allPortfolioSymbols = useMemo(() => {
+    const symbols = new Set<string>()
+    for (const p of portfolios) for (const pos of p.positions) symbols.add(pos.symbol)
+    return [...symbols]
+  }, [portfolios])
 
   const setLanguage = useCallback((code: string) => setLanguageState(code), [])
   const setTickerSource = useCallback((source: TickerSource) => setTickerSourceState(source), [])
@@ -320,12 +417,18 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       closeAcademy,
       isInWatchlist,
       toggleWatchlist,
-      portfolio,
+      portfolios,
+      openPortfolioIds,
+      lastActivePortfolioId,
+      createPortfolio,
+      renamePortfolio,
+      deletePortfolio,
       addPosition,
       removePosition,
-      portfolioOpen,
       openPortfolio,
-      closePortfolio,
+      closePortfolioInstance,
+      closeAllPortfolios,
+      allPortfolioSymbols,
       language,
       setLanguage,
       tickerSource,
@@ -362,12 +465,18 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       closeAcademy,
       isInWatchlist,
       toggleWatchlist,
-      portfolio,
+      portfolios,
+      openPortfolioIds,
+      lastActivePortfolioId,
+      createPortfolio,
+      renamePortfolio,
+      deletePortfolio,
       addPosition,
       removePosition,
-      portfolioOpen,
       openPortfolio,
-      closePortfolio,
+      closePortfolioInstance,
+      closeAllPortfolios,
+      allPortfolioSymbols,
       language,
       setLanguage,
       tickerSource,

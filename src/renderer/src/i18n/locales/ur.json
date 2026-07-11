@@ -19,7 +19,13 @@
     "newsPortfolio": "میرا پورٹ فولیو",
     "dockSectionsHeading": "ڈیش بورڈ سیکشنز",
     "dockSectionsSub": "منتخب کریں کہ سائیڈبار میں کون سے سیکشنز نظر آئیں — ترتیب بدلنے کے لیے ان کے ہیڈرز کو گھسیٹیں۔",
-    "resetLayoutBtn": "لے آؤٹ ری سیٹ کریں"
+    "resetLayoutBtn": "لے آؤٹ ری سیٹ کریں",
+    "portfoliosHeading": "پورٹ فولیوز",
+    "portfoliosSub": "اپنے محفوظ شدہ پورٹ فولیوز کا نام تبدیل کریں یا حذف کریں۔ نام تبدیل کرنے کے لیے کسی نام پر کلک کریں۔",
+    "noPortfolios": "آپ نے ابھی تک کوئی پورٹ فولیو نہیں بنایا۔",
+    "deletePortfolio": "پورٹ فولیو حذف کریں",
+    "confirmDelete": "حذف کرنے کی تصدیق کریں؟",
+    "portfolioNameTaken": "اس نام کا پورٹ فولیو پہلے سے موجود ہے۔"
   },
   "ticker": {
     "settingsLabel": "ٹکر کی ترتیبات",
@@ -258,7 +264,9 @@
       "connectBody": "AI پورٹ فولیو تبصرہ فعال کرنے کے لیے، اس کمپیوٹر پر Claude Code CLI انسٹال کر کے سائن ان کریں، یا اپنی .env فائل میں ANTHROPIC_API_KEY شامل کریں۔",
       "errorTitle": "بصیرت تیار نہیں ہو سکی",
       "retryBtn": "دوبارہ کوشش کریں"
-    }
+    },
+    "pickerHeading": "آپ کے پورٹ فولیوز",
+    "newPortfolioBtn": "+ نیا پورٹ فولیو"
   },
   "card": {
     "expand": "بڑا کریں",

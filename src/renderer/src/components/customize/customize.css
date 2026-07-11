@@ -194,3 +194,50 @@
   border-color: var(--border-strong);
   color: var(--text);
 }
+
+.portfolio-rename-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+.portfolio-rename-trigger {
+  background: transparent;
+  border: none;
+  padding: 2px 4px;
+  margin: -2px -4px;
+  border-radius: 4px;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+}
+.portfolio-rename-trigger:hover {
+  background: var(--surface-2);
+}
+.portfolio-rename-input {
+  background: var(--bg);
+  border: 1px solid var(--accent-b);
+  border-radius: 4px;
+  padding: 2px 6px;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  width: 100%;
+}
+.portfolio-rename-error {
+  font-size: 11px;
+  color: var(--loss);
+}
+.portfolio-delete-confirm {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--loss);
+  padding: 4px 8px;
+  white-space: nowrap;
+}

@@ -19,7 +19,13 @@
     "newsPortfolio": "我的持仓组合",
     "dockSectionsHeading": "仪表盘板块",
     "dockSectionsSub": "选择侧边栏中显示哪些板块——拖动其标题栏即可重新排序。",
-    "resetLayoutBtn": "重置布局"
+    "resetLayoutBtn": "重置布局",
+    "portfoliosHeading": "投资组合",
+    "portfoliosSub": "重命名或删除已保存的投资组合。点击名称即可重命名。",
+    "noPortfolios": "你还没有创建任何投资组合。",
+    "deletePortfolio": "删除投资组合",
+    "confirmDelete": "确认删除？",
+    "portfolioNameTaken": "你已经有一个同名的投资组合了。"
   },
   "ticker": {
     "settingsLabel": "行情条设置",
@@ -258,7 +264,9 @@
       "connectBody": "在此电脑上安装并登录 Claude Code CLI，或在 .env 文件中添加 ANTHROPIC_API_KEY，即可启用 AI 组合说明。",
       "errorTitle": "无法生成洞察",
       "retryBtn": "重试"
-    }
+    },
+    "pickerHeading": "你的持仓组合",
+    "newPortfolioBtn": "+ 新建组合"
   },
   "card": {
     "expand": "展开",

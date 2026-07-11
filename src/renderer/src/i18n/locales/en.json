@@ -63,7 +63,13 @@
     "newsPortfolio": "My portfolio",
     "dockSectionsHeading": "Dashboard sections",
     "dockSectionsSub": "Choose which sections appear in the sidebar — drag their headers to reorder.",
-    "resetLayoutBtn": "Reset layout"
+    "resetLayoutBtn": "Reset layout",
+    "portfoliosHeading": "Portfolios",
+    "portfoliosSub": "Rename or delete your saved portfolios. Click a name to rename it.",
+    "noPortfolios": "You haven't created a portfolio yet.",
+    "deletePortfolio": "Delete portfolio",
+    "confirmDelete": "Confirm delete?",
+    "portfolioNameTaken": "You already have a portfolio with that name."
   },
   "ticker": {
     "settingsLabel": "Ticker settings",
@@ -269,6 +275,8 @@
   "portfolio": {
     "badge": "Portfolio",
     "heading": "Your holdings",
+    "pickerHeading": "Your portfolios",
+    "newPortfolioBtn": "+ New portfolio",
     "symbolPlaceholder": "Symbol — AAPL, BTC…",
     "quantityPlaceholder": "Quantity",
     "costBasisPlaceholder": "Avg. cost basis",

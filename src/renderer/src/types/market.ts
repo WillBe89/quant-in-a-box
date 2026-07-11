@@ -61,6 +61,12 @@ export interface PortfolioPosition {
   addedAt: number // unix seconds
 }
 
+export interface Portfolio {
+  id: string
+  name: string
+  positions: PortfolioPosition[]
+}
+
 /** Everything the chart knows about whatever bar the cursor is currently over —
  *  drives the readout panel so hovering surfaces more than just OHLC. */
 export interface ChartHoverInfo {

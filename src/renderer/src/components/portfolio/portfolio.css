@@ -1,6 +1,77 @@
-.portfolio-panel {
-  width: min(880px, 100%);
-  max-height: min(720px, 100%);
+.portfolio-workspace {
+  width: min(1400px, 96vw);
+  max-height: min(760px, 92vh);
+  padding: 0;
+}
+
+.portfolio-row {
+  flex: 1 1 auto;
+  display: flex;
+  gap: 14px;
+  padding: 18px;
+  overflow-x: auto;
+  min-height: 0;
+}
+
+.portfolio-pane {
+  flex: 1 0 420px;
+  max-width: 880px;
+  min-width: 420px;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.portfolio-pane-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  flex: none;
+}
+.portfolio-pane-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.portfolio-pane-body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 16px 18px 20px;
+}
+
+.portfolio-add-pane {
+  flex: none;
+  width: 64px;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+  color: var(--text-faint);
+  cursor: pointer;
+}
+.portfolio-add-pane span {
+  writing-mode: vertical-rl;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+.portfolio-add-pane:hover {
+  border-color: var(--accent-b);
+  color: var(--text);
+  background: var(--surface);
 }
 
 .portfolio-add {

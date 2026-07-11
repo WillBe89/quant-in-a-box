@@ -19,7 +19,13 @@
     "newsPortfolio": "मेरा पोर्टफोलियो",
     "dockSectionsHeading": "डैशबोर्ड सेक्शन",
     "dockSectionsSub": "चुनें कि साइडबार में कौन-से सेक्शन दिखें — क्रम बदलने के लिए उनके हेडर को खींचें।",
-    "resetLayoutBtn": "लेआउट रीसेट करें"
+    "resetLayoutBtn": "लेआउट रीसेट करें",
+    "portfoliosHeading": "पोर्टफोलियो",
+    "portfoliosSub": "अपने सेव किए गए पोर्टफोलियो का नाम बदलें या हटाएं। नाम बदलने के लिए किसी नाम पर क्लिक करें।",
+    "noPortfolios": "आपने अभी तक कोई पोर्टफोलियो नहीं बनाया है।",
+    "deletePortfolio": "पोर्टफोलियो हटाएं",
+    "confirmDelete": "हटाने की पुष्टि करें?",
+    "portfolioNameTaken": "इस नाम का पोर्टफोलियो पहले से मौजूद है।"
   },
   "ticker": {
     "settingsLabel": "टिकर सेटिंग्स",
@@ -258,7 +264,9 @@
       "connectBody": "AI पोर्टफोलियो टिप्पणी सक्षम करने के लिए, इस कंप्यूटर पर Claude Code CLI इंस्टॉल करके साइन इन करें, या अपनी .env फ़ाइल में ANTHROPIC_API_KEY जोड़ें।",
       "errorTitle": "इनसाइट्स जनरेट नहीं हो सके",
       "retryBtn": "फिर से कोशिश करें"
-    }
+    },
+    "pickerHeading": "आपके पोर्टफोलियो",
+    "newPortfolioBtn": "+ नया पोर्टफोलियो"
   },
   "card": {
     "expand": "बड़ा करें",
