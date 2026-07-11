@@ -2,43 +2,18 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAppState } from '@renderer/state/AppStateContext'
 import { ALL_ASSETS } from '@renderer/data/mockData'
-import { dataService } from '@renderer/data/dataService'
-import { generateCandles } from '@renderer/data/mockData'
-import {
-  beta as betaCalc,
-  closesOf,
-  dailyReturns,
-  historicalVaR,
-  maxDrawdown,
-  sharpeRatio,
-  sortinoRatio,
-  volatilityAnnualized
-} from '@renderer/lib/quant'
-import { cumulativeValueSeries, weightedPortfolioReturns } from '@renderer/lib/portfolioMath'
+import { resolveHoldingRows } from '@renderer/lib/portfolioHoldings'
+import { usePortfolioRiskStats } from '@renderer/lib/usePortfolioRiskStats'
 import { searchAssets } from '@renderer/lib/assetSearch'
 import RiskStatTile from '@renderer/components/stats/RiskStatTile'
 import { IconClose, IconSparkle, IconAlertTriangle } from '@renderer/components/icons/Icons'
 import Tooltip from '@renderer/components/ui/Tooltip'
 import { SUPPORTED_LANGUAGES } from '@renderer/i18n'
-import type { Asset, PortfolioRiskStats } from '@renderer/types/market'
+import type { Asset } from '@renderer/types/market'
 import './portfolio.css'
 
 type AiAvailability = { claudeCode: boolean; apiKey: boolean }
 type AiInsightsResult = { commentary: string; source: 'claude-code' | 'api-key' }
-
-const BENCHMARK: Asset = { symbol: 'SPXPROXY', name: 'Broad market proxy', klass: 'stocks', price: 5500, changePct: 0.5 }
-
-interface Row {
-  asset: Asset
-  quantity: number
-  costBasis: number
-  currentPrice: number
-  marketValue: number
-  costTotal: number
-  pnl: number
-  pnlPct: number
-  weightPct: number
-}
 
 export default function PortfolioPane({
   portfolioId,
@@ -56,9 +31,6 @@ export default function PortfolioPane({
   const [quantityInput, setQuantityInput] = useState('')
   const [costBasisInput, setCostBasisInput] = useState('')
   const quantityInputRef = useRef<HTMLInputElement | null>(null)
-
-  const [stats, setStats] = useState<PortfolioRiskStats | null>(null)
-  const [statsLoading, setStatsLoading] = useState(false)
 
   const [aiAvailability, setAiAvailability] = useState<AiAvailability | null>(null)
   const [aiLoading, setAiLoading] = useState(false)
@@ -90,33 +62,7 @@ export default function PortfolioPane({
     setAiLoading(false)
   }, [positions])
 
-  const rows = useMemo<Row[]>(() => {
-    const withAsset = positions
-      .map((p) => {
-        const asset = ALL_ASSETS.find((a) => a.symbol === p.symbol)
-        return asset ? { position: p, asset } : null
-      })
-      .filter((r): r is { position: (typeof positions)[number]; asset: Asset } => r !== null)
-
-    const totalMarketValue = withAsset.reduce((sum, r) => sum + r.asset.price * r.position.quantity, 0)
-
-    return withAsset.map(({ position, asset }) => {
-      const marketValue = asset.price * position.quantity
-      const costTotal = position.costBasis * position.quantity
-      const pnl = marketValue - costTotal
-      return {
-        asset,
-        quantity: position.quantity,
-        costBasis: position.costBasis,
-        currentPrice: asset.price,
-        marketValue,
-        costTotal,
-        pnl,
-        pnlPct: costTotal === 0 ? 0 : (pnl / costTotal) * 100,
-        weightPct: totalMarketValue === 0 ? 0 : (marketValue / totalMarketValue) * 100
-      }
-    })
-  }, [positions])
+  const rows = useMemo(() => resolveHoldingRows(positions), [positions])
 
   const totals = useMemo(() => {
     const marketValue = rows.reduce((s, r) => s + r.marketValue, 0)
@@ -125,43 +71,7 @@ export default function PortfolioPane({
     return { marketValue, costTotal, pnl, pnlPct: costTotal === 0 ? 0 : (pnl / costTotal) * 100 }
   }, [rows])
 
-  useEffect(() => {
-    if (rows.length === 0) {
-      setStats(null)
-      return
-    }
-    let cancelled = false
-    setStatsLoading(true)
-    Promise.all(
-      rows.map(async (r) => {
-        const candles = await dataService.getCandles(r.asset, '1Y')
-        return { weight: r.weightPct / 100, returns: dailyReturns(closesOf(candles)) }
-      })
-    ).then((holdings) => {
-      if (cancelled) return
-      const portReturns = weightedPortfolioReturns(holdings)
-      if (portReturns.length < 5) {
-        setStats(null)
-        setStatsLoading(false)
-        return
-      }
-      const valueSeries = cumulativeValueSeries(portReturns)
-      const benchmarkReturns = dailyReturns(closesOf(generateCandles(BENCHMARK, '1Y')))
-      setStats({
-        sharpe: sharpeRatio(portReturns),
-        sortino: sortinoRatio(portReturns),
-        volatilityAnnualized: volatilityAnnualized(portReturns),
-        valueAtRisk95: historicalVaR(portReturns, 0.95),
-        maxDrawdown: maxDrawdown(valueSeries),
-        beta: betaCalc(portReturns, benchmarkReturns)
-      })
-      setStatsLoading(false)
-    })
-    return () => {
-      cancelled = true
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [positions])
+  const { stats, loading: statsLoading } = usePortfolioRiskStats(positions)
 
   const matches = useMemo(() => searchAssets(ALL_ASSETS, symbolQuery), [symbolQuery])
 

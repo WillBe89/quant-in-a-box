@@ -2,6 +2,19 @@
 
 Running log of autonomous build cycles. Newest entries at the top.
 
+## 2026-07-11 - Portfolio dashboard groundwork: extracted shared holdings/risk-stats logic (phase 2 of 2, pass 1 of 4, pure refactor)
+
+**Built:** nothing user-visible. This is the foundation pass for a portfolio dashboard feature (breakdown by asset class, breakdown by holding, a benchmark comparison against a few model portfolios), which needs the existing per-portfolio quant pipeline reusable from more than one place before any of that can be built without a third copy-paste. Pulled the holdings-resolution and risk-stats logic that lived inline inside `PortfolioPane.tsx` (and was independently duplicated a second time in `RiskCard.tsx` just for its fake benchmark asset) out into shared, tested library code.
+
+- New `lib/portfolioHoldings.ts`: a pure `resolveHoldingRows(positions, assets?)` function, lifted verbatim from `PortfolioPane.tsx`'s old inline row-join (same market value/P&L/weight% formulas, same "skip a position whose symbol doesn't resolve" behavior). 4 new unit tests.
+- New `lib/usePortfolioRiskStats.ts`: the async stats-fetching engine (candles → weighted returns → Sharpe/Sortino/Vol/VaR/MaxDD/Beta), lifted verbatim from `PortfolioPane.tsx`'s old inline effect, same stale-fetch guard so switching portfolios mid-fetch can't leave a stale result on screen.
+- `mockData.ts` gains one exported `SPX_PROXY_ASSET` (the fake broad-market-proxy benchmark used for beta), replacing two independent inline copies that had drifted into existing separately in both `PortfolioPane.tsx` and `RiskCard.tsx`.
+- `PortfolioPane.tsx` now calls these two extracted functions instead of computing everything inline; its rendered output (summary tiles, holdings table, the 6-tile risk-stat grid, AI Insights) is unchanged, since only the "where the computation lives" moved, not the computation itself.
+
+**Verified:** `npm run typecheck`/`test` (39/39, 4 new)/`build` all clean. Live in the browser: seeded a test portfolio (AAPL + BTC) and confirmed the panel renders identically to before (correct market values, P&L, weights, and all 6 risk stats populated) with zero console errors in a fresh tab. Grepped the whole `src/` tree to confirm exactly one `SPXPROXY`-shaped benchmark definition now exists, not two independently-drifting copies.
+
+**Why this pass exists on its own:** a pure-refactor pass with an explicit "zero visible behavior change" bar is the easiest kind of change to verify in isolation and the easiest to bisect if something regresses later, before any real new UI gets layered on top of it in the next three passes.
+
 ## 2026-07-11 - Chart style switching: Candles, Bars, Line, Area, Baseline (direct request, phase 1 of 2)
 
 **Built:** a second segmented control in each chart slot's toolbar letting you switch the main price chart between 5 styles: Candles (existing default), Bars (OHLC), Line (smoothed), Area (smoothed with a gradient fill below the line), and Baseline (two-tone gain/loss area relative to the period's starting price). First of two features from a single request (the second is a portfolio dashboard, built as a separate follow-up pass). No new dependency was needed: `lightweight-charts` (already used for candlesticks) natively ships all 5 series types, including built-in line smoothing (`LineType.Curved`) and gradient area fills.

@@ -92,6 +92,16 @@ export const ASSETS_BY_CLASS: Record<AssetClass, Asset[]> = {
 
 export const ALL_ASSETS: Asset[] = Object.values(ASSETS_BY_CLASS).flat()
 
+/** Shared broad-market benchmark used for beta calculations wherever a single
+ *  market proxy is needed (portfolio-level and single-symbol risk stats alike). */
+export const SPX_PROXY_ASSET: Asset = {
+  symbol: 'SPXPROXY',
+  name: 'Broad market proxy',
+  klass: 'stocks',
+  price: 5500,
+  changePct: 0.5
+}
+
 const TIMEFRAME_BARS: Record<Timeframe, number> = {
   '1D': 48,
   '1W': 60,

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAppState } from '@renderer/state/AppStateContext'
 import { dataService } from '@renderer/data/dataService'
-import { generateCandles } from '@renderer/data/mockData'
+import { generateCandles, SPX_PROXY_ASSET } from '@renderer/data/mockData'
 import {
   beta as betaCalc,
   closesOf,
@@ -18,8 +18,6 @@ import CardHead from './CardHead'
 import type { DockCardProps } from './dockCardProps'
 import type { Asset, PortfolioRiskStats } from '@renderer/types/market'
 
-const BENCHMARK = { symbol: 'SPXPROXY', name: 'Broad market proxy', klass: 'stocks' as const, price: 5500, changePct: 0.5 }
-
 export function useRiskStats(symbol: Asset): PortfolioRiskStats | null {
   const [stats, setStats] = useState<PortfolioRiskStats | null>(null)
 
@@ -29,7 +27,7 @@ export function useRiskStats(symbol: Asset): PortfolioRiskStats | null {
       if (cancelled || candles.length < 5) return
       const closes = closesOf(candles)
       const returns = dailyReturns(closes)
-      const benchmarkReturns = dailyReturns(closesOf(generateCandles(BENCHMARK, '1Y')))
+      const benchmarkReturns = dailyReturns(closesOf(generateCandles(SPX_PROXY_ASSET, '1Y')))
       setStats({
         sharpe: sharpeRatio(returns),
         sortino: sortinoRatio(returns),
