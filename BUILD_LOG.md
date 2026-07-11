@@ -2,6 +2,18 @@
 
 Running log of autonomous build cycles. Newest entries at the top.
 
+## 2026-07-11 — 10 languages registered: zh, hi, es, fr, ar, bn, pt, ru, ur, th (direct request)
+
+**Built:** All 10 previously-translated locale files (`src/renderer/src/i18n/locales/{zh,hi,es,fr,ar,bn,pt,ru,ur,th}.json`) are now wired into `i18n/index.ts` — imported, added to the i18next `resources` object, and registered in `SUPPORTED_LANGUAGES` with each language's native-script label (中文, हिन्दी, Español, Français, العربية, বাংলা, Português, Русский, اردو, ไทย) and correct `dir`. All 10 are now selectable in the Topbar language dropdown (which already mapped over `SUPPORTED_LANGUAGES`, so no dropdown changes were needed) alongside English.
+
+**Translation quality pipeline (per language, applied before this cycle and re-checked here):** full translation of all 183 keys → structural key-parity check against `en.json` (every locale confirmed to have exactly the same 183 leaf keys, no missing/extra) → native-fluency spot-check/fix pass. Re-verified the parity step directly in this cycle with a script that deep-diffs every locale's key tree against `en.json`: all 10 came back with 0 missing / 0 extra keys. Also spot-checked all 3 interpolated strings (`dock.news.minutesAgo`, `dock.news.hoursAgo`, `academy.infoTooltip`) across every locale — the `{{count}}`/`{{title}}` placeholders survived translation intact in all 10, which is the part most likely to get mangled by a translation pass.
+
+**RTL scope (important, read before assuming Arabic/Urdu are "done"):** `ar` and `ur` have correct **text** direction wired up — `dir: 'rtl'` in `SUPPORTED_LANGUAGES`, which drives `document.dir` via `AppStateContext`, so RTL script renders and flows correctly. What is explicitly **not** in scope this pass: the dashboard's **panel layout** (rail/workspace/dock positions, chart orientation) is not mirrored for RTL — it stays in its LTR arrangement even when an RTL language is active. This is a deliberate, known limitation, not an oversight; full RTL layout mirroring is a larger structural change (flipping flex/grid direction across Topbar/Rail/Workspace/Dock, checking every hardcoded left/right in chart tooling) that wasn't part of this task.
+
+**Known limitation — these are AI-generated translations:** every one of the 10 locale files was produced by the translate → key-parity → fluency-spot-check pipeline above, not by a native speaker. They should be treated as a solid first pass, not final copy — a real native-speaker review is recommended before trusting them fully for production users, especially the financial terminology in the Academy lessons (Sharpe/Sortino/VaR/Greeks/etc. have real, sometimes non-obvious, established translations in each market's financial vocabulary that a fluency spot-check by a non-native pipeline can plausibly miss).
+
+**Verified:** `npm run typecheck` clean (both `tsconfig.web.json` and `tsconfig.node.json` projects), `npm run test` 27/27 passing, `npm run build` clean (main/preload/renderer all built, renderer bundle 870.90 kB / 36.60 kB CSS). All three re-run after the `index.ts` edit to confirm the new imports resolve correctly — no malformed JSON or import path issues found in any of the 10 locale files.
+
 ## 2026-07-11 — Styling review: icons, tooltips, richer chart hover, news relevance, asset-class education (direct request, mid-loop)
 
 **Built (four pieces, three commits):**

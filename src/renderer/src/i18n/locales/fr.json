@@ -1,0 +1,245 @@
+{
+  "common": {
+    "close": "Fermer"
+  },
+  "customize": {
+    "badge": "Faites-la vôtre",
+    "heading": "Vos préférences",
+    "watchlistHeading": "Liste de suivi",
+    "intro": "Voici la liste des symboles affichés sous forme d'étoiles, dans la barre latérale et (en option) dans le bandeau défilant en bas de l'écran — ajoutez tout ce que vous souhaitez vraiment surveiller.",
+    "addPlaceholder": "Ajouter un symbole — AAPL, BTC…",
+    "addBtn": "Ajouter",
+    "empty": "Votre liste de suivi est vide.",
+    "reset": "Réinitialiser aux valeurs par défaut",
+    "remove": "Supprimer",
+    "newsHeading": "Pertinence des actualités de marché",
+    "newsIntro": "Choisissez sur quoi la carte Actualités de marché doit se concentrer.",
+    "newsSelected": "Ce que je consulte actuellement",
+    "newsWatchlist": "Ma liste de suivi",
+    "newsPortfolio": "Mon portefeuille"
+  },
+  "ticker": {
+    "settingsLabel": "Paramètres du bandeau défilant",
+    "sourceWatchlist": "Liste de suivi",
+    "sourcePortfolio": "Portefeuille",
+    "sourceAll": "Tous les actifs",
+    "sourceHeading": "Afficher dans le bandeau",
+    "emptyWatchlist": "Votre liste de suivi est vide — ajoutez un symbole en favori pour le voir apparaître ici.",
+    "emptyPortfolio": "Votre portefeuille est vide — ajoutez une position pour la voir apparaître ici."
+  },
+  "topbar": {
+    "brandFirst": "Quant",
+    "brandSecond": "In A Box",
+    "searchPlaceholder": "Rechercher un actif — AAPL, BTC, obligation du Trésor à 10 ans, VNQ…",
+    "classAll": "Tous",
+    "classStocks": "Actions",
+    "classCrypto": "Crypto",
+    "classBonds": "Obligations",
+    "classFx": "Forex",
+    "classRe": "Immobilier",
+    "scopeBadge": "Analyse uniquement · aucune exécution d'ordres",
+    "portfolioBtn": "Portefeuille",
+    "learnBtn": "Apprendre",
+    "toggleTheme": "Changer de thème"
+  },
+  "rail": {
+    "customize": "Faites-la vôtre",
+    "yourPortfolio": "Votre portefeuille",
+    "teachingZone": "Espace pédagogique",
+    "watchlistEmptyHint": "Ajoutez un symbole en favori pour l'épingler ici"
+  },
+  "workspace": {
+    "addToWatchlist": "Ajouter à la liste de suivi",
+    "removeFromWatchlist": "Retirer de la liste de suivi",
+    "indicatorMa20": "MA 20",
+    "indicatorMa50": "MA 50",
+    "indicatorBoll": "Bollinger",
+    "indicatorRsi": "RSI",
+    "indicatorMacd": "MACD",
+    "rsiLabel": "RSI (14)",
+    "macdLabel": "MACD (12, 26, 9)",
+    "volLabel": "Vol",
+    "maLabel": "MA"
+  },
+  "dock": {
+    "risk": {
+      "title": "Risque du portefeuille",
+      "loading": "Analyse de l'historique des rendements…",
+      "sharpe": "Ratio de Sharpe",
+      "sortino": "Sortino",
+      "volatility": "Volatilité (ann.)",
+      "var": "VaR (95 %, 1 j)",
+      "maxDrawdown": "Drawdown max",
+      "beta": "Bêta (vs marché)"
+    },
+    "options": {
+      "title": "Options · Grecques",
+      "strike": "Prix d'exercice"
+    },
+    "news": {
+      "title": "Actualités de marché",
+      "back": "Retour aux titres",
+      "sideBySideNote": "affiché côte à côte avec votre graphique",
+      "openFull": "Ouvrir l'article complet",
+      "minutesAgo": "il y a {{count}} min",
+      "hoursAgo": "il y a {{count}} h"
+    }
+  },
+  "academy": {
+    "badge": "Espace pédagogique",
+    "heading": "Comprenez ce que vous regardez",
+    "categoryAssetTypes": "Classes d'actifs",
+    "categoryTrend": "Tendance et momentum",
+    "categoryRisk": "Risque et portefeuille",
+    "categoryOptions": "Options et produits dérivés",
+    "formula": "Formule",
+    "howToUse": "Comment l'utiliser",
+    "watchOutFor": "À surveiller",
+    "infoTooltip": "En savoir plus : {{title}}",
+    "infoTooltipGeneric": "En savoir plus",
+    "lessons": {
+      "assetStocks": {
+        "title": "Actions et ETF",
+        "summary": "Une action représente une petite part de propriété dans une entreprise réelle — vous détenez une fraction de ses bénéfices futurs (et de ses pertes). Un ETF regroupe de nombreuses actions au sein d'un même panier négociable, répartissant cette propriété sur tout un secteur ou un marché plutôt que sur une seule entreprise.",
+        "formula": "Rendement total = (Prix_fin − Prix_début + Dividendes) / Prix_début",
+        "howToUse": "Les actions individuelles comportent un risque spécifique à l'entreprise (un lancement de produit raté, un scandale, un trimestre décevant) qui s'ajoute au risque de marché global — diversifier son portefeuille sur de nombreuses actions, ou simplement acheter un ETF large, élimine l'essentiel de ce risque spécifique, au prix d'un potentiel de gain moindre si vous aviez misé sur un grand gagnant. L'horizon de placement compte : les actions sont volatiles au jour le jour, mais ont historiquement affiché une tendance haussière sur de longues périodes (5 à 10 ans, voire plus).",
+        "watchOutFor": "Une seule mauvaise nouvelle peut faire varier une action individuelle de 10 à 20 % en une journée — cette volatilité est normale et ne signifie pas nécessairement qu'il faut vendre dans la panique. Une action qui a « beaucoup monté » n'est pas automatiquement surévaluée, et une action qui a « beaucoup baissé » n'est pas automatiquement bon marché — examinez les indicateurs, pas seulement le prix affiché."
+      },
+      "assetCrypto": {
+        "title": "Cryptomonnaies",
+        "summary": "Une cryptomonnaie est un actif numérique sécurisé par cryptographie et enregistré sur un registre décentralisé (une blockchain), plutôt qu'émis ou garanti par un gouvernement ou une entreprise. Contrairement à une action, il n'y a aucune activité économique sous-jacente générant des bénéfices — sa valeur repose entièrement sur ce que le marché est prêt à payer pour elle.",
+        "formula": "Rendement total = (Prix_fin − Prix_début) / Prix_début — aucun dividende ni coupon, uniquement une plus-value ou une moins-value de prix",
+        "howToUse": "Comme il n'existe ni résultats financiers ni flux de trésorerie pour ancrer une « juste valeur » comme c'est le cas pour une action ou une obligation, le prix est déterminé presque entièrement par le sentiment de marché, l'adoption et les flux de capitaux — considérez la crypto comme une allocation spéculative à forte volatilité, dimensionnée de sorte qu'une chute importante ne soit pas financièrement douloureuse, plutôt que comme une position centrale de votre portefeuille.",
+        "watchOutFor": "La crypto peut varier de plus de 10 à 20 % en une seule journée — bien au-delà de ce qui est normal pour les actions ou les obligations. Elle se négocie 24 heures sur 24 et 7 jours sur 7, sans coupe-circuit, elle est davantage exposée aux annonces réglementaires, et la conservation directe comporte des risques de sécurité que cette application ne gère pas — comprenez toujours précisément ce que vous détenez et où."
+      },
+      "assetBonds": {
+        "title": "Obligations et revenu fixe",
+        "summary": "Une obligation est un prêt — vous prêtez de l'argent à un État ou à une entreprise pour une durée déterminée, en échange de versements d'intérêts réguliers et du remboursement de votre capital à l'échéance. Il s'agit d'une créance fondée sur la promesse de paiement de l'emprunteur, et non d'un droit de propriété.",
+        "formula": "Rendement courant ≈ Paiement de coupon annuel / Prix actuel",
+        "howToUse": "Les obligations sont généralement utilisées pour leur stabilité et leurs revenus plutôt que pour leur croissance — un échelonnement des échéances (bond ladder) est une méthode courante pour gérer l'arbitrage entre rendement et durée d'immobilisation des fonds. Les obligations d'État présentent un risque de défaut bien moindre que les obligations d'entreprise, qui offrent un rendement plus élevé précisément parce qu'elles comportent davantage de risque.",
+        "watchOutFor": "Le prix des obligations évolue à l'inverse des taux d'intérêt — lorsque les taux montent, les obligations existantes à rendement plus faible deviennent moins attractives et leur prix baisse, même si rien n'a changé du côté de l'emprunteur. Les obligations à longue échéance ressentent cet effet plus fortement que celles à court terme. Un rendement supérieur à celui d'une obligation d'État comparable signifie généralement que le marché intègre un véritable risque de défaut, et non un gain sans contrepartie."
+      },
+      "assetFx": {
+        "title": "Forex et matières premières",
+        "summary": "Le Forex (FX) désigne l'échange d'une devise contre une autre — déterminé par les écarts de taux d'intérêt, les flux commerciaux et la conjoncture macroéconomique entre les pays. Les matières premières sont des biens physiques bruts (or, pétrole, produits agricoles) négociés selon leur propre offre et demande.",
+        "formula": "EUR/USD = X signifie que 1 EUR permet d'acheter X USD — une hausse de ce nombre signifie que la première devise se renforce face à la seconde",
+        "howToUse": "Le Forex et les matières premières relèvent généralement du domaine des traders macro/institutionnels ou des entreprises qui couvrent une exposition réelle à une devise ou une matière première, plutôt que d'une position centrale pour un investisseur particulier — si vous les négociez de façon spéculative, traitez-les comme une allocation plus petite et à risque plus élevé.",
+        "watchOutFor": "Le Forex est très souvent négocié avec effet de levier, ce qui amplifie aussi bien les gains que les pertes bien au-delà du mouvement de prix sous-jacent — une variation de 1 % d'une devise peut anéantir une position à fort effet de levier. Le Forex comme les matières premières sont très sensibles aux décisions des banques centrales et aux événements géopolitiques, qui peuvent faire varier les prix brutalement et sans grand préavis."
+      },
+      "assetRealEstate": {
+        "title": "Immobilier (REIT)",
+        "summary": "L'immobilier consiste en la propriété d'un bien physique — mais cette application le suit à travers les REIT (Real Estate Investment Trusts, ou sociétés d'investissement immobilier cotées), des entreprises qui possèdent et exploitent des biens générateurs de revenus et se négocient comme des actions, en reversant l'essentiel de leurs revenus locatifs à leurs actionnaires.",
+        "formula": "Rendement du dividende = Distribution annuelle par action / Prix de l'action — l'équivalent, pour un REIT, du taux de capitalisation d'un propriétaire bailleur",
+        "howToUse": "Les REIT offrent une exposition à l'immobilier avec une liquidité proche de celle des actions — vous pouvez acheter ou vendre instantanément, contrairement à la vente d'un immeuble réel — tout en continuant à verser des revenus comme le ferait un bien locatif. Ils sont souvent utilisés pour la diversification et les revenus, l'immobilier ne suivant pas toujours le marché actions au même rythme.",
+        "watchOutFor": "Les REIT sont plus sensibles aux taux d'intérêt que la plupart des gens ne l'imaginent — valorisés en partie comme une obligation (pour le flux de revenus) et en partie comme une action, si bien qu'une hausse des taux peut peser sur leur prix même lorsque les biens sous-jacents se portent bien. Un REIT n'équivaut pas non plus à posséder un immeuble précis — vous détenez une part d'un portefeuille diversifié géré par quelqu'un d'autre."
+      },
+      "ma": {
+        "title": "Moyenne mobile (MA)",
+        "summary": "Le prix de clôture moyen sur les N derniers jours, tracé sous forme de ligne lissée. Elle filtre le bruit quotidien pour laisser apparaître la tendance sous-jacente.",
+        "formula": "MA(n) = (clôture₁ + clôture₂ + … + clôtureₙ) / n",
+        "howToUse": "Un prix au-dessus d'une MA ascendante signale généralement une tendance haussière ; en dessous d'une MA descendante, une tendance baissière. Les traders surveillent souvent le croisement d'une MA courte (par exemple 20 jours) au-dessus d'une MA plus longue (par exemple 50 jours) comme signal haussier de « golden cross », et l'inverse comme « death cross ».",
+        "watchOutFor": "Les MA sont des indicateurs retardés — elles confirment une tendance après qu'elle a commencé, pas avant. Dans un marché heurté et sans direction claire, elles génèrent des signaux de croisement erronés à répétition."
+      },
+      "boll": {
+        "title": "Bandes de Bollinger",
+        "summary": "Une moyenne mobile encadrée par deux bandes tracées au-dessus et en dessous, espacées selon l'écart-type récent du prix. Les bandes s'élargissent quand la volatilité augmente et se resserrent quand elle diminue.",
+        "formula": "Bande haute = MA(20) + 2σ    Bande basse = MA(20) − 2σ",
+        "howToUse": "Un prix qui touche la bande haute suggère qu'il est statistiquement tendu à la hausse par rapport à sa fourchette récente ; la bande basse indique l'inverse, à la baisse. Un resserrement marqué des bandes (le « squeeze ») précède souvent un mouvement important, dans un sens comme dans l'autre.",
+        "watchOutFor": "Toucher une bande n'est pas automatiquement un signal d'achat ou de vente — dans une tendance forte, le prix peut « longer la bande » pendant longtemps. Les bandes décrivent la volatilité récente, pas la direction."
+      },
+      "rsi": {
+        "title": "RSI (indice de force relative)",
+        "summary": "Un oscillateur de momentum gradué de 0 à 100, qui mesure la vitesse et l'ampleur des mouvements récents de prix, à partir de la taille des séances haussières comparée à celle des séances baissières.",
+        "formula": "RSI = 100 − 100 / (1 + gain moyen / perte moyenne)",
+        "howToUse": "Une lecture supérieure à 70 est traditionnellement interprétée comme un signe de « surachat », et inférieure à 30 comme un signe de « survente » — un indice qu'un repli ou un rebond pourrait être proche. Les divergences (le prix atteint un nouveau sommet mais pas le RSI) sont souvent surveillées comme des signaux précoces d'essoufflement de tendance.",
+        "watchOutFor": "Dans les tendances fortes, le RSI peut rester au-dessus de 70 ou en dessous de 30 pendant de longues périodes sans se retourner — considérez-le comme une mesure de momentum, pas comme un compte à rebours."
+      },
+      "macd": {
+        "title": "MACD (convergence-divergence de moyennes mobiles)",
+        "summary": "L'écart entre une moyenne mobile exponentielle rapide (12 jours) et lente (26 jours), complété par une ligne de signal à 9 jours qui lisse cet écart. L'histogramme représente la différence entre les deux.",
+        "formula": "MACD = EMA(12) − EMA(26)    Signal = EMA(9) du MACD",
+        "howToUse": "Le franchissement à la hausse de la ligne de signal par le MACD est interprété comme une accumulation de momentum haussier ; un franchissement à la baisse, comme un momentum baissier. Un histogramme qui grandit indique une accélération du momentum dans cette direction.",
+        "watchOutFor": "Comme tous les outils basés sur des moyennes mobiles exponentielles, le MACD est en retard sur le prix. Il fonctionne mieux dans les marchés qui suivent une tendance et produit de fréquents faux signaux dans les marchés plats, évoluant en range."
+      },
+      "volatility": {
+        "title": "Volatilité annualisée",
+        "summary": "L'ampleur avec laquelle les rendements quotidiens d'un actif fluctuent habituellement, ramenée à une échelle annuelle afin de pouvoir comparer différents actifs et horizons temporels sur une même base.",
+        "formula": "Vol(annuelle) = écart-type(rendements quotidiens) × √252",
+        "howToUse": "Une volatilité plus élevée signifie des variations plus amples dans les deux sens — davantage de potentiel de hausse, mais aussi des baisses potentielles plus marquées. Utilisez-la pour dimensionner vos positions : un actif très volatil justifie une position plus petite pour un même niveau de risque en valeur absolue.",
+        "watchOutFor": "La volatilité est symétrique — elle ne distingue pas les bonnes variations (à la hausse) des mauvaises (à la baisse). Elle est également rétrospective : la volatilité passée ne garantit pas la volatilité future."
+      },
+      "sharpe": {
+        "title": "Ratio de Sharpe",
+        "summary": "Le rendement obtenu par unité de risque total pris — la méthode classique pour évaluer si les rendements d'un investissement justifient les secousses du parcours, par rapport à un autre.",
+        "formula": "Sharpe = (rendement annuel − taux sans risque) / volatilité annuelle",
+        "howToUse": "Une valeur supérieure à 1 est généralement considérée comme correcte, supérieure à 2 très bonne, supérieure à 3 excellente. Utilisez-le pour comparer deux stratégies ou actifs ayant des profils de volatilité différents — celui affichant le Sharpe le plus élevé a offert davantage de rendement pour le risque encouru.",
+        "watchOutFor": "Le Sharpe pénalise la volatilité à la hausse de la même façon que celle à la baisse — une stratégie qui affiche occasionnellement d'énormes gains peut obtenir un score « pire » qu'une stratégie plus régulière mais médiocre. Il suppose également que les rendements suivent à peu près une distribution normale, ce qui est souvent faux sur les marchés réels (queues de distribution épaisses, krachs)."
+      },
+      "sortino": {
+        "title": "Ratio de Sortino",
+        "summary": "Une variante du ratio de Sharpe qui ne pénalise que la volatilité à la baisse — les variations dont vous ne voulez vraiment pas — plutôt que de considérer toute volatilité comme négative.",
+        "formula": "Sortino = (rendement annuel − taux sans risque) / écart-type à la baisse",
+        "howToUse": "Généralement plus indulgent que le Sharpe pour les stratégies présentant de fortes pointes à la hausse (stratégies de momentum ou d'options, par exemple). Un Sortino élevé associé à un Sharpe nettement plus faible suggère que l'essentiel de la volatilité provenait de la hausse.",
+        "watchOutFor": "Nécessite suffisamment de séances baissières dans l'échantillon pour être statistiquement significatif — sur des périodes très courtes ou très calmes, l'écart-type à la baisse peut être minime et gonfler le ratio de façon trompeuse."
+      },
+      "maxdd": {
+        "title": "Drawdown maximal",
+        "summary": "La plus forte baisse du sommet au creux qu'a connue l'actif ou le portefeuille sur la période affichée — le scénario du pire : combien vous auriez perdu si vous aviez acheté au sommet et vendu au plus bas.",
+        "formula": "MaxDD = min( (prix − pic glissant) / pic glissant )",
+        "howToUse": "C'est l'un des indicateurs de risque les plus intuitifs qui soient : un drawdown maximal de -20 % signifie qu'à un moment donné, vous auriez vu la valeur chuter de 20 % par rapport à un sommet antérieur. Utilisez-le pour évaluer instinctivement si vous seriez capable, émotionnellement et financièrement, de tenir bon durant la pire période historique.",
+        "watchOutFor": "Les drawdowns passés ne plafonnent pas les drawdowns futurs — les marchés peuvent toujours produire un drawdown nouveau et plus important. Cet indicateur ne dit rien non plus sur la durée nécessaire pour se rétablir."
+      },
+      "var": {
+        "title": "Valeur à risque (VaR)",
+        "summary": "Une estimation de la perte que vous ne devriez pas vous attendre à dépasser sur une période donnée, à un niveau de confiance donné — par exemple, une « VaR à 95 % de -3,2 % » signifie que, sur 95 % des jours, la perte a été inférieure à 3,2 %.",
+        "formula": "VaR historique = le centile (1 − confiance) de la distribution observée des rendements quotidiens",
+        "howToUse": "Utilisez-la pour vous fixer des attentes sur ce qu'est une « mauvaise journée normale » — si votre position vaut 10 000 $ et que la VaR quotidienne à 95 % est de -3,2 %, une perte d'environ 320 $ ou plus devrait survenir à peu près 1 jour sur 20.",
+        "watchOutFor": "La VaR ne dit explicitement rien sur les 5 % restants — elle ne borne pas l'ampleur que peuvent atteindre les pires journées. Les krachs et les crises se logent précisément dans cette queue de distribution non mesurée."
+      },
+      "beta": {
+        "title": "Bêta",
+        "summary": "La sensibilité des rendements d'un actif aux mouvements d'un indice de référence plus large (comme le S&P 500). Un bêta de 1,3 signifie que l'actif a historiquement varié environ 30 % de plus que le marché, dans le même sens.",
+        "formula": "Bêta = covariance(actif, marché) / variance(marché)",
+        "howToUse": "Un bêta supérieur à 1 signifie des mouvements amplifiés par rapport au marché (profil plus agressif) ; inférieur à 1, des mouvements atténués (profil plus défensif) ; un bêta négatif signifie que l'actif tend à évoluer à l'inverse du marché — utile pour la diversification ou la couverture.",
+        "watchOutFor": "Le bêta est mesuré sur une fenêtre historique précise et peut évoluer sensiblement dans le temps à mesure que le profil de risque d'une entreprise ou d'un secteur change."
+      },
+      "greeks": {
+        "title": "Grecques des options",
+        "summary": "Un ensemble de sensibilités qui décrivent comment le prix d'une option est censé évoluer lorsque différents paramètres varient — le prix du sous-jacent, le temps et la volatilité.",
+        "formula": "Delta ∂prix/∂S · Gamma ∂delta/∂S · Theta ∂prix/∂temps · Vega ∂prix/∂volatilité",
+        "howToUse": "Delta ≈ de combien le prix de l'option varie pour un mouvement de 1 $ du sous-jacent (et représente approximativement la probabilité d'expirer dans la monnaie). Gamma indique la vitesse à laquelle le delta lui-même évolue. Theta est la valeur que l'option perd chaque jour du simple fait de l'écoulement du temps. Vega est la sensibilité aux variations de la volatilité implicite.",
+        "watchOutFor": "Les grecques sont des estimations instantanées issues d'un modèle de valorisation (Black-Scholes, ici) — elles supposent une volatilité constante et l'absence de sauts de prix importants, des hypothèses que les marchés réels contredisent régulièrement, en particulier autour des résultats d'entreprise ou des annonces majeures."
+      },
+      "blackscholes": {
+        "title": "Valorisation d'options Black-Scholes",
+        "summary": "Un modèle mathématique permettant d'estimer un prix théorique juste pour une option de type européen, à partir du prix du sous-jacent, du prix d'exercice, du délai avant échéance, des taux d'intérêt et de la volatilité attendue (implicite).",
+        "formula": "Call = S·N(d1) − K·e^(−rT)·N(d2)",
+        "howToUse": "Comparez le prix du modèle au prix de marché d'une option pour évaluer si elle paraît statistiquement chère ou bon marché compte tenu de votre hypothèse de volatilité — et utilisez les grecques qu'il produit pour comprendre votre exposition au risque si vous détenez la position.",
+        "watchOutFor": "Le modèle suppose une volatilité constante, l'absence de dividendes et un comportement des prix log-normal — autant de simplifications. Il constitue un point de repère pour raisonner sur le risque, pas une garantie du prix auquel une option se négociera réellement."
+      }
+    }
+  },
+  "portfolio": {
+    "badge": "Portefeuille",
+    "heading": "Vos positions",
+    "symbolPlaceholder": "Symbole — AAPL, BTC…",
+    "quantityPlaceholder": "Quantité",
+    "costBasisPlaceholder": "Coût de revient moyen",
+    "addBtn": "Ajouter une position",
+    "emptyState": "Ajoutez votre première position ci-dessus pour commencer à suivre la performance et voir de véritables analyses appliquées à vos positions réelles.",
+    "marketValue": "Valeur de marché",
+    "costBasis": "Coût de revient",
+    "unrealizedPnl": "P&L latent",
+    "colSymbol": "Symbole",
+    "colQty": "Qté",
+    "colAvgCost": "Coût moyen",
+    "colPrice": "Prix",
+    "colValue": "Valeur",
+    "colPnl": "P&L",
+    "colWeight": "Poids",
+    "removePosition": "Supprimer la position",
+    "analyticsTitle": "Analyse du portefeuille",
+    "analyticsSub": "Pondérée sur l'ensemble de vos positions réelles",
+    "analyticsLoading": "Analyse de l'historique des rendements pondérés…"
+  }
+}
