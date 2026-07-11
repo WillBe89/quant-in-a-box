@@ -155,6 +155,7 @@
     "indicatorBoll": "Bollinger",
     "indicatorRsi": "RSI",
     "indicatorMacd": "MACD",
+    "indicatorForecast": "Forecast",
     "rsiLabel": "RSI (14)",
     "macdLabel": "MACD (12, 26, 9)",
     "volLabel": "Vol",
@@ -170,6 +171,13 @@
       "area": "Area",
       "baseline": "Baseline"
     },
+    "forecastMethod": {
+      "drift": "Drift",
+      "regression": "Trend",
+      "montecarlo": "Monte Carlo"
+    },
+    "forecastDisclaimerTitle": "Not a prediction",
+    "forecastDisclaimerBody": "This overlay is a statistical projection based on the asset's own recent volatility and trend, not a prediction of future price. It is for educational and informational purposes only and is not investment advice.",
     "template": {
       "single": "1 chart",
       "twoEqual": "2 charts",

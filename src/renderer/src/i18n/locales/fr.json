@@ -111,6 +111,7 @@
     "indicatorBoll": "Bollinger",
     "indicatorRsi": "RSI",
     "indicatorMacd": "MACD",
+    "indicatorForecast": "Prévision",
     "rsiLabel": "RSI (14)",
     "macdLabel": "MACD (12, 26, 9)",
     "volLabel": "Vol",
@@ -132,7 +133,14 @@
       "line": "Ligne",
       "area": "Zone",
       "baseline": "Ligne de base"
-    }
+    },
+    "forecastMethod": {
+      "drift": "Dérive",
+      "regression": "Tendance",
+      "montecarlo": "Monte-Carlo"
+    },
+    "forecastDisclaimerTitle": "Ce n'est pas une prédiction",
+    "forecastDisclaimerBody": "Cette superposition est une projection statistique basée sur la volatilité et la tendance récentes de l'actif lui-même, et non une prédiction du prix futur. Elle est fournie à titre éducatif et informatif uniquement et ne constitue pas un conseil en investissement."
   },
   "dock": {
     "risk": {

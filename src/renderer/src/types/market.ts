@@ -54,7 +54,9 @@ export interface PortfolioRiskStats {
   beta: number
 }
 
-export type IndicatorId = 'ma20' | 'ma50' | 'boll' | 'rsi' | 'macd'
+export type IndicatorId = 'ma20' | 'ma50' | 'boll' | 'rsi' | 'macd' | 'forecast'
+
+export type ForecastMethodId = 'drift' | 'regression' | 'montecarlo'
 
 export interface PortfolioPosition {
   symbol: string

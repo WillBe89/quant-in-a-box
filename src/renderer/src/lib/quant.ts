@@ -24,7 +24,7 @@ export function ema(values: number[], period: number): number[] {
   return out
 }
 
-function mean(values: number[]): number {
+export function mean(values: number[]): number {
   return values.reduce((a, b) => a + b, 0) / (values.length || 1)
 }
 

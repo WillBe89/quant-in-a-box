@@ -3,6 +3,7 @@ import type {
   Asset,
   AssetClass,
   ChartStyleId,
+  ForecastMethodId,
   IndicatorId,
   Portfolio,
   PortfolioPosition,
@@ -52,11 +53,13 @@ export interface ChartSlotState {
   timeframe: Timeframe
   indicators: Record<IndicatorId, boolean>
   chartStyle: ChartStyleId
+  forecastMethod: ForecastMethodId
 }
 
 const SLOT_IDS = ['slot-0', 'slot-1', 'slot-2'] as const
 const VALID_TIMEFRAMES: Timeframe[] = ['1D', '1W', '1M', '3M', '1Y', '5Y']
 const VALID_CHART_STYLES: ChartStyleId[] = ['candles', 'bars', 'line', 'area', 'baseline']
+const VALID_FORECAST_METHODS: ForecastMethodId[] = ['drift', 'regression', 'montecarlo']
 
 function isSlotId(x: unknown): x is (typeof SLOT_IDS)[number] {
   return x === 'slot-0' || x === 'slot-1' || x === 'slot-2'
@@ -70,8 +73,12 @@ function isChartStyle(x: unknown): x is ChartStyleId {
   return typeof x === 'string' && (VALID_CHART_STYLES as string[]).includes(x)
 }
 
+function isForecastMethod(x: unknown): x is ForecastMethodId {
+  return typeof x === 'string' && (VALID_FORECAST_METHODS as string[]).includes(x)
+}
+
 function defaultIndicators(): Record<IndicatorId, boolean> {
-  return { ma20: true, ma50: false, boll: false, rsi: false, macd: false }
+  return { ma20: true, ma50: false, boll: false, rsi: false, macd: false, forecast: false }
 }
 
 /** Slot 0 keeps today's exact startup default (first curated stock) so existing users see no
@@ -86,7 +93,8 @@ function defaultChartSlots(): ChartSlotState[] {
     symbol: defaults[i],
     timeframe: '1M' as Timeframe,
     indicators: defaultIndicators(),
-    chartStyle: 'candles' as ChartStyleId
+    chartStyle: 'candles' as ChartStyleId,
+    forecastMethod: 'drift' as ForecastMethodId
   }))
 }
 
@@ -226,6 +234,7 @@ interface StoredChartSlot {
   timeframe: Timeframe
   indicators: Record<IndicatorId, boolean>
   chartStyle: ChartStyleId
+  forecastMethod: ForecastMethodId
 }
 
 function loadChartSlots(): ChartSlotState[] {
@@ -247,7 +256,8 @@ function loadChartSlots(): ChartSlotState[] {
               stored.indicators && typeof stored.indicators === 'object'
                 ? { ...def.indicators, ...stored.indicators }
                 : def.indicators,
-            chartStyle: isChartStyle(stored.chartStyle) ? stored.chartStyle : def.chartStyle
+            chartStyle: isChartStyle(stored.chartStyle) ? stored.chartStyle : def.chartStyle,
+            forecastMethod: isForecastMethod(stored.forecastMethod) ? stored.forecastMethod : def.forecastMethod
           }
         })
       }
@@ -356,6 +366,7 @@ interface AppState {
   setSlotTimeframe: (slotId: string, tf: Timeframe) => void
   toggleSlotIndicator: (slotId: string, id: IndicatorId) => void
   setSlotChartStyle: (slotId: string, style: ChartStyleId) => void
+  setSlotForecastMethod: (slotId: string, method: ForecastMethodId) => void
   dockWidthPx: number
   setDockWidthPx: (px: number) => void
   oscillatorHeightPx: number
@@ -478,7 +489,8 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
         symbolTicker: s.symbol.symbol,
         timeframe: s.timeframe,
         indicators: s.indicators,
-        chartStyle: s.chartStyle
+        chartStyle: s.chartStyle,
+        forecastMethod: s.forecastMethod
       }))
       localStorage.setItem(CHART_SLOTS_STORAGE_KEY, JSON.stringify(serializable))
     } catch {
@@ -539,6 +551,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   }, [])
   const setSlotChartStyle = useCallback((slotId: string, style: ChartStyleId) => {
     setChartSlots((prev) => prev.map((s) => (s.id === slotId ? { ...s, chartStyle: style } : s)))
+  }, [])
+  const setSlotForecastMethod = useCallback((slotId: string, method: ForecastMethodId) => {
+    setChartSlots((prev) => prev.map((s) => (s.id === slotId ? { ...s, forecastMethod: method } : s)))
   }, [])
   const toggleSlotIndicator = useCallback((slotId: string, id: IndicatorId) => {
     setChartSlots((prev) =>
@@ -772,6 +787,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       setSlotTimeframe,
       toggleSlotIndicator,
       setSlotChartStyle,
+      setSlotForecastMethod,
       dockWidthPx,
       setDockWidthPx,
       oscillatorHeightPx,
@@ -836,6 +852,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       setSlotTimeframe,
       toggleSlotIndicator,
       setSlotChartStyle,
+      setSlotForecastMethod,
       dockWidthPx,
       setDockWidthPx,
       oscillatorHeightPx,

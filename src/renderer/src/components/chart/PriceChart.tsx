@@ -1,13 +1,15 @@
 import { useEffect, useRef } from 'react'
 import {
   createChart,
+  LineStyle,
   LineType,
   type IChartApi,
   type ISeriesApi,
   type UTCTimestamp
 } from 'lightweight-charts'
-import type { Candle, ChartHoverInfo, ChartStyleId, IndicatorId } from '@renderer/types/market'
+import type { Candle, ChartHoverInfo, ChartStyleId, ForecastMethodId, IndicatorId } from '@renderer/types/market'
 import { bollingerBands, closesOf, sma } from '@renderer/lib/quant'
+import { driftForecast, monteCarloForecast, regressionForecast, type ForecastBand } from '@renderer/lib/forecast'
 import { chartColors, type ChartColors } from '@renderer/lib/chartTheme'
 
 const MONO_FONT_STACK = 'ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace'
@@ -16,6 +18,7 @@ interface Props {
   candles: Candle[]
   indicators: Record<IndicatorId, boolean>
   chartStyle: ChartStyleId
+  forecastMethod: ForecastMethodId
   theme: 'dark' | 'light'
   onHover?: (info: ChartHoverInfo | null) => void
 }
@@ -49,7 +52,14 @@ function trendColorSet(
   }
 }
 
-export default function PriceChart({ candles, indicators, chartStyle, theme, onHover }: Props): JSX.Element {
+export default function PriceChart({
+  candles,
+  indicators,
+  chartStyle,
+  forecastMethod,
+  theme,
+  onHover
+}: Props): JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null)
   const chartRef = useRef<IChartApi | null>(null)
   const mainSeriesRef = useRef<MainSeries | null>(null)
@@ -58,6 +68,9 @@ export default function PriceChart({ candles, indicators, chartStyle, theme, onH
   const ma50SeriesRef = useRef<ISeriesApi<'Line'> | null>(null)
   const bollUpperRef = useRef<ISeriesApi<'Line'> | null>(null)
   const bollLowerRef = useRef<ISeriesApi<'Line'> | null>(null)
+  const forecastCentralRef = useRef<ISeriesApi<'Line'> | null>(null)
+  const forecastUpperRef = useRef<ISeriesApi<'Line'> | null>(null)
+  const forecastLowerRef = useRef<ISeriesApi<'Line'> | null>(null)
   // Always holds the latest candles + computed indicator arrays so the crosshair
   // handler (subscribed once, in the chart-creation effect) never reads stale closures.
   const dataCacheRef = useRef<IndicatorCache>({ candles: [], ma20: [], ma50: [], bollUpper: [], bollLower: [] })
@@ -169,6 +182,26 @@ export default function PriceChart({ candles, indicators, chartStyle, theme, onH
     })
     bollLowerRef.current = chart.addLineSeries({
       color: 'rgba(140,126,247,0.75)',
+      lineWidth: 1,
+      priceLineVisible: false,
+      lastValueVisible: false
+    })
+
+    forecastCentralRef.current = chart.addLineSeries({
+      color: colors.accentA,
+      lineWidth: 1,
+      lineStyle: LineStyle.Dashed,
+      priceLineVisible: false,
+      lastValueVisible: false
+    })
+    forecastUpperRef.current = chart.addLineSeries({
+      color: 'rgba(47,224,200,0.5)',
+      lineWidth: 1,
+      priceLineVisible: false,
+      lastValueVisible: false
+    })
+    forecastLowerRef.current = chart.addLineSeries({
+      color: 'rgba(47,224,200,0.5)',
       lineWidth: 1,
       priceLineVisible: false,
       lastValueVisible: false
@@ -313,6 +346,34 @@ export default function PriceChart({ candles, indicators, chartStyle, theme, onH
       bollLowerRef.current?.setData([])
     }
 
+    if (indicators.forecast && candles.length >= 2) {
+      const horizonBars = Math.min(60, Math.max(10, Math.round(candles.length * 0.25)))
+      let band: ForecastBand
+      switch (forecastMethod) {
+        case 'regression':
+          band = regressionForecast(closes, horizonBars)
+          break
+        case 'montecarlo':
+          band = monteCarloForecast(closes, horizonBars)
+          break
+        case 'drift':
+        default:
+          band = driftForecast(closes, horizonBars)
+          break
+      }
+      const lastTime = candles[candles.length - 1].time
+      const step = candles[candles.length - 1].time - candles[candles.length - 2].time
+      const toPoint = (values: number[]): Array<{ time: UTCTimestamp; value: number }> =>
+        values.map((v, k) => ({ time: (lastTime + (k + 1) * step) as UTCTimestamp, value: v }))
+      forecastCentralRef.current?.setData(toPoint(band.central))
+      forecastUpperRef.current?.setData(toPoint(band.upper))
+      forecastLowerRef.current?.setData(toPoint(band.lower))
+    } else {
+      forecastCentralRef.current?.setData([])
+      forecastUpperRef.current?.setData([])
+      forecastLowerRef.current?.setData([])
+    }
+
     dataCacheRef.current = { candles, ma20, ma50, bollUpper, bollLower }
 
     // Re-enable autoScale on every data push, not just on chart creation: dragging the
@@ -341,7 +402,7 @@ export default function PriceChart({ candles, indicators, chartStyle, theme, onH
         : null
     )
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [candles, indicators, theme, chartStyle])
+  }, [candles, indicators, theme, chartStyle, forecastMethod])
 
   return <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
 }

@@ -111,6 +111,7 @@
     "indicatorBoll": "布林带",
     "indicatorRsi": "RSI",
     "indicatorMacd": "MACD",
+    "indicatorForecast": "预测",
     "rsiLabel": "RSI (14)",
     "macdLabel": "MACD (12, 26, 9)",
     "volLabel": "成交量",
@@ -132,7 +133,14 @@
       "line": "折线图",
       "area": "面积图",
       "baseline": "基准线"
-    }
+    },
+    "forecastMethod": {
+      "drift": "漂移",
+      "regression": "趋势",
+      "montecarlo": "蒙特卡洛"
+    },
+    "forecastDisclaimerTitle": "并非预测",
+    "forecastDisclaimerBody": "此叠加图仅是基于该资产近期波动率与趋势得出的统计学预测，并非对未来价格的预言。仅供教育与参考之用，不构成投资建议。"
   },
   "dock": {
     "risk": {

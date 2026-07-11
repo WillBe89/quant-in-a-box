@@ -111,6 +111,7 @@
     "indicatorBoll": "Bollinger",
     "indicatorRsi": "RSI",
     "indicatorMacd": "MACD",
+    "indicatorForecast": "การพยากรณ์",
     "rsiLabel": "RSI (14)",
     "macdLabel": "MACD (12, 26, 9)",
     "volLabel": "Vol",
@@ -132,7 +133,14 @@
       "line": "เส้น",
       "area": "พื้นที่",
       "baseline": "เส้นฐาน"
-    }
+    },
+    "forecastMethod": {
+      "drift": "ดริฟท์",
+      "regression": "แนวโน้ม",
+      "montecarlo": "มอนติคาร์โล"
+    },
+    "forecastDisclaimerTitle": "ไม่ใช่การคาดการณ์",
+    "forecastDisclaimerBody": "ภาพซ้อนนี้เป็นการคาดคะเนเชิงสถิติจากความผันผวนและแนวโน้มล่าสุดของสินทรัพย์เอง ไม่ใช่การทำนายราคาในอนาคต ใช้เพื่อการศึกษาและให้ข้อมูลเท่านั้น ไม่ใช่คำแนะนำการลงทุน"
   },
   "dock": {
     "risk": {

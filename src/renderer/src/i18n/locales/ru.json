@@ -111,6 +111,7 @@
     "indicatorBoll": "Боллинджер",
     "indicatorRsi": "RSI",
     "indicatorMacd": "MACD",
+    "indicatorForecast": "Прогноз",
     "rsiLabel": "RSI (14)",
     "macdLabel": "MACD (12, 26, 9)",
     "volLabel": "Объём",
@@ -132,7 +133,14 @@
       "line": "Линия",
       "area": "Область",
       "baseline": "Базовая линия"
-    }
+    },
+    "forecastMethod": {
+      "drift": "Дрейф",
+      "regression": "Тренд",
+      "montecarlo": "Монте-Карло"
+    },
+    "forecastDisclaimerTitle": "Это не прогноз",
+    "forecastDisclaimerBody": "Этот наложенный слой — статистическая проекция, основанная на недавней волатильности и тренде самого актива, а не предсказание будущей цены. Он предназначен исключительно для образовательных и информационных целей и не является инвестиционной консультацией."
   },
   "dock": {
     "risk": {

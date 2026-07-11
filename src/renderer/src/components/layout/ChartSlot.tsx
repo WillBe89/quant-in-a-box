@@ -2,13 +2,20 @@ import { useEffect, useState } from 'react'
 import type { RefObject } from 'react'
 import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
-import type { Candle, ChartHoverInfo, ChartStyleId, IndicatorId, Timeframe } from '@renderer/types/market'
+import type {
+  Candle,
+  ChartHoverInfo,
+  ChartStyleId,
+  ForecastMethodId,
+  IndicatorId,
+  Timeframe
+} from '@renderer/types/market'
 import { useAppState } from '@renderer/state/AppStateContext'
 import { dataService } from '@renderer/data/dataService'
 import PriceChart from '@renderer/components/chart/PriceChart'
 import OscillatorPanel from '@renderer/components/chart/OscillatorPanel'
 import InfoIcon from '@renderer/academy/InfoIcon'
-import { IconInfo, IconStar } from '@renderer/components/icons/Icons'
+import { IconAlertTriangle, IconInfo, IconStar } from '@renderer/components/icons/Icons'
 import Tooltip from '@renderer/components/ui/Tooltip'
 import AssetSearchBox from '@renderer/components/ui/AssetSearchBox'
 import { useDismissablePopover } from '@renderer/lib/useDismissablePopover'
@@ -17,6 +24,7 @@ import ResizeHandle from './ResizeHandle'
 
 const TIMEFRAMES: Timeframe[] = ['1D', '1W', '1M', '3M', '1Y', '5Y']
 const CHART_STYLES: ChartStyleId[] = ['candles', 'bars', 'line', 'area', 'baseline']
+const FORECAST_METHODS: ForecastMethodId[] = ['drift', 'regression', 'montecarlo']
 
 function formatPrice(price: number, isYield?: boolean): string {
   if (isYield) return `${price.toFixed(2)}%`
@@ -61,6 +69,7 @@ export default function ChartSlot({
     setSlotTimeframe,
     toggleSlotIndicator,
     setSlotChartStyle,
+    setSlotForecastMethod,
     theme,
     isInWatchlist,
     toggleWatchlist,
@@ -113,7 +122,8 @@ export default function ChartSlot({
     { id: 'ma50', label: t('workspace.indicatorMa50'), lessonId: 'ma' },
     { id: 'boll', label: t('workspace.indicatorBoll'), lessonId: 'boll' },
     { id: 'rsi', label: t('workspace.indicatorRsi'), lessonId: 'rsi' },
-    { id: 'macd', label: t('workspace.indicatorMacd'), lessonId: 'macd' }
+    { id: 'macd', label: t('workspace.indicatorMacd'), lessonId: 'macd' },
+    { id: 'forecast', label: t('workspace.indicatorForecast'), lessonId: 'forecast' }
   ]
 
   useEffect(() => {
@@ -260,13 +270,37 @@ export default function ChartSlot({
           ))}
           <InfoIcon lessonId="ma" />
         </div>
+        {slot.indicators.forecast && (
+          <div className="segmented">
+            {FORECAST_METHODS.map((fm) => (
+              <button
+                key={fm}
+                className={slot.forecastMethod === fm ? 'active' : ''}
+                onClick={() => setSlotForecastMethod(slotId, fm)}
+              >
+                {t(`workspace.forecastMethod.${fm}`)}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
+
+      {slot.indicators.forecast && (
+        <div className="chart-forecast-disclaimer">
+          <IconAlertTriangle size={16} />
+          <div>
+            <div className="chart-forecast-disclaimer-title">{t('workspace.forecastDisclaimerTitle')}</div>
+            <p>{t('workspace.forecastDisclaimerBody')}</p>
+          </div>
+        </div>
+      )}
 
       <div className="chart-wrap">
         <PriceChart
           candles={candles}
           indicators={slot.indicators}
           chartStyle={slot.chartStyle}
+          forecastMethod={slot.forecastMethod}
           theme={theme}
           onHover={setHover}
         />

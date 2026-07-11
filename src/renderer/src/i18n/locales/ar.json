@@ -111,6 +111,7 @@
     "indicatorBoll": "بولينجر",
     "indicatorRsi": "RSI",
     "indicatorMacd": "MACD",
+    "indicatorForecast": "التوقع",
     "rsiLabel": "RSI (14)",
     "macdLabel": "MACD (12, 26, 9)",
     "volLabel": "الحجم",
@@ -132,7 +133,14 @@
       "line": "خط",
       "area": "منطقة",
       "baseline": "خط الأساس"
-    }
+    },
+    "forecastMethod": {
+      "drift": "الانجراف",
+      "regression": "الاتجاه",
+      "montecarlo": "مونت كارلو"
+    },
+    "forecastDisclaimerTitle": "ليس تنبؤًا",
+    "forecastDisclaimerBody": "هذه الطبقة هي توقع إحصائي مبني على التقلب والاتجاه الأخيرين للأصل نفسه، وليست تنبؤًا بالسعر المستقبلي. وهي لأغراض تعليمية وإعلامية فقط ولا تُعد نصيحة استثمارية."
   },
   "dock": {
     "risk": {

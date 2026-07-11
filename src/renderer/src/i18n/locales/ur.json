@@ -111,6 +111,7 @@
     "indicatorBoll": "بولنجر",
     "indicatorRsi": "RSI",
     "indicatorMacd": "MACD",
+    "indicatorForecast": "پیش گوئی",
     "rsiLabel": "RSI (14)",
     "macdLabel": "MACD (12, 26, 9)",
     "volLabel": "حجم",
@@ -132,7 +133,14 @@
       "line": "لائن",
       "area": "ایریا",
       "baseline": "بیس لائن"
-    }
+    },
+    "forecastMethod": {
+      "drift": "ڈرفٹ",
+      "regression": "رجحان",
+      "montecarlo": "مونٹی کارلو"
+    },
+    "forecastDisclaimerTitle": "یہ پیش گوئی نہیں ہے",
+    "forecastDisclaimerBody": "یہ اوورلے اثاثے کی حالیہ اتار چڑھاؤ اور رجحان کی بنیاد پر ایک شماریاتی تخمینہ ہے، مستقبل کی قیمت کی پیش گوئی نہیں۔ یہ صرف تعلیمی اور معلوماتی مقاصد کے لیے ہے اور یہ سرمایہ کاری کا مشورہ نہیں ہے۔"
   },
   "dock": {
     "risk": {

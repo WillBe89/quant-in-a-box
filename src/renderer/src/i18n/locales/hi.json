@@ -111,6 +111,7 @@
     "indicatorBoll": "बॉलिंजर",
     "indicatorRsi": "RSI",
     "indicatorMacd": "MACD",
+    "indicatorForecast": "पूर्वानुमान",
     "rsiLabel": "RSI (14)",
     "macdLabel": "MACD (12, 26, 9)",
     "volLabel": "वॉल्यूम",
@@ -132,7 +133,14 @@
       "line": "लाइन",
       "area": "क्षेत्र",
       "baseline": "बेसलाइन"
-    }
+    },
+    "forecastMethod": {
+      "drift": "ड्रिफ्ट",
+      "regression": "प्रवृत्ति",
+      "montecarlo": "मोंटे कार्लो"
+    },
+    "forecastDisclaimerTitle": "यह भविष्यवाणी नहीं है",
+    "forecastDisclaimerBody": "यह ओवरले एसेट की हाल की अस्थिरता और प्रवृत्ति के आधार पर एक सांख्यिकीय प्रक्षेपण है, भविष्य की कीमत की भविष्यवाणी नहीं। यह केवल शैक्षिक और सूचनात्मक उद्देश्यों के लिए है और यह निवेश सलाह नहीं है।"
   },
   "dock": {
     "risk": {

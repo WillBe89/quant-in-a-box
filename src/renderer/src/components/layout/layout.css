@@ -771,6 +771,39 @@
   background: var(--accent-a);
   color: var(--accent-a);
 }
+.ind-chip[data-ind='forecast'].on .dot {
+  background: var(--accent-a);
+  color: var(--accent-a);
+}
+
+.chart-forecast-disclaimer {
+  display: flex;
+  gap: 10px;
+  background: var(--warn-dim);
+  border: 1px solid var(--warn);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  margin: 4px 14px 0;
+  color: var(--warn);
+}
+.chart-forecast-disclaimer svg {
+  flex: none;
+  margin-top: 1px;
+}
+.chart-forecast-disclaimer-title {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 3px;
+}
+.chart-forecast-disclaimer p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--text-dim);
+  max-width: 62ch;
+}
 
 .chart-wrap {
   flex: 1 1 auto;
