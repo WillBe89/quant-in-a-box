@@ -18,65 +18,12 @@
   border-color: transparent;
 }
 
-.academy-scrim {
-  position: fixed;
-  inset: 0;
-  background: rgba(6, 9, 14, 0.55);
-  backdrop-filter: blur(3px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* Higher than portfolio.css's .portfolio-scrim (100) — Academy is a contextual
-     reference lookup that can be opened from within the Portfolio panel via an
-     InfoIcon, and must stack above it, not behind it. */
-  z-index: 110;
-  padding: 40px;
-}
-:root[data-theme='light'] .academy-scrim {
-  background: rgba(30, 36, 50, 0.35);
-}
-
+/* Academy uses zIndex={110} on its OverlayPanel — higher than Portfolio/Customize's
+   default 100 — since it's a contextual reference lookup that can be opened from
+   within the Portfolio panel via an InfoIcon, and must stack above it, not behind it. */
 .academy-panel {
   width: min(920px, 100%);
   height: min(640px, 100%);
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-soft);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.academy-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 18px 22px;
-  border-bottom: 1px solid var(--border);
-  flex: none;
-}
-.academy-title {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.academy-title h2 {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 16px;
-  font-weight: 700;
-}
-.academy-badge {
-  font-family: var(--font-display);
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
-  color: #08131a;
-  background: var(--accent-gradient);
-  padding: 5px 10px;
-  border-radius: 999px;
 }
 
 .academy-body {

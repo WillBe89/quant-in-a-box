@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAppState } from '@renderer/state/AppStateContext'
 import { LESSONS, type LessonCategory } from './lessons'
@@ -11,6 +11,7 @@ import {
   IconStocks
 } from '@renderer/components/icons/Icons'
 import Tooltip from '@renderer/components/ui/Tooltip'
+import OverlayPanel from '@renderer/components/ui/OverlayPanel'
 import './academy.css'
 
 const CATEGORY_ORDER: LessonCategory[] = ['assetTypes', 'trend', 'risk', 'options']
@@ -23,10 +24,9 @@ const ASSET_TYPE_ICONS: Record<string, (props: { size?: number }) => JSX.Element
   assetRealEstate: IconRealEstate
 }
 
-export default function AcademyPanel(): JSX.Element | null {
+export default function AcademyPanel(): JSX.Element {
   const { t } = useTranslation()
   const { academyOpen, academyLessonId, closeAcademy, openAcademy } = useAppState()
-  const dialogRef = useRef<HTMLDivElement>(null)
 
   const categoryLabel: Record<LessonCategory, string> = {
     assetTypes: t('academy.categoryAssetTypes'),
@@ -45,42 +45,21 @@ export default function AcademyPanel(): JSX.Element | null {
 
   const activeLesson = LESSONS.find((l) => l.id === academyLessonId) ?? LESSONS[0]
 
-  useEffect(() => {
-    if (!academyOpen) return
-    function onKey(e: KeyboardEvent): void {
-      if (e.key === 'Escape') closeAcademy()
-    }
-    window.addEventListener('keydown', onKey)
-    dialogRef.current?.focus()
-    return () => window.removeEventListener('keydown', onKey)
-  }, [academyOpen, closeAcademy])
-
-  if (!academyOpen) return null
-
   return (
-    <div className="academy-scrim" onClick={closeAcademy}>
-      <div
-        className="academy-panel"
-        role="dialog"
-        aria-modal="true"
-        aria-label={t('academy.heading')}
-        tabIndex={-1}
-        ref={dialogRef}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="academy-header">
-          <div className="academy-title">
-            <span className="academy-badge">{t('academy.badge')}</span>
-            <h2>{t('academy.heading')}</h2>
-          </div>
-          <Tooltip label={t('common.close') ?? ''}>
-            <button className="icon-btn" onClick={closeAcademy} aria-label={t('common.close') ?? undefined}>
-              <IconClose size={15} />
-            </button>
-          </Tooltip>
+    <OverlayPanel open={academyOpen} onClose={closeAcademy} ariaLabel={t('academy.heading')} zIndex={110} className="academy-panel">
+      <div className="overlay-header">
+        <div className="overlay-title">
+          <span className="overlay-badge">{t('academy.badge')}</span>
+          <h2>{t('academy.heading')}</h2>
         </div>
+        <Tooltip label={t('common.close') ?? ''}>
+          <button className="icon-btn" onClick={closeAcademy} aria-label={t('common.close') ?? undefined}>
+            <IconClose size={15} />
+          </button>
+        </Tooltip>
+      </div>
 
-        <div className="academy-body">
+      <div className="academy-body">
           <nav className="academy-nav">
             {CATEGORY_ORDER.map((cat) => (
               <div key={cat} className="academy-nav-group">
@@ -123,7 +102,6 @@ export default function AcademyPanel(): JSX.Element | null {
             </div>
           </article>
         </div>
-      </div>
-    </div>
+    </OverlayPanel>
   )
 }

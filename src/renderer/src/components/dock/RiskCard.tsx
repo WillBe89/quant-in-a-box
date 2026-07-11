@@ -13,17 +13,15 @@ import {
   sortinoRatio,
   volatilityAnnualized
 } from '@renderer/lib/quant'
-import InfoIcon from '@renderer/academy/InfoIcon'
+import RiskStatTile from '@renderer/components/stats/RiskStatTile'
 import CardHead from './CardHead'
-import type { PortfolioRiskStats } from '@renderer/types/market'
+import type { DockCardProps } from './dockCardProps'
+import type { Asset, PortfolioRiskStats } from '@renderer/types/market'
 
 const BENCHMARK = { symbol: 'SPXPROXY', name: 'Broad market proxy', klass: 'stocks' as const, price: 5500, changePct: 0.5 }
 
-export default function RiskCard(): JSX.Element {
-  const { t } = useTranslation()
-  const { symbol } = useAppState()
+export function useRiskStats(symbol: Asset): PortfolioRiskStats | null {
   const [stats, setStats] = useState<PortfolioRiskStats | null>(null)
-  const [collapsed, setCollapsed] = useState(false)
 
   useEffect(() => {
     let cancelled = false
@@ -46,6 +44,40 @@ export default function RiskCard(): JSX.Element {
     }
   }, [symbol])
 
+  return stats
+}
+
+export function RiskCardBody({ stats }: { stats: PortfolioRiskStats | null }): JSX.Element {
+  const { t } = useTranslation()
+  if (!stats) return <div className="stat-loading">{t('dock.risk.loading')}</div>
+  return (
+    <div className="stat-grid">
+      <RiskStatTile metric="sharpe" label={t('dock.risk.sharpe')} lessonId="sharpe" rawValue={stats.sharpe} />
+      <RiskStatTile metric="sortino" label={t('dock.risk.sortino')} lessonId="sortino" rawValue={stats.sortino} />
+      <RiskStatTile
+        metric="volatility"
+        label={t('dock.risk.volatility')}
+        lessonId="volatility"
+        rawValue={stats.volatilityAnnualized}
+      />
+      <RiskStatTile metric="var" label={t('dock.risk.var')} lessonId="var" rawValue={stats.valueAtRisk95} />
+      <RiskStatTile
+        metric="maxdd"
+        label={t('dock.risk.maxDrawdown')}
+        lessonId="maxdd"
+        rawValue={stats.maxDrawdown}
+      />
+      <RiskStatTile metric="beta" label={t('dock.risk.beta')} lessonId="beta" rawValue={stats.beta} />
+    </div>
+  )
+}
+
+export default function RiskCard(props: DockCardProps): JSX.Element {
+  const { t } = useTranslation()
+  const { symbol } = useAppState()
+  const stats = useRiskStats(symbol)
+  const [collapsed, setCollapsed] = useState(false)
+
   return (
     <section className={'card' + (collapsed ? ' collapsed' : '')} data-card="risk">
       <CardHead
@@ -53,58 +85,11 @@ export default function RiskCard(): JSX.Element {
         lessonId="sharpe"
         collapsed={collapsed}
         onToggle={() => setCollapsed((c) => !c)}
+        {...props}
       />
       <div className="card-body">
-        {!stats ? (
-          <div className="stat-loading">{t('dock.risk.loading')}</div>
-        ) : (
-          <div className="stat-grid">
-            <StatTile tone="ok" label={t('dock.risk.sharpe')} lessonId="sharpe" value={stats.sharpe.toFixed(2)} />
-            <StatTile tone="ok" label={t('dock.risk.sortino')} lessonId="sortino" value={stats.sortino.toFixed(2)} />
-            <StatTile
-              tone="neutral"
-              label={t('dock.risk.volatility')}
-              lessonId="volatility"
-              value={`${(stats.volatilityAnnualized * 100).toFixed(1)}%`}
-            />
-            <StatTile
-              tone="warn"
-              label={t('dock.risk.var')}
-              lessonId="var"
-              value={`${(stats.valueAtRisk95 * 100).toFixed(1)}%`}
-            />
-            <StatTile
-              tone="warn"
-              label={t('dock.risk.maxDrawdown')}
-              lessonId="maxdd"
-              value={`${(stats.maxDrawdown * 100).toFixed(1)}%`}
-            />
-            <StatTile tone="neutral" label={t('dock.risk.beta')} lessonId="beta" value={stats.beta.toFixed(2)} />
-          </div>
-        )}
+        <RiskCardBody stats={stats} />
       </div>
     </section>
-  )
-}
-
-function StatTile({
-  tone,
-  label,
-  lessonId,
-  value
-}: {
-  tone: 'ok' | 'warn' | 'neutral'
-  label: string
-  lessonId: string
-  value: string
-}): JSX.Element {
-  return (
-    <div className={`stat-tile ${tone}`}>
-      <div className="stripe" />
-      <div className="lbl">
-        {label} <InfoIcon lessonId={lessonId} />
-      </div>
-      <div className="val tnum">{value}</div>
-    </div>
   )
 }

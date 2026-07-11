@@ -16,7 +16,10 @@
     "newsIntro": "Escolha o foco do cartão de Notícias de Mercado.",
     "newsSelected": "O que estou a ver no momento",
     "newsWatchlist": "A minha lista de observação",
-    "newsPortfolio": "A minha carteira"
+    "newsPortfolio": "A minha carteira",
+    "dockSectionsHeading": "Secções do painel",
+    "dockSectionsSub": "Escolha quais secções aparecem na barra lateral — arraste os seus cabeçalhos para reordenar.",
+    "resetLayoutBtn": "Repor esquema"
   },
   "ticker": {
     "settingsLabel": "Definições do ticker",
@@ -255,6 +258,50 @@
       "connectBody": "Instale e inicie sessão na CLI do Claude Code neste computador, ou adicione uma ANTHROPIC_API_KEY ao seu ficheiro .env, para ativar o comentário de IA sobre a carteira.",
       "errorTitle": "Não foi possível gerar as perspetivas",
       "retryBtn": "Tentar novamente"
+    }
+  },
+  "card": {
+    "expand": "Expandir",
+    "dragHandle": "Arraste para reordenar",
+    "moveUp": "Mover para cima",
+    "moveDown": "Mover para baixo"
+  },
+  "riskFace": {
+    "ariaLabel": {
+      "good": "Bom",
+      "neutral": "Neutro",
+      "bad": "Requer atenção"
+    },
+    "sharpe": {
+      "good": "Sharpe acima de 1 — retorno ajustado ao risco sólido, em linha com o que a lição da Academia considera de razoável a muito bom.",
+      "neutral": "Sharpe entre 0 e 1 — retorno ajustado ao risco modesto, ainda não no intervalo \"razoável\".",
+      "bad": "Sharpe abaixo de 0 — a perder dinheiro mesmo após ajustar pelo risco assumido."
+    },
+    "sortino": {
+      "good": "Sortino acima de 1.5 — retornos sólidos em relação apenas ao risco de queda.",
+      "neutral": "Sortino entre 0 e 1.5 — retorno modesto em relação ao risco de queda.",
+      "bad": "Sortino abaixo de 0 — a perder dinheiro mesmo contando apenas o risco de queda."
+    },
+    "volatility": {
+      "good": "Volatilidade anualizada de 20% ou menos — oscilações semelhantes às de um mercado diversificado típico.",
+      "neutral": "Volatilidade anualizada entre 20% e 35% — oscilações notavelmente maiores do que as de um mercado diversificado típico.",
+      "bad": "Volatilidade anualizada superior a 35% — oscilações muito grandes, próximas do risco de uma ação isolada ou criptomoeda."
+    },
+    "var": {
+      "good": "Num dia mau típico, uma perda estimada de 2% ou menos — uma descida bastante contida.",
+      "neutral": "Num dia mau típico, uma perda estimada de 2-4% — uma descida moderadamente elevada.",
+      "bad": "Num dia mau típico, uma perda estimada acima de 4% — uma descida considerável para um único dia."
+    },
+    "maxdd": {
+      "good": "A pior queda até agora manteve-se dentro de 15% — em linha com uma correção de mercado habitual.",
+      "neutral": "A pior queda até agora foi de 15-30% — comparável a uma queda ao estilo de mercado em baixa.",
+      "bad": "A pior queda até agora ultrapassou 30% — uma queda severa, de nível de crise."
+    },
+    "beta": {
+      "good": "Próximo de 1.0 — comporta-se como um ativo típico, semelhante ao mercado.",
+      "neutral": "Um pouco diferente de 1.0 — um pouco mais ou menos sensível ao mercado do que o habitual.",
+      "bad": "Muito diferente de 1.0 — muito mais sensível, muito mais defensivo, ou a mover-se ao contrário do mercado.",
+      "caveat": "Isto não é bom nem mau — apenas indica o quão diferente isto tem sido do \"comportamento típico do mercado\"."
     }
   }
 }

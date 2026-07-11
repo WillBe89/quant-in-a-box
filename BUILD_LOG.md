@@ -2,6 +2,28 @@
 
 Running log of autonomous build cycles. Newest entries at the top.
 
+## 2026-07-11 — Fluid layout: drag-and-drop dock cards, motion system, risk-face indicators (direct request)
+
+**Built:** the three-part ask — "fluid movement profile," draggable/poppable dashboard layout, and good/neutral/bad risk-stat faces.
+
+- **Motion system** — added the `motion` package (framer-motion's successor). New `--duration-*`/`--ease-*` tokens in `theme.css`, shared spring/fade presets in `lib/motion.ts`, `<MotionConfig reducedMotion="user">` wrapping the whole app so every animation collapses under the OS's reduced-motion setting exactly like the existing CSS kill-switch.
+- **Drag-to-reorder + show/hide dock cards** — Risk/Options/News cards are now a `Reorder.Group`/`Reorder.Item` list (real pointer-drag, verified with an actual OS-level drag gesture, not just simulated events) backed by new persisted `dockOrder`/`dockHidden` state (`qiab:dockLayout:v1`). Keyboard users get explicit Move up/down buttons on each card header (`Reorder.Item` has no built-in keyboard support) computed against the *visible* order so hidden cards don't break adjacency. Show/hide + "Reset layout" live in a new Customize panel section.
+- **Pop-open card overlay** — each card gets an Expand button opening a larger `OverlayPanel` view of the same content (shared body components extracted so the docked and expanded views never duplicate JSX).
+- **Shared `OverlayPanel`** — extracted from three near-identical duplicated implementations (Portfolio/Academy/Customize), adding a real open/close animation in the process. All three panels, plus the new card overlay, now share one scrim/dialog/Escape/focus implementation instead of three copies.
+- **Risk-face indicators** — Sharpe/Sortino/Volatility/VaR/MaxDrawdown/Beta each get a green/orange/red face (smile/neutral/frown) computed from the metric's actual value against a documented threshold table (`lib/riskAssessment.ts`, unit tested), replacing a `tone` prop that was previously hardcoded per metric type rather than computed. Beta's face is explicitly framed as "distance from market-typical," not a performance judgment, with a tooltip caveat saying so — confirmed with Will before building since beta has no inherent good/bad direction. Consolidated two duplicated stat-tile components (`PStat` in `PortfolioPanel`, `StatTile` in `RiskCard`) into one shared `RiskStatTile`.
+- Translated the 29 new strings (`card.*`, `riskFace.*`, new Customize section) into all 10 languages; key-parity script confirms 225/225 keys match across all 11 locales.
+
+**Adversarial review + fixes (this is the part worth reading closely):** ran a 3-dimension parallel review (correctness/accessibility/i18n) with an independent verify pass on every finding before trusting it. i18n came back clean. Correctness and accessibility did not — 5 real, confirmed bugs, all fixed before calling this done:
+1. Reopening the News card overlay after reading an article showed the stale reader view instead of the fresh list (`DockCardOverlay`'s `openItem` state never reset on close — it's a permanently-mounted component, only its visual presentation toggles).
+2. **No focus trap** — Tab could escape an open dialog into fully-interactive background content (e.g. Portfolio's add-position inputs, sitting behind Academy's higher z-index but still focusable).
+3. **Escape closed every open overlay at once**, not just the topmost — each `OverlayPanel` instance independently listened on `window` with no coordination, so Academy-opened-from-inside-Portfolio meant one Escape press discarded both.
+4. **No focus restoration** — closing a dialog dropped focus to `<body>` instead of back to the button that opened it.
+5. The risk-face tooltip was mouse-only — its trigger `<span>` had no `tabIndex`, so keyboard users could never reach the explanation text.
+
+Fixed all 5 in `OverlayPanel.tsx` (a module-level open-instance stack so only the topmost responds to Escape, a real Tab-cycling focus trap queried against the dialog's own focusable elements, capture-and-restore of the previously-focused element), `DockCardOverlay.tsx` (reset `openItem` whenever `expandedCard` isn't `'news'`), and `RiskStatTile.tsx` (`tabIndex={0}` on the face trigger). All 5 individually re-verified live in the browser afterward — not just re-read the code — including a real Tab keypress confirming the focus trap wraps correctly and a real Escape keypress confirming only the topmost of two simultaneously-open overlays closes.
+
+**Verified:** typecheck/test(35/35)/build clean throughout. Live browser verification: real pointer-drag reorder (persisted across reload), keyboard move-up/down, hide/show + reset via Customize, pop-open overlay open/close, light theme, Arabic RTL (including the new strings and `dir="rtl"`), and — after the fix pass — all 5 confirmed bugs individually re-tested and confirmed fixed.
+
 ## 2026-07-11 — AI portfolio insights, powered by your local Claude Code session (direct request)
 
 **Built:** the "Get AI insights" feature from the original plan (Stage B), redesigned per Will's request to avoid requiring a fresh Anthropic API key: `("the need for API key makes it pretty annoying. Can we somehow link it to claude code on the computer?")`.

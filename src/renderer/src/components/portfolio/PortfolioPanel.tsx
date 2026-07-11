@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAppState } from '@renderer/state/AppStateContext'
 import { ALL_ASSETS } from '@renderer/data/mockData'
@@ -15,9 +15,10 @@ import {
   volatilityAnnualized
 } from '@renderer/lib/quant'
 import { cumulativeValueSeries, weightedPortfolioReturns } from '@renderer/lib/portfolioMath'
-import InfoIcon from '@renderer/academy/InfoIcon'
+import RiskStatTile from '@renderer/components/stats/RiskStatTile'
 import { IconClose, IconSparkle, IconAlertTriangle } from '@renderer/components/icons/Icons'
 import Tooltip from '@renderer/components/ui/Tooltip'
+import OverlayPanel from '@renderer/components/ui/OverlayPanel'
 import { SUPPORTED_LANGUAGES } from '@renderer/i18n'
 import type { Asset, PortfolioRiskStats } from '@renderer/types/market'
 import './portfolio.css'
@@ -39,10 +40,9 @@ interface Row {
   weightPct: number
 }
 
-export default function PortfolioPanel(): JSX.Element | null {
+export default function PortfolioPanel(): JSX.Element {
   const { t, i18n } = useTranslation()
   const { portfolioOpen, closePortfolio, portfolio, addPosition, removePosition } = useAppState()
-  const dialogRef = useRef<HTMLDivElement>(null)
 
   const [symbolQuery, setSymbolQuery] = useState('')
   const [selectedSymbol, setSelectedSymbol] = useState<Asset | null>(null)
@@ -56,16 +56,6 @@ export default function PortfolioPanel(): JSX.Element | null {
   const [aiLoading, setAiLoading] = useState(false)
   const [aiResult, setAiResult] = useState<AiInsightsResult | null>(null)
   const [aiError, setAiError] = useState<string | null>(null)
-
-  useEffect(() => {
-    if (!portfolioOpen) return
-    function onKey(e: KeyboardEvent): void {
-      if (e.key === 'Escape') closePortfolio()
-    }
-    window.addEventListener('keydown', onKey)
-    dialogRef.current?.focus()
-    return () => window.removeEventListener('keydown', onKey)
-  }, [portfolioOpen, closePortfolio])
 
   useEffect(() => {
     if (!portfolioOpen) return
@@ -158,8 +148,6 @@ export default function PortfolioPanel(): JSX.Element | null {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [portfolioOpen, portfolio])
 
-  if (!portfolioOpen) return null
-
   const matches =
     symbolQuery.trim().length > 0
       ? ALL_ASSETS.filter(
@@ -225,29 +213,20 @@ export default function PortfolioPanel(): JSX.Element | null {
   }
 
   return (
-    <div className="portfolio-scrim" onClick={closePortfolio}>
-      <div
-        className="portfolio-panel"
-        role="dialog"
-        aria-modal="true"
-        aria-label={t('portfolio.heading')}
-        tabIndex={-1}
-        ref={dialogRef}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="portfolio-header">
-          <div className="portfolio-title">
-            <span className="portfolio-badge">{t('portfolio.badge')}</span>
-            <h2>{t('portfolio.heading')}</h2>
-          </div>
-          <Tooltip label={t('common.close') ?? ''}>
-            <button className="icon-btn" onClick={closePortfolio} aria-label={t('common.close') ?? undefined}>
-              <IconClose size={15} />
-            </button>
-          </Tooltip>
+    <OverlayPanel open={portfolioOpen} onClose={closePortfolio} ariaLabel={t('portfolio.heading')} className="portfolio-panel">
+      <div className="overlay-header">
+        <div className="overlay-title">
+          <span className="overlay-badge">{t('portfolio.badge')}</span>
+          <h2>{t('portfolio.heading')}</h2>
         </div>
+        <Tooltip label={t('common.close') ?? ''}>
+          <button className="icon-btn" onClick={closePortfolio} aria-label={t('common.close') ?? undefined}>
+            <IconClose size={15} />
+          </button>
+        </Tooltip>
+      </div>
 
-        <div className="portfolio-body">
+      <div className="overlay-body">
           <div className="portfolio-add">
             <div className="portfolio-add-field portfolio-add-symbol">
               <input
@@ -370,27 +349,22 @@ export default function PortfolioPanel(): JSX.Element | null {
                   <div className="stat-loading">{t('portfolio.analyticsLoading')}</div>
                 ) : (
                   <div className="stat-grid">
-                    <PStat tone="ok" label={t('dock.risk.sharpe')} lessonId="sharpe" value={stats.sharpe.toFixed(2)} />
-                    <PStat tone="ok" label={t('dock.risk.sortino')} lessonId="sortino" value={stats.sortino.toFixed(2)} />
-                    <PStat
-                      tone="neutral"
+                    <RiskStatTile metric="sharpe" label={t('dock.risk.sharpe')} lessonId="sharpe" rawValue={stats.sharpe} />
+                    <RiskStatTile metric="sortino" label={t('dock.risk.sortino')} lessonId="sortino" rawValue={stats.sortino} />
+                    <RiskStatTile
+                      metric="volatility"
                       label={t('dock.risk.volatility')}
                       lessonId="volatility"
-                      value={`${(stats.volatilityAnnualized * 100).toFixed(1)}%`}
+                      rawValue={stats.volatilityAnnualized}
                     />
-                    <PStat
-                      tone="warn"
-                      label={t('dock.risk.var')}
-                      lessonId="var"
-                      value={`${(stats.valueAtRisk95 * 100).toFixed(1)}%`}
-                    />
-                    <PStat
-                      tone="warn"
+                    <RiskStatTile metric="var" label={t('dock.risk.var')} lessonId="var" rawValue={stats.valueAtRisk95} />
+                    <RiskStatTile
+                      metric="maxdd"
                       label={t('dock.risk.maxDrawdown')}
                       lessonId="maxdd"
-                      value={`${(stats.maxDrawdown * 100).toFixed(1)}%`}
+                      rawValue={stats.maxDrawdown}
                     />
-                    <PStat tone="neutral" label={t('dock.risk.beta')} lessonId="beta" value={stats.beta.toFixed(2)} />
+                    <RiskStatTile metric="beta" label={t('dock.risk.beta')} lessonId="beta" rawValue={stats.beta} />
                   </div>
                 )}
               </div>
@@ -458,30 +432,7 @@ export default function PortfolioPanel(): JSX.Element | null {
               )}
             </>
           )}
-        </div>
       </div>
-    </div>
-  )
-}
-
-function PStat({
-  tone,
-  label,
-  lessonId,
-  value
-}: {
-  tone: 'ok' | 'warn' | 'neutral'
-  label: string
-  lessonId: string
-  value: string
-}): JSX.Element {
-  return (
-    <div className={`stat-tile ${tone}`}>
-      <div className="stripe" />
-      <div className="lbl">
-        {label} <InfoIcon lessonId={lessonId} />
-      </div>
-      <div className="val tnum">{value}</div>
-    </div>
+    </OverlayPanel>
   )
 }

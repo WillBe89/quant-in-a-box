@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { MotionConfig } from 'motion/react'
 import { AppStateProvider, useAppState } from '@renderer/state/AppStateContext'
 import Topbar from '@renderer/components/layout/Topbar'
 import Rail from '@renderer/components/layout/Rail'
@@ -8,6 +9,7 @@ import TickerTape from '@renderer/components/layout/TickerTape'
 import AcademyPanel from '@renderer/academy/AcademyPanel'
 import PortfolioPanel from '@renderer/components/portfolio/PortfolioPanel'
 import CustomizePanel from '@renderer/components/customize/CustomizePanel'
+import DockCardOverlay from '@renderer/components/dock/DockCardOverlay'
 import '@renderer/components/layout/layout.css'
 
 function Shell(): JSX.Element {
@@ -29,14 +31,17 @@ function Shell(): JSX.Element {
       <AcademyPanel />
       <PortfolioPanel />
       <CustomizePanel />
+      <DockCardOverlay />
     </div>
   )
 }
 
 export default function App(): JSX.Element {
   return (
-    <AppStateProvider>
-      <Shell />
-    </AppStateProvider>
+    <MotionConfig reducedMotion="user">
+      <AppStateProvider>
+        <Shell />
+      </AppStateProvider>
+    </MotionConfig>
   )
 }

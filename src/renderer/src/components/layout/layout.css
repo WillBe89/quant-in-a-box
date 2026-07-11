@@ -617,7 +617,12 @@
   min-height: 0;
   overflow-y: auto;
   padding: 12px;
+}
+.dock-list {
+  display: flex;
+  flex-direction: column;
   gap: 12px;
+  min-height: 0;
 }
 .card {
   background: var(--surface);
@@ -629,15 +634,17 @@
 .card-head {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 6px;
   padding: 12px 14px;
-  cursor: pointer;
   user-select: none;
 }
 .card-head-title {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
+  cursor: pointer;
 }
 .card-head h3 {
   margin: 0;
@@ -647,14 +654,63 @@
   letter-spacing: 0.3px;
   text-transform: uppercase;
   color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: none;
+}
+.card-drag-handle {
+  display: inline-flex;
+  color: var(--text-faint);
+  cursor: grab;
+  touch-action: none;
+  flex: none;
+}
+.card-drag-handle:active {
+  cursor: grabbing;
+}
+.card-action-btn {
+  width: 22px;
+  height: 22px;
+  border: none;
+  background: transparent;
+  color: var(--text-faint);
+  border-radius: var(--radius-sm);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  padding: 0;
+  transition:
+    color var(--duration-fast) var(--ease-standard),
+    background var(--duration-fast) var(--ease-standard);
+}
+.card-action-btn:hover:not(:disabled) {
+  color: var(--text);
+  background: var(--surface-2);
+}
+.card-action-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.card-move-up {
+  transform: rotate(180deg);
 }
 .card-head .chev {
   color: var(--text-faint);
-  transition: transform 0.18s ease;
+  transition: transform var(--duration-base) var(--ease-standard);
   font-size: 11px;
 }
 .card.collapsed .chev {
   transform: rotate(-90deg);
+}
+.dock-item {
+  list-style: none;
+  margin: 0;
 }
 .card-body {
   padding: 0 14px 14px;
@@ -697,14 +753,14 @@
   font-weight: 700;
   margin-top: 2px;
 }
-.stat-tile.warn .stripe {
-  background: var(--warn);
+.stat-tile.bad .stripe {
+  background: var(--loss);
 }
-.stat-tile.ok .stripe {
+.stat-tile.good .stripe {
   background: var(--gain);
 }
 .stat-tile.neutral .stripe {
-  background: var(--accent-b);
+  background: var(--warn);
 }
 
 .greeks-table {

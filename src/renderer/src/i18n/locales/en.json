@@ -2,6 +2,50 @@
   "common": {
     "close": "Close"
   },
+  "card": {
+    "expand": "Expand",
+    "dragHandle": "Drag to reorder",
+    "moveUp": "Move up",
+    "moveDown": "Move down"
+  },
+  "riskFace": {
+    "ariaLabel": {
+      "good": "Good",
+      "neutral": "Neutral",
+      "bad": "Needs attention"
+    },
+    "sharpe": {
+      "good": "Sharpe above 1 — solid risk-adjusted return, in line with what the Academy lesson calls decent-to-good.",
+      "neutral": "Sharpe between 0 and 1 — a modest risk-adjusted return, not yet in the \"decent\" range.",
+      "bad": "Sharpe below 0 — losing money after adjusting for the risk taken."
+    },
+    "sortino": {
+      "good": "Sortino above 1.5 — strong returns relative to downside risk alone.",
+      "neutral": "Sortino between 0 and 1.5 — a modest return relative to downside risk.",
+      "bad": "Sortino below 0 — losing money even after only counting downside risk."
+    },
+    "volatility": {
+      "good": "Annualized volatility at or below 20% — swings roughly in line with a typical diversified market.",
+      "neutral": "Annualized volatility between 20% and 35% — noticeably bigger swings than a typical diversified market.",
+      "bad": "Annualized volatility above 35% — very large swings, closer to single-stock or crypto-level risk."
+    },
+    "var": {
+      "good": "On a typical bad day, an estimated loss of 2% or less — a fairly contained downside.",
+      "neutral": "On a typical bad day, an estimated loss of 2-4% — a moderately elevated downside.",
+      "bad": "On a typical bad day, an estimated loss beyond 4% — a sizeable downside for a single day."
+    },
+    "maxdd": {
+      "good": "Worst decline so far stayed within 15% — in line with a routine market pullback.",
+      "neutral": "Worst decline so far was 15-30% — comparable to a bear-market-style drop.",
+      "bad": "Worst decline so far exceeded 30% — a severe, crisis-level drop."
+    },
+    "beta": {
+      "good": "Close to 1.0 — this behaves like a typical, market-like asset.",
+      "neutral": "Somewhat different from 1.0 — more or less sensitive to the market than typical.",
+      "bad": "Far from 1.0 — much more sensitive, much more defensive, or moving opposite the market.",
+      "caveat": "This isn't good or bad — it just flags how far from \"market typical\" this has been."
+    }
+  },
   "customize": {
     "badge": "Make it yours",
     "heading": "Your preferences",
@@ -16,7 +60,10 @@
     "newsIntro": "Choose what the Market News card should focus on.",
     "newsSelected": "Whatever I'm viewing",
     "newsWatchlist": "My watchlist",
-    "newsPortfolio": "My portfolio"
+    "newsPortfolio": "My portfolio",
+    "dockSectionsHeading": "Dashboard sections",
+    "dockSectionsSub": "Choose which sections appear in the sidebar — drag their headers to reorder.",
+    "resetLayoutBtn": "Reset layout"
   },
   "ticker": {
     "settingsLabel": "Ticker settings",

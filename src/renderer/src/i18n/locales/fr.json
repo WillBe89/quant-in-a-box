@@ -16,7 +16,10 @@
     "newsIntro": "Choisissez sur quoi la carte Actualités de marché doit se concentrer.",
     "newsSelected": "Ce que je consulte actuellement",
     "newsWatchlist": "Ma liste de suivi",
-    "newsPortfolio": "Mon portefeuille"
+    "newsPortfolio": "Mon portefeuille",
+    "dockSectionsHeading": "Sections du tableau de bord",
+    "dockSectionsSub": "Choisissez les sections affichées dans la barre latérale — faites glisser leurs en-têtes pour les réorganiser.",
+    "resetLayoutBtn": "Réinitialiser la disposition"
   },
   "ticker": {
     "settingsLabel": "Paramètres du bandeau défilant",
@@ -255,6 +258,50 @@
       "connectBody": "Installez et connectez-vous à la CLI Claude Code sur cet ordinateur, ou ajoutez une ANTHROPIC_API_KEY à votre fichier .env, pour activer le commentaire IA sur le portefeuille.",
       "errorTitle": "Impossible de générer les analyses",
       "retryBtn": "Réessayer"
+    }
+  },
+  "card": {
+    "expand": "Agrandir",
+    "dragHandle": "Glisser pour réorganiser",
+    "moveUp": "Monter",
+    "moveDown": "Descendre"
+  },
+  "riskFace": {
+    "ariaLabel": {
+      "good": "Bon",
+      "neutral": "Neutre",
+      "bad": "À surveiller"
+    },
+    "sharpe": {
+      "good": "Sharpe supérieur à 1 — rendement ajusté au risque solide, conforme à ce que la leçon de l'Academy qualifie de correct à très bon.",
+      "neutral": "Sharpe entre 0 et 1 — rendement ajusté au risque modeste, pas encore dans la fourchette \"correcte\".",
+      "bad": "Sharpe inférieur à 0 — vous perdez de l'argent même après ajustement du risque pris."
+    },
+    "sortino": {
+      "good": "Sortino supérieur à 1.5 — rendement solide par rapport au seul risque baissier.",
+      "neutral": "Sortino entre 0 et 1.5 — rendement modeste par rapport au risque baissier.",
+      "bad": "Sortino inférieur à 0 — vous perdez de l'argent même en ne comptant que le risque baissier."
+    },
+    "volatility": {
+      "good": "Volatilité annualisée à 20 % ou moins — des variations comparables à celles d'un marché diversifié typique.",
+      "neutral": "Volatilité annualisée entre 20 % et 35 % — des variations nettement plus importantes qu'un marché diversifié typique.",
+      "bad": "Volatilité annualisée supérieure à 35 % — des variations très importantes, proches du risque d'une action isolée ou d'une cryptomonnaie."
+    },
+    "var": {
+      "good": "Lors d'une journée difficile typique, une perte estimée de 2 % ou moins — un risque de baisse plutôt contenu.",
+      "neutral": "Lors d'une journée difficile typique, une perte estimée de 2 à 4 % — un risque de baisse modérément élevé.",
+      "bad": "Lors d'une journée difficile typique, une perte estimée au-delà de 4 % — un risque de baisse important pour une seule journée."
+    },
+    "maxdd": {
+      "good": "La pire baisse à ce jour est restée sous 15 % — comparable à une correction de marché habituelle.",
+      "neutral": "La pire baisse à ce jour a été de 15 à 30 % — comparable à une baisse de type marché baissier.",
+      "bad": "La pire baisse à ce jour a dépassé 30 % — une baisse sévère, de niveau crise."
+    },
+    "beta": {
+      "good": "Proche de 1.0 — se comporte comme un actif typique, semblable au marché.",
+      "neutral": "Quelque peu différent de 1.0 — un peu plus ou moins sensible au marché que la normale.",
+      "bad": "Très différent de 1.0 — bien plus sensible, bien plus défensif, ou évoluant à l'inverse du marché.",
+      "caveat": "Ce n'est ni bon ni mauvais — cela indique seulement à quel point cela s'écarte du \"comportement type du marché\"."
     }
   }
 }

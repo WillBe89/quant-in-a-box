@@ -1,0 +1,20 @@
+.risk-face {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-faint);
+  cursor: default;
+  border-radius: 3px;
+}
+.risk-face:focus-visible {
+  outline: 2px solid var(--accent-b);
+  outline-offset: 2px;
+}
+.stat-tile.good .risk-face {
+  color: var(--gain);
+}
+.stat-tile.neutral .risk-face {
+  color: var(--warn);
+}
+.stat-tile.bad .risk-face {
+  color: var(--loss);
+}

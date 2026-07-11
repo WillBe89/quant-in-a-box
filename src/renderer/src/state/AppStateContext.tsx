@@ -9,9 +9,39 @@ const PORTFOLIO_STORAGE_KEY = 'qiab:portfolio:v1'
 const LANGUAGE_STORAGE_KEY = 'qiab:language:v1'
 const TICKER_SOURCE_STORAGE_KEY = 'qiab:tickerSource:v1'
 const NEWS_SOURCE_STORAGE_KEY = 'qiab:newsSource:v1'
+const DOCK_LAYOUT_STORAGE_KEY = 'qiab:dockLayout:v1'
 
 export type TickerSource = 'watchlist' | 'portfolio' | 'all'
 export type NewsSource = 'selected' | 'watchlist' | 'portfolio'
+export type DockCardId = 'risk' | 'options' | 'news'
+
+export interface DockLayoutState {
+  order: DockCardId[]
+  hidden: DockCardId[]
+}
+
+const DEFAULT_DOCK_ORDER: DockCardId[] = ['risk', 'options', 'news']
+
+function isDockCardId(x: unknown): x is DockCardId {
+  return x === 'risk' || x === 'options' || x === 'news'
+}
+
+function loadDockLayout(): DockLayoutState {
+  try {
+    const raw = localStorage.getItem(DOCK_LAYOUT_STORAGE_KEY)
+    if (raw) {
+      const parsed = JSON.parse(raw)
+      const storedOrder: DockCardId[] = Array.isArray(parsed.order) ? parsed.order.filter(isDockCardId) : []
+      const hidden: DockCardId[] = Array.isArray(parsed.hidden) ? parsed.hidden.filter(isDockCardId) : []
+      // Reconcile in any card id missing from a stored order (e.g. a future release adds a 4th card).
+      const order = [...storedOrder, ...DEFAULT_DOCK_ORDER.filter((id) => !storedOrder.includes(id))]
+      if (order.length === DEFAULT_DOCK_ORDER.length) return { order, hidden }
+    }
+  } catch {
+    // fall through to default
+  }
+  return { order: DEFAULT_DOCK_ORDER, hidden: [] }
+}
 
 function loadTickerSource(): TickerSource {
   try {
@@ -102,6 +132,14 @@ interface AppState {
   closeCustomize: () => void
   newsSource: NewsSource
   setNewsSource: (source: NewsSource) => void
+  dockOrder: DockCardId[]
+  dockHidden: DockCardId[]
+  setDockOrder: (order: DockCardId[]) => void
+  toggleDockCardHidden: (id: DockCardId) => void
+  resetDockLayout: () => void
+  expandedCard: DockCardId | null
+  openCardOverlay: (id: DockCardId) => void
+  closeCardOverlay: () => void
 }
 
 const AppStateCtx = createContext<AppState | null>(null)
@@ -127,6 +165,8 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   const [tickerSource, setTickerSourceState] = useState<TickerSource>(() => loadTickerSource())
   const [customizeOpen, setCustomizeOpen] = useState(false)
   const [newsSource, setNewsSourceState] = useState<NewsSource>(() => loadNewsSource())
+  const [dockLayout, setDockLayoutState] = useState<DockLayoutState>(() => loadDockLayout())
+  const [expandedCard, setExpandedCard] = useState<DockCardId | null>(null)
 
   useEffect(() => {
     i18n.changeLanguage(language)
@@ -170,6 +210,14 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       // best-effort persistence; ignore quota/availability errors
     }
   }, [newsSource])
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(DOCK_LAYOUT_STORAGE_KEY, JSON.stringify(dockLayout))
+    } catch {
+      // best-effort persistence; ignore quota/availability errors
+    }
+  }, [dockLayout])
 
   const setAssetClass = useCallback((klass: AssetClass | 'all') => {
     setAssetClassState(klass)
@@ -238,6 +286,21 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   const closeCustomize = useCallback(() => setCustomizeOpen(false), [])
   const setNewsSource = useCallback((source: NewsSource) => setNewsSourceState(source), [])
 
+  const setDockOrder = useCallback((order: DockCardId[]) => {
+    setDockLayoutState((prev) => ({ ...prev, order }))
+  }, [])
+  const toggleDockCardHidden = useCallback((id: DockCardId) => {
+    setDockLayoutState((prev) => ({
+      ...prev,
+      hidden: prev.hidden.includes(id) ? prev.hidden.filter((h) => h !== id) : [...prev.hidden, id]
+    }))
+  }, [])
+  const resetDockLayout = useCallback(() => {
+    setDockLayoutState({ order: DEFAULT_DOCK_ORDER, hidden: [] })
+  }, [])
+  const openCardOverlay = useCallback((id: DockCardId) => setExpandedCard(id), [])
+  const closeCardOverlay = useCallback(() => setExpandedCard(null), [])
+
   const value = useMemo<AppState>(
     () => ({
       assetClass,
@@ -272,7 +335,15 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       openCustomize,
       closeCustomize,
       newsSource,
-      setNewsSource
+      setNewsSource,
+      dockOrder: dockLayout.order,
+      dockHidden: dockLayout.hidden,
+      setDockOrder,
+      toggleDockCardHidden,
+      resetDockLayout,
+      expandedCard,
+      openCardOverlay,
+      closeCardOverlay
     }),
     [
       assetClass,
@@ -306,7 +377,14 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       openCustomize,
       closeCustomize,
       newsSource,
-      setNewsSource
+      setNewsSource,
+      dockLayout,
+      setDockOrder,
+      toggleDockCardHidden,
+      resetDockLayout,
+      expandedCard,
+      openCardOverlay,
+      closeCardOverlay
     ]
   )
 
