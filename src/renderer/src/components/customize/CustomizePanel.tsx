@@ -1,8 +1,16 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAppState, useDockLayout, type NewsSource, type DockCardId } from '@renderer/state/AppStateContext'
 import { ALL_ASSETS } from '@renderer/data/mockData'
 import { searchAssets } from '@renderer/lib/assetSearch'
+import {
+  getFinnhubKey,
+  setFinnhubKey,
+  clearFinnhubKey,
+  getTwelveDataKey,
+  setTwelveDataKey,
+  clearTwelveDataKey
+} from '@renderer/data/apiKeyStore'
 import type { Asset } from '@renderer/types/market'
 import { IconClose } from '@renderer/components/icons/Icons'
 import Tooltip from '@renderer/components/ui/Tooltip'
@@ -88,6 +96,66 @@ function PortfolioRow({ id, name }: { id: string; name: string }): JSX.Element {
   )
 }
 
+function ApiKeyRow({
+  label,
+  configured,
+  statusLabel,
+  onSave,
+  onClear
+}: {
+  label: string
+  configured: boolean
+  statusLabel: string
+  onSave: (value: string) => void | Promise<void>
+  onClear: () => void | Promise<void>
+}): JSX.Element {
+  const { t } = useTranslation()
+  const [value, setValue] = useState('')
+  const [saving, setSaving] = useState(false)
+
+  async function handleSave(): Promise<void> {
+    const trimmed = value.trim()
+    if (!trimmed) return
+    setSaving(true)
+    try {
+      await onSave(trimmed)
+      setValue('')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  return (
+    <div className="apikey-row">
+      <div className="apikey-row-head">
+        <span className="apikey-label">{label}</span>
+        <span className={'apikey-status' + (configured ? ' ok' : '')}>{statusLabel}</span>
+      </div>
+      <div className="customize-add">
+        <div className="customize-add-field">
+          <input
+            type="password"
+            placeholder={t('customize.apiKeys.placeholder') ?? undefined}
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleSave()
+            }}
+          />
+        </div>
+        <button className="customize-add-btn" onClick={handleSave} disabled={saving || !value.trim()}>
+          {t('customize.apiKeys.saveBtn')}
+        </button>
+        {configured && (
+          <button className="customize-reset" onClick={onClear}>
+            {t('customize.apiKeys.clearBtn')}
+          </button>
+        )}
+      </div>
+    </div>
+  )
+}
+
 export default function CustomizePanel(): JSX.Element {
   const { t } = useTranslation()
   const {
@@ -98,11 +166,28 @@ export default function CustomizePanel(): JSX.Element {
     resetWatchlist,
     newsSource,
     setNewsSource,
-    portfolios
+    portfolios,
+    settingsVersion,
+    bumpSettingsVersion
   } = useAppState()
   const { dockHidden, toggleDockCardHidden, resetDockLayout } = useDockLayout()
   const [query, setQuery] = useState('')
   const [selected, setSelected] = useState<Asset | null>(null)
+  const [anthropicConfigured, setAnthropicConfigured] = useState(false)
+
+  useEffect(() => {
+    let cancelled = false
+    Promise.resolve(window.api?.getAnthropicKeyStatus())
+      .then((status) => {
+        if (!cancelled) setAnthropicConfigured(Boolean(status?.configured))
+      })
+      .catch(() => {
+        if (!cancelled) setAnthropicConfigured(false)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [settingsVersion])
 
   const matches = useMemo(() => {
     const available = ALL_ASSETS.filter((a) => !watchlist.some((w) => w.symbol === a.symbol))
@@ -235,6 +320,57 @@ export default function CustomizePanel(): JSX.Element {
             ))}
           </div>
         )}
+
+        <h3 className="customize-section-heading customize-section-spaced">{t('customize.apiKeys.heading')}</h3>
+        <p className="customize-intro">{t('customize.apiKeys.intro')}</p>
+
+        <ApiKeyRow
+          label={t('customize.apiKeys.finnhubLabel')}
+          configured={Boolean(getFinnhubKey())}
+          statusLabel={
+            getFinnhubKey() ? t('customize.apiKeys.statusLive') : t('customize.apiKeys.statusMock')
+          }
+          onSave={(v) => {
+            setFinnhubKey(v)
+            bumpSettingsVersion()
+          }}
+          onClear={() => {
+            clearFinnhubKey()
+            bumpSettingsVersion()
+          }}
+        />
+        <ApiKeyRow
+          label={t('customize.apiKeys.twelveDataLabel')}
+          configured={Boolean(getTwelveDataKey())}
+          statusLabel={
+            getTwelveDataKey() ? t('customize.apiKeys.statusLive') : t('customize.apiKeys.statusMock')
+          }
+          onSave={(v) => {
+            setTwelveDataKey(v)
+            bumpSettingsVersion()
+          }}
+          onClear={() => {
+            clearTwelveDataKey()
+            bumpSettingsVersion()
+          }}
+        />
+        <ApiKeyRow
+          label={t('customize.apiKeys.anthropicLabel')}
+          configured={anthropicConfigured}
+          statusLabel={
+            anthropicConfigured
+              ? t('customize.apiKeys.statusConfigured')
+              : t('customize.apiKeys.statusNotConfigured')
+          }
+          onSave={async (v) => {
+            await window.api?.setAnthropicKey(v)
+            bumpSettingsVersion()
+          }}
+          onClear={async () => {
+            await window.api?.clearAnthropicKey()
+            bumpSettingsVersion()
+          }}
+        />
       </div>
     </OverlayPanel>
   )

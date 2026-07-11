@@ -69,7 +69,21 @@
     "noPortfolios": "You haven't created a portfolio yet.",
     "deletePortfolio": "Delete portfolio",
     "confirmDelete": "Confirm delete?",
-    "portfolioNameTaken": "You already have a portfolio with that name."
+    "portfolioNameTaken": "You already have a portfolio with that name.",
+    "apiKeys": {
+      "heading": "Data & API keys",
+      "intro": "Connect your own free-tier keys for live market data and AI insights. Keys are stored on this device only. Without any keys, the app runs on realistic generated mock data.",
+      "finnhubLabel": "Finnhub (live quotes, candles, news)",
+      "twelveDataLabel": "TwelveData (bonds & FX supplement)",
+      "anthropicLabel": "Anthropic (AI portfolio insights fallback)",
+      "placeholder": "Paste your API key",
+      "saveBtn": "Save",
+      "clearBtn": "Clear",
+      "statusLive": "Live data active",
+      "statusMock": "Mock data",
+      "statusConfigured": "Configured",
+      "statusNotConfigured": "Not configured"
+    }
   },
   "ticker": {
     "settingsLabel": "Ticker settings",

@@ -25,7 +25,21 @@
     "noPortfolios": "你还没有创建任何投资组合。",
     "deletePortfolio": "删除投资组合",
     "confirmDelete": "确认删除？",
-    "portfolioNameTaken": "你已经有一个同名的投资组合了。"
+    "portfolioNameTaken": "你已经有一个同名的投资组合了。",
+    "apiKeys": {
+      "heading": "数据与 API 密钥",
+      "intro": "连接您自己的免费套餐密钥以获取实时市场数据和 AI 洞察。密钥仅存储在本设备上。如果未设置任何密钥，应用将使用逼真的模拟数据运行。",
+      "finnhubLabel": "Finnhub（实时报价、K线、新闻）",
+      "twelveDataLabel": "TwelveData（债券与外汇补充数据）",
+      "anthropicLabel": "Anthropic（AI 投资组合洞察备用方案）",
+      "placeholder": "粘贴您的 API 密钥",
+      "saveBtn": "保存",
+      "clearBtn": "清除",
+      "statusLive": "实时数据已启用",
+      "statusMock": "模拟数据",
+      "statusConfigured": "已配置",
+      "statusNotConfigured": "未配置"
+    }
   },
   "ticker": {
     "settingsLabel": "行情条设置",

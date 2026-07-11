@@ -25,7 +25,21 @@
     "noPortfolios": "আপনি এখনও কোনো পোর্টফোলিও তৈরি করেননি।",
     "deletePortfolio": "পোর্টফোলিও মুছুন",
     "confirmDelete": "মুছে ফেলা নিশ্চিত করবেন?",
-    "portfolioNameTaken": "এই নামে আপনার ইতিমধ্যে একটি পোর্টফোলিও আছে।"
+    "portfolioNameTaken": "এই নামে আপনার ইতিমধ্যে একটি পোর্টফোলিও আছে।",
+    "apiKeys": {
+      "heading": "ডেটা ও API কী",
+      "intro": "লাইভ মার্কেট ডেটা এবং AI ইনসাইটের জন্য আপনার নিজস্ব ফ্রি-টায়ার কী যুক্ত করুন। কী শুধুমাত্র এই ডিভাইসে সংরক্ষিত থাকে। কোনো কী ছাড়া, অ্যাপটি বাস্তবসম্মত জেনারেট করা মক ডেটাতে চলে।",
+      "finnhubLabel": "Finnhub (লাইভ কোট, ক্যান্ডেল, খবর)",
+      "twelveDataLabel": "TwelveData (বন্ড ও FX সম্পূরক)",
+      "anthropicLabel": "Anthropic (AI পোর্টফোলিও ইনসাইট ফলব্যাক)",
+      "placeholder": "আপনার API কী পেস্ট করুন",
+      "saveBtn": "সংরক্ষণ করুন",
+      "clearBtn": "মুছুন",
+      "statusLive": "লাইভ ডেটা সক্রিয়",
+      "statusMock": "মক ডেটা",
+      "statusConfigured": "কনফিগার করা হয়েছে",
+      "statusNotConfigured": "কনফিগার করা হয়নি"
+    }
   },
   "ticker": {
     "settingsLabel": "টিকার সেটিংস",

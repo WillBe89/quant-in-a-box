@@ -241,3 +241,29 @@
   padding: 4px 8px;
   white-space: nowrap;
 }
+
+.apikey-row {
+  margin-bottom: 14px;
+}
+.apikey-row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.apikey-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text);
+}
+.apikey-status {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-faint);
+}
+.apikey-status.ok {
+  color: var(--gain);
+}
+.apikey-row .customize-add {
+  margin-bottom: 0;
+}

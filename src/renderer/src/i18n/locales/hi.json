@@ -25,7 +25,21 @@
     "noPortfolios": "आपने अभी तक कोई पोर्टफोलियो नहीं बनाया है।",
     "deletePortfolio": "पोर्टफोलियो हटाएं",
     "confirmDelete": "हटाने की पुष्टि करें?",
-    "portfolioNameTaken": "इस नाम का पोर्टफोलियो पहले से मौजूद है।"
+    "portfolioNameTaken": "इस नाम का पोर्टफोलियो पहले से मौजूद है।",
+    "apiKeys": {
+      "heading": "डेटा और API कुंजियाँ",
+      "intro": "लाइव मार्केट डेटा और AI इनसाइट्स के लिए अपनी खुद की फ़्री-टियर कुंजियाँ जोड़ें। कुंजियाँ केवल इस डिवाइस पर संग्रहीत की जाती हैं। बिना किसी कुंजी के, ऐप यथार्थवादी जनरेट किए गए मॉक डेटा पर चलता है।",
+      "finnhubLabel": "Finnhub (लाइव कोट्स, कैंडल्स, समाचार)",
+      "twelveDataLabel": "TwelveData (बॉन्ड और FX सप्लीमेंट)",
+      "anthropicLabel": "Anthropic (AI पोर्टफोलियो इनसाइट्स फ़ॉलबैक)",
+      "placeholder": "अपनी API कुंजी पेस्ट करें",
+      "saveBtn": "सहेजें",
+      "clearBtn": "हटाएं",
+      "statusLive": "लाइव डेटा सक्रिय",
+      "statusMock": "मॉक डेटा",
+      "statusConfigured": "कॉन्फ़िगर किया गया",
+      "statusNotConfigured": "कॉन्फ़िगर नहीं किया गया"
+    }
   },
   "ticker": {
     "settingsLabel": "टिकर सेटिंग्स",

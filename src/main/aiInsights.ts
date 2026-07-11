@@ -1,4 +1,5 @@
 import spawn from 'cross-spawn'
+import { getAnthropicKey } from './secureSettings'
 
 export interface PortfolioPositionSummary {
   symbol: string
@@ -182,7 +183,7 @@ function runClaudeCli(prompt: string): Promise<{ commentary?: string; costUsd?: 
 }
 
 async function runAnthropicApi(prompt: string): Promise<{ commentary?: string; error?: string }> {
-  const apiKey = process.env.ANTHROPIC_API_KEY
+  const apiKey = getAnthropicKey()
   if (!apiKey) return { error: 'no api key configured' }
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {

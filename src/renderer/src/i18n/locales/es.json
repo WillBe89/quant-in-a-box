@@ -25,7 +25,21 @@
     "noPortfolios": "Aún no has creado ninguna cartera.",
     "deletePortfolio": "Eliminar cartera",
     "confirmDelete": "¿Confirmar eliminación?",
-    "portfolioNameTaken": "Ya tienes una cartera con ese nombre."
+    "portfolioNameTaken": "Ya tienes una cartera con ese nombre.",
+    "apiKeys": {
+      "heading": "Datos y claves API",
+      "intro": "Conecta tus propias claves de nivel gratuito para datos de mercado en vivo e información de IA. Las claves se almacenan solo en este dispositivo. Sin ninguna clave, la aplicación funciona con datos simulados realistas.",
+      "finnhubLabel": "Finnhub (cotizaciones en vivo, velas, noticias)",
+      "twelveDataLabel": "TwelveData (complemento de bonos y forex)",
+      "anthropicLabel": "Anthropic (respaldo de información de IA de cartera)",
+      "placeholder": "Pega tu clave API",
+      "saveBtn": "Guardar",
+      "clearBtn": "Borrar",
+      "statusLive": "Datos en vivo activos",
+      "statusMock": "Datos simulados",
+      "statusConfigured": "Configurado",
+      "statusNotConfigured": "No configurado"
+    }
   },
   "ticker": {
     "settingsLabel": "Configuración del ticker",

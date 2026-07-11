@@ -25,7 +25,21 @@
     "noPortfolios": "لم تُنشئ أي محفظة بعد.",
     "deletePortfolio": "حذف المحفظة",
     "confirmDelete": "تأكيد الحذف؟",
-    "portfolioNameTaken": "لديك بالفعل محفظة بهذا الاسم."
+    "portfolioNameTaken": "لديك بالفعل محفظة بهذا الاسم.",
+    "apiKeys": {
+      "heading": "البيانات ومفاتيح API",
+      "intro": "اربط مفاتيحك الخاصة من الفئة المجانية للحصول على بيانات السوق المباشرة ورؤى الذكاء الاصطناعي. يتم تخزين المفاتيح على هذا الجهاز فقط. بدون أي مفتاح، يعمل التطبيق على بيانات وهمية واقعية يتم إنشاؤها.",
+      "finnhubLabel": "Finnhub (أسعار مباشرة، شموع، أخبار)",
+      "twelveDataLabel": "TwelveData (مكمل للسندات والفوركس)",
+      "anthropicLabel": "Anthropic (بديل رؤى الذكاء الاصطناعي للمحفظة)",
+      "placeholder": "الصق مفتاح API الخاص بك",
+      "saveBtn": "حفظ",
+      "clearBtn": "مسح",
+      "statusLive": "البيانات المباشرة نشطة",
+      "statusMock": "بيانات وهمية",
+      "statusConfigured": "تم الإعداد",
+      "statusNotConfigured": "غير معدّ"
+    }
   },
   "ticker": {
     "settingsLabel": "إعدادات الشريط المتحرك",

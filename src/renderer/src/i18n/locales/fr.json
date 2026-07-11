@@ -25,7 +25,21 @@
     "noPortfolios": "Vous n'avez pas encore créé de portefeuille.",
     "deletePortfolio": "Supprimer le portefeuille",
     "confirmDelete": "Confirmer la suppression ?",
-    "portfolioNameTaken": "Vous avez déjà un portefeuille portant ce nom."
+    "portfolioNameTaken": "Vous avez déjà un portefeuille portant ce nom.",
+    "apiKeys": {
+      "heading": "Données et clés API",
+      "intro": "Connectez vos propres clés gratuites pour les données de marché en direct et les analyses IA. Les clés sont stockées uniquement sur cet appareil. Sans clé, l'application fonctionne avec des données simulées réalistes.",
+      "finnhubLabel": "Finnhub (cotations en direct, bougies, actualités)",
+      "twelveDataLabel": "TwelveData (complément obligations et forex)",
+      "anthropicLabel": "Anthropic (repli pour les analyses IA du portefeuille)",
+      "placeholder": "Collez votre clé API",
+      "saveBtn": "Enregistrer",
+      "clearBtn": "Effacer",
+      "statusLive": "Données en direct actives",
+      "statusMock": "Données simulées",
+      "statusConfigured": "Configuré",
+      "statusNotConfigured": "Non configuré"
+    }
   },
   "ticker": {
     "settingsLabel": "Paramètres du bandeau défilant",

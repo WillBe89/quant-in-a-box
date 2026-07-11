@@ -2,6 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { getPortfolioInsights, isClaudeCliAvailable, type PortfolioInsightsRequest } from './aiInsights'
+import { loadAnthropicKeyIntoMemory, getAnthropicKey, saveAnthropicKey, clearAnthropicKey } from './secureSettings'
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -45,14 +46,24 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
+  loadAnthropicKeyIntoMemory()
+
   ipcMain.handle('ai:checkAvailability', async () => ({
     claudeCode: await isClaudeCliAvailable(),
-    apiKey: Boolean(process.env.ANTHROPIC_API_KEY)
+    apiKey: Boolean(getAnthropicKey())
   }))
 
   ipcMain.handle('ai:getPortfolioInsights', async (_event, request: PortfolioInsightsRequest) =>
     getPortfolioInsights(request)
   )
+
+  ipcMain.handle('settings:getAnthropicKeyStatus', async () => ({ configured: Boolean(getAnthropicKey()) }))
+
+  ipcMain.handle('settings:setAnthropicKey', async (_event, key: string) => saveAnthropicKey(key))
+
+  ipcMain.handle('settings:clearAnthropicKey', async () => {
+    clearAnthropicKey()
+  })
 
   createWindow()
 

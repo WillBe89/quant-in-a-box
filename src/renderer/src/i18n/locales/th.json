@@ -25,7 +25,21 @@
     "noPortfolios": "คุณยังไม่ได้สร้างพอร์ตเลย",
     "deletePortfolio": "ลบพอร์ต",
     "confirmDelete": "ยืนยันการลบ?",
-    "portfolioNameTaken": "คุณมีพอร์ตที่ใช้ชื่อนี้อยู่แล้ว"
+    "portfolioNameTaken": "คุณมีพอร์ตที่ใช้ชื่อนี้อยู่แล้ว",
+    "apiKeys": {
+      "heading": "ข้อมูลและคีย์ API",
+      "intro": "เชื่อมต่อคีย์ระดับฟรีของคุณเองเพื่อรับข้อมูลตลาดสดและข้อมูลเชิงลึกจาก AI คีย์จะถูกเก็บไว้บนอุปกรณ์นี้เท่านั้น หากไม่มีคีย์ใดๆ แอปจะทำงานด้วยข้อมูลจำลองที่สมจริง",
+      "finnhubLabel": "Finnhub (ราคาสด แท่งเทียน ข่าว)",
+      "twelveDataLabel": "TwelveData (ข้อมูลเสริมพันธบัตรและ FX)",
+      "anthropicLabel": "Anthropic (ตัวสำรองสำหรับข้อมูลเชิงลึกพอร์ตโฟลิโอ AI)",
+      "placeholder": "วางคีย์ API ของคุณ",
+      "saveBtn": "บันทึก",
+      "clearBtn": "ล้าง",
+      "statusLive": "ข้อมูลสดใช้งานอยู่",
+      "statusMock": "ข้อมูลจำลอง",
+      "statusConfigured": "ตั้งค่าแล้ว",
+      "statusNotConfigured": "ยังไม่ได้ตั้งค่า"
+    }
   },
   "ticker": {
     "settingsLabel": "ตั้งค่าแถบราคา",

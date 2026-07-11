@@ -177,6 +177,8 @@ interface AppState {
   expandedCard: DockCardId | null
   openCardOverlay: (id: DockCardId) => void
   closeCardOverlay: () => void
+  settingsVersion: number
+  bumpSettingsVersion: () => void
 }
 
 export interface DockLayoutContextValue {
@@ -214,6 +216,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   const [newsSource, setNewsSourceState] = useState<NewsSource>(() => loadNewsSource())
   const [dockLayout, setDockLayoutState] = useState<DockLayoutState>(() => loadDockLayout())
   const [expandedCard, setExpandedCard] = useState<DockCardId | null>(null)
+  const [settingsVersion, setSettingsVersion] = useState(0)
 
   useEffect(() => {
     i18n.changeLanguage(language)
@@ -401,6 +404,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   }, [])
   const openCardOverlay = useCallback((id: DockCardId) => setExpandedCard(id), [])
   const closeCardOverlay = useCallback(() => setExpandedCard(null), [])
+  const bumpSettingsVersion = useCallback(() => setSettingsVersion((v) => v + 1), [])
 
   const dockLayoutValue = useMemo<DockLayoutContextValue>(
     () => ({
@@ -456,7 +460,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       setNewsSource,
       expandedCard,
       openCardOverlay,
-      closeCardOverlay
+      closeCardOverlay,
+      settingsVersion,
+      bumpSettingsVersion
     }),
     [
       assetClass,
@@ -499,7 +505,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       setNewsSource,
       expandedCard,
       openCardOverlay,
-      closeCardOverlay
+      closeCardOverlay,
+      settingsVersion,
+      bumpSettingsVersion
     ]
   )
 

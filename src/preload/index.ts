@@ -4,7 +4,10 @@ import type { PortfolioInsightsRequest } from '../main/aiInsights'
 
 const api = {
   checkAiAvailability: () => ipcRenderer.invoke('ai:checkAvailability'),
-  getPortfolioInsights: (request: PortfolioInsightsRequest) => ipcRenderer.invoke('ai:getPortfolioInsights', request)
+  getPortfolioInsights: (request: PortfolioInsightsRequest) => ipcRenderer.invoke('ai:getPortfolioInsights', request),
+  getAnthropicKeyStatus: () => ipcRenderer.invoke('settings:getAnthropicKeyStatus'),
+  setAnthropicKey: (key: string) => ipcRenderer.invoke('settings:setAnthropicKey', key),
+  clearAnthropicKey: () => ipcRenderer.invoke('settings:clearAnthropicKey')
 }
 
 if (process.contextIsolated) {

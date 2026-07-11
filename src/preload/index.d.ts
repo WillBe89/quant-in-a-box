@@ -6,9 +6,21 @@ export interface AiAvailability {
   apiKey: boolean
 }
 
+export interface AnthropicKeyStatus {
+  configured: boolean
+}
+
+export interface SaveKeyResult {
+  ok: boolean
+  reason?: string
+}
+
 export interface QiabApi {
   checkAiAvailability: () => Promise<AiAvailability>
   getPortfolioInsights: (request: PortfolioInsightsRequest) => Promise<PortfolioInsightsResult>
+  getAnthropicKeyStatus: () => Promise<AnthropicKeyStatus>
+  setAnthropicKey: (key: string) => Promise<SaveKeyResult>
+  clearAnthropicKey: () => Promise<void>
 }
 
 declare global {

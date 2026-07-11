@@ -25,7 +25,21 @@
     "noPortfolios": "آپ نے ابھی تک کوئی پورٹ فولیو نہیں بنایا۔",
     "deletePortfolio": "پورٹ فولیو حذف کریں",
     "confirmDelete": "حذف کرنے کی تصدیق کریں؟",
-    "portfolioNameTaken": "اس نام کا پورٹ فولیو پہلے سے موجود ہے۔"
+    "portfolioNameTaken": "اس نام کا پورٹ فولیو پہلے سے موجود ہے۔",
+    "apiKeys": {
+      "heading": "ڈیٹا اور API کیز",
+      "intro": "لائیو مارکیٹ ڈیٹا اور AI بصیرت کے لیے اپنی مفت کیز جوڑیں۔ کیز صرف اسی ڈیوائس پر محفوظ ہوتی ہیں۔ کسی کی کے بغیر، ایپ حقیقت پسندانہ تخلیق کردہ نقلی ڈیٹا پر چلتی ہے۔",
+      "finnhubLabel": "Finnhub (لائیو کوٹس، کینڈلز، خبریں)",
+      "twelveDataLabel": "TwelveData (بانڈز اور FX ضمیمہ)",
+      "anthropicLabel": "Anthropic (AI پورٹ فولیو بصیرت کا متبادل)",
+      "placeholder": "اپنی API کی پیسٹ کریں",
+      "saveBtn": "محفوظ کریں",
+      "clearBtn": "صاف کریں",
+      "statusLive": "لائیو ڈیٹا فعال ہے",
+      "statusMock": "نقلی ڈیٹا",
+      "statusConfigured": "ترتیب شدہ",
+      "statusNotConfigured": "ترتیب نہیں دی گئی"
+    }
   },
   "ticker": {
     "settingsLabel": "ٹکر کی ترتیبات",

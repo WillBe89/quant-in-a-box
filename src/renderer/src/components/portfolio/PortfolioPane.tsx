@@ -48,7 +48,7 @@ export default function PortfolioPane({
   onClose: () => void
 }): JSX.Element | null {
   const { t, i18n } = useTranslation()
-  const { portfolios, addPosition, removePosition } = useAppState()
+  const { portfolios, addPosition, removePosition, settingsVersion } = useAppState()
   const portfolio = portfolios.find((p) => p.id === portfolioId)
 
   const [symbolQuery, setSymbolQuery] = useState('')
@@ -75,7 +75,9 @@ export default function PortfolioPane({
     return () => {
       cancelled = true
     }
-  }, [])
+    // Re-checks when a key is saved/cleared via Customize while this pane is already open.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [settingsVersion])
 
   const positions = useMemo(() => portfolio?.positions ?? [], [portfolio])
 

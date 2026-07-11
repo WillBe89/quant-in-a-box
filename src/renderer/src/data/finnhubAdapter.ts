@@ -1,4 +1,5 @@
 import type { Asset, Candle, NewsItem, Timeframe } from '@renderer/types/market'
+import { getFinnhubKey } from './apiKeyStore'
 
 const BASE_URL = 'https://finnhub.io/api/v1'
 
@@ -21,8 +22,8 @@ const LOOKBACK_SECONDS: Record<Timeframe, number> = {
 }
 
 function apiKey(): string {
-  const key = import.meta.env.VITE_FINNHUB_API_KEY
-  if (!key) throw new Error('VITE_FINNHUB_API_KEY is not set — see .env.example')
+  const key = getFinnhubKey()
+  if (!key) throw new Error('No Finnhub API key configured — add one in Customize, or set VITE_FINNHUB_API_KEY')
   return key
 }
 
