@@ -198,8 +198,21 @@
     "watchOutFor": "Ten cuidado con",
     "infoTooltip": "Aprende: {{title}}",
     "infoTooltipGeneric": "Más información",
+    "modeHome": "Inicio",
     "modeLibrary": "Biblioteca",
-    "modeModules": "Módulos",
+    "modeAcademy": "Academia",
+    "home": {
+      "heading": "Bienvenido a la Zona de Aprendizaje",
+      "intro": "Todo esto está pensado para que realmente entiendas tus inversiones, no solo para que hagas clic en ellas. Empieza por la Biblioteca para aprender qué significa cada indicador y métrica y cómo se usa, o entra en la Academia para poner a prueba lo aprendido y ganar insignias.",
+      "libraryCardTitle": "Biblioteca",
+      "libraryCardDesc": "Explicaciones en lenguaje sencillo de cada indicador y métrica: qué significa y cómo se usa en la práctica.",
+      "libraryCardCta": "Explorar la biblioteca",
+      "academyCardTitle": "Academia",
+      "academyCardDesc": "Cuestionarios evaluados sobre todo el contenido de la biblioteca. Aprueba un módulo para ganar su insignia, y consigue las cinco para desbloquear tu certificado.",
+      "academyCardCta": "Entrar en la academia",
+      "badgeProgress": "{{earned}} de {{total}} insignias obtenidas",
+      "badgeProgressZero": "Empieza a ganar insignias"
+    },
     "modules": {
       "finalTitle": "Examen final",
       "lessonCount": "{{count}} lecciones",

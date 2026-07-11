@@ -12,6 +12,7 @@ import {
 } from '@renderer/components/icons/Icons'
 import Tooltip from '@renderer/components/ui/Tooltip'
 import OverlayPanel from '@renderer/components/ui/OverlayPanel'
+import AcademyHome from './AcademyHome'
 import ModulesHome from './ModulesHome'
 import './academy.css'
 
@@ -60,11 +61,14 @@ export default function AcademyPanel(): JSX.Element {
           <h2>{t('academy.heading')}</h2>
         </div>
         <div className="segmented academy-mode-toggle">
+          <button className={academyMode === 'home' ? 'active' : ''} onClick={() => setAcademyMode('home')}>
+            {t('academy.modeHome')}
+          </button>
           <button className={academyMode === 'library' ? 'active' : ''} onClick={() => setAcademyMode('library')}>
             {t('academy.modeLibrary')}
           </button>
           <button className={academyMode === 'modules' ? 'active' : ''} onClick={() => setAcademyMode('modules')}>
-            {t('academy.modeModules')}
+            {t('academy.modeAcademy')}
           </button>
         </div>
         <Tooltip label={t('common.close') ?? ''}>
@@ -74,7 +78,11 @@ export default function AcademyPanel(): JSX.Element {
         </Tooltip>
       </div>
 
-      {academyMode === 'modules' ? (
+      {academyMode === 'home' ? (
+        <div className="academy-home-body">
+          <AcademyHome />
+        </div>
+      ) : academyMode === 'modules' ? (
         <div className="academy-modules-body">
           <ModulesHome />
         </div>

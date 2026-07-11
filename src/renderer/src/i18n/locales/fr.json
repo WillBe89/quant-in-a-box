@@ -198,8 +198,21 @@
     "watchOutFor": "À surveiller",
     "infoTooltip": "En savoir plus : {{title}}",
     "infoTooltipGeneric": "En savoir plus",
+    "modeHome": "Accueil",
     "modeLibrary": "Bibliothèque",
-    "modeModules": "Modules",
+    "modeAcademy": "Académie",
+    "home": {
+      "heading": "Bienvenue dans l'Espace pédagogique",
+      "intro": "Tout ici est conçu pour vous aider à vraiment comprendre vos investissements, pas seulement à cliquer dessus. Commencez par la Bibliothèque pour apprendre ce que signifie chaque indicateur et chaque mesure et comment on s'en sert, ou rendez-vous à l'Académie pour mettre vos connaissances à l'épreuve et gagner des badges.",
+      "libraryCardTitle": "Bibliothèque",
+      "libraryCardDesc": "Des explications simples pour chaque indicateur et chaque mesure : ce qu'il signifie et comment on l'utilise vraiment.",
+      "libraryCardCta": "Parcourir la bibliothèque",
+      "academyCardTitle": "Académie",
+      "academyCardDesc": "Des quiz notés sur tout le contenu de la bibliothèque. Réussissez un module pour gagner son badge, et réunissez les cinq pour débloquer votre certificat.",
+      "academyCardCta": "Entrer dans l'Académie",
+      "badgeProgress": "{{earned}} badges obtenus sur {{total}}",
+      "badgeProgressZero": "Commencez à gagner des badges"
+    },
     "modules": {
       "finalTitle": "Examen final",
       "lessonCount": "{{count}} leçons",

@@ -43,7 +43,10 @@ const OSCILLATOR_HEIGHT_MAX = 260
 export type TickerSource = 'watchlist' | 'portfolio' | 'all'
 export type NewsSource = 'selected' | 'watchlist' | 'portfolio'
 export type DockCardId = 'risk' | 'options' | 'news'
-export type AcademyMode = 'library' | 'modules'
+// 'modules' is kept as the internal value name for minimal risk (localStorage-adjacent logic
+// and any code checking for the literal string 'modules' keeps working) — only its DISPLAY
+// label changed, from "Modules" to "Academy" (see academy.modeAcademy in i18n).
+export type AcademyMode = 'home' | 'library' | 'modules'
 
 export type LayoutTemplateId = 'single' | 'twoEqual' | 'twoFocus' | 'threeEqual' | 'threeGrid'
 const LAYOUT_TEMPLATE_IDS: LayoutTemplateId[] = ['single', 'twoEqual', 'twoFocus', 'threeEqual', 'threeGrid']
@@ -436,10 +439,12 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
   const [academyOpen, setAcademyOpen] = useState(false)
   const [academyLessonId, setAcademyLessonId] = useState<string | null>(null)
-  // Ephemeral, not persisted — mirrors academyOpen/academyLessonId exactly (resets to Library
-  // on every app launch). Only openAcademy(lessonId) forces it back to 'library'; the Rail
-  // button (openAcademy() with no id) intentionally leaves whatever mode was last showing.
-  const [academyMode, setAcademyModeState] = useState<AcademyMode>('library')
+  // Ephemeral, not persisted — mirrors academyOpen/academyLessonId exactly (resets to Home
+  // on every app launch). openAcademy(lessonId) forces it to 'library' (a deep-link always
+  // wants the specific lesson); openAcademy() with no id (the Rail's plain "Teaching zone"
+  // button) forces it to 'home' so every plain visit explains the two modes first, rather
+  // than landing wherever the user last happened to leave it.
+  const [academyMode, setAcademyModeState] = useState<AcademyMode>('home')
   const [academyProgress, setAcademyProgress] = useState<AcademyProgressState>(() => loadAcademyProgress())
   const [portfolios, setPortfolios] = useState<Portfolio[]>(() => loadPortfolios())
   const [openPortfolioIds, setOpenPortfolioIds] = useState<string[]>([])
@@ -625,9 +630,11 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
 
   const openAcademy = useCallback((lessonId?: string) => {
     setAcademyLessonId(lessonId ?? null)
-    // Only a deep-link (called WITH a lessonId, e.g. an InfoIcon) forces Library — the Rail
-    // "Teaching Zone" button calls this with no id and should leave academyMode as-is.
-    if (lessonId) setAcademyModeState('library')
+    // A deep-link (called WITH a lessonId, e.g. an InfoIcon) forces Library, so the specific
+    // lesson shows immediately. The Rail "Teaching Zone" button calls this with no id and
+    // always forces Home instead, so every plain visit lands on the explanatory home screen
+    // rather than wherever the user last happened to leave it.
+    setAcademyModeState(lessonId ? 'library' : 'home')
     setAcademyOpen(true)
   }, [])
   const closeAcademy = useCallback(() => setAcademyOpen(false), [])

@@ -242,8 +242,21 @@
     "watchOutFor": "Watch out for",
     "infoTooltip": "Learn: {{title}}",
     "infoTooltipGeneric": "Learn more",
+    "modeHome": "Home",
     "modeLibrary": "Library",
-    "modeModules": "Modules",
+    "modeAcademy": "Academy",
+    "home": {
+      "heading": "Welcome to the Teaching Zone",
+      "intro": "Everything here is built to help you actually understand your investments, not just click through them. Start in the Library to learn what each indicator and metric means and how it's used, or head into the Academy to put that knowledge to the test and earn badges.",
+      "libraryCardTitle": "Library",
+      "libraryCardDesc": "Plain-English explanations of every indicator and metric — what it means and how it's actually used.",
+      "libraryCardCta": "Browse the library",
+      "academyCardTitle": "Academy",
+      "academyCardDesc": "Graded quizzes on everything in the library. Pass a module to earn its badge, and collect all five to unlock your certificate.",
+      "academyCardCta": "Enter the academy",
+      "badgeProgress": "{{earned}} of {{total}} badges earned",
+      "badgeProgressZero": "Start earning badges"
+    },
     "modules": {
       "finalTitle": "Final Exam",
       "lessonCount": "{{count}} lessons",

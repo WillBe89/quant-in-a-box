@@ -197,8 +197,21 @@
     "watchOutFor": "注意事项",
     "infoTooltip": "了解：{{title}}",
     "infoTooltipGeneric": "了解更多",
+    "modeHome": "首页",
     "modeLibrary": "资料库",
-    "modeModules": "课程模块",
+    "modeAcademy": "学院",
+    "home": {
+      "heading": "欢迎来到教学专区",
+      "intro": "这里的一切都是为了帮助你真正理解自己的投资，而不只是随手点点看看。先去资料库了解每个指标和数据的含义及用法，或者进入学院来检验所学并获得徽章。",
+      "libraryCardTitle": "资料库",
+      "libraryCardDesc": "用通俗易懂的语言解释每个指标和数据——它的含义，以及实际中如何使用。",
+      "libraryCardCta": "浏览资料库",
+      "academyCardTitle": "学院",
+      "academyCardDesc": "针对资料库全部内容的评分测验。通过一个模块即可获得对应徽章，集齐全部五枚即可解锁证书。",
+      "academyCardCta": "进入学院",
+      "badgeProgress": "已获得 {{earned}} / {{total}} 枚徽章",
+      "badgeProgressZero": "开始赚取徽章"
+    },
     "modules": {
       "finalTitle": "期末测验",
       "lessonCount": "{{count}} 节课",
