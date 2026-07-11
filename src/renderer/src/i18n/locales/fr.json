@@ -83,7 +83,9 @@
     },
     "options": {
       "title": "Options · Grecques",
-      "strike": "Prix d'exercice"
+      "strike": "Prix d'exercice",
+      "vega": "Vega",
+      "iv": "IV"
     },
     "news": {
       "title": "Actualités de marché",
@@ -266,7 +268,8 @@
       "retryBtn": "Réessayer"
     },
     "pickerHeading": "Vos portefeuilles",
-    "newPortfolioBtn": "+ Nouveau portefeuille"
+    "newPortfolioBtn": "+ Nouveau portefeuille",
+    "defaultName": "Portefeuille {{n}}"
   },
   "card": {
     "expand": "Agrandir",

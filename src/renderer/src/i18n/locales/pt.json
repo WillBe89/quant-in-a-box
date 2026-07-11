@@ -83,7 +83,9 @@
     },
     "options": {
       "title": "Opções · Gregas",
-      "strike": "Strike"
+      "strike": "Strike",
+      "vega": "Vega",
+      "iv": "IV"
     },
     "news": {
       "title": "Notícias de mercado",
@@ -266,7 +268,8 @@
       "retryBtn": "Tentar novamente"
     },
     "pickerHeading": "As suas carteiras",
-    "newPortfolioBtn": "+ Nova carteira"
+    "newPortfolioBtn": "+ Nova carteira",
+    "defaultName": "Carteira {{n}}"
   },
   "card": {
     "expand": "Expandir",

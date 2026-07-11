@@ -83,7 +83,9 @@
     },
     "options": {
       "title": "期权 · 希腊字母",
-      "strike": "行权价"
+      "strike": "行权价",
+      "vega": "Vega",
+      "iv": "IV"
     },
     "news": {
       "title": "市场资讯",
@@ -266,7 +268,8 @@
       "retryBtn": "重试"
     },
     "pickerHeading": "你的持仓组合",
-    "newPortfolioBtn": "+ 新建组合"
+    "newPortfolioBtn": "+ 新建组合",
+    "defaultName": "投资组合 {{n}}"
   },
   "card": {
     "expand": "展开",

@@ -1,5 +1,6 @@
+import { useLayoutEffect, useRef } from 'react'
 import { Reorder, useDragControls } from 'motion/react'
-import { useAppState, type DockCardId } from '@renderer/state/AppStateContext'
+import { useAppState, useDockLayout, type DockCardId } from '@renderer/state/AppStateContext'
 import RiskCard from '@renderer/components/dock/RiskCard'
 import OptionsCard from '@renderer/components/dock/OptionsCard'
 import NewsCard from '@renderer/components/dock/NewsCard'
@@ -31,13 +32,29 @@ function applyVisibleReorder(order: DockCardId[], hidden: DockCardId[], newVisib
 }
 
 function DockCardItem({ id, index, visibleCount }: { id: DockCardId; index: number; visibleCount: number }): JSX.Element {
-  const { dockOrder, dockHidden, setDockOrder, openCardOverlay } = useAppState()
+  const { openCardOverlay } = useAppState()
+  const { dockOrder, dockHidden, setDockOrder } = useDockLayout()
   const dragControls = useDragControls()
+  const itemRef = useRef<HTMLDivElement>(null)
+  const restoreFocusRef = useRef(false)
   const Card = CARD_COMPONENTS[id]
+
+  useLayoutEffect(() => {
+    if (!restoreFocusRef.current) return
+    restoreFocusRef.current = false
+    if (document.activeElement !== document.body) return
+    itemRef.current?.querySelector<HTMLButtonElement>('button.card-action-btn:not(:disabled)')?.focus()
+  })
+
+  const move = (dir: -1 | 1): void => {
+    restoreFocusRef.current = true
+    setDockOrder(moveCardInOrder(dockOrder, dockHidden, id, dir))
+  }
 
   return (
     <Reorder.Item
       as="div"
+      ref={itemRef}
       value={id}
       dragListener={false}
       dragControls={dragControls}
@@ -48,8 +65,8 @@ function DockCardItem({ id, index, visibleCount }: { id: DockCardId; index: numb
       <Card
         dragControls={dragControls}
         onExpand={() => openCardOverlay(id)}
-        onMoveUp={() => setDockOrder(moveCardInOrder(dockOrder, dockHidden, id, -1))}
-        onMoveDown={() => setDockOrder(moveCardInOrder(dockOrder, dockHidden, id, 1))}
+        onMoveUp={() => move(-1)}
+        onMoveDown={() => move(1)}
         canMoveUp={index > 0}
         canMoveDown={index < visibleCount - 1}
       />
@@ -58,7 +75,7 @@ function DockCardItem({ id, index, visibleCount }: { id: DockCardId; index: numb
 }
 
 export default function Dock(): JSX.Element {
-  const { dockOrder, dockHidden, setDockOrder } = useAppState()
+  const { dockOrder, dockHidden, setDockOrder } = useDockLayout()
   const visible = dockOrder.filter((id) => !dockHidden.includes(id))
 
   return (

@@ -1,6 +1,6 @@
 .portfolio-workspace {
-  width: min(1400px, 96vw);
-  max-height: min(760px, 92vh);
+  width: min(1400px, 100%);
+  max-height: min(760px, 100%);
   padding: 0;
 }
 

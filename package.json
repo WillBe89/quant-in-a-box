@@ -1,9 +1,12 @@
 {
   "name": "quant-in-a-box",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Institutional-grade quant analytics for retail traders",
   "main": "./out/main/index.js",
-  "author": "Quant In A Box",
+  "author": {
+    "name": "will.be",
+    "url": "https://willbe.dev"
+  },
   "private": true,
   "repository": {
     "type": "git",

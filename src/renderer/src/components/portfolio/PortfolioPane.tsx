@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAppState } from '@renderer/state/AppStateContext'
 import { ALL_ASSETS } from '@renderer/data/mockData'
@@ -55,6 +55,7 @@ export default function PortfolioPane({
   const [selectedSymbol, setSelectedSymbol] = useState<Asset | null>(null)
   const [quantityInput, setQuantityInput] = useState('')
   const [costBasisInput, setCostBasisInput] = useState('')
+  const quantityInputRef = useRef<HTMLInputElement | null>(null)
 
   const [stats, setStats] = useState<PortfolioRiskStats | null>(null)
   const [statsLoading, setStatsLoading] = useState(false)
@@ -78,9 +79,13 @@ export default function PortfolioPane({
 
   const positions = useMemo(() => portfolio?.positions ?? [], [portfolio])
 
+  const aiRequestIdRef = useRef(0)
+
   useEffect(() => {
+    aiRequestIdRef.current += 1
     setAiResult(null)
     setAiError(null)
+    setAiLoading(false)
   }, [positions])
 
   const rows = useMemo<Row[]>(() => {
@@ -175,6 +180,7 @@ export default function PortfolioPane({
 
   async function handleGetInsights(): Promise<void> {
     if (!stats || rows.length === 0) return
+    const requestId = ++aiRequestIdRef.current
     setAiLoading(true)
     setAiError(null)
     setAiResult(null)
@@ -203,15 +209,17 @@ export default function PortfolioPane({
         totalValue: totals.marketValue,
         languageName
       })
+      if (aiRequestIdRef.current !== requestId) return
       if (result.ok) {
         setAiResult({ commentary: result.commentary, source: result.source })
       } else {
         setAiError(result.message)
       }
     } catch (e) {
+      if (aiRequestIdRef.current !== requestId) return
       setAiError(e instanceof Error ? e.message : 'Unknown error')
     } finally {
-      setAiLoading(false)
+      if (aiRequestIdRef.current === requestId) setAiLoading(false)
     }
   }
 
@@ -241,7 +249,13 @@ export default function PortfolioPane({
             {matches.length > 0 && !selectedSymbol && (
               <div className="portfolio-add-results">
                 {matches.map((a) => (
-                  <button key={a.symbol} onClick={() => setSelectedSymbol(a)}>
+                  <button
+                    key={a.symbol}
+                    onClick={() => {
+                      setSelectedSymbol(a)
+                      quantityInputRef.current?.focus()
+                    }}
+                  >
                     <span className="sr-sym">{a.symbol}</span>
                     <span className="sr-name">{a.name}</span>
                   </button>
@@ -250,6 +264,7 @@ export default function PortfolioPane({
             )}
           </div>
           <input
+            ref={quantityInputRef}
             className="portfolio-add-field"
             type="number"
             placeholder={t('portfolio.quantityPlaceholder') ?? undefined}

@@ -83,7 +83,9 @@
     },
     "options": {
       "title": "الخيارات · المؤشرات اليونانية",
-      "strike": "سعر التنفيذ"
+      "strike": "سعر التنفيذ",
+      "vega": "فيغا",
+      "iv": "IV"
     },
     "news": {
       "title": "أخبار السوق",
@@ -266,7 +268,8 @@
       "retryBtn": "أعد المحاولة"
     },
     "pickerHeading": "محافظك",
-    "newPortfolioBtn": "+ محفظة جديدة"
+    "newPortfolioBtn": "+ محفظة جديدة",
+    "defaultName": "محفظة {{n}}"
   },
   "card": {
     "expand": "توسيع",

@@ -15,43 +15,43 @@
       "bad": "Needs attention"
     },
     "sharpe": {
-      "good": "Sharpe above 1 — solid risk-adjusted return, in line with what the Academy lesson calls decent-to-good.",
-      "neutral": "Sharpe between 0 and 1 — a modest risk-adjusted return, not yet in the \"decent\" range.",
-      "bad": "Sharpe below 0 — losing money after adjusting for the risk taken."
+      "good": "Sharpe above 1: a solid risk-adjusted return, in line with what the Academy lesson calls decent-to-good.",
+      "neutral": "Sharpe between 0 and 1: a modest risk-adjusted return, not yet in the \"decent\" range.",
+      "bad": "Sharpe below 0: losing money after adjusting for the risk taken."
     },
     "sortino": {
-      "good": "Sortino above 1.5 — strong returns relative to downside risk alone.",
-      "neutral": "Sortino between 0 and 1.5 — a modest return relative to downside risk.",
-      "bad": "Sortino below 0 — losing money even after only counting downside risk."
+      "good": "Sortino above 1.5: strong returns relative to downside risk alone.",
+      "neutral": "Sortino between 0 and 1.5: a modest return relative to downside risk.",
+      "bad": "Sortino below 0: losing money even after only counting downside risk."
     },
     "volatility": {
-      "good": "Annualized volatility at or below 20% — swings roughly in line with a typical diversified market.",
-      "neutral": "Annualized volatility between 20% and 35% — noticeably bigger swings than a typical diversified market.",
-      "bad": "Annualized volatility above 35% — very large swings, closer to single-stock or crypto-level risk."
+      "good": "Annualized volatility at or below 20%: swings roughly in line with a typical diversified market.",
+      "neutral": "Annualized volatility between 20% and 35%: noticeably bigger swings than a typical diversified market.",
+      "bad": "Annualized volatility above 35%: very large swings, closer to single-stock or crypto-level risk."
     },
     "var": {
-      "good": "On a typical bad day, an estimated loss of 2% or less — a fairly contained downside.",
-      "neutral": "On a typical bad day, an estimated loss of 2-4% — a moderately elevated downside.",
-      "bad": "On a typical bad day, an estimated loss beyond 4% — a sizeable downside for a single day."
+      "good": "On a typical bad day, an estimated loss of 2% or less: a fairly contained downside.",
+      "neutral": "On a typical bad day, an estimated loss of 2-4%: a moderately elevated downside.",
+      "bad": "On a typical bad day, an estimated loss beyond 4%: a sizeable downside for a single day."
     },
     "maxdd": {
-      "good": "Worst decline so far stayed within 15% — in line with a routine market pullback.",
-      "neutral": "Worst decline so far was 15-30% — comparable to a bear-market-style drop.",
-      "bad": "Worst decline so far exceeded 30% — a severe, crisis-level drop."
+      "good": "Worst decline so far stayed within 15%, in line with a routine market pullback.",
+      "neutral": "Worst decline so far was 15-30%, comparable to a bear-market-style drop.",
+      "bad": "Worst decline so far exceeded 30%: a severe, crisis-level drop."
     },
     "beta": {
-      "good": "Close to 1.0 — this behaves like a typical, market-like asset.",
-      "neutral": "Somewhat different from 1.0 — more or less sensitive to the market than typical.",
-      "bad": "Far from 1.0 — much more sensitive, much more defensive, or moving opposite the market.",
-      "caveat": "This isn't good or bad — it just flags how far from \"market typical\" this has been."
+      "good": "Close to 1.0: this behaves like a typical, market-like asset.",
+      "neutral": "Somewhat different from 1.0, more or less sensitive to the market than typical.",
+      "bad": "Far from 1.0: much more sensitive, much more defensive, or moving opposite the market.",
+      "caveat": "This isn't good or bad. It just flags how far from \"market typical\" this has been."
     }
   },
   "customize": {
     "badge": "Make it yours",
     "heading": "Your preferences",
     "watchlistHeading": "Watchlist",
-    "intro": "This is the list of symbols shown as stars, in the sidebar, and (optionally) in the bottom ticker — add whatever you actually want to keep an eye on.",
-    "addPlaceholder": "Add a symbol — AAPL, BTC…",
+    "intro": "This is the list of symbols shown as stars, in the sidebar, and (optionally) in the bottom ticker. Add whatever you actually want to keep an eye on.",
+    "addPlaceholder": "Add a symbol (AAPL, BTC…)",
     "addBtn": "Add",
     "empty": "Your watchlist is empty.",
     "reset": "Reset to defaults",
@@ -62,7 +62,7 @@
     "newsWatchlist": "My watchlist",
     "newsPortfolio": "My portfolio",
     "dockSectionsHeading": "Dashboard sections",
-    "dockSectionsSub": "Choose which sections appear in the sidebar — drag their headers to reorder.",
+    "dockSectionsSub": "Choose which sections appear in the sidebar. Drag their headers to reorder.",
     "resetLayoutBtn": "Reset layout",
     "portfoliosHeading": "Portfolios",
     "portfoliosSub": "Rename or delete your saved portfolios. Click a name to rename it.",
@@ -77,13 +77,13 @@
     "sourcePortfolio": "Portfolio",
     "sourceAll": "All assets",
     "sourceHeading": "Show in ticker",
-    "emptyWatchlist": "Your watchlist is empty — star a symbol to see it here.",
-    "emptyPortfolio": "Your portfolio is empty — add a position to see it here."
+    "emptyWatchlist": "Your watchlist is empty. Star a symbol to see it here.",
+    "emptyPortfolio": "Your portfolio is empty. Add a position to see it here."
   },
   "topbar": {
     "brandFirst": "Quant",
     "brandSecond": "In A Box",
-    "searchPlaceholder": "Search any asset — AAPL, BTC, 10Y Treasury, VNQ…",
+    "searchPlaceholder": "Search any asset (AAPL, BTC, 10Y Treasury, VNQ…)",
     "classAll": "All",
     "classStocks": "Stocks",
     "classCrypto": "Crypto",
@@ -127,7 +127,9 @@
     },
     "options": {
       "title": "Options · Greeks",
-      "strike": "Strike"
+      "strike": "Strike",
+      "vega": "Vega",
+      "iv": "IV"
     },
     "news": {
       "title": "Market news",
@@ -153,59 +155,59 @@
     "lessons": {
       "assetStocks": {
         "title": "Stocks & ETFs",
-        "summary": "A share of stock is a small ownership stake in a real company — you own a slice of its future profits (and losses). An ETF bundles many stocks into one tradeable basket, spreading that ownership across a whole sector or market instead of a single company.",
+        "summary": "A share of stock is a small ownership stake in a real company: you own a slice of its future profits (and losses). An ETF bundles many stocks into one tradeable basket, spreading that ownership across a whole sector or market instead of a single company.",
         "formula": "Total Return = (Price_end − Price_start + Dividends) / Price_start",
-        "howToUse": "Individual stocks carry company-specific risk (a bad product launch, a scandal, a bad quarter) on top of overall market risk — diversifying across many stocks, or simply buying a broad ETF, removes most of that company-specific risk at the cost of some upside if you'd picked a big winner. Time horizon matters: stocks are volatile day-to-day but have historically trended upward over long (5-10+ year) periods.",
-        "watchOutFor": "A single bad headline can move an individual stock 10-20% in a day — that volatility is normal, not necessarily a signal to panic-sell. A stock that's \"gone up a lot\" isn't automatically overvalued, and one that's \"gone down a lot\" isn't automatically cheap — check the metrics, not just the sticker price."
+        "howToUse": "Individual stocks carry company-specific risk (a bad product launch, a scandal, a bad quarter) on top of overall market risk. Diversifying across many stocks, or simply buying a broad ETF, removes most of that company-specific risk at the cost of some upside if you'd picked a big winner. Time horizon matters: stocks are volatile day-to-day but have historically trended upward over long (5-10+ year) periods.",
+        "watchOutFor": "A single bad headline can move an individual stock 10-20% in a day; that volatility is normal, not necessarily a signal to panic-sell. A stock that's \"gone up a lot\" isn't automatically overvalued, and one that's \"gone down a lot\" isn't automatically cheap. Check the metrics, not just the sticker price."
       },
       "assetCrypto": {
         "title": "Cryptocurrencies",
-        "summary": "A cryptocurrency is a digital asset secured by cryptography and recorded on a decentralized ledger (a blockchain) rather than issued or backed by any government or company. Unlike a stock, there's no underlying business generating profit — value comes entirely from what the market is willing to pay for it.",
-        "formula": "Total Return = (Price_end − Price_start) / Price_start — no dividends or coupons, pure price appreciation or loss",
-        "howToUse": "Because there's no earnings report or cash flow to anchor a \"fair value\" the way there is for a stock or bond, price is driven almost entirely by sentiment, adoption, and flows — treat crypto as a high-volatility, speculative allocation sized so a large drawdown wouldn't be financially painful, not as a core holding.",
-        "watchOutFor": "Crypto can move 10-20%+ in a single day — far beyond what's normal for stocks or bonds. It trades 24/7 with no circuit breakers, is more exposed to regulatory headlines, and direct custody carries security risks this app doesn't manage — always understand exactly what you're holding and where."
+        "summary": "A cryptocurrency is a digital asset secured by cryptography and recorded on a decentralized ledger (a blockchain) rather than issued or backed by any government or company. Unlike a stock, there's no underlying business generating profit; value comes entirely from what the market is willing to pay for it.",
+        "formula": "Total Return = (Price_end − Price_start) / Price_start (no dividends or coupons, pure price appreciation or loss)",
+        "howToUse": "Because there's no earnings report or cash flow to anchor a \"fair value\" the way there is for a stock or bond, price is driven almost entirely by sentiment, adoption, and flows. Treat crypto as a high-volatility, speculative allocation sized so a large drawdown wouldn't be financially painful, not as a core holding.",
+        "watchOutFor": "Crypto can move 10-20%+ in a single day, far beyond what's normal for stocks or bonds. It trades 24/7 with no circuit breakers, is more exposed to regulatory headlines, and direct custody carries security risks this app doesn't manage. Always understand exactly what you're holding and where."
       },
       "assetBonds": {
         "title": "Bonds & Fixed Income",
-        "summary": "A bond is a loan — you lend money to a government or company for a fixed period in exchange for regular interest payments and your principal back at maturity. It's a claim on a borrower's promise to pay, not ownership in anything.",
+        "summary": "A bond is a loan: you lend money to a government or company for a fixed period in exchange for regular interest payments and your principal back at maturity. It's a claim on a borrower's promise to pay, not ownership in anything.",
         "formula": "Current Yield ≈ Annual Coupon Payment / Current Price",
-        "howToUse": "Bonds are generally used for stability and income rather than growth — a bond ladder (staggered maturities) is a common way to manage the tradeoff between yield and how long your money is locked up. Government bonds carry far less default risk than corporate bonds, which pay more specifically because they carry more risk.",
-        "watchOutFor": "Bond prices move inversely to interest rates — when rates rise, existing lower-yielding bonds become less attractive and their price falls, even though nothing about the borrower changed. Longer-maturity bonds feel this more than short-term ones. A higher yield than a comparable government bond usually means the market is pricing in real default risk, not a free lunch."
+        "howToUse": "Bonds are generally used for stability and income rather than growth. A bond ladder (staggered maturities) is a common way to manage the tradeoff between yield and how long your money is locked up. Government bonds carry far less default risk than corporate bonds, which pay more specifically because they carry more risk.",
+        "watchOutFor": "Bond prices move inversely to interest rates: when rates rise, existing lower-yielding bonds become less attractive and their price falls, even though nothing about the borrower changed. Longer-maturity bonds feel this more than short-term ones. A higher yield than a comparable government bond usually means the market is pricing in real default risk, not a free lunch."
       },
       "assetFx": {
         "title": "Forex & Commodities",
-        "summary": "Forex (FX) is the trading of one currency against another — driven by interest rate differences, trade flows, and macroeconomic conditions between countries. Commodities are raw physical goods (gold, oil, agricultural products) traded on their own supply and demand.",
-        "formula": "EUR/USD = X means 1 EUR buys X USD — a rising number means the first currency is strengthening against the second",
-        "howToUse": "FX and commodities are usually the domain of macro/institutional traders or businesses hedging real currency or commodity exposure, more than a core retail holding — if trading them speculatively, treat it as a smaller, higher-risk allocation.",
-        "watchOutFor": "FX is very frequently traded with leverage, which magnifies both gains and losses far beyond the underlying price move — a 1% currency move can wipe out a heavily leveraged position. Both FX and commodities are highly sensitive to central bank decisions and geopolitical events, which can move prices sharply with little warning."
+        "summary": "Forex (FX) is the trading of one currency against another, driven by interest rate differences, trade flows, and macroeconomic conditions between countries. Commodities are raw physical goods (gold, oil, agricultural products) traded on their own supply and demand.",
+        "formula": "EUR/USD = X means 1 EUR buys X USD (a rising number means the first currency is strengthening against the second)",
+        "howToUse": "FX and commodities are usually the domain of macro/institutional traders or businesses hedging real currency or commodity exposure, more than a core retail holding. If trading them speculatively, treat it as a smaller, higher-risk allocation.",
+        "watchOutFor": "FX is very frequently traded with leverage, which magnifies both gains and losses far beyond the underlying price move: a 1% currency move can wipe out a heavily leveraged position. Both FX and commodities are highly sensitive to central bank decisions and geopolitical events, which can move prices sharply with little warning."
       },
       "assetRealEstate": {
         "title": "Real Estate (REITs)",
-        "summary": "Real estate is ownership of physical property — but this app tracks it through REITs (Real Estate Investment Trusts), companies that own and operate income-producing property and trade like a stock, distributing most of their rental income to shareholders.",
-        "formula": "Dividend Yield = Annual Distribution per Share / Share Price — a REIT's version of a landlord's cap rate",
-        "howToUse": "REITs give real-estate exposure with stock-like liquidity — you can buy or sell instantly, unlike selling an actual building — while still paying out income the way a rental property would. Often used for diversification and income, since real estate doesn't always move in lockstep with the broader stock market.",
-        "watchOutFor": "REITs are more interest-rate sensitive than most people expect — valued partly like a bond (for the income stream) and partly like a stock, so rising rates can pressure REIT prices even when the underlying properties are performing fine. A REIT is also not the same as owning a specific building — you own a share of a diversified portfolio managed by someone else."
+        "summary": "Real estate is ownership of physical property, but this app tracks it through REITs (Real Estate Investment Trusts), companies that own and operate income-producing property and trade like a stock, distributing most of their rental income to shareholders.",
+        "formula": "Dividend Yield = Annual Distribution per Share / Share Price (a REIT's version of a landlord's cap rate)",
+        "howToUse": "REITs give real-estate exposure with stock-like liquidity: you can buy or sell instantly, unlike selling an actual building, while still paying out income the way a rental property would. Often used for diversification and income, since real estate doesn't always move in lockstep with the broader stock market.",
+        "watchOutFor": "REITs are more interest-rate sensitive than most people expect: valued partly like a bond (for the income stream) and partly like a stock, so rising rates can pressure REIT prices even when the underlying properties are performing fine. A REIT is also not the same as owning a specific building; you own a share of a diversified portfolio managed by someone else."
       },
       "ma": {
         "title": "Moving Average (MA)",
         "summary": "The average closing price over the last N days, plotted as a smooth line. It filters out day-to-day noise so you can see the underlying trend.",
         "formula": "MA(n) = (close₁ + close₂ + … + closeₙ) / n",
         "howToUse": "Price above a rising MA generally signals an uptrend; below a falling MA signals a downtrend. Traders often watch for a shorter MA (e.g. 20-day) crossing above a longer one (e.g. 50-day) as a \"golden cross\" bullish signal, and the reverse as a \"death cross\".",
-        "watchOutFor": "MAs are lagging — they confirm a trend after it starts, not before. In a choppy, sideways market they generate false crossover signals repeatedly."
+        "watchOutFor": "MAs are lagging: they confirm a trend after it starts, not before. In a choppy, sideways market they generate false crossover signals repeatedly."
       },
       "boll": {
         "title": "Bollinger Bands",
         "summary": "A moving average with two bands plotted above and below it, spaced by the recent standard deviation of price. The bands widen when volatility rises and narrow when it falls.",
         "formula": "Upper = MA(20) + 2σ    Lower = MA(20) − 2σ",
         "howToUse": "Price touching the upper band suggests it is statistically stretched to the upside relative to its recent range; the lower band, the downside. A sharp narrowing of the bands (\"squeeze\") often precedes a big move in either direction.",
-        "watchOutFor": "Touching a band is not automatically a buy or sell signal — in a strong trend, price can \"walk the band\" for a long time. Bands describe recent volatility, not direction."
+        "watchOutFor": "Touching a band is not automatically a buy or sell signal. In a strong trend, price can \"walk the band\" for a long time. Bands describe recent volatility, not direction."
       },
       "rsi": {
         "title": "RSI (Relative Strength Index)",
         "summary": "A momentum oscillator from 0-100 that measures how fast and how much price has moved recently, based on the size of up days versus down days.",
         "formula": "RSI = 100 − 100 / (1 + average gain / average loss)",
-        "howToUse": "Readings above 70 are traditionally read as \"overbought\" and below 30 as \"oversold\" — a hint that a pullback or bounce may be near. Divergences (price makes a new high but RSI doesn't) are often watched as early trend-exhaustion signals.",
-        "watchOutFor": "In strong trends, RSI can stay above 70 or below 30 for extended periods without reversing — treat it as a momentum reading, not a countdown timer."
+        "howToUse": "Readings above 70 are traditionally read as \"overbought\" and below 30 as \"oversold\", a hint that a pullback or bounce may be near. Divergences (price makes a new high but RSI doesn't) are often watched as early trend-exhaustion signals.",
+        "watchOutFor": "In strong trends, RSI can stay above 70 or below 30 for extended periods without reversing. Treat it as a momentum reading, not a countdown timer."
       },
       "macd": {
         "title": "MACD (Moving Average Convergence Divergence)",
@@ -218,57 +220,57 @@
         "title": "Annualized Volatility",
         "summary": "How much an asset's daily returns typically bounce around, scaled up to a yearly figure so different assets and timeframes are comparable on the same scale.",
         "formula": "Vol(annual) = stdev(daily returns) × √252",
-        "howToUse": "Higher volatility means bigger swings in both directions — more potential upside, but also bigger potential drawdowns. Use it to size positions: a highly volatile asset warrants a smaller position for the same dollar risk.",
-        "watchOutFor": "Volatility is symmetric — it doesn't distinguish good (upside) swings from bad (downside) ones. It also looks backward; past volatility doesn't guarantee future volatility."
+        "howToUse": "Higher volatility means bigger swings in both directions: more potential upside, but also bigger potential drawdowns. Use it to size positions: a highly volatile asset warrants a smaller position for the same dollar risk.",
+        "watchOutFor": "Volatility is symmetric: it doesn't distinguish good (upside) swings from bad (downside) ones. It also looks backward; past volatility doesn't guarantee future volatility."
       },
       "sharpe": {
         "title": "Sharpe Ratio",
-        "summary": "Return earned per unit of total risk taken — the classic way to compare whether one investment's returns are worth the bumpiness of its ride, relative to another's.",
+        "summary": "Return earned per unit of total risk taken: the classic way to compare whether one investment's returns are worth the bumpiness of its ride, relative to another's.",
         "formula": "Sharpe = (annual return − risk-free rate) / annual volatility",
-        "howToUse": "Above 1 is generally considered decent, above 2 very good, above 3 excellent. Use it to compare two strategies or assets with different volatility profiles — the one with the higher Sharpe delivered more return for the risk endured.",
-        "watchOutFor": "Sharpe penalizes upside volatility the same as downside — a strategy with occasional huge gains can score \"worse\" than one with a smoother, mediocre ride. It also assumes returns are roughly normally distributed, which is often false for real markets (fat tails, crashes)."
+        "howToUse": "Above 1 is generally considered decent, above 2 very good, above 3 excellent. Use it to compare two strategies or assets with different volatility profiles: the one with the higher Sharpe delivered more return for the risk endured.",
+        "watchOutFor": "Sharpe penalizes upside volatility the same as downside: a strategy with occasional huge gains can score \"worse\" than one with a smoother, mediocre ride. It also assumes returns are roughly normally distributed, which is often false for real markets (fat tails, crashes)."
       },
       "sortino": {
         "title": "Sortino Ratio",
-        "summary": "A variant of the Sharpe ratio that only penalizes downside volatility — the swings you actually don't want — rather than treating all volatility as bad.",
+        "summary": "A variant of the Sharpe ratio that only penalizes downside volatility, the swings you actually don't want, rather than treating all volatility as bad.",
         "formula": "Sortino = (annual return − risk-free rate) / downside deviation",
         "howToUse": "Generally more forgiving than Sharpe for strategies with big upside spikes (e.g. momentum or options strategies). A high Sortino alongside a much lower Sharpe suggests most of the volatility has been on the upside.",
-        "watchOutFor": "Needs enough down-days in the sample to be statistically meaningful — over very short or very calm periods, downside deviation can be tiny and inflate the ratio misleadingly."
+        "watchOutFor": "Needs enough down-days in the sample to be statistically meaningful. Over very short or very calm periods, downside deviation can be tiny and inflate the ratio misleadingly."
       },
       "maxdd": {
         "title": "Maximum Drawdown",
-        "summary": "The single largest peak-to-trough decline the asset or portfolio has experienced over the period shown — the worst-case \"how much would I have lost\" if you bought the top and sold the bottom.",
+        "summary": "The single largest peak-to-trough decline the asset or portfolio has experienced over the period shown: the worst-case \"how much would I have lost\" if you bought the top and sold the bottom.",
         "formula": "MaxDD = min( (price − running peak) / running peak )",
         "howToUse": "This is one of the most intuitive risk numbers there is: a -20% max drawdown means at some point you'd have watched the value fall 20% from a prior high. Use it to gut-check whether you could emotionally and financially tolerate holding through the worst historical stretch.",
-        "watchOutFor": "Past drawdowns don't cap future ones — markets can always make a new, larger drawdown. It also says nothing about how long recovery took."
+        "watchOutFor": "Past drawdowns don't cap future ones. Markets can always make a new, larger drawdown. It also says nothing about how long recovery took."
       },
       "var": {
         "title": "Value at Risk (VaR)",
-        "summary": "An estimate of the loss you should not expect to exceed over a given period, at a given confidence level — e.g. \"95% VaR of -3.2%\" means on 95% of days, the loss was smaller than 3.2%.",
+        "summary": "An estimate of the loss you should not expect to exceed over a given period, at a given confidence level, e.g. \"95% VaR of -3.2%\" means on 95% of days, the loss was smaller than 3.2%.",
         "formula": "Historical VaR = the (1 − confidence) percentile of the observed daily return distribution",
-        "howToUse": "Use it to set expectations for a \"normal bad day\" — if your position is $10,000 and daily VaR(95%) is -3.2%, a loss of roughly $320 or worse should happen about 1 day in 20.",
-        "watchOutFor": "VaR explicitly says nothing about the remaining 5% — it doesn't bound how bad the worst days can get. Crashes and crises live precisely in that unmeasured tail."
+        "howToUse": "Use it to set expectations for a \"normal bad day\": if your position is $10,000 and daily VaR(95%) is -3.2%, a loss of roughly $320 or worse should happen about 1 day in 20.",
+        "watchOutFor": "VaR explicitly says nothing about the remaining 5%. It doesn't bound how bad the worst days can get. Crashes and crises live precisely in that unmeasured tail."
       },
       "beta": {
         "title": "Beta",
         "summary": "How sensitive an asset's returns are to moves in a broader benchmark (like the S&P 500). A beta of 1.3 means the asset has historically moved about 30% more than the market, in the same direction.",
         "formula": "Beta = covariance(asset, market) / variance(market)",
-        "howToUse": "Beta above 1 means amplified market moves (more aggressive); below 1 means dampened moves (more defensive); negative beta means it tends to move opposite the market — useful for diversification/hedging.",
+        "howToUse": "Beta above 1 means amplified market moves (more aggressive); below 1 means dampened moves (more defensive); negative beta means it tends to move opposite the market, useful for diversification/hedging.",
         "watchOutFor": "Beta is measured over a specific historical window and can drift significantly over time as a company or sector's risk profile changes."
       },
       "greeks": {
         "title": "Options Greeks",
-        "summary": "A set of sensitivities describing how an option's price is expected to change as different inputs move — the underlying price, time, and volatility.",
+        "summary": "A set of sensitivities describing how an option's price is expected to change as different inputs move: the underlying price, time, and volatility.",
         "formula": "Delta ∂price/∂S · Gamma ∂delta/∂S · Theta ∂price/∂time · Vega ∂price/∂volatility",
         "howToUse": "Delta ≈ how much the option price moves per $1 move in the underlying (and roughly the odds of expiring in-the-money). Gamma is how fast delta itself changes. Theta is the daily value the option loses just from time passing. Vega is sensitivity to changes in implied volatility.",
-        "watchOutFor": "Greeks are instantaneous estimates from a pricing model (Black-Scholes here) — they assume constant volatility and no big price jumps, assumptions real markets regularly violate, especially around earnings or news events."
+        "watchOutFor": "Greeks are instantaneous estimates from a pricing model (Black-Scholes here). They assume constant volatility and no big price jumps, assumptions real markets regularly violate, especially around earnings or news events."
       },
       "blackscholes": {
         "title": "Black-Scholes Option Pricing",
         "summary": "A mathematical model for estimating a fair theoretical price for a European-style option, based on the underlying price, strike, time to expiry, interest rates, and expected (implied) volatility.",
         "formula": "Call = S·N(d1) − K·e^(−rT)·N(d2)",
-        "howToUse": "Compare the model price to the market price of an option to gauge whether it looks statistically expensive or cheap given your volatility assumption — and use the Greeks it produces to understand your risk exposure if you hold the position.",
-        "watchOutFor": "The model assumes constant volatility, no dividends, and log-normal price behavior — all simplifications. It is a reference point for reasoning about risk, not a guarantee of what an option will actually trade at."
+        "howToUse": "Compare the model price to the market price of an option to gauge whether it looks statistically expensive or cheap given your volatility assumption, and use the Greeks it produces to understand your risk exposure if you hold the position.",
+        "watchOutFor": "The model assumes constant volatility, no dividends, and log-normal price behavior: all simplifications. It is a reference point for reasoning about risk, not a guarantee of what an option will actually trade at."
       }
     }
   },
@@ -277,7 +279,8 @@
     "heading": "Your holdings",
     "pickerHeading": "Your portfolios",
     "newPortfolioBtn": "+ New portfolio",
-    "symbolPlaceholder": "Symbol — AAPL, BTC…",
+    "defaultName": "Portfolio {{n}}",
+    "symbolPlaceholder": "Symbol (AAPL, BTC…)",
     "quantityPlaceholder": "Quantity",
     "costBasisPlaceholder": "Avg. cost basis",
     "addBtn": "Add position",
@@ -298,7 +301,7 @@
     "analyticsLoading": "Crunching weighted return history…",
     "ai": {
       "sectionTitle": "AI portfolio insights",
-      "sectionSub": "General educational commentary — not financial advice",
+      "sectionSub": "General educational commentary, not financial advice",
       "getInsightsBtn": "Get AI insights",
       "regenerateBtn": "Regenerate",
       "loading": "Analyzing your portfolio…",

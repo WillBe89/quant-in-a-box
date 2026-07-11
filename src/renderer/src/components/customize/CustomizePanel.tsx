@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useAppState, type NewsSource, type DockCardId } from '@renderer/state/AppStateContext'
+import { useAppState, useDockLayout, type NewsSource, type DockCardId } from '@renderer/state/AppStateContext'
 import { ALL_ASSETS } from '@renderer/data/mockData'
 import { searchAssets } from '@renderer/lib/assetSearch'
 import type { Asset } from '@renderer/types/market'
@@ -98,11 +98,9 @@ export default function CustomizePanel(): JSX.Element {
     resetWatchlist,
     newsSource,
     setNewsSource,
-    dockHidden,
-    toggleDockCardHidden,
-    resetDockLayout,
     portfolios
   } = useAppState()
+  const { dockHidden, toggleDockCardHidden, resetDockLayout } = useDockLayout()
   const [query, setQuery] = useState('')
   const [selected, setSelected] = useState<Asset | null>(null)
 

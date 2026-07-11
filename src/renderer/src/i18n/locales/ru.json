@@ -83,7 +83,9 @@
     },
     "options": {
       "title": "Опционы · Греки",
-      "strike": "Страйк"
+      "strike": "Страйк",
+      "vega": "Вега",
+      "iv": "IV"
     },
     "news": {
       "title": "Рыночные новости",
@@ -266,7 +268,8 @@
       "retryBtn": "Повторить попытку"
     },
     "pickerHeading": "Ваши портфели",
-    "newPortfolioBtn": "+ Новый портфель"
+    "newPortfolioBtn": "+ Новый портфель",
+    "defaultName": "Портфель {{n}}"
   },
   "card": {
     "expand": "Развернуть",

@@ -21,7 +21,6 @@
   box-shadow: var(--shadow-soft);
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 }
 
 .overlay-header {
@@ -58,6 +57,7 @@
 .overlay-body {
   flex: 1 1 auto;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 18px 22px 22px;
 }
 

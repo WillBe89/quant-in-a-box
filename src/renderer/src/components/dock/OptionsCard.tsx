@@ -33,8 +33,8 @@ export function OptionsCardBody({ chain }: { chain: OptionQuote[] }): JSX.Elemen
             <th>Δ</th>
             <th>Γ</th>
             <th>Θ</th>
-            <th>Vega</th>
-            <th>IV</th>
+            <th>{t('dock.options.vega')}</th>
+            <th>{t('dock.options.iv')}</th>
           </tr>
         </thead>
         <tbody>

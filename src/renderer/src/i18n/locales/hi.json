@@ -83,7 +83,9 @@
     },
     "options": {
       "title": "ऑप्शंस · ग्रीक्स",
-      "strike": "स्ट्राइक"
+      "strike": "स्ट्राइक",
+      "vega": "वेगा",
+      "iv": "IV"
     },
     "news": {
       "title": "मार्केट न्यूज़",
@@ -266,7 +268,8 @@
       "retryBtn": "फिर से कोशिश करें"
     },
     "pickerHeading": "आपके पोर्टफोलियो",
-    "newPortfolioBtn": "+ नया पोर्टफोलियो"
+    "newPortfolioBtn": "+ नया पोर्टफोलियो",
+    "defaultName": "पोर्टफोलियो {{n}}"
   },
   "card": {
     "expand": "बड़ा करें",

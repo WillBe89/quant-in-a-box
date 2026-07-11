@@ -83,7 +83,9 @@
     },
     "options": {
       "title": "ออปชัน · กรีก",
-      "strike": "ราคาใช้สิทธิ"
+      "strike": "ราคาใช้สิทธิ",
+      "vega": "เวก้า",
+      "iv": "IV"
     },
     "news": {
       "title": "ข่าวตลาด",
@@ -266,7 +268,8 @@
       "retryBtn": "ลองอีกครั้ง"
     },
     "pickerHeading": "พอร์ตของคุณ",
-    "newPortfolioBtn": "+ พอร์ตใหม่"
+    "newPortfolioBtn": "+ พอร์ตใหม่",
+    "defaultName": "พอร์ต {{n}}"
   },
   "card": {
     "expand": "ขยาย",

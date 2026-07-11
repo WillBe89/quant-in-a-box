@@ -88,8 +88,8 @@ function isNameTaken(portfolios: Portfolio[], name: string, excludeId?: string):
 /** Smallest-unused-N "Portfolio N" name, not just count+1 (avoids reusing/colliding after a delete). */
 function nextDefaultPortfolioName(portfolios: Portfolio[]): string {
   let n = 1
-  while (isNameTaken(portfolios, `Portfolio ${n}`)) n++
-  return `Portfolio ${n}`
+  while (isNameTaken(portfolios, i18n.t('portfolio.defaultName', { n }))) n++
+  return i18n.t('portfolio.defaultName', { n })
 }
 
 function loadPortfolios(): Portfolio[] {
@@ -108,7 +108,7 @@ function loadPortfolios(): Portfolio[] {
     if (legacyRaw) {
       const legacyPositions: PortfolioPosition[] = JSON.parse(legacyRaw)
       if (Array.isArray(legacyPositions) && legacyPositions.length > 0) {
-        return [{ id: generatePortfolioId(), name: 'Portfolio 1', positions: legacyPositions }]
+        return [{ id: generatePortfolioId(), name: i18n.t('portfolio.defaultName', { n: 1 }), positions: legacyPositions }]
       }
     }
   } catch {
@@ -174,17 +174,21 @@ interface AppState {
   closeCustomize: () => void
   newsSource: NewsSource
   setNewsSource: (source: NewsSource) => void
-  dockOrder: DockCardId[]
-  dockHidden: DockCardId[]
-  setDockOrder: (order: DockCardId[]) => void
-  toggleDockCardHidden: (id: DockCardId) => void
-  resetDockLayout: () => void
   expandedCard: DockCardId | null
   openCardOverlay: (id: DockCardId) => void
   closeCardOverlay: () => void
 }
 
+export interface DockLayoutContextValue {
+  dockOrder: DockCardId[]
+  dockHidden: DockCardId[]
+  setDockOrder: (order: DockCardId[]) => void
+  toggleDockCardHidden: (id: DockCardId) => void
+  resetDockLayout: () => void
+}
+
 const AppStateCtx = createContext<AppState | null>(null)
+const DockLayoutCtx = createContext<DockLayoutContextValue | null>(null)
 
 export function AppStateProvider({ children }: { children: React.ReactNode }): JSX.Element {
   const [assetClass, setAssetClassState] = useState<AssetClass | 'all'>('all')
@@ -398,6 +402,17 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   const openCardOverlay = useCallback((id: DockCardId) => setExpandedCard(id), [])
   const closeCardOverlay = useCallback(() => setExpandedCard(null), [])
 
+  const dockLayoutValue = useMemo<DockLayoutContextValue>(
+    () => ({
+      dockOrder: dockLayout.order,
+      dockHidden: dockLayout.hidden,
+      setDockOrder,
+      toggleDockCardHidden,
+      resetDockLayout
+    }),
+    [dockLayout, setDockOrder, toggleDockCardHidden, resetDockLayout]
+  )
+
   const value = useMemo<AppState>(
     () => ({
       assetClass,
@@ -439,11 +454,6 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       closeCustomize,
       newsSource,
       setNewsSource,
-      dockOrder: dockLayout.order,
-      dockHidden: dockLayout.hidden,
-      setDockOrder,
-      toggleDockCardHidden,
-      resetDockLayout,
       expandedCard,
       openCardOverlay,
       closeCardOverlay
@@ -487,21 +497,27 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       closeCustomize,
       newsSource,
       setNewsSource,
-      dockLayout,
-      setDockOrder,
-      toggleDockCardHidden,
-      resetDockLayout,
       expandedCard,
       openCardOverlay,
       closeCardOverlay
     ]
   )
 
-  return <AppStateCtx.Provider value={value}>{children}</AppStateCtx.Provider>
+  return (
+    <AppStateCtx.Provider value={value}>
+      <DockLayoutCtx.Provider value={dockLayoutValue}>{children}</DockLayoutCtx.Provider>
+    </AppStateCtx.Provider>
+  )
 }
 
 export function useAppState(): AppState {
   const ctx = useContext(AppStateCtx)
   if (!ctx) throw new Error('useAppState must be used within AppStateProvider')
+  return ctx
+}
+
+export function useDockLayout(): DockLayoutContextValue {
+  const ctx = useContext(DockLayoutCtx)
+  if (!ctx) throw new Error('useDockLayout must be used within AppStateProvider')
   return ctx
 }

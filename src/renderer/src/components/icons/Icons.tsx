@@ -79,8 +79,15 @@ export function IconChevronDown({ size = 14, className }: IconProps): JSX.Elemen
 }
 
 export function IconArrowLeft({ size = 14, className }: IconProps): JSX.Element {
+  const mirrored = document.documentElement.dir === 'rtl'
   return (
-    <svg width={size} height={size} className={className} {...base}>
+    <svg
+      width={size}
+      height={size}
+      className={className}
+      style={mirrored ? { transform: 'scaleX(-1)' } : undefined}
+      {...base}
+    >
       <path d="M19 12H5M11 6l-6 6 6 6" />
     </svg>
   )

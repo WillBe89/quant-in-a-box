@@ -32,7 +32,7 @@ export default function CardHead({
   return (
     <div className="card-head">
       {dragControls && (
-        <Tooltip label={t('card.dragHandle') ?? ''}>
+        <Tooltip label={t('card.dragHandle') ?? ''} side="right">
           <span
             className="card-drag-handle"
             aria-hidden="true"
@@ -42,14 +42,25 @@ export default function CardHead({
           </span>
         </Tooltip>
       )}
-      <div className="card-head-title" onClick={onToggle} role="button" aria-expanded={!collapsed}>
+      <div
+        className="card-head-title"
+        onClick={onToggle}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            onToggle()
+          }
+        }}
+      >
         <h3>{title}</h3>
         {lessonId && <InfoIcon lessonId={lessonId} />}
       </div>
       <div className="card-head-actions">
         {(onMoveUp || onMoveDown) && (
           <>
-            <Tooltip label={t('card.moveUp') ?? ''}>
+            <Tooltip label={t('card.moveUp') ?? ''} side="right">
               <button
                 className="card-action-btn"
                 disabled={!canMoveUp}
@@ -62,7 +73,7 @@ export default function CardHead({
                 <IconChevronDown size={12} className="card-move-up" />
               </button>
             </Tooltip>
-            <Tooltip label={t('card.moveDown') ?? ''}>
+            <Tooltip label={t('card.moveDown') ?? ''} side="right">
               <button
                 className="card-action-btn"
                 disabled={!canMoveDown}
@@ -78,7 +89,7 @@ export default function CardHead({
           </>
         )}
         {onExpand && (
-          <Tooltip label={t('card.expand') ?? ''}>
+          <Tooltip label={t('card.expand') ?? ''} side="right">
             <button
               className="card-action-btn"
               onClick={(e) => {
@@ -91,7 +102,12 @@ export default function CardHead({
             </button>
           </Tooltip>
         )}
-        <button className="card-action-btn" onClick={onToggle} aria-label={title}>
+        <button
+          className="card-action-btn"
+          onClick={onToggle}
+          aria-label={title}
+          aria-expanded={!collapsed}
+        >
           <IconChevronDown size={13} className="chev" />
         </button>
       </div>

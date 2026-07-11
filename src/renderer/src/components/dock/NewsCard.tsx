@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
 import { useAppState } from '@renderer/state/AppStateContext'
@@ -51,9 +51,22 @@ export function NewsCardBody({
   onBack: () => void
 }): JSX.Element {
   const { t } = useTranslation()
+  const backButtonRef = useRef<HTMLButtonElement>(null)
+  const itemRefs = useRef<Record<string, HTMLButtonElement | null>>({})
+  const lastOpenedId = useRef<string | null>(null)
+
+  useEffect(() => {
+    if (openItem) {
+      lastOpenedId.current = openItem.id
+      backButtonRef.current?.focus()
+    } else if (lastOpenedId.current) {
+      itemRefs.current[lastOpenedId.current]?.focus()
+    }
+  }, [openItem])
+
   return openItem ? (
     <div className="reader">
-      <button className="reader-back" onClick={onBack}>
+      <button className="reader-back" ref={backButtonRef} onClick={onBack}>
         <IconArrowLeft size={12} /> {t('dock.news.back')}
       </button>
       <div className="src">{openItem.source}</div>
@@ -69,7 +82,14 @@ export function NewsCardBody({
   ) : (
     <div className="news-list">
       {news.map((item) => (
-        <button key={item.id} className="news-item" onClick={() => onOpenItem(item)}>
+        <button
+          key={item.id}
+          ref={(el) => {
+            itemRefs.current[item.id] = el
+          }}
+          className="news-item"
+          onClick={() => onOpenItem(item)}
+        >
           <div className="src">{item.source}</div>
           <div className="hd">{item.headline}</div>
           <div className="meta">{timeAgo(item.publishedAt, t)}</div>

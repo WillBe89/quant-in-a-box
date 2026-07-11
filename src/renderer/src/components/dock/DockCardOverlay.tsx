@@ -7,7 +7,7 @@ import Tooltip from '@renderer/components/ui/Tooltip'
 import { RiskCardBody, useRiskStats } from './RiskCard'
 import { OptionsCardBody, useOptionChain } from './OptionsCard'
 import { NewsCardBody, useNewsFeed } from './NewsCard'
-import type { NewsItem } from '@renderer/types/market'
+import type { Asset, NewsItem } from '@renderer/types/market'
 
 export default function DockCardOverlay(): JSX.Element {
   const { t } = useTranslation()
@@ -20,10 +20,6 @@ export default function DockCardOverlay(): JSX.Element {
     if (expandedCard !== 'news') setOpenItem(null)
   }, [expandedCard])
 
-  const stats = useRiskStats(symbol)
-  const chain = useOptionChain(symbol)
-  const news = useNewsFeed()
-
   const titleKey =
     expandedCard === 'risk' ? 'dock.risk.title' : expandedCard === 'options' ? 'dock.options.title' : 'dock.news.title'
 
@@ -33,6 +29,7 @@ export default function DockCardOverlay(): JSX.Element {
       onClose={closeCardOverlay}
       ariaLabel={t(titleKey)}
       zIndex={105}
+      layoutId={expandedCard ? `dock-card-${expandedCard}` : undefined}
       className="dock-card-overlay"
     >
       <div className="overlay-header">
@@ -46,12 +43,35 @@ export default function DockCardOverlay(): JSX.Element {
         </Tooltip>
       </div>
       <div className="overlay-body">
-        {expandedCard === 'risk' && <RiskCardBody stats={stats} />}
-        {expandedCard === 'options' && <OptionsCardBody chain={chain} />}
+        {expandedCard === 'risk' && <RiskOverlayBody symbol={symbol} />}
+        {expandedCard === 'options' && <OptionsOverlayBody symbol={symbol} />}
         {expandedCard === 'news' && (
-          <NewsCardBody news={news} openItem={openItem} onOpenItem={setOpenItem} onBack={() => setOpenItem(null)} />
+          <NewsOverlayBody openItem={openItem} onOpenItem={setOpenItem} onBack={() => setOpenItem(null)} />
         )}
       </div>
     </OverlayPanel>
   )
+}
+
+function RiskOverlayBody({ symbol }: { symbol: Asset }): JSX.Element {
+  const stats = useRiskStats(symbol)
+  return <RiskCardBody stats={stats} />
+}
+
+function OptionsOverlayBody({ symbol }: { symbol: Asset }): JSX.Element {
+  const chain = useOptionChain(symbol)
+  return <OptionsCardBody chain={chain} />
+}
+
+function NewsOverlayBody({
+  openItem,
+  onOpenItem,
+  onBack
+}: {
+  openItem: NewsItem | null
+  onOpenItem: (item: NewsItem) => void
+  onBack: () => void
+}): JSX.Element {
+  const news = useNewsFeed()
+  return <NewsCardBody news={news} openItem={openItem} onOpenItem={onOpenItem} onBack={onBack} />
 }

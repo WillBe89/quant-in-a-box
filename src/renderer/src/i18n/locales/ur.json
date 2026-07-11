@@ -83,7 +83,9 @@
     },
     "options": {
       "title": "آپشنز · گریکس",
-      "strike": "اسٹرائیک"
+      "strike": "اسٹرائیک",
+      "vega": "ویگا",
+      "iv": "IV"
     },
     "news": {
       "title": "مارکیٹ نیوز",
@@ -266,7 +268,8 @@
       "retryBtn": "دوبارہ کوشش کریں"
     },
     "pickerHeading": "آپ کے پورٹ فولیوز",
-    "newPortfolioBtn": "+ نیا پورٹ فولیو"
+    "newPortfolioBtn": "+ نیا پورٹ فولیو",
+    "defaultName": "پورٹ فولیو {{n}}"
   },
   "card": {
     "expand": "بڑا کریں",

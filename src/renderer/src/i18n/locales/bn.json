@@ -83,7 +83,9 @@
     },
     "options": {
       "title": "অপশন · গ্রিকস",
-      "strike": "স্ট্রাইক"
+      "strike": "স্ট্রাইক",
+      "vega": "ভেগা",
+      "iv": "IV"
     },
     "news": {
       "title": "বাজারের খবর",
@@ -266,7 +268,8 @@
       "retryBtn": "আবার চেষ্টা করুন"
     },
     "pickerHeading": "আপনার পোর্টফোলিওগুলো",
-    "newPortfolioBtn": "+ নতুন পোর্টফোলিও"
+    "newPortfolioBtn": "+ নতুন পোর্টফোলিও",
+    "defaultName": "পোর্টফোলিও {{n}}"
   },
   "card": {
     "expand": "বড় করুন",

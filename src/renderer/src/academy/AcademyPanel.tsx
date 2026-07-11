@@ -28,12 +28,15 @@ export default function AcademyPanel(): JSX.Element {
   const { t } = useTranslation()
   const { academyOpen, academyLessonId, closeAcademy, openAcademy } = useAppState()
 
-  const categoryLabel: Record<LessonCategory, string> = {
-    assetTypes: t('academy.categoryAssetTypes'),
-    trend: t('academy.categoryTrend'),
-    risk: t('academy.categoryRisk'),
-    options: t('academy.categoryOptions')
-  }
+  const categoryLabel: Record<LessonCategory, string> = useMemo(
+    () => ({
+      assetTypes: t('academy.categoryAssetTypes'),
+      trend: t('academy.categoryTrend'),
+      risk: t('academy.categoryRisk'),
+      options: t('academy.categoryOptions')
+    }),
+    [t]
+  )
 
   const grouped = useMemo(() => {
     const map = new Map<LessonCategory, typeof LESSONS>()
@@ -43,7 +46,10 @@ export default function AcademyPanel(): JSX.Element {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const activeLesson = LESSONS.find((l) => l.id === academyLessonId) ?? LESSONS[0]
+  const activeLesson = useMemo(
+    () => LESSONS.find((l) => l.id === academyLessonId) ?? LESSONS[0],
+    [academyLessonId]
+  )
 
   return (
     <OverlayPanel open={academyOpen} onClose={closeAcademy} ariaLabel={t('academy.heading')} zIndex={110} className="academy-panel">
