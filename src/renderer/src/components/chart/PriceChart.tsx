@@ -313,6 +313,12 @@ export default function PriceChart({ candles, indicators, chartStyle, theme, onH
 
     dataCacheRef.current = { candles, ma20, ma50, bollUpper, bollLower }
 
+    // Re-enable autoScale on every data push, not just on chart creation: dragging the
+    // price scale by hand turns autoScale off for the life of the chart instance (it isn't
+    // recreated on a symbol switch, only re-fed data), so without this a manually-adjusted
+    // scale stays locked to the previous symbol's price range even after switching to a
+    // wildly different one, leaving the new candles rendered off-screen.
+    chartRef.current?.priceScale('right').applyOptions({ autoScale: true })
     chartRef.current?.timeScale().fitContent()
     const last = candles[candles.length - 1]
     onHover?.(

@@ -2,6 +2,16 @@
 
 Running log of autonomous build cycles. Newest entries at the top.
 
+## 2026-07-11 - Fixed the chart price scale getting stuck after switching symbols (direct request)
+
+**Built:** a one-line fix in `PriceChart.tsx` for a real UX bug Will described: after manually dragging the price (vertical) scale on a chart, switching to a different symbol with a very different price range left the chart looking blank — the price scale stayed locked to the old symbol's range rather than re-fitting to the new data.
+
+**Root cause:** the chart already re-fits its *time* axis on every data change (`timeScale().fitContent()`), but nothing reset the *price* axis. Dragging the price scale by hand turns off lightweight-charts' `autoScale` for the life of that chart instance, and the chart instance isn't recreated on a symbol switch (only re-fed new data), so a manually-adjusted scale stayed stuck on the old symbol's range indefinitely.
+
+**Fix:** call `chart.priceScale('right').applyOptions({ autoScale: true })` alongside the existing `fitContent()` call, every time candle data is pushed — so autoScale is unconditionally re-enabled on every symbol/timeframe switch, regardless of any prior manual adjustment.
+
+**Verified:** live in the browser, switched AMD ($36) → BTC ($64,230) → NVDA ($142.87) — roughly a 450x swing in price range — and confirmed the chart correctly re-fits its Y-axis to each symbol's own range every time, with no leftover scale from the previous symbol. `npm run typecheck`/`build` clean.
+
 ## 2026-07-11 - Portfolio risk grade and advice (phase 3 of 7)
 
 **Built:** a new "Risk grade" section in the Portfolio Dashboard tab (both the per-portfolio pane and the aggregate Overview), sitting between the existing risk-stat grid and the AI Insights section. It reduces the 6 risk stats plus asset-class concentration into a single 0-100 score and a Conservative/Moderate/Elevated/High category, shown as a gradient meter with a marker, a plain-language description, narrative bullets for any notably strong or weak signal, and a handful of category-appropriate tips — explicitly framed throughout as a description of how much a portfolio tends to move, never a verdict.
