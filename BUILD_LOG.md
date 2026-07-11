@@ -2,6 +2,16 @@
 
 Running log of autonomous build cycles. Newest entries at the top.
 
+## 2026-07-11 - Real license (PolyForm Noncommercial) + "Why This Exists" README section (direct request)
+
+**Built:**
+- Added a real `LICENSE` file: PolyForm Noncommercial License 1.0.0, matching Will's `gitsidian` repo's precedent and his explicit ask ("public but no commercial use without permission"). `package.json` now sets `"license": "SEE LICENSE IN LICENSE"` (standard npm convention pointing at the file), matching gitsidian's own package.json. Updated README's License section and license badge to match; removed the earlier "private, all rights reserved" framing now that a real license is in place.
+- Added a "Why This Exists" section to the README, up front right after the intro: this app was built for Will's girlfriend, who wants to invest but doesn't yet speak the domain's jargon, so it's designed as an educational tool first. It's also fully usable for real portfolio analysis (enter actual holdings, get the same statistical methodologies professional analysts use), with the explicit, deliberate limitation that it never places trades (analysis and education only, no brokerage connection or buy/sell button). Includes a direct, unambiguous "not financial advice, your decisions are your own responsibility" statement, and a warm closing note linking to the Support section.
+
+**Verified:** `npm run typecheck`/`test` (35/35) clean after the `package.json` edit. Grepped the whole repo for leftover "all rights reserved"/"private, personal project" phrasing to confirm nothing contradicts the new license; none found. Confirmed no em dashes crept into either new section, keeping the earlier cleanup pass intact.
+
+**Deliberately not done:** the GitHub repo itself is still private, and I can't flip that myself (repo-visibility/access-control changes are outside what I'll do autonomously, full stop, regardless of instruction) - that one's for Will to flip in Settings whenever he's ready. The license text applies to the software itself and is correct either way.
+
 ## 2026-07-11 - Public-release polish: installers, README/author/donation setup, em-dash cleanup (direct request)
 
 **Built:** the "make it look like a proper release for the public" ask, in four parts.

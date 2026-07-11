@@ -8,13 +8,23 @@
 [![Download for macOS](https://img.shields.io/badge/Download-macOS-black?style=for-the-badge)](https://github.com/WillBe89/quant-in-a-box/releases/latest)
 [![Download for Linux](https://img.shields.io/badge/Download-Linux-F0AB00?style=for-the-badge)](https://github.com/WillBe89/quant-in-a-box/releases/latest)
 
-![platforms](https://img.shields.io/badge/platforms-Windows_·_macOS_·_Linux-555) ![license](https://img.shields.io/badge/license-Private-blue)
+![platforms](https://img.shields.io/badge/platforms-Windows_·_macOS_·_Linux-555) ![license](https://img.shields.io/badge/license-PolyForm_Noncommercial_1.0.0-blue)
 
 </div>
 
 ---
 
 Quant In A Box is a desktop application that brings institutional-grade quantitative analytics to retail traders and students: technical indicators, options Greeks, portfolio risk metrics, and AI-assisted commentary, wrapped in a fast, native Electron + React interface. It runs entirely on realistic, deterministically generated mock market data out of the box, so it's fully usable with zero configuration and zero API keys, while also supporting optional real-time data providers for those who want live quotes and news.
+
+## Why This Exists
+
+I built this for my girlfriend. She wants to invest, in stocks, crypto, and everything in between, but the tools built for that are made for people who already speak the language: charts full of jargon, ratios with no explanation, and dashboards that assume you already know what a Sharpe ratio is. Quant In A Box is my attempt to close that gap. Every chart, indicator, and risk metric comes with a plain-English lesson attached, so the "Teaching Zone" isn't a bolted-on help page, it's the whole point.
+
+It's designed first as a learning tool, but it isn't a toy. Once you're comfortable, you can build out real portfolios, entering your actual holdings across stocks, crypto, bonds, FX, and real estate, and get the same statistical analysis (Sharpe, Sortino, volatility, Value at Risk, drawdown, beta, options Greeks) that professional analysts use to reason about risk. The one thing it deliberately does not do is place trades. There's no brokerage connection and no buy/sell button; it's an analysis and education tool, not an execution platform.
+
+**Nothing in this app is financial advice.** The AI commentary, the risk indicators, the lesson content, none of it is a recommendation to buy, sell, or hold anything. Every number here is a description of the past, not a promise about the future, and every decision you make while using it is entirely your own responsibility. If you're ever unsure, talk to a licensed financial advisor, not an app.
+
+I hope it helps someone, even in some small way, understand what they're looking at a little better. And if it ever helps you make some money: consider [buying me a coffee](#support). :)
 
 ## Features
 
@@ -235,4 +245,4 @@ Built by **will.be**, [willbe.dev](https://willbe.dev) (with AI assistance).
 
 ## License
 
-This is a private, personal project by will.be. It is not open source and no external contributions are expected. `package.json` is marked `"private": true` and no license is granted; all rights reserved.
+© will.be. Source-available under the **[PolyForm Noncommercial License 1.0.0](LICENSE)**: free to use, modify, and share for noncommercial purposes (personal, educational, research, hobby). Commercial use requires a separate license; reach out via [willbe.dev](https://willbe.dev).
