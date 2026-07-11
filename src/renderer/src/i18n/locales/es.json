@@ -308,7 +308,13 @@
       "emptyState": "Añade una posición para ver este desglose.",
       "otherLabel": "Otros ({{count}})",
       "showAllBtn": "Mostrar las {{count}} posiciones",
-      "showTopBtn": "Mostrar las {{n}} principales"
+      "showTopBtn": "Mostrar las {{n}} principales",
+      "benchmarkTitle": "Comparar con una cartera modelo",
+      "benchmarkSub": "Vea cómo se compara el perfil de riesgo de sus activos con un modelo predefinido",
+      "benchmarkLoading": "Calculando el historial de rentabilidad ponderada…",
+      "benchmarkEmpty": "Añada una posición para compararla con una cartera modelo.",
+      "benchmarkChartYourPortfolio": "Su cartera",
+      "benchmarkChartCompareTo": "Comparar con"
     },
     "ai": {
       "sectionTitle": "Perspectivas de IA sobre la cartera",
@@ -371,6 +377,20 @@
       "neutral": "Algo distinto de 1.0: algo más o menos sensible al mercado de lo habitual.",
       "bad": "Muy distinto de 1.0: mucho más sensible, mucho más defensivo, o se mueve en sentido contrario al mercado.",
       "caveat": "Esto no es bueno ni malo: solo indica cuán distinto ha sido de lo \"típico del mercado\"."
+    }
+  },
+  "modelPortfolio": {
+    "conservative": {
+      "name": "Conservadora",
+      "description": "Predominio de bonos, criptomonedas mínimas, solo acciones de primera línea"
+    },
+    "balanced": {
+      "name": "Equilibrada",
+      "description": "Mezcla equilibrada de acciones y bonos, con cripto, divisas e inmuebles moderados"
+    },
+    "growth": {
+      "name": "Crecimiento",
+      "description": "Acciones orientadas al crecimiento y exposición cripto notable, con pocos bonos"
     }
   }
 }

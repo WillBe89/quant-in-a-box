@@ -308,7 +308,13 @@
       "emptyState": "Adicione uma posição para ver esta distribuição.",
       "otherLabel": "Outros ({{count}})",
       "showAllBtn": "Mostrar todas as {{count}} posições",
-      "showTopBtn": "Mostrar as {{n}} principais"
+      "showTopBtn": "Mostrar as {{n}} principais",
+      "benchmarkTitle": "Comparar com uma carteira modelo",
+      "benchmarkSub": "Veja como o perfil de risco dos seus ativos se compara a um modelo padrão",
+      "benchmarkLoading": "Calculando o histórico de retorno ponderado…",
+      "benchmarkEmpty": "Adicione uma posição para compará-la a uma carteira modelo.",
+      "benchmarkChartYourPortfolio": "Sua carteira",
+      "benchmarkChartCompareTo": "Comparar com"
     },
     "ai": {
       "sectionTitle": "Perspetivas de IA sobre a carteira",
@@ -371,6 +377,20 @@
       "neutral": "Um pouco diferente de 1.0 — um pouco mais ou menos sensível ao mercado do que o habitual.",
       "bad": "Muito diferente de 1.0 — muito mais sensível, muito mais defensivo, ou a mover-se ao contrário do mercado.",
       "caveat": "Isto não é bom nem mau — apenas indica o quão diferente isto tem sido do \"comportamento típico do mercado\"."
+    }
+  },
+  "modelPortfolio": {
+    "conservative": {
+      "name": "Conservadora",
+      "description": "Predomínio de títulos, cripto mínima, apenas ações blue-chip"
+    },
+    "balanced": {
+      "name": "Equilibrada",
+      "description": "Mistura equilibrada de ações e títulos, com cripto, câmbio e imóveis moderados"
+    },
+    "growth": {
+      "name": "Crescimento",
+      "description": "Ações voltadas ao crescimento e exposição cripto relevante, títulos reduzidos"
     }
   }
 }

@@ -6,9 +6,13 @@ import type { ResolvedHoldingRow } from '@renderer/lib/portfolioHoldings'
 import RiskStatTile from '@renderer/components/stats/RiskStatTile'
 import { IconSparkle, IconAlertTriangle } from '@renderer/components/icons/Icons'
 import { SUPPORTED_LANGUAGES } from '@renderer/i18n'
-import type { PortfolioRiskStats } from '@renderer/types/market'
+import { useWeightedRiskStats, type RiskAssessment } from '@renderer/lib/usePortfolioRiskStats'
+import { MODEL_PORTFOLIOS, type ModelPortfolioId } from '@renderer/data/modelPortfolios'
 import ClassBreakdownBar from '@renderer/components/portfolio/ClassBreakdownBar'
 import HoldingsRankBar from '@renderer/components/portfolio/HoldingsRankBar'
+import BenchmarkSelector from '@renderer/components/portfolio/BenchmarkSelector'
+import BenchmarkCompareChart from '@renderer/components/portfolio/BenchmarkCompareChart'
+import BenchmarkCompareStats from '@renderer/components/portfolio/BenchmarkCompareStats'
 
 type AiAvailability = { claudeCode: boolean; apiKey: boolean }
 type AiInsightsResult = { commentary: string; source: 'claude-code' | 'api-key' }
@@ -18,11 +22,18 @@ export default function PortfolioDashboardTab({
   risk
 }: {
   rows: ResolvedHoldingRow[]
-  risk: { stats: PortfolioRiskStats | null; loading: boolean }
+  risk: RiskAssessment
 }): JSX.Element {
   const { t, i18n } = useTranslation()
   const { settingsVersion } = useAppState()
   const { stats, loading: statsLoading } = risk
+
+  // Local to this component instance (not global/shared state) so a later pass can mount
+  // PortfolioDashboardTab a second time (e.g. an aggregate overview panel) with each instance
+  // comparing against a different benchmark preset independently.
+  const [benchmarkId, setBenchmarkId] = useState<ModelPortfolioId>('balanced')
+  const selectedPreset = MODEL_PORTFOLIOS.find((p) => p.id === benchmarkId) ?? MODEL_PORTFOLIOS[0]
+  const benchmarkRisk = useWeightedRiskStats(selectedPreset.holdings)
 
   const [aiAvailability, setAiAvailability] = useState<AiAvailability | null>(null)
   const [aiLoading, setAiLoading] = useState(false)
@@ -118,7 +129,17 @@ export default function PortfolioDashboardTab({
       </div>
       <HoldingsRankBar rows={rows} />
 
-      {/* Future pass: benchmark comparison section goes here. Out of scope for this pass. */}
+      <div className="portfolio-analytics-head portfolio-dashboard-section-head">
+        <h3>{t('portfolio.dashboard.benchmarkTitle')}</h3>
+        <span className="portfolio-analytics-sub">{t('portfolio.dashboard.benchmarkSub')}</span>
+      </div>
+      <BenchmarkSelector selected={benchmarkId} onChange={setBenchmarkId} />
+      <BenchmarkCompareChart
+        portfolioSeries={risk.valueSeries}
+        benchmarkSeries={benchmarkRisk.valueSeries}
+        loading={risk.loading || benchmarkRisk.loading}
+      />
+      <BenchmarkCompareStats yourStats={risk.stats} benchmarkStats={benchmarkRisk.stats} />
 
       <div className="portfolio-analytics">
         <div className="portfolio-analytics-head">

@@ -41,7 +41,7 @@ export default function PortfolioPane({
     return { marketValue, costTotal, pnl, pnlPct: costTotal === 0 ? 0 : (pnl / costTotal) * 100 }
   }, [rows])
 
-  const { stats, loading: statsLoading } = usePortfolioRiskStats(positions)
+  const risk = usePortfolioRiskStats(positions)
 
   const matches = useMemo(() => searchAssets(ALL_ASSETS, symbolQuery), [symbolQuery])
 
@@ -208,7 +208,7 @@ export default function PortfolioPane({
                 </div>
               </>
             ) : (
-              <PortfolioDashboardTab rows={rows} risk={{ stats, loading: statsLoading }} />
+              <PortfolioDashboardTab rows={rows} risk={risk} />
             )}
           </>
         )}

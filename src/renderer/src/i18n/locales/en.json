@@ -355,7 +355,13 @@
       "emptyState": "Add a position to see this breakdown.",
       "otherLabel": "Other ({{count}})",
       "showAllBtn": "Show all {{count}} holdings",
-      "showTopBtn": "Show top {{n}}"
+      "showTopBtn": "Show top {{n}}",
+      "benchmarkTitle": "Compare to a model portfolio",
+      "benchmarkSub": "See how your holdings' risk profile stacks up against an off-the-shelf preset",
+      "benchmarkLoading": "Crunching weighted return history…",
+      "benchmarkEmpty": "Add a position to compare it against a model portfolio.",
+      "benchmarkChartYourPortfolio": "Your portfolio",
+      "benchmarkChartCompareTo": "Compare to"
     },
     "ai": {
       "sectionTitle": "AI portfolio insights",
@@ -371,6 +377,20 @@
       "connectBody": "Install and sign in to the Claude Code CLI on this computer, or add an ANTHROPIC_API_KEY to your .env file, to enable AI portfolio commentary.",
       "errorTitle": "Couldn't generate insights",
       "retryBtn": "Try again"
+    }
+  },
+  "modelPortfolio": {
+    "conservative": {
+      "name": "Conservative",
+      "description": "Bond-heavy, minimal crypto, blue-chip equities only"
+    },
+    "balanced": {
+      "name": "Balanced",
+      "description": "An even mix of stocks and bonds, with modest crypto, FX, and real estate"
+    },
+    "growth": {
+      "name": "Growth",
+      "description": "Growth-tilted equities and meaningful crypto exposure, bonds kept light"
     }
   }
 }

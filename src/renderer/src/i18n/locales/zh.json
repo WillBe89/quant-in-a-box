@@ -308,7 +308,13 @@
       "emptyState": "添加一个持仓以查看此分布。",
       "otherLabel": "其他 ({{count}})",
       "showAllBtn": "显示全部 {{count}} 个持仓",
-      "showTopBtn": "显示前 {{n}} 个"
+      "showTopBtn": "显示前 {{n}} 个",
+      "benchmarkTitle": "与模型投资组合比较",
+      "benchmarkSub": "查看您持仓的风险状况与预设模型的对比",
+      "benchmarkLoading": "正在计算加权收益历史…",
+      "benchmarkEmpty": "添加一个仓位以与模型投资组合进行比较。",
+      "benchmarkChartYourPortfolio": "您的投资组合",
+      "benchmarkChartCompareTo": "对比对象"
     },
     "ai": {
       "sectionTitle": "AI 组合洞察",
@@ -371,6 +377,20 @@
       "neutral": "与 1.0 有一定差异——对市场的敏感度高于或低于典型水平。",
       "bad": "与 1.0 相差较大——对市场敏感度高得多、低得多，或与大盘走势相反。",
       "caveat": "这并非好坏的评判——只是标示这与\"市场典型水平\"的偏离程度。"
+    }
+  },
+  "modelPortfolio": {
+    "conservative": {
+      "name": "保守型",
+      "description": "债券占比高，加密货币极少，仅蓝筹股"
+    },
+    "balanced": {
+      "name": "平衡型",
+      "description": "股票与债券均衡配置，加密货币、外汇和房地产比例适中"
+    },
+    "growth": {
+      "name": "成长型",
+      "description": "偏重成长型股票及较高加密货币敞口，债券占比很低"
     }
   }
 }

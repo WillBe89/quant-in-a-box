@@ -308,7 +308,13 @@
       "emptyState": "Ajoutez une position pour voir cette répartition.",
       "otherLabel": "Autres ({{count}})",
       "showAllBtn": "Afficher les {{count}} positions",
-      "showTopBtn": "Afficher le top {{n}}"
+      "showTopBtn": "Afficher le top {{n}}",
+      "benchmarkTitle": "Comparer à un portefeuille modèle",
+      "benchmarkSub": "Comparez le profil de risque de vos avoirs à un modèle prédéfini",
+      "benchmarkLoading": "Calcul de l'historique de rendement pondéré…",
+      "benchmarkEmpty": "Ajoutez une position pour la comparer à un portefeuille modèle.",
+      "benchmarkChartYourPortfolio": "Votre portefeuille",
+      "benchmarkChartCompareTo": "Comparer à"
     },
     "ai": {
       "sectionTitle": "Analyses IA du portefeuille",
@@ -371,6 +377,20 @@
       "neutral": "Quelque peu différent de 1.0 — un peu plus ou moins sensible au marché que la normale.",
       "bad": "Très différent de 1.0 — bien plus sensible, bien plus défensif, ou évoluant à l'inverse du marché.",
       "caveat": "Ce n'est ni bon ni mauvais — cela indique seulement à quel point cela s'écarte du \"comportement type du marché\"."
+    }
+  },
+  "modelPortfolio": {
+    "conservative": {
+      "name": "Prudent",
+      "description": "Fortement obligataire, crypto minimal, actions de premier ordre uniquement"
+    },
+    "balanced": {
+      "name": "Équilibré",
+      "description": "Mélange équilibré d'actions et d'obligations, avec crypto, devises et immobilier modérés"
+    },
+    "growth": {
+      "name": "Croissance",
+      "description": "Actions orientées croissance et exposition crypto notable, obligations réduites"
     }
   }
 }

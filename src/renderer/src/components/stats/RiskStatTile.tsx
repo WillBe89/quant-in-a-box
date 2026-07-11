@@ -12,7 +12,9 @@ interface RiskStatTileProps {
   rawValue: number
 }
 
-const FORMAT: Record<RiskMetricId, (v: number) => string> = {
+/** Per-metric raw-value formatter, shared with anywhere else that needs to render a risk
+ *  stat as text without the full tile (e.g. BenchmarkCompareStats.tsx). */
+export const FORMAT: Record<RiskMetricId, (v: number) => string> = {
   sharpe: (v) => v.toFixed(2),
   sortino: (v) => v.toFixed(2),
   volatility: (v) => `${(v * 100).toFixed(1)}%`,
