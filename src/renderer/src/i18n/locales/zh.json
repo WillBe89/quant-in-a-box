@@ -40,6 +40,13 @@
       "statusConfigured": "已配置",
       "statusNotConfigured": "未配置"
     },
+    "marketArchive": {
+      "heading": "市场数据存档",
+      "intro": "将本应用在本地保存的所有K线和新闻导出为 Excel 工作簿。留空代码可导出全部内容，或填写单个代码以缩小范围。",
+      "symbolPlaceholder": "留空以导出全部已存储的数据",
+      "exportBtn": "导出存档",
+      "success": "存档已保存"
+    },
     "portfolioStyle": {
       "trigger": "更改图标和颜色",
       "iconHeading": "图标",
@@ -339,6 +346,12 @@
       "badge": "总览",
       "heading": "所有投资组合",
       "emptyState": "在您的某个投资组合中添加持仓，即可在此处查看所有持仓的汇总视图。"
+    },
+    "export": {
+      "button": "导出报告",
+      "success": "报告已保存",
+      "canceled": "已取消",
+      "error": "导出失败"
     }
   },
   "card": {

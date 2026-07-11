@@ -99,6 +99,13 @@
       "statusMock": "Mock data",
       "statusConfigured": "Configured",
       "statusNotConfigured": "Not configured"
+    },
+    "marketArchive": {
+      "heading": "Market data archive",
+      "intro": "Export every candle and news article this app has stored locally to an Excel workbook. Leave the symbol blank to export everything, or narrow it to one symbol.",
+      "symbolPlaceholder": "Leave blank to export everything stored",
+      "exportBtn": "Export archive",
+      "success": "Archive saved"
     }
   },
   "ticker": {
@@ -383,6 +390,12 @@
       "badge": "Overview",
       "heading": "All portfolios",
       "emptyState": "Add positions to one of your portfolios to see a combined view of all your holdings here."
+    },
+    "export": {
+      "button": "Export report",
+      "success": "Report saved",
+      "canceled": "Canceled",
+      "error": "Export failed"
     }
   },
   "modelPortfolio": {

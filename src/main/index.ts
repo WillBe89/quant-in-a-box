@@ -9,9 +9,20 @@ import {
   storeCandles,
   getCachedNews,
   storeNews,
+  getStoredSymbolsSummary,
+  getCandleHistoryForExport,
+  getNewsForExport,
   type Candle,
   type NewsItem
 } from './localDb'
+import {
+  buildPortfolioReportWorkbook,
+  buildMarketArchiveWorkbook,
+  saveWorkbookViaDialog,
+  sanitizeFileNamePart,
+  type PortfolioReportInput,
+  type MarketArchiveCandleRow
+} from './exportData'
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -94,6 +105,34 @@ app.whenReady().then(() => {
 
   ipcMain.handle('data:storeNews', async (_event, symbolsKey: string, items: NewsItem[]) => {
     storeNews(symbolsKey, items)
+  })
+
+  ipcMain.handle('data:exportPortfolioReport', async (_event, input: PortfolioReportInput) => {
+    const buffer = buildPortfolioReportWorkbook(input)
+    const defaultFileName = `${sanitizeFileNamePart(input.portfolioName)}-report.xlsx`
+    return saveWorkbookViaDialog(buffer, defaultFileName)
+  })
+
+  ipcMain.handle('data:exportMarketArchive', async (_event, symbol?: string) => {
+    const allSummaries = getStoredSymbolsSummary()
+    const summaries = symbol ? allSummaries.filter((s) => s.symbol === symbol) : allSummaries
+
+    // One fetch per (source, symbol, timeframe) triple — a symbol/source pair can be cached
+    // under several timeframes at once (e.g. '1D' from a chart view, '1Y' from a portfolio risk
+    // calc), so filtering by timeframe here keeps each row correctly labeled and un-duplicated.
+    const candles: MarketArchiveCandleRow[] = summaries.flatMap((s) =>
+      getCandleHistoryForExport(s.symbol, s.source, s.timeframe).map((c) => ({
+        symbol: s.symbol,
+        source: s.source,
+        timeframe: s.timeframe,
+        ...c
+      }))
+    )
+    const news = getNewsForExport(symbol)
+
+    const buffer = buildMarketArchiveWorkbook({ candles, news })
+    const defaultFileName = `market-archive-${sanitizeFileNamePart(symbol ?? 'all')}.xlsx`
+    return saveWorkbookViaDialog(buffer, defaultFileName)
   })
 
   createWindow()

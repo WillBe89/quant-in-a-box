@@ -1,6 +1,7 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
 import type { PortfolioInsightsRequest, PortfolioInsightsResult } from '../main/aiInsights'
 import type { Candle, NewsItem } from '../main/localDb'
+import type { PortfolioReportInput, SaveWorkbookResult } from '../main/exportData'
 
 export interface AiAvailability {
   claudeCode: boolean
@@ -26,6 +27,8 @@ export interface QiabApi {
   storeCandles: (source: string, symbol: string, timeframe: string, candles: Candle[]) => Promise<void>
   getCachedNews: (symbolsKey: string, maxAgeMs: number) => Promise<NewsItem[] | null>
   storeNews: (symbolsKey: string, items: NewsItem[]) => Promise<void>
+  exportPortfolioReport: (input: PortfolioReportInput) => Promise<SaveWorkbookResult>
+  exportMarketArchive: (symbol?: string) => Promise<SaveWorkbookResult>
 }
 
 declare global {

@@ -3,14 +3,25 @@ import { useTranslation } from 'react-i18next'
 import { useAppState } from '@renderer/state/AppStateContext'
 import { ALL_ASSETS } from '@renderer/data/mockData'
 import { resolveHoldingRows } from '@renderer/lib/portfolioHoldings'
+import { computeAssetClassBreakdown } from '@renderer/lib/portfolioBreakdown'
 import { usePortfolioRiskStats } from '@renderer/lib/usePortfolioRiskStats'
 import { searchAssets } from '@renderer/lib/assetSearch'
 import { IconClose } from '@renderer/components/icons/Icons'
 import Tooltip from '@renderer/components/ui/Tooltip'
 import PortfolioDashboardTab from '@renderer/components/portfolio/PortfolioDashboardTab'
 import HoldingsTable from '@renderer/components/portfolio/HoldingsTable'
-import type { Asset } from '@renderer/types/market'
+import ExportReportButton from '@renderer/components/portfolio/ExportReportButton'
+import type { Asset, PortfolioRiskStats } from '@renderer/types/market'
 import './portfolio.css'
+
+const ZERO_RISK_STATS: PortfolioRiskStats = {
+  sharpe: 0,
+  sortino: 0,
+  volatilityAnnualized: 0,
+  valueAtRisk95: 0,
+  maxDrawdown: 0,
+  beta: 0
+}
 
 export default function PortfolioPane({
   portfolioId,
@@ -44,6 +55,8 @@ export default function PortfolioPane({
 
   const risk = usePortfolioRiskStats(positions)
 
+  const classBreakdown = useMemo(() => computeAssetClassBreakdown(rows), [rows])
+
   const matches = useMemo(() => searchAssets(ALL_ASSETS, symbolQuery), [symbolQuery])
 
   if (!portfolio) return null
@@ -65,11 +78,19 @@ export default function PortfolioPane({
     <div className="portfolio-pane" role="group" aria-label={portfolio.name}>
       <div className="portfolio-pane-header">
         <h3 className="portfolio-pane-name">{portfolio.name}</h3>
-        <Tooltip label={t('common.close') ?? ''}>
-          <button className="icon-btn" onClick={onClose} aria-label={t('common.close') ?? undefined}>
-            <IconClose size={13} />
-          </button>
-        </Tooltip>
+        <div className="portfolio-pane-header-actions">
+          <ExportReportButton
+            portfolioName={portfolio.name}
+            rows={rows}
+            stats={risk.stats ?? ZERO_RISK_STATS}
+            classBreakdown={classBreakdown}
+          />
+          <Tooltip label={t('common.close') ?? ''}>
+            <button className="icon-btn" onClick={onClose} aria-label={t('common.close') ?? undefined}>
+              <IconClose size={13} />
+            </button>
+          </Tooltip>
+        </div>
       </div>
 
       <div className="portfolio-pane-body">

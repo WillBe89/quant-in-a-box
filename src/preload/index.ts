@@ -2,6 +2,7 @@ import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import type { PortfolioInsightsRequest } from '../main/aiInsights'
 import type { Candle, NewsItem } from '../main/localDb'
+import type { PortfolioReportInput, SaveWorkbookResult } from '../main/exportData'
 
 const api = {
   checkAiAvailability: () => ipcRenderer.invoke('ai:checkAvailability'),
@@ -15,7 +16,11 @@ const api = {
     ipcRenderer.invoke('data:storeCandles', source, symbol, timeframe, candles),
   getCachedNews: (symbolsKey: string, maxAgeMs: number) =>
     ipcRenderer.invoke('data:getCachedNews', symbolsKey, maxAgeMs),
-  storeNews: (symbolsKey: string, items: NewsItem[]) => ipcRenderer.invoke('data:storeNews', symbolsKey, items)
+  storeNews: (symbolsKey: string, items: NewsItem[]) => ipcRenderer.invoke('data:storeNews', symbolsKey, items),
+  exportPortfolioReport: (input: PortfolioReportInput): Promise<SaveWorkbookResult> =>
+    ipcRenderer.invoke('data:exportPortfolioReport', input),
+  exportMarketArchive: (symbol?: string): Promise<SaveWorkbookResult> =>
+    ipcRenderer.invoke('data:exportMarketArchive', symbol)
 }
 
 if (process.contextIsolated) {

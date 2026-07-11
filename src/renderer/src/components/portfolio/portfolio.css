@@ -46,6 +46,12 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.portfolio-pane-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+}
 .portfolio-pane-body {
   flex: 1 1 auto;
   overflow-y: auto;
@@ -552,4 +558,31 @@ table.portfolio-table td.down {
   .portfolio-summary {
     grid-template-columns: 1fr;
   }
+}
+
+.export-report-btn-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.export-status {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-faint);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 4px 9px;
+  box-shadow: var(--shadow-soft);
+  z-index: 5;
+}
+.export-status.ok {
+  color: var(--gain);
+}
+.export-status.err {
+  color: var(--loss);
 }

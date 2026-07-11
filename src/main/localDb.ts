@@ -224,24 +224,29 @@ export function getStoredSymbolsSummary(): StoredSymbolSummary[] {
     .all()
 }
 
-/** All stored candles for `symbol`, optionally narrowed to one `source`, ascending by time. */
-export function getCandleHistoryForExport(symbol: string, source?: string): Candle[] {
+/** All stored candles for `symbol`, optionally narrowed to one `source` and/or one `timeframe`,
+ *  ascending by time. A symbol/source pair can be cached under several timeframes at once (e.g.
+ *  '1D' from a chart view and '1Y' from a portfolio risk calc) — pass `timeframe` to avoid mixing
+ *  those separate series together. */
+export function getCandleHistoryForExport(symbol: string, source?: string, timeframe?: string): Candle[] {
   const conn = requireDb()
-  const rows = source
-    ? conn
-        .prepare<[string, string], CandleRow>(
-          `SELECT time, open, high, low, close, volume, fetched_at FROM candles
-           WHERE symbol = ? AND source = ?
-           ORDER BY time ASC`
-        )
-        .all(symbol, source)
-    : conn
-        .prepare<[string], CandleRow>(
-          `SELECT time, open, high, low, close, volume, fetched_at FROM candles
-           WHERE symbol = ?
-           ORDER BY time ASC`
-        )
-        .all(symbol)
+  const clauses = ['symbol = ?']
+  const params: string[] = [symbol]
+  if (source) {
+    clauses.push('source = ?')
+    params.push(source)
+  }
+  if (timeframe) {
+    clauses.push('timeframe = ?')
+    params.push(timeframe)
+  }
+  const rows = conn
+    .prepare<string[], CandleRow>(
+      `SELECT time, open, high, low, close, volume, fetched_at FROM candles
+       WHERE ${clauses.join(' AND ')}
+       ORDER BY time ASC`
+    )
+    .all(...params)
   return rows.map(({ time, open, high, low, close, volume }) => ({ time, open, high, low, close, volume }))
 }
 

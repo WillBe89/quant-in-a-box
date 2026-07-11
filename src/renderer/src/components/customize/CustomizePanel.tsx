@@ -189,6 +189,10 @@ function ApiKeyRow({
   )
 }
 
+type ArchiveExportStatus = 'success' | 'canceled' | 'error' | null
+
+const ARCHIVE_STATUS_CLEAR_MS = 4000
+
 export default function CustomizePanel(): JSX.Element {
   const { t } = useTranslation()
   const {
@@ -207,6 +211,8 @@ export default function CustomizePanel(): JSX.Element {
   const [query, setQuery] = useState('')
   const [selected, setSelected] = useState<Asset | null>(null)
   const [anthropicConfigured, setAnthropicConfigured] = useState(false)
+  const [archiveSymbol, setArchiveSymbol] = useState('')
+  const [archiveStatus, setArchiveStatus] = useState<ArchiveExportStatus>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -232,6 +238,25 @@ export default function CustomizePanel(): JSX.Element {
     toggleWatchlist(selected)
     setQuery('')
     setSelected(null)
+  }
+
+  function flashArchiveStatus(next: Exclude<ArchiveExportStatus, null>): void {
+    setArchiveStatus(next)
+    setTimeout(() => setArchiveStatus((current) => (current === next ? null : current)), ARCHIVE_STATUS_CLEAR_MS)
+  }
+
+  async function handleExportArchive(): Promise<void> {
+    const symbol = archiveSymbol.trim().toUpperCase() || undefined
+    const result = await window.api?.exportMarketArchive(symbol).catch(() => null)
+    if (!result) {
+      flashArchiveStatus('error')
+    } else if (result.ok) {
+      flashArchiveStatus('success')
+    } else if (result.canceled) {
+      flashArchiveStatus('canceled')
+    } else {
+      flashArchiveStatus('error')
+    }
   }
 
   return (
@@ -404,6 +429,38 @@ export default function CustomizePanel(): JSX.Element {
             bumpSettingsVersion()
           }}
         />
+
+        <h3 className="customize-section-heading customize-section-spaced">
+          {t('customize.marketArchive.heading')}
+        </h3>
+        <p className="customize-intro">{t('customize.marketArchive.intro')}</p>
+        <div className="customize-add">
+          <div className="customize-add-field">
+            <input
+              type="text"
+              placeholder={t('customize.marketArchive.symbolPlaceholder') ?? undefined}
+              value={archiveSymbol}
+              onChange={(e) => setArchiveSymbol(e.target.value)}
+            />
+          </div>
+          <button className="customize-add-btn" onClick={() => handleExportArchive()}>
+            {t('customize.marketArchive.exportBtn')}
+          </button>
+        </div>
+        {archiveStatus && (
+          <p
+            className={
+              'archive-status' +
+              (archiveStatus === 'success' ? ' ok' : archiveStatus === 'error' ? ' err' : '')
+            }
+          >
+            {archiveStatus === 'success'
+              ? t('customize.marketArchive.success')
+              : archiveStatus === 'error'
+                ? t('portfolio.export.error')
+                : t('portfolio.export.canceled')}
+          </p>
+        )}
       </div>
     </OverlayPanel>
   )

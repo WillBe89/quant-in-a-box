@@ -5,10 +5,22 @@ import OverlayPanel from '@renderer/components/ui/OverlayPanel'
 import { IconClose } from '@renderer/components/icons/Icons'
 import Tooltip from '@renderer/components/ui/Tooltip'
 import { mergePortfolioHoldings, resolveHoldingRows } from '@renderer/lib/portfolioHoldings'
+import { computeAssetClassBreakdown } from '@renderer/lib/portfolioBreakdown'
 import { usePortfolioRiskStats } from '@renderer/lib/usePortfolioRiskStats'
 import HoldingsTable from '@renderer/components/portfolio/HoldingsTable'
 import PortfolioDashboardTab from '@renderer/components/portfolio/PortfolioDashboardTab'
+import ExportReportButton from '@renderer/components/portfolio/ExportReportButton'
+import type { PortfolioRiskStats } from '@renderer/types/market'
 import './portfolio.css'
+
+const ZERO_RISK_STATS: PortfolioRiskStats = {
+  sharpe: 0,
+  sortino: 0,
+  volatilityAnnualized: 0,
+  valueAtRisk95: 0,
+  maxDrawdown: 0,
+  beta: 0
+}
 
 /** Single top-level panel (not one-per-open-portfolio-id, unlike PortfolioWorkspace) showing a
  *  read-only, blended view across every portfolio the user has — same Holdings/Dashboard tab
@@ -23,6 +35,7 @@ export default function PortfolioOverviewPanel(): JSX.Element {
   const merged = useMemo(() => mergePortfolioHoldings(portfolios), [portfolios])
   const rows = useMemo(() => resolveHoldingRows(merged), [merged])
   const risk = usePortfolioRiskStats(merged)
+  const classBreakdown = useMemo(() => computeAssetClassBreakdown(rows), [rows])
 
   return (
     <OverlayPanel
@@ -37,11 +50,19 @@ export default function PortfolioOverviewPanel(): JSX.Element {
           <span className="overlay-badge">{t('portfolio.overview.badge')}</span>
           <h2>{t('portfolio.overview.heading')}</h2>
         </div>
-        <Tooltip label={t('common.close') ?? ''}>
-          <button className="icon-btn" onClick={closeOverview} aria-label={t('common.close') ?? undefined}>
-            <IconClose size={15} />
-          </button>
-        </Tooltip>
+        <div className="portfolio-pane-header-actions">
+          <ExportReportButton
+            portfolioName={t('portfolio.overview.heading')}
+            rows={rows}
+            stats={risk.stats ?? ZERO_RISK_STATS}
+            classBreakdown={classBreakdown}
+          />
+          <Tooltip label={t('common.close') ?? ''}>
+            <button className="icon-btn" onClick={closeOverview} aria-label={t('common.close') ?? undefined}>
+              <IconClose size={15} />
+            </button>
+          </Tooltip>
+        </div>
       </div>
 
       <div className="overlay-body">

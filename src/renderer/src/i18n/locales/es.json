@@ -40,6 +40,13 @@
       "statusConfigured": "Configurado",
       "statusNotConfigured": "No configurado"
     },
+    "marketArchive": {
+      "heading": "Archivo de datos de mercado",
+      "intro": "Exporta todas las velas y noticias que esta app ha guardado localmente a un libro de Excel. Deja el símbolo en blanco para exportarlo todo, o indica uno para acotar la exportación.",
+      "symbolPlaceholder": "Déjalo en blanco para exportar todo lo guardado",
+      "exportBtn": "Exportar archivo",
+      "success": "Archivo guardado"
+    },
     "portfolioStyle": {
       "trigger": "Cambiar icono y color",
       "iconHeading": "Icono",
@@ -339,6 +346,12 @@
       "badge": "Resumen",
       "heading": "Todas las carteras",
       "emptyState": "Añade posiciones a una de tus carteras para ver aquí una vista combinada de todas tus posiciones."
+    },
+    "export": {
+      "button": "Exportar informe",
+      "success": "Informe guardado",
+      "canceled": "Cancelado",
+      "error": "Error al exportar"
     }
   },
   "card": {

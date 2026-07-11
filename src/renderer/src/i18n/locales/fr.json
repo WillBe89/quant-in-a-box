@@ -40,6 +40,13 @@
       "statusConfigured": "Configuré",
       "statusNotConfigured": "Non configuré"
     },
+    "marketArchive": {
+      "heading": "Archive des données de marché",
+      "intro": "Exportez toutes les bougies et actualités que l'application a enregistrées localement dans un classeur Excel. Laissez le symbole vide pour tout exporter, ou indiquez-en un pour restreindre l'export.",
+      "symbolPlaceholder": "Laissez vide pour tout exporter",
+      "exportBtn": "Exporter l'archive",
+      "success": "Archive enregistrée"
+    },
     "portfolioStyle": {
       "trigger": "Changer l'icône et la couleur",
       "iconHeading": "Icône",
@@ -339,6 +346,12 @@
       "badge": "Vue d'ensemble",
       "heading": "Tous les portefeuilles",
       "emptyState": "Ajoutez des positions à l'un de vos portefeuilles pour voir ici une vue combinée de toutes vos positions."
+    },
+    "export": {
+      "button": "Exporter le rapport",
+      "success": "Rapport enregistré",
+      "canceled": "Annulé",
+      "error": "Échec de l'export"
     }
   },
   "card": {

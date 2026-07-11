@@ -180,12 +180,15 @@ describe('localDb', () => {
         })
       })
 
-      it('getCandleHistoryForExport returns all candles for a symbol, optionally filtered by source', () => {
+      it('getCandleHistoryForExport returns all candles for a symbol, optionally filtered by source and/or timeframe', () => {
         localDb.storeCandles('finnhub', 'EXP', '1D', [{ time: 1, open: 1, high: 1, low: 1, close: 1, volume: 1 }])
+        localDb.storeCandles('finnhub', 'EXP', '1Y', [{ time: 3, open: 3, high: 3, low: 3, close: 3, volume: 3 }])
         localDb.storeCandles('twelvedata', 'EXP', '1D', [{ time: 2, open: 2, high: 2, low: 2, close: 2, volume: 2 }])
-        expect(localDb.getCandleHistoryForExport('EXP')).toHaveLength(2)
-        expect(localDb.getCandleHistoryForExport('EXP', 'finnhub')).toHaveLength(1)
-        expect(localDb.getCandleHistoryForExport('EXP', 'finnhub')[0].time).toBe(1)
+        expect(localDb.getCandleHistoryForExport('EXP')).toHaveLength(3)
+        expect(localDb.getCandleHistoryForExport('EXP', 'finnhub')).toHaveLength(2)
+        expect(localDb.getCandleHistoryForExport('EXP', 'finnhub', '1D')).toHaveLength(1)
+        expect(localDb.getCandleHistoryForExport('EXP', 'finnhub', '1D')[0].time).toBe(1)
+        expect(localDb.getCandleHistoryForExport('EXP', 'finnhub', '1Y')[0].time).toBe(3)
       })
 
       it('getNewsForExport returns all news, optionally filtered by symbolsKey', () => {

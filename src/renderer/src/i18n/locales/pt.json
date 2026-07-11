@@ -40,6 +40,13 @@
       "statusConfigured": "Configurado",
       "statusNotConfigured": "Não configurado"
     },
+    "marketArchive": {
+      "heading": "Arquivo de dados de mercado",
+      "intro": "Exporte todas as velas e notícias que esta aplicação guardou localmente para um livro Excel. Deixe o símbolo em branco para exportar tudo, ou indique um para limitar a exportação.",
+      "symbolPlaceholder": "Deixe em branco para exportar tudo o que está guardado",
+      "exportBtn": "Exportar arquivo",
+      "success": "Arquivo guardado"
+    },
     "portfolioStyle": {
       "trigger": "Alterar ícone e cor",
       "iconHeading": "Ícone",
@@ -339,6 +346,12 @@
       "badge": "Visão geral",
       "heading": "Todas as carteiras",
       "emptyState": "Adicione posições a uma das suas carteiras para ver aqui uma visão combinada de todas as suas posições."
+    },
+    "export": {
+      "button": "Exportar relatório",
+      "success": "Relatório guardado",
+      "canceled": "Cancelado",
+      "error": "Falha ao exportar"
     }
   },
   "card": {
