@@ -82,7 +82,14 @@
     "rsiLabel": "RSI (14)",
     "macdLabel": "MACD (12, 26, 9)",
     "volLabel": "Vol",
-    "maLabel": "MA"
+    "maLabel": "MA",
+    "template": {
+      "single": "1 gráfico",
+      "twoEqual": "2 gráficos",
+      "twoFocus": "Foco + 1",
+      "threeEqual": "3 gráficos",
+      "threeGrid": "Cuadrícula 1+2"
+    }
   },
   "dock": {
     "risk": {

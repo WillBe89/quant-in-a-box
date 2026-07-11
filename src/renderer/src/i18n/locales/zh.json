@@ -82,7 +82,14 @@
     "rsiLabel": "RSI (14)",
     "macdLabel": "MACD (12, 26, 9)",
     "volLabel": "成交量",
-    "maLabel": "MA"
+    "maLabel": "MA",
+    "template": {
+      "single": "1 张图表",
+      "twoEqual": "2 张图表",
+      "twoFocus": "主图 + 1",
+      "threeEqual": "3 张图表",
+      "threeGrid": "1+2 网格"
+    }
   },
   "dock": {
     "risk": {

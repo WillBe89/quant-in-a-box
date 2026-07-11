@@ -82,7 +82,14 @@
     "rsiLabel": "RSI (14)",
     "macdLabel": "MACD (12, 26, 9)",
     "volLabel": "Vol",
-    "maLabel": "MA"
+    "maLabel": "MA",
+    "template": {
+      "single": "1 กราฟ",
+      "twoEqual": "2 กราฟ",
+      "twoFocus": "โฟกัส + 1",
+      "threeEqual": "3 กราฟ",
+      "threeGrid": "กริด 1+2"
+    }
   },
   "dock": {
     "risk": {

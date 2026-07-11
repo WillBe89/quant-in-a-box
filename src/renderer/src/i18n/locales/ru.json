@@ -82,7 +82,14 @@
     "rsiLabel": "RSI (14)",
     "macdLabel": "MACD (12, 26, 9)",
     "volLabel": "Объём",
-    "maLabel": "MA"
+    "maLabel": "MA",
+    "template": {
+      "single": "1 график",
+      "twoEqual": "2 графика",
+      "twoFocus": "Фокус + 1",
+      "threeEqual": "3 графика",
+      "threeGrid": "Сетка 1+2"
+    }
   },
   "dock": {
     "risk": {

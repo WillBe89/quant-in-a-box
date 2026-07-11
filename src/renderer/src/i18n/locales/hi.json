@@ -82,7 +82,14 @@
     "rsiLabel": "RSI (14)",
     "macdLabel": "MACD (12, 26, 9)",
     "volLabel": "वॉल्यूम",
-    "maLabel": "MA"
+    "maLabel": "MA",
+    "template": {
+      "single": "1 चार्ट",
+      "twoEqual": "2 चार्ट",
+      "twoFocus": "फ़ोकस + 1",
+      "threeEqual": "3 चार्ट",
+      "threeGrid": "1 + 2 ग्रिड"
+    }
   },
   "dock": {
     "risk": {

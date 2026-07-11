@@ -11,10 +11,53 @@ const LANGUAGE_STORAGE_KEY = 'qiab:language:v1'
 const TICKER_SOURCE_STORAGE_KEY = 'qiab:tickerSource:v1'
 const NEWS_SOURCE_STORAGE_KEY = 'qiab:newsSource:v1'
 const DOCK_LAYOUT_STORAGE_KEY = 'qiab:dockLayout:v1'
+const LAYOUT_TEMPLATE_STORAGE_KEY = 'qiab:layoutTemplate:v1'
+const CHART_SLOTS_STORAGE_KEY = 'qiab:chartSlots:v1'
+const FOCUSED_SLOT_STORAGE_KEY = 'qiab:focusedSlot:v1'
 
 export type TickerSource = 'watchlist' | 'portfolio' | 'all'
 export type NewsSource = 'selected' | 'watchlist' | 'portfolio'
 export type DockCardId = 'risk' | 'options' | 'news'
+
+export type LayoutTemplateId = 'single' | 'twoEqual' | 'twoFocus' | 'threeEqual' | 'threeGrid'
+const LAYOUT_TEMPLATE_IDS: LayoutTemplateId[] = ['single', 'twoEqual', 'twoFocus', 'threeEqual', 'threeGrid']
+
+export interface ChartSlotState {
+  id: string
+  symbol: Asset
+  timeframe: Timeframe
+  indicators: Record<IndicatorId, boolean>
+}
+
+const SLOT_IDS = ['slot-0', 'slot-1', 'slot-2'] as const
+const VALID_TIMEFRAMES: Timeframe[] = ['1D', '1W', '1M', '3M', '1Y', '5Y']
+
+function isSlotId(x: unknown): x is (typeof SLOT_IDS)[number] {
+  return x === 'slot-0' || x === 'slot-1' || x === 'slot-2'
+}
+
+function isTimeframe(x: unknown): x is Timeframe {
+  return typeof x === 'string' && (VALID_TIMEFRAMES as string[]).includes(x)
+}
+
+function defaultIndicators(): Record<IndicatorId, boolean> {
+  return { ma20: true, ma50: false, boll: false, rsi: false, macd: false }
+}
+
+/** Slot 0 keeps today's exact startup default (first curated stock) so existing users see no
+ *  change until they actually switch templates; slots 1/2 default to different asset classes
+ *  so a first-time 2/3-up view shows genuinely independent charts, not the same one 3x. */
+function defaultChartSlots(): ChartSlotState[] {
+  const fallback = ASSETS_BY_CLASS.stocks[0]
+  const bySymbol = (ticker: string): Asset => ALL_ASSETS.find((a) => a.symbol === ticker) ?? fallback
+  const defaults = [fallback, bySymbol('BTC'), bySymbol('US10Y')]
+  return SLOT_IDS.map((id, i) => ({
+    id,
+    symbol: defaults[i],
+    timeframe: '1M' as Timeframe,
+    indicators: defaultIndicators()
+  }))
+}
 
 export interface DockLayoutState {
   order: DockCardId[]
@@ -117,6 +160,62 @@ function loadPortfolios(): Portfolio[] {
   return []
 }
 
+function loadLayoutTemplate(): LayoutTemplateId {
+  try {
+    const raw = localStorage.getItem(LAYOUT_TEMPLATE_STORAGE_KEY)
+    if (raw && (LAYOUT_TEMPLATE_IDS as string[]).includes(raw)) return raw as LayoutTemplateId
+  } catch {
+    // fall through to default
+  }
+  return 'single'
+}
+
+interface StoredChartSlot {
+  id: string
+  symbolTicker: string
+  timeframe: Timeframe
+  indicators: Record<IndicatorId, boolean>
+}
+
+function loadChartSlots(): ChartSlotState[] {
+  const defaults = defaultChartSlots()
+  try {
+    const raw = localStorage.getItem(CHART_SLOTS_STORAGE_KEY)
+    if (raw) {
+      const parsed: StoredChartSlot[] = JSON.parse(raw)
+      if (Array.isArray(parsed)) {
+        return defaults.map((def) => {
+          const stored = parsed.find((p) => p && p.id === def.id)
+          if (!stored) return def
+          const asset = ALL_ASSETS.find((a) => a.symbol === stored.symbolTicker)
+          return {
+            id: def.id,
+            symbol: asset ?? def.symbol,
+            timeframe: isTimeframe(stored.timeframe) ? stored.timeframe : def.timeframe,
+            indicators:
+              stored.indicators && typeof stored.indicators === 'object'
+                ? { ...def.indicators, ...stored.indicators }
+                : def.indicators
+          }
+        })
+      }
+    }
+  } catch {
+    // fall through to defaults
+  }
+  return defaults
+}
+
+function loadFocusedSlotId(): string {
+  try {
+    const raw = localStorage.getItem(FOCUSED_SLOT_STORAGE_KEY)
+    if (raw && isSlotId(raw)) return raw
+  } catch {
+    // fall through to default
+  }
+  return 'slot-0'
+}
+
 function loadWatchlist(): Asset[] {
   try {
     const raw = localStorage.getItem(WATCHLIST_STORAGE_KEY)
@@ -179,6 +278,14 @@ interface AppState {
   closeCardOverlay: () => void
   settingsVersion: number
   bumpSettingsVersion: () => void
+  layoutTemplate: LayoutTemplateId
+  setLayoutTemplate: (tpl: LayoutTemplateId) => void
+  chartSlots: ChartSlotState[]
+  focusedSlotId: string
+  setFocusedSlotId: (id: string) => void
+  setSlotSymbol: (slotId: string, asset: Asset) => void
+  setSlotTimeframe: (slotId: string, tf: Timeframe) => void
+  toggleSlotIndicator: (slotId: string, id: IndicatorId) => void
 }
 
 export interface DockLayoutContextValue {
@@ -194,15 +301,16 @@ const DockLayoutCtx = createContext<DockLayoutContextValue | null>(null)
 
 export function AppStateProvider({ children }: { children: React.ReactNode }): JSX.Element {
   const [assetClass, setAssetClassState] = useState<AssetClass | 'all'>('all')
-  const [symbol, setSymbol] = useState<Asset>(ASSETS_BY_CLASS.stocks[0])
-  const [timeframe, setTimeframe] = useState<Timeframe>('1M')
-  const [indicators, setIndicators] = useState<Record<IndicatorId, boolean>>({
-    ma20: true,
-    ma50: false,
-    boll: false,
-    rsi: false,
-    macd: false
-  })
+  const [layoutTemplate, setLayoutTemplateState] = useState<LayoutTemplateId>(() => loadLayoutTemplate())
+  const [chartSlots, setChartSlots] = useState<ChartSlotState[]>(() => loadChartSlots())
+  const [focusedSlotId, setFocusedSlotIdState] = useState<string>(() => loadFocusedSlotId())
+  const focusedSlot = useMemo(
+    () => chartSlots.find((s) => s.id === focusedSlotId) ?? chartSlots[0],
+    [chartSlots, focusedSlotId]
+  )
+  const symbol = focusedSlot.symbol
+  const timeframe = focusedSlot.timeframe
+  const indicators = focusedSlot.indicators
   const [watchlist, setWatchlist] = useState<Asset[]>(() => loadWatchlist())
   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
   const [academyOpen, setAcademyOpen] = useState(false)
@@ -269,17 +377,74 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
     }
   }, [dockLayout])
 
-  const setAssetClass = useCallback((klass: AssetClass | 'all') => {
-    setAssetClassState(klass)
-    const list = klass === 'all' ? Object.values(ASSETS_BY_CLASS).flat() : ASSETS_BY_CLASS[klass]
-    if (list[0]) setSymbol(list[0])
+  useEffect(() => {
+    try {
+      localStorage.setItem(LAYOUT_TEMPLATE_STORAGE_KEY, layoutTemplate)
+    } catch {
+      // best-effort persistence; ignore quota/availability errors
+    }
+  }, [layoutTemplate])
+
+  useEffect(() => {
+    try {
+      const serializable: StoredChartSlot[] = chartSlots.map((s) => ({
+        id: s.id,
+        symbolTicker: s.symbol.symbol,
+        timeframe: s.timeframe,
+        indicators: s.indicators
+      }))
+      localStorage.setItem(CHART_SLOTS_STORAGE_KEY, JSON.stringify(serializable))
+    } catch {
+      // best-effort persistence; ignore quota/availability errors
+    }
+  }, [chartSlots])
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(FOCUSED_SLOT_STORAGE_KEY, focusedSlotId)
+    } catch {
+      // best-effort persistence; ignore quota/availability errors
+    }
+  }, [focusedSlotId])
+
+  const setLayoutTemplate = useCallback((tpl: LayoutTemplateId) => setLayoutTemplateState(tpl), [])
+  const setFocusedSlotId = useCallback((id: string) => setFocusedSlotIdState(id), [])
+
+  const setSlotSymbol = useCallback((slotId: string, asset: Asset) => {
+    setChartSlots((prev) => prev.map((s) => (s.id === slotId ? { ...s, symbol: asset } : s)))
+  }, [])
+  const setSlotTimeframe = useCallback((slotId: string, tf: Timeframe) => {
+    setChartSlots((prev) => prev.map((s) => (s.id === slotId ? { ...s, timeframe: tf } : s)))
+  }, [])
+  const toggleSlotIndicator = useCallback((slotId: string, id: IndicatorId) => {
+    setChartSlots((prev) =>
+      prev.map((s) => (s.id === slotId ? { ...s, indicators: { ...s.indicators, [id]: !s.indicators[id] } } : s))
+    )
   }, [])
 
-  const selectSymbol = useCallback((asset: Asset) => setSymbol(asset), [])
+  // symbol/timeframe/indicators (and their setters below) always target the currently-focused
+  // chart slot — every existing consumer (dock cards, Topbar search/class chips) keeps working
+  // unchanged, it just now reads/writes "whichever chart is focused" instead of one fixed global.
+  const setAssetClass = useCallback(
+    (klass: AssetClass | 'all') => {
+      setAssetClassState(klass)
+      const list = klass === 'all' ? Object.values(ASSETS_BY_CLASS).flat() : ASSETS_BY_CLASS[klass]
+      if (list[0]) setSlotSymbol(focusedSlotId, list[0])
+    },
+    [focusedSlotId, setSlotSymbol]
+  )
 
-  const toggleIndicator = useCallback((id: IndicatorId) => {
-    setIndicators((prev) => ({ ...prev, [id]: !prev[id] }))
-  }, [])
+  const selectSymbol = useCallback((asset: Asset) => setSlotSymbol(focusedSlotId, asset), [focusedSlotId, setSlotSymbol])
+
+  const setTimeframe = useCallback(
+    (tf: Timeframe) => setSlotTimeframe(focusedSlotId, tf),
+    [focusedSlotId, setSlotTimeframe]
+  )
+
+  const toggleIndicator = useCallback(
+    (id: IndicatorId) => toggleSlotIndicator(focusedSlotId, id),
+    [focusedSlotId, toggleSlotIndicator]
+  )
 
   const toggleTheme = useCallback(() => setTheme((t) => (t === 'dark' ? 'light' : 'dark')), [])
 
@@ -462,7 +627,15 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       openCardOverlay,
       closeCardOverlay,
       settingsVersion,
-      bumpSettingsVersion
+      bumpSettingsVersion,
+      layoutTemplate,
+      setLayoutTemplate,
+      chartSlots,
+      focusedSlotId,
+      setFocusedSlotId,
+      setSlotSymbol,
+      setSlotTimeframe,
+      toggleSlotIndicator
     }),
     [
       assetClass,
@@ -507,7 +680,15 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       openCardOverlay,
       closeCardOverlay,
       settingsVersion,
-      bumpSettingsVersion
+      bumpSettingsVersion,
+      layoutTemplate,
+      setLayoutTemplate,
+      chartSlots,
+      focusedSlotId,
+      setFocusedSlotId,
+      setSlotSymbol,
+      setSlotTimeframe,
+      toggleSlotIndicator
     ]
   )
 

@@ -395,6 +395,50 @@
   min-width: 0;
   min-height: 0;
 }
+.layout-template-picker {
+  flex: none;
+  padding: 10px 22px 0;
+}
+.chart-slot-row {
+  flex: 1 1 auto;
+  display: flex;
+  gap: 10px;
+  min-height: 0;
+  padding: 4px 6px 6px;
+}
+.chart-slot {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  flex: 1 1 0%;
+}
+.chart-slot-row-twoFocus .chart-slot:nth-child(1) {
+  flex: 1 1 68%;
+}
+.chart-slot-row-twoFocus .chart-slot:nth-child(2) {
+  flex: 1 1 32%;
+}
+.chart-slot-row-threeGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+}
+.chart-slot-row-threeGrid .chart-slot:nth-child(1) {
+  grid-column: 1 / span 2;
+  grid-row: 1;
+}
+.chart-slot-row-threeGrid .chart-slot:nth-child(2) {
+  grid-column: 1;
+  grid-row: 2;
+}
+.chart-slot-row-threeGrid .chart-slot:nth-child(3) {
+  grid-column: 2;
+  grid-row: 2;
+}
+.chart-slot-row:not(.chart-slot-row-single) .chart-slot.focused .chart-wrap {
+  border-color: var(--accent-b);
+}
 .symbol-header {
   display: flex;
   align-items: baseline;

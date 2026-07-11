@@ -82,7 +82,14 @@
     "rsiLabel": "RSI (14)",
     "macdLabel": "MACD (12, 26, 9)",
     "volLabel": "الحجم",
-    "maLabel": "MA"
+    "maLabel": "MA",
+    "template": {
+      "single": "رسم بياني واحد",
+      "twoEqual": "رسمان بيانيان",
+      "twoFocus": "تركيز + 1",
+      "threeEqual": "3 رسوم بيانية",
+      "threeGrid": "شبكة 1+2"
+    }
   },
   "dock": {
     "risk": {
