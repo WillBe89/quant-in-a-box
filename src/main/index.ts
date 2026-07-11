@@ -14,6 +14,7 @@ import {
   getStoredSymbolsSummary,
   getCandleHistoryForExport,
   getNewsForExport,
+  getStoredCandlesBefore,
   type Candle,
   type CompanyProfile,
   type NewsItem
@@ -100,6 +101,12 @@ app.whenReady().then(() => {
     async (_event, source: string, symbol: string, timeframe: string, candles: Candle[]) => {
       storeCandles(source, symbol, timeframe, candles)
     }
+  )
+
+  ipcMain.handle(
+    'data:getStoredCandlesBefore',
+    async (_event, source: string, symbol: string, timeframe: string, beforeTimeUnix: number, limit: number) =>
+      getStoredCandlesBefore(source, symbol, timeframe, beforeTimeUnix, limit)
   )
 
   ipcMain.handle('data:getCachedNews', async (_event, symbolsKey: string, maxAgeMs: number) =>

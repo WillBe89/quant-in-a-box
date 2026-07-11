@@ -48,6 +48,24 @@
       "exportBtn": "Exporter l'archive",
       "success": "Archive enregistrée"
     },
+    "historyDownload": {
+      "heading": "Télécharger des données historiques",
+      "intro": "Récupérez des années d'historique de prix quotidiens pour une action directement depuis Finnhub et enregistrez-les localement, pour qu'un retour en arrière sur le graphique les affiche instantanément la prochaine fois — sans appels en direct répétés. Cela ne fonctionne qu'avec les actions ; l'endpoint de bougies utilisé ici ne couvre ni les cryptos, ni les obligations, ni le forex, ni l'immobilier.",
+      "symbolPlaceholder": "Rechercher une action — AAPL, MSFT…",
+      "unsupportedAssetClass": "Actions uniquement — ce téléchargement ne prend pas en charge les autres classes d'actifs.",
+      "yearsLabel": "Années d'historique",
+      "estimateOneCall": "environ 1 appel à l'API Finnhub",
+      "estimateManyCalls": "environ {{calls}} appels à l'API Finnhub",
+      "downloadBtn_one": "Télécharger {{count}} an d'historique pour {{symbol}} ({{estimate}})",
+      "downloadBtn_other": "Télécharger {{count}} ans d'historique pour {{symbol}} ({{estimate}})",
+      "downloadBtnIdle": "Choisissez une action pour voir l'estimation de téléchargement",
+      "downloading": "Téléchargement…",
+      "noKeyMessage": "Ajoutez une clé API Finnhub ci-dessus pour activer les téléchargements historiques — cette fonctionnalité ne fonctionne jamais avec des données simulées.",
+      "success": "Téléchargement terminé — l'historique est maintenant enregistré localement.",
+      "errorForbidden": "Finnhub a renvoyé 403 Forbidden. La question de savoir si son offre gratuite autorise même cet endpoint reste ouverte — ce n'est pas forcément un problème lié à votre clé.",
+      "errorRateLimited": "Finnhub a renvoyé 429 — vous avez atteint sa limite de requêtes. Patientez un instant puis réessayez.",
+      "errorGeneric": "Le téléchargement a échoué et rien n'a été enregistré localement — aucune donnée simulée n'a été substituée."
+    },
     "glass": {
       "heading": "Apparence en verre",
       "intro": "Choisissez la part de l'interface qui flotte sous forme de verre translucide au-dessus de l'arrière-plan. Le dégradé de fond en douceur reste toujours actif.",

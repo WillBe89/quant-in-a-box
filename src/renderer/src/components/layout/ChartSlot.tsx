@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { RefObject } from 'react'
 import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
@@ -79,6 +79,12 @@ export default function ChartSlot({
   } = useAppState()
   const slot = chartSlots.find((s) => s.id === slotId)
   const [candles, setCandles] = useState<Candle[]>([])
+  // Mirrors `slot`/`candles` so handleScrollNearOldestEdge (passed to PriceChart, whose
+  // chart-creation effect captures it once and never re-subscribes on prop changes — see
+  // PriceChart.tsx) always reads the current symbol/timeframe/oldest-bar instead of whatever was
+  // current the one time the chart instance itself was (re)created.
+  const slotRef = useRef(slot)
+  const candlesRef = useRef(candles)
   const [hover, setHover] = useState<ChartHoverInfo | null>(null)
   const [searchOpen, setSearchOpen] = useState(false)
   const [insightOpen, setInsightOpen] = useState(false)
@@ -137,6 +143,34 @@ export default function ChartSlot({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slot?.symbol, slot?.timeframe])
+
+  useEffect(() => {
+    slotRef.current = slot
+  }, [slot])
+  useEffect(() => {
+    candlesRef.current = candles
+  }, [candles])
+
+  // Reads whatever's already sitting in local SQLite — from an earlier explicit bulk download
+  // (see the Customize panel's "Download historical data" section / historyDownload.ts), or just
+  // accumulated from browsing other timeframe views of the same symbol — and prepends it in
+  // front of what's currently loaded. Zero new network calls: this only ever reads what's
+  // already stored, and does nothing further if there's nothing more to find. Bulk downloads are
+  // Finnhub-only (see historyDownload.ts), and for the stocks class this feature targets, the
+  // ordinary per-view fetch path also always stores under 'finnhub' (see
+  // ReactiveDataService.pickLiveService in dataService.ts — TwelveData is only ever preferred
+  // for bonds/fx), so 'finnhub' is the one source key worth checking here.
+  const handleScrollNearOldestEdge = useCallback(() => {
+    const currentSlot = slotRef.current
+    const oldest = candlesRef.current[0]?.time
+    if (!currentSlot || oldest == null) return
+    window.api
+      ?.getStoredCandlesBefore('finnhub', currentSlot.symbol.symbol, currentSlot.timeframe, oldest, 500)
+      .then((more) => {
+        if (more && more.length > 0) setCandles((prev) => [...more, ...prev])
+      })
+      .catch(() => undefined)
+  }, [])
 
   if (!slot) return null
 
@@ -303,6 +337,7 @@ export default function ChartSlot({
           forecastMethod={slot.forecastMethod}
           theme={theme}
           onHover={setHover}
+          onScrollNearOldestEdge={handleScrollNearOldestEdge}
         />
         {hover && (
           <div className="readout">

@@ -14,6 +14,8 @@ const api = {
     ipcRenderer.invoke('data:getCachedCandles', source, symbol, timeframe, maxAgeMs),
   storeCandles: (source: string, symbol: string, timeframe: string, candles: Candle[]) =>
     ipcRenderer.invoke('data:storeCandles', source, symbol, timeframe, candles),
+  getStoredCandlesBefore: (source: string, symbol: string, timeframe: string, beforeTimeUnix: number, limit: number) =>
+    ipcRenderer.invoke('data:getStoredCandlesBefore', source, symbol, timeframe, beforeTimeUnix, limit),
   getCachedNews: (symbolsKey: string, maxAgeMs: number) =>
     ipcRenderer.invoke('data:getCachedNews', symbolsKey, maxAgeMs),
   storeNews: (symbolsKey: string, items: NewsItem[]) => ipcRenderer.invoke('data:storeNews', symbolsKey, items),

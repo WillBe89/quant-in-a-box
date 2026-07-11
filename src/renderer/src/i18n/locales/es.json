@@ -48,6 +48,24 @@
       "exportBtn": "Exportar archivo",
       "success": "Archivo guardado"
     },
+    "historyDownload": {
+      "heading": "Descargar datos históricos",
+      "intro": "Obtén años de historial de precios diarios de una acción directamente desde Finnhub y guárdalo localmente, para que al desplazarte hacia atrás en el gráfico aparezca al instante la próxima vez — sin llamadas en vivo repetidas. Esto solo funciona con acciones; el endpoint de velas usado aquí no cubre cripto, bonos, forex ni bienes raíces.",
+      "symbolPlaceholder": "Busca una acción — AAPL, MSFT…",
+      "unsupportedAssetClass": "Solo acciones — esta descarga no admite otras clases de activos.",
+      "yearsLabel": "Años de historial",
+      "estimateOneCall": "aproximadamente 1 llamada a la API de Finnhub",
+      "estimateManyCalls": "aproximadamente {{calls}} llamadas a la API de Finnhub",
+      "downloadBtn_one": "Descargar {{count}} año de historial de {{symbol}} ({{estimate}})",
+      "downloadBtn_other": "Descargar {{count}} años de historial de {{symbol}} ({{estimate}})",
+      "downloadBtnIdle": "Elige una acción para ver la estimación de descarga",
+      "downloading": "Descargando…",
+      "noKeyMessage": "Añade una clave API de Finnhub arriba para habilitar las descargas históricas — esta función nunca funciona con datos simulados.",
+      "success": "Descarga completa — el historial ya está guardado localmente.",
+      "errorForbidden": "Finnhub devolvió 403 Forbidden. Si su nivel gratuito siquiera permite este endpoint sigue siendo una pregunta abierta — no es necesariamente un problema con tu clave.",
+      "errorRateLimited": "Finnhub devolvió 429 — has alcanzado su límite de solicitudes. Espera un momento e inténtalo de nuevo.",
+      "errorGeneric": "La descarga falló y no se guardó nada localmente — no se sustituyó con datos simulados."
+    },
     "glass": {
       "heading": "Apariencia de cristal",
       "intro": "Elige cuánta parte de la interfaz flota como cristal translúcido sobre el fondo. El fondo con degradado suave siempre está activado.",

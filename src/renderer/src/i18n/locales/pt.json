@@ -48,6 +48,24 @@
       "exportBtn": "Exportar arquivo",
       "success": "Arquivo guardado"
     },
+    "historyDownload": {
+      "heading": "Transferir dados históricos",
+      "intro": "Obtenha anos de histórico de preços diários de uma ação diretamente do Finnhub e guarde-o localmente, para que ao recuar no gráfico este apareça instantaneamente da próxima vez — sem chamadas em tempo real repetidas. Isto só funciona com ações; o endpoint de velas aqui utilizado não cobre cripto, obrigações, câmbio ou imobiliário.",
+      "symbolPlaceholder": "Procure uma ação — AAPL, MSFT…",
+      "unsupportedAssetClass": "Apenas ações — esta transferência não é compatível com outras classes de ativos.",
+      "yearsLabel": "Anos de histórico",
+      "estimateOneCall": "cerca de 1 chamada à API do Finnhub",
+      "estimateManyCalls": "cerca de {{calls}} chamadas à API do Finnhub",
+      "downloadBtn_one": "Transferir {{count}} ano de histórico de {{symbol}} ({{estimate}})",
+      "downloadBtn_other": "Transferir {{count}} anos de histórico de {{symbol}} ({{estimate}})",
+      "downloadBtnIdle": "Escolha uma ação para ver a estimativa de transferência",
+      "downloading": "A transferir…",
+      "noKeyMessage": "Adicione uma chave de API do Finnhub acima para ativar as transferências históricas — esta funcionalidade nunca funciona com dados simulados.",
+      "success": "Transferência concluída — o histórico já está guardado localmente.",
+      "errorForbidden": "O Finnhub devolveu 403 Forbidden. Se o seu nível gratuito sequer permite este endpoint continua a ser uma questão em aberto — não é necessariamente um problema com a sua chave.",
+      "errorRateLimited": "O Finnhub devolveu 429 — atingiu o limite de pedidos. Aguarde um pouco e tente novamente.",
+      "errorGeneric": "A transferência falhou e nada foi guardado localmente — não foi substituído por dados simulados."
+    },
     "glass": {
       "heading": "Aparência em vidro",
       "intro": "Escolha quanto da interface flutua como vidro translúcido sobre o fundo. O fundo com gradiente suave permanece sempre ativo.",

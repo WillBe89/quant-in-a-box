@@ -78,6 +78,65 @@ describe('localDb', () => {
       })
     })
 
+    describe('getStoredCandlesBefore', () => {
+      it('returns an empty array when the table has nothing for that key', () => {
+        expect(localDb.getStoredCandlesBefore('finnhub', 'NOPE', '1Y', 1_000, 10)).toEqual([])
+      })
+
+      it('returns only rows strictly older than the cursor, ascending by time', () => {
+        localDb.storeCandles('finnhub', 'HIST', '1Y', [
+          { time: 100, open: 1, high: 1, low: 1, close: 1, volume: 1 },
+          { time: 200, open: 2, high: 2, low: 2, close: 2, volume: 2 },
+          { time: 300, open: 3, high: 3, low: 3, close: 3, volume: 3 },
+          { time: 400, open: 4, high: 4, low: 4, close: 4, volume: 4 }
+        ])
+        const result = localDb.getStoredCandlesBefore('finnhub', 'HIST', '1Y', 300, 10)
+        expect(result.map((c) => c.time)).toEqual([100, 200])
+      })
+
+      it('excludes the row exactly at the cursor — "before" is strict, not inclusive', () => {
+        localDb.storeCandles('finnhub', 'BOUND', '1Y', [
+          { time: 500, open: 5, high: 5, low: 5, close: 5, volume: 5 }
+        ])
+        expect(localDb.getStoredCandlesBefore('finnhub', 'BOUND', '1Y', 500, 10)).toEqual([])
+        expect(localDb.getStoredCandlesBefore('finnhub', 'BOUND', '1Y', 501, 10)).toHaveLength(1)
+      })
+
+      it('caps results at `limit`, keeping the rows nearest the cursor (still ascending)', () => {
+        localDb.storeCandles(
+          'finnhub',
+          'LIMIT',
+          '1Y',
+          Array.from({ length: 5 }, (_, i) => ({
+            time: (i + 1) * 100,
+            open: i,
+            high: i,
+            low: i,
+            close: i,
+            volume: i
+          }))
+        )
+        // Rows exist at 100..500; cursor at 600 with limit 2 should keep the two nearest
+        // (400, 500), not the two oldest.
+        const result = localDb.getStoredCandlesBefore('finnhub', 'LIMIT', '1Y', 600, 2)
+        expect(result.map((c) => c.time)).toEqual([400, 500])
+      })
+
+      it('keeps separate results per source/symbol/timeframe key, like the other candle queries', () => {
+        localDb.storeCandles('finnhub', 'KEYED', '1Y', [
+          { time: 10, open: 1, high: 1, low: 1, close: 1, volume: 1 }
+        ])
+        localDb.storeCandles('twelvedata', 'KEYED', '1Y', [
+          { time: 10, open: 9, high: 9, low: 9, close: 9, volume: 9 }
+        ])
+        localDb.storeCandles('finnhub', 'KEYED', '1D', [
+          { time: 10, open: 5, high: 5, low: 5, close: 5, volume: 5 }
+        ])
+        expect(localDb.getStoredCandlesBefore('finnhub', 'KEYED', '1Y', 20, 10)).toHaveLength(1)
+        expect(localDb.getStoredCandlesBefore('finnhub', 'KEYED', '1Y', 20, 10)[0].open).toBe(1)
+      })
+    })
+
     describe('news', () => {
       it('returns null when nothing is cached for a symbolsKey', () => {
         expect(localDb.getCachedNews('NFLX', 60_000)).toBeNull()

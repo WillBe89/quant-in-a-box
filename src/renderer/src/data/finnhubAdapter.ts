@@ -62,6 +62,63 @@ export async function fetchCandles(symbol: string, timeframe: Timeframe): Promis
   return candles
 }
 
+/**
+ * Thrown by `fetchCandlesInRange` on any non-2xx response, carrying the real HTTP status so
+ * callers can tell a 403 (plan/tier problem — Finnhub's free tier may not permit `/stock/candle`
+ * at all, an open question as of writing) apart from a 429 (rate limited) apart from anything
+ * else. Also thrown (with the 2xx status that produced it) when Finnhub's response body itself
+ * reports its documented "no data" sentinel (`s !== 'ok'`) — that case is a failure for this
+ * function's purposes too, not an empty-but-successful result.
+ */
+export class FinnhubCandleRangeError extends Error {
+  readonly status: number
+
+  constructor(status: number, message: string) {
+    super(message)
+    this.name = 'FinnhubCandleRangeError'
+    this.status = status
+  }
+}
+
+/**
+ * Explicit-range candle fetch for the bulk historical-download feature (see
+ * src/renderer/src/data/historyDownload.ts). Unlike `fetchCandles` above — which uses a fixed
+ * lookback window and silently returns `[]` on Finnhub's "no data" sentinel — this never
+ * substitutes an empty or synthetic result: any failure throws `FinnhubCandleRangeError` so the
+ * download flow can fail loudly and specifically instead of quietly doing nothing.
+ */
+export async function fetchCandlesInRange(
+  symbol: string,
+  resolution: string,
+  fromUnixSeconds: number,
+  toUnixSeconds: number
+): Promise<Candle[]> {
+  const url = `${BASE_URL}/stock/candle?symbol=${encodeURIComponent(symbol)}&resolution=${resolution}&from=${fromUnixSeconds}&to=${toUnixSeconds}&token=${apiKey()}`
+  const res = await fetch(url)
+  if (!res.ok) {
+    throw new FinnhubCandleRangeError(res.status, `Finnhub candle range fetch failed: HTTP ${res.status}`)
+  }
+  const data = await res.json()
+  if (data.s !== 'ok') {
+    throw new FinnhubCandleRangeError(
+      res.status,
+      `Finnhub returned no data for ${symbol} in the requested range (status: ${data.s})`
+    )
+  }
+  const candles: Candle[] = []
+  for (let i = 0; i < data.t.length; i++) {
+    candles.push({
+      time: data.t[i],
+      open: data.o[i],
+      high: data.h[i],
+      low: data.l[i],
+      close: data.c[i],
+      volume: data.v[i]
+    })
+  }
+  return candles
+}
+
 export async function fetchCompanyNews(symbol: string): Promise<NewsItem[]> {
   const to = new Date().toISOString().slice(0, 10)
   const from = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10)

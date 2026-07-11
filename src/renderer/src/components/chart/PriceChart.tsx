@@ -21,7 +21,16 @@ interface Props {
   forecastMethod: ForecastMethodId
   theme: 'dark' | 'light'
   onHover?: (info: ChartHoverInfo | null) => void
+  /** Fires while scrolling/zooming brings the visible range near the oldest currently-loaded
+   *  bar. Purely a signal to go check for more *already-stored* local history (see ChartSlot's
+   *  loadMoreLocalHistory) — this component never fetches anything itself on this path. */
+  onScrollNearOldestEdge?: () => void
 }
+
+/** How close (in bars) the visible range's left edge has to get to logical index 0 — the
+ *  oldest currently-loaded bar — before `onScrollNearOldestEdge` fires. A few bars of slack so
+ *  it fires just *before* the user hits the hard edge, not only once they're already stuck there. */
+const OLDEST_EDGE_PROXIMITY_BARS = 5
 
 interface IndicatorCache {
   candles: Candle[]
@@ -58,7 +67,8 @@ export default function PriceChart({
   chartStyle,
   forecastMethod,
   theme,
-  onHover
+  onHover,
+  onScrollNearOldestEdge
 }: Props): JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null)
   const chartRef = useRef<IChartApi | null>(null)
@@ -241,6 +251,11 @@ export default function PriceChart({
       })
     })
 
+    chart.timeScale().subscribeVisibleLogicalRangeChange((range) => {
+      if (!onScrollNearOldestEdge || !range) return
+      if (range.from <= OLDEST_EDGE_PROXIMITY_BARS) onScrollNearOldestEdge()
+    })
+
     return () => {
       ro.disconnect()
       chart.remove()
@@ -253,6 +268,22 @@ export default function PriceChart({
   useEffect(() => {
     if (!mainSeriesRef.current || !volumeSeriesRef.current) return
     const colors = chartColors(theme)
+
+    // Detect the one case that must NOT reset the view: ChartSlot's loadMoreLocalHistory
+    // prepending older, already-stored bars onto the front of `candles` while the user is
+    // mid-scroll (see onScrollNearOldestEdge above). Recognized by the previous batch's bars
+    // reappearing unchanged, shifted later by some count — everything else (a symbol switch, a
+    // timeframe switch, a fresh live re-fetch) looks different from this and falls through to
+    // the normal fitContent() reset a few lines down.
+    const prevCandles = dataCacheRef.current.candles
+    const prependedCount =
+      prevCandles.length > 0 &&
+      candles.length > prevCandles.length &&
+      candles[candles.length - 1]?.time === prevCandles[prevCandles.length - 1]?.time &&
+      candles[candles.length - prevCandles.length]?.time === prevCandles[0]?.time
+        ? candles.length - prevCandles.length
+        : 0
+    const prevVisibleRange = prependedCount > 0 ? chartRef.current?.timeScale().getVisibleLogicalRange() : null
     const candleData = candles.map((c) => ({
       time: c.time as UTCTimestamp,
       open: c.open,
@@ -376,13 +407,25 @@ export default function PriceChart({
 
     dataCacheRef.current = { candles, ma20, ma50, bollUpper, bollLower }
 
-    // Re-enable autoScale on every data push, not just on chart creation: dragging the
-    // price scale by hand turns autoScale off for the life of the chart instance (it isn't
-    // recreated on a symbol switch, only re-fed data), so without this a manually-adjusted
-    // scale stays locked to the previous symbol's price range even after switching to a
-    // wildly different one, leaving the new candles rendered off-screen.
-    chartRef.current?.priceScale('right').applyOptions({ autoScale: true })
-    chartRef.current?.timeScale().fitContent()
+    if (prevVisibleRange) {
+      // Older local history just got prepended in front of what was already showing (see
+      // prependedCount above) — every existing bar's logical index shifted right by that many
+      // slots, so re-apply the same visible window, shifted the same amount, instead of
+      // fitContent()'s reset. The whole point of "reveal for free while scrolling" is that nothing
+      // visually jumps; only now there's more room to keep scrolling further back.
+      chartRef.current?.timeScale().setVisibleLogicalRange({
+        from: prevVisibleRange.from + prependedCount,
+        to: prevVisibleRange.to + prependedCount
+      })
+    } else {
+      // Re-enable autoScale on every other data push, not just on chart creation: dragging the
+      // price scale by hand turns autoScale off for the life of the chart instance (it isn't
+      // recreated on a symbol switch, only re-fed data), so without this a manually-adjusted
+      // scale stays locked to the previous symbol's price range even after switching to a
+      // wildly different one, leaving the new candles rendered off-screen.
+      chartRef.current?.priceScale('right').applyOptions({ autoScale: true })
+      chartRef.current?.timeScale().fitContent()
+    }
     const last = candles[candles.length - 1]
     onHover?.(
       last

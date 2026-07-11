@@ -48,6 +48,23 @@
       "exportBtn": "导出存档",
       "success": "存档已保存"
     },
+    "historyDownload": {
+      "heading": "下载历史数据",
+      "intro": "直接从 Finnhub 拉取某支股票多年的每日价格历史并保存在本地，这样下次在图表上向左滚动时可以立即显示，无需重复发起实时请求。此功能仅适用于股票；这里使用的K线接口不支持加密货币、债券、外汇或房地产。",
+      "symbolPlaceholder": "搜索股票 — AAPL、MSFT…",
+      "unsupportedAssetClass": "仅支持股票 — 本下载功能不支持其他资产类别。",
+      "yearsLabel": "历史年数",
+      "estimateOneCall": "约消耗 1 次 Finnhub API 调用",
+      "estimateManyCalls": "约消耗 {{calls}} 次 Finnhub API 调用",
+      "downloadBtn_other": "下载 {{symbol}} 近 {{count}} 年的历史数据（{{estimate}}）",
+      "downloadBtnIdle": "选择一支股票以查看下载预估",
+      "downloading": "下载中…",
+      "noKeyMessage": "请在上方添加 Finnhub API 密钥以启用历史数据下载 —— 该功能绝不会使用模拟数据运行。",
+      "success": "下载完成 —— 历史数据现已保存在本地。",
+      "errorForbidden": "Finnhub 返回了 403 Forbidden。其免费套餐是否允许调用此接口，目前仍是一个悬而未决的问题 —— 这未必是你的密钥本身的问题。",
+      "errorRateLimited": "Finnhub 返回了 429 —— 已达到调用频率限制，请稍等片刻后重试。",
+      "errorGeneric": "下载失败，本地未保存任何内容 —— 系统不会用模拟数据代替。"
+    },
     "glass": {
       "heading": "玻璃质感外观",
       "intro": "选择界面中有多少部分以半透明玻璃效果悬浮在背景之上。柔和的渐变背景本身始终保持开启。",

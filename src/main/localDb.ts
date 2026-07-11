@@ -167,6 +167,30 @@ export function getCachedCandles(
   return rows.map(({ time, open, high, low, close, volume }) => ({ time, open, high, low, close, volume }))
 }
 
+/** Returns whatever candle rows already exist for (source, symbol, timeframe) strictly older
+ *  than `beforeTimeUnix`, newest-first up to `limit` rows, then reordered ascending by time —
+ *  ready to prepend directly in front of whatever's currently loaded on the chart. Used by the
+ *  chart's "reveal already-downloaded history for free" scroll wiring: a pure local read, never
+ *  triggers a live fetch, and returns an empty array (not null) when nothing more is stored. */
+export function getStoredCandlesBefore(
+  source: string,
+  symbol: string,
+  timeframe: string,
+  beforeTimeUnix: number,
+  limit: number
+): Candle[] {
+  const conn = requireDb()
+  const rows = conn
+    .prepare<[string, string, string, number, number], CandleRow>(
+      `SELECT time, open, high, low, close, volume, fetched_at FROM candles
+       WHERE source = ? AND symbol = ? AND timeframe = ? AND time < ?
+       ORDER BY time DESC
+       LIMIT ?`
+    )
+    .all(source, symbol, timeframe, beforeTimeUnix, limit)
+  return rows.map(({ time, open, high, low, close, volume }) => ({ time, open, high, low, close, volume })).reverse()
+}
+
 /** Persists a batch of candles for (source, symbol, timeframe) in a single transaction,
  *  replacing any existing row at the same (source, symbol, timeframe, time) key. */
 export function storeCandles(source: string, symbol: string, timeframe: string, candles: Candle[]): void {

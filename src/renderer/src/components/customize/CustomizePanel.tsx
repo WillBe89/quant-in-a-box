@@ -17,6 +17,8 @@ import {
   setTwelveDataKey,
   clearTwelveDataKey
 } from '@renderer/data/apiKeyStore'
+import { estimateCandleDownloadCalls, downloadHistoricalCandles } from '@renderer/data/historyDownload'
+import { FinnhubCandleRangeError } from '@renderer/data/finnhubAdapter'
 import type { Asset } from '@renderer/types/market'
 import { IconClose } from '@renderer/components/icons/Icons'
 import { resolvePortfolioIcon, resolvePortfolioColor } from '@renderer/lib/portfolioStyle'
@@ -200,6 +202,10 @@ type ArchiveExportStatus = 'success' | 'canceled' | 'error' | null
 
 const ARCHIVE_STATUS_CLEAR_MS = 4000
 
+const HISTORY_DOWNLOAD_YEAR_PRESETS = [1, 2, 5, 10, 20]
+
+type HistoryDownloadStatus = 'idle' | 'loading' | 'success' | 'forbidden' | 'rateLimited' | 'error'
+
 export default function CustomizePanel(): JSX.Element {
   const { t } = useTranslation()
   const {
@@ -222,6 +228,10 @@ export default function CustomizePanel(): JSX.Element {
   const [anthropicConfigured, setAnthropicConfigured] = useState(false)
   const [archiveSymbol, setArchiveSymbol] = useState('')
   const [archiveStatus, setArchiveStatus] = useState<ArchiveExportStatus>(null)
+  const [historyQuery, setHistoryQuery] = useState('')
+  const [historySelected, setHistorySelected] = useState<Asset | null>(null)
+  const [historyYears, setHistoryYears] = useState<number>(5)
+  const [historyStatus, setHistoryStatus] = useState<HistoryDownloadStatus>('idle')
 
   useEffect(() => {
     let cancelled = false
@@ -241,6 +251,18 @@ export default function CustomizePanel(): JSX.Element {
     const available = ALL_ASSETS.filter((a) => !watchlist.some((w) => w.symbol === a.symbol))
     return searchAssets(available, query)
   }, [query, watchlist])
+
+  // Finnhub's /stock/candle endpoint (what the bulk download and the ordinary per-view fetch
+  // both use) only ever applies to the 'stocks' asset class in this app — pre-filtering here,
+  // rather than merely warning after the fact, means the picker can never surface a symbol the
+  // download would just fail on anyway.
+  const stockOnlyAssets = useMemo(() => ALL_ASSETS.filter((a) => a.klass === 'stocks'), [])
+  const historyMatches = useMemo(
+    () => (historySelected ? [] : searchAssets(stockOnlyAssets, historyQuery)),
+    [historyQuery, historySelected, stockOnlyAssets]
+  )
+  const hasFinnhubKey = Boolean(getFinnhubKey())
+  const historyCalls = estimateCandleDownloadCalls(historyYears)
 
   function handleAdd(): void {
     if (!selected) return
@@ -265,6 +287,27 @@ export default function CustomizePanel(): JSX.Element {
       flashArchiveStatus('canceled')
     } else {
       flashArchiveStatus('error')
+    }
+  }
+
+  // Deliberately no auto-clearing timer here (unlike flashArchiveStatus above) — the three
+  // distinct error messages this can land on exist specifically so Will can read exactly what
+  // went wrong (403 vs 429 vs something else) once a real key is configured; racing that against
+  // a few-second timeout would undercut the point of having distinct messages at all.
+  async function handleHistoryDownload(): Promise<void> {
+    if (!historySelected || !hasFinnhubKey || historyStatus === 'loading') return
+    setHistoryStatus('loading')
+    try {
+      await downloadHistoricalCandles({ symbol: historySelected.symbol, years: historyYears })
+      setHistoryStatus('success')
+    } catch (err) {
+      if (err instanceof FinnhubCandleRangeError) {
+        if (err.status === 403) setHistoryStatus('forbidden')
+        else if (err.status === 429) setHistoryStatus('rateLimited')
+        else setHistoryStatus('error')
+      } else {
+        setHistoryStatus('error')
+      }
     }
   }
 
@@ -472,6 +515,102 @@ export default function CustomizePanel(): JSX.Element {
                 : t('portfolio.export.canceled')}
           </p>
         )}
+
+        <h3 className="customize-section-heading customize-section-spaced">
+          {t('customize.historyDownload.heading')}
+        </h3>
+        <p className="customize-intro">{t('customize.historyDownload.intro')}</p>
+
+        {!hasFinnhubKey && (
+          <p className="history-download-nokey">{t('customize.historyDownload.noKeyMessage')}</p>
+        )}
+
+        <div className={'history-download' + (hasFinnhubKey ? '' : ' disabled')}>
+          <div className="customize-add">
+            <div className="customize-add-field">
+              <input
+                type="text"
+                placeholder={t('customize.historyDownload.symbolPlaceholder') ?? undefined}
+                value={historySelected ? historySelected.symbol : historyQuery}
+                disabled={!hasFinnhubKey}
+                onChange={(e) => {
+                  setHistorySelected(null)
+                  setHistoryQuery(e.target.value)
+                  setHistoryStatus('idle')
+                }}
+              />
+              {historyMatches.length > 0 && (
+                <div className="customize-add-results">
+                  {historyMatches.map((a) => (
+                    <button
+                      key={a.symbol}
+                      onClick={() => {
+                        setHistorySelected(a)
+                        setHistoryStatus('idle')
+                      }}
+                    >
+                      <span className="sr-sym">{a.symbol}</span>
+                      <span className="sr-name">{a.name}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+          <p className="history-download-note">{t('customize.historyDownload.unsupportedAssetClass')}</p>
+
+          <p className="history-download-years-label">{t('customize.historyDownload.yearsLabel')}</p>
+          <div className="customize-segmented">
+            {HISTORY_DOWNLOAD_YEAR_PRESETS.map((y) => (
+              <button
+                key={y}
+                className={'customize-segmented-item' + (historyYears === y ? ' active' : '')}
+                disabled={!hasFinnhubKey}
+                onClick={() => {
+                  setHistoryYears(y)
+                  setHistoryStatus('idle')
+                }}
+              >
+                {y}Y
+              </button>
+            ))}
+          </div>
+
+          <button
+            className="customize-add-btn history-download-btn"
+            disabled={!hasFinnhubKey || !historySelected || historyStatus === 'loading'}
+            onClick={() => handleHistoryDownload()}
+          >
+            {historyStatus === 'loading'
+              ? t('customize.historyDownload.downloading')
+              : historySelected
+                ? t('customize.historyDownload.downloadBtn', {
+                    count: historyYears,
+                    symbol: historySelected.symbol,
+                    estimate:
+                      historyCalls === 1
+                        ? t('customize.historyDownload.estimateOneCall')
+                        : t('customize.historyDownload.estimateManyCalls', { calls: historyCalls })
+                  })
+                : t('customize.historyDownload.downloadBtnIdle')}
+          </button>
+
+          {historyStatus !== 'idle' && historyStatus !== 'loading' && (
+            <p
+              className={
+                'history-download-status' + (historyStatus === 'success' ? ' ok' : ' err')
+              }
+            >
+              {historyStatus === 'success'
+                ? t('customize.historyDownload.success')
+                : historyStatus === 'forbidden'
+                  ? t('customize.historyDownload.errorForbidden')
+                  : historyStatus === 'rateLimited'
+                    ? t('customize.historyDownload.errorRateLimited')
+                    : t('customize.historyDownload.errorGeneric')}
+            </p>
+          )}
+        </div>
 
         <h3 className="customize-section-heading customize-section-spaced">{t('customize.glass.heading')}</h3>
         <p className="customize-intro">{t('customize.glass.intro')}</p>

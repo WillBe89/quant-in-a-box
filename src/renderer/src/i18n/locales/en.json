@@ -108,6 +108,24 @@
       "exportBtn": "Export archive",
       "success": "Archive saved"
     },
+    "historyDownload": {
+      "heading": "Download historical data",
+      "intro": "Pull years of daily price history for one stock straight from Finnhub and store it locally, so scrolling back on the chart reveals it instantly next time — no repeated live calls. This only works for stocks; the candle endpoint used here doesn't cover crypto, bonds, FX, or real estate.",
+      "symbolPlaceholder": "Search for a stock — AAPL, MSFT…",
+      "unsupportedAssetClass": "Stocks only — other asset classes aren't supported by this download.",
+      "yearsLabel": "Years of history",
+      "estimateOneCall": "about 1 Finnhub API call",
+      "estimateManyCalls": "about {{calls}} Finnhub API calls",
+      "downloadBtn_one": "Download {{count}} year of history for {{symbol}} ({{estimate}})",
+      "downloadBtn_other": "Download {{count}} years of history for {{symbol}} ({{estimate}})",
+      "downloadBtnIdle": "Pick a stock to see the download estimate",
+      "downloading": "Downloading…",
+      "noKeyMessage": "Add a Finnhub API key above to enable historical downloads — this feature never runs on mock data.",
+      "success": "Download complete — the history is now stored locally.",
+      "errorForbidden": "Finnhub returned 403 Forbidden. Whether its free tier even permits this endpoint at all is still an open question — this isn't necessarily a problem with your key.",
+      "errorRateLimited": "Finnhub returned 429 — you've hit its rate limit. Wait a bit and try again.",
+      "errorGeneric": "The download failed, and nothing was saved locally — no mock data was substituted."
+    },
     "glass": {
       "heading": "Glass appearance",
       "intro": "Choose how much of the interface floats as translucent glass over the background. The soft gradient background itself is always on.",

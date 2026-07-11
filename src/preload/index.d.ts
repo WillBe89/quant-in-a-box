@@ -25,6 +25,13 @@ export interface QiabApi {
   clearAnthropicKey: () => Promise<void>
   getCachedCandles: (source: string, symbol: string, timeframe: string, maxAgeMs: number) => Promise<Candle[] | null>
   storeCandles: (source: string, symbol: string, timeframe: string, candles: Candle[]) => Promise<void>
+  getStoredCandlesBefore: (
+    source: string,
+    symbol: string,
+    timeframe: string,
+    beforeTimeUnix: number,
+    limit: number
+  ) => Promise<Candle[]>
   getCachedNews: (symbolsKey: string, maxAgeMs: number) => Promise<NewsItem[] | null>
   storeNews: (symbolsKey: string, items: NewsItem[]) => Promise<void>
   getCachedProfile: (symbol: string, maxAgeMs: number) => Promise<CompanyProfile | null>
