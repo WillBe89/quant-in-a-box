@@ -2,6 +2,22 @@
 
 Running log of autonomous build cycles. Newest entries at the top.
 
+## 2026-07-11 - Fixed the "1 + 2 grid" layout bleeding through the bottom ticker (direct request, with screenshot)
+
+**Built:** a CSS fix for a real, reproducible layout bug Will reported with a screenshot: in the "1 + 2 grid" chart layout (one focused chart on top, two smaller ones stacked below), the two bottom charts' hover readouts and volume bars visually bled straight through the ticker tape at the bottom of the window, producing illegible overlapping text.
+
+**Root cause, confirmed by inspecting real computed layout (not guessed from reading CSS alone):** `.chart-wrap` has a hard `min-height: 200px` floor. That's fine when a chart slot gets the full workspace row height, but the "1 + 2 grid" layout's two secondary charts only get half the row (a 2-row CSS grid), and on a common 1366x768-class screen only about 110px is actually left for `.chart-wrap` after the symbol header and toolbar rows. The 200px floor forced those charts to render 90px taller than their slot's own box, and nothing in the ancestor chain (`.chart-slot`, `.chart-slot-row`, `.workspace`) clipped that overflow, so it painted straight through the ticker tape below (and even past the viewport's own bottom edge in the reproduction).
+
+**Fix (`src/renderer/src/components/layout/layout.css`):**
+- Added `overflow: hidden` to `.chart-slot` itself — the general, root-cause containment fix: whatever a slot's content wants to be, it can never again visually escape its own box into unrelated UI below it, regardless of which layout template or how short the window is.
+- Added a scoped override lowering `.chart-wrap`'s floor to 100px specifically for the "1 + 2 grid" layout's two secondary slots (`.chart-slot-row-threeGrid .chart-slot:not(:nth-child(1)) .chart-wrap`), so those charts render at their intended smaller size instead of relying on the new clipping to silently crop them.
+
+**Verified:** reproduced the exact bug first (resized the browser preview to 1366x768, confirmed via real `getBoundingClientRect()` measurements that the bottom charts' `.chart-wrap` boxes extended 90px past their slot and past the ticker, matching the screenshot exactly), then confirmed after the fix that both secondary charts render fully contained within their own slots with zero overlap. Also tested enabling RSI on a secondary chart in this same cramped scenario (adds an oscillator subpanel using a separate, globally-shared height setting) — confirmed it's now cleanly clipped from view rather than bleeding through, a reasonable degrade for an edge case the user didn't report. Checked all 4 other layout templates (1 chart, 2 charts, Focus + 1, 3 charts) at the same viewport size and confirmed none regressed. `npm run typecheck`/`build` both clean (pure CSS change, no test suite exercises this).
+
+**Note:** did not run the native-module test suite for this fix, since another build cycle (Phase 3 of the current plan) was rebuilding `better-sqlite3` concurrently in the background and running `npm test` at the same time risks corrupting that in-flight ABI-flip; this change touches no JS/TS logic and no existing test references `layout.css`, so this was a deliberate, safe skip rather than an oversight.
+
+**Flagged for later, not fixed now:** the not-yet-built chart-quick-switch/asset-insight-panel work (queued Phase 6) was designed assuming `.chart-slot` has no `overflow: hidden` ancestor, so its planned popovers can render via plain absolute positioning without clipping. That assumption is no longer true after this fix. When Phase 6 is implemented, its popovers will need to be re-verified against the live codebase at that time — likely by having them portal to `document.body` the same way `Tooltip.tsx` already does, rather than relying on unclipped local positioning.
+
 ## 2026-07-11 - Excel export: portfolio reports and the market data archive (phase 2 of 7)
 
 **Built:** two real export flows on top of last phase's local database, both producing genuine `.xlsx` workbooks via `xlsx` (SheetJS) and Electron's native save dialog.

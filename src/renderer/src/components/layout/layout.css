@@ -459,6 +459,11 @@
   min-width: 0;
   min-height: 0;
   flex: 1 1 0%;
+  /* Guards against .chart-wrap's min-height forcing it taller than this slot's actual
+     allocated space (routinely the case for the two secondary charts in the "1 + 2 grid"
+     layout on shorter screens) — without this, the excess visually bleeds past the slot
+     and through whatever sits below the workspace (the ticker tape). */
+  overflow: hidden;
 }
 .chart-slot-row-twoFocus .chart-slot:nth-child(1) {
   flex: 1 1 68%;
@@ -482,6 +487,14 @@
 .chart-slot-row-threeGrid .chart-slot:nth-child(3) {
   grid-column: 2;
   grid-row: 2;
+}
+/* The two secondary charts here get roughly half the row height of every other layout
+   template, so .chart-wrap's normal 200px floor (fine when a slot gets the full row) is
+   too tall to fit on common laptop screen heights — lowering it here means the secondary
+   charts render at their intended size instead of relying on the overflow: hidden above
+   to silently crop them. */
+.chart-slot-row-threeGrid .chart-slot:not(:nth-child(1)) .chart-wrap {
+  min-height: 100px;
 }
 .chart-slot-row:not(.chart-slot-row-single) .chart-slot.focused .chart-wrap {
   border-color: var(--accent-b);
