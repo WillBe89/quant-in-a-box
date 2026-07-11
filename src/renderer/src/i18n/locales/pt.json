@@ -339,6 +339,79 @@
       "errorTitle": "Não foi possível gerar as perspetivas",
       "retryBtn": "Tentar novamente"
     },
+    "riskAdvice": {
+      "sectionTitle": "Grau de risco",
+      "sectionSub": "Uma leitura ponderada de quanto esta carteira tende a movimentar-se — não uma nota de aprovado/reprovado",
+      "meterLow": "Mais calmo",
+      "meterHigh": "Mais volátil",
+      "tipsTitle": "Aspetos a ter em conta",
+      "category": {
+        "conservative": {
+          "label": "Conservadora",
+          "description": "As posições e a distribuição desta carteira sugerem oscilações diárias bastante contidas — o tipo de perfil a que os investidores recorrem quando a estabilidade importa mais do que o potencial de valorização."
+        },
+        "moderate": {
+          "label": "Moderada",
+          "description": "Esta carteira tende a movimentar-se um pouco mais do que uma mistura diversificada típica, sem se comportar como uma aposta concentrada num único tema."
+        },
+        "elevated": {
+          "label": "Elevada",
+          "description": "As oscilações e a concentração desta carteira apontam para um percurso significativamente mais acidentado do que uma mistura diversificada típica — uma troca que alguns investidores aceitam deliberadamente em busca de um crescimento esperado maior."
+        },
+        "high": {
+          "label": "Alta",
+          "description": "A combinação de volatilidade, histórico de quedas e concentração desta carteira sugere que grandes oscilações são comuns — um perfil que alguns investidores escolhem propositadamente ao procurar um crescimento agressivo a longo prazo."
+        }
+      },
+      "narrative": {
+        "volatility": {
+          "good": "Uma volatilidade anualizada de {{value}} está em linha com um mercado diversificado típico — os movimentos são relativamente contidos.",
+          "bad": "Uma volatilidade anualizada de {{value}} está bem acima de um mercado diversificado típico — espere oscilações diárias notavelmente maiores."
+        },
+        "maxdd": {
+          "good": "A pior queda até agora, {{value}}, manteve-se dentro do intervalo de uma correção de mercado habitual.",
+          "bad": "A pior queda até agora, {{value}}, foi uma queda severa, de nível de crise."
+        },
+        "var": {
+          "good": "Num dia mau típico, a perda estimada é de cerca de {{value}} — uma descida bastante contida.",
+          "bad": "Num dia mau típico, a perda estimada é de cerca de {{value}} — uma descida considerável para um único dia."
+        },
+        "beta": {
+          "good": "Um beta de {{value}} está próximo de 1.0, pelo que esta carteira tende a mover-se em linha com o mercado em geral.",
+          "bad": "Um beta de {{value}} está muito afastado de 1.0, pelo que esta carteira se move de forma muito diferente do mercado em geral — de forma bem mais acentuada, bem mais defensiva, ou em sentido contrário."
+        },
+        "diversification": {
+          "good": "As posições estão distribuídas por {{count}} classes de ativos, sem que nenhuma ultrapasse {{dominantPct}}% da carteira.",
+          "bad": "{{dominantClass}} representa {{dominantPct}}% da carteira, o que a deixa concentrada numa única classe de ativo."
+        }
+      },
+      "tips": {
+        "conservative": {
+          "tip1": "Como as oscilações aqui costumam ser menores, um horizonte de investimento longo não é estritamente necessário — mas ainda assim ajuda a suavizar os solavancos que surjam.",
+          "tip2": "Verifique de vez em quando as notícias e resultados das suas posições individuais — mesmo as posições mais calmas podem mudar de caráter com o tempo.",
+          "tip3": "Os movimentos das taxas de juro continuam a importar para misturas com peso elevado em títulos — vale a pena acompanhar as tendências das taxas de juro."
+        },
+        "moderate": {
+          "tip1": "Um horizonte de investimento de vários anos ou mais dá a este tipo de mistura mais margem para absorver as suas oscilações.",
+          "tip2": "Reveja de vez em quando as notícias e tendências por trás das suas maiores posições individuais.",
+          "tip3": "As alterações nas taxas de juro podem afetar títulos e posições sensíveis às taxas — vale a pena acompanhar se representarem uma parte significativa da mistura.",
+          "tip4": "Rever periodicamente a combinação de classes de ativos ajuda a mantê-la alinhada com o nível de movimento com que se sente confortável."
+        },
+        "elevated": {
+          "tip1": "Um horizonte de investimento mais longo importa mais aqui — prazos mais curtos deixam menos margem para recuperar de quedas.",
+          "tip2": "Preste mais atenção às notícias, resultados e tendências das posições individuais que impulsionam a maior parte do movimento.",
+          "tip3": "A sensibilidade às taxas de juro merece atenção próxima para quaisquer posições expostas a taxas na mistura.",
+          "tip4": "Rever periodicamente a concentração e o tamanho das posições pode ajudar a gerir quanto uma única posição influencia a carteira."
+        },
+        "high": {
+          "tip1": "Um horizonte de investimento longo é especialmente relevante aqui — este tipo de oscilações pode demorar a passar.",
+          "tip2": "Vale a pena acompanhar regularmente as notícias, resultados e tendências do setor das maiores posições individuais, dado o quanto podem movimentar o total.",
+          "tip3": "Posições sensíveis às taxas podem reagir com força a alterações nas taxas de juro — vale a pena monitorizá-las de perto.",
+          "tip4": "Rever periodicamente a concentração e o tamanho das posições é uma das formas mais diretas de gerir um perfil como este."
+        },
+        "concentrationTip": "A concentração numa única classe de ativo costuma ser aqui o sinal mais fácil de corrigir — distribuir as posições por mais classes tende a reduzir diretamente este tipo de risco."
+      }
+    },
     "pickerHeading": "As suas carteiras",
     "newPortfolioBtn": "+ Nova carteira",
     "defaultName": "Carteira {{n}}",

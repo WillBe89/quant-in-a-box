@@ -339,6 +339,79 @@
       "errorTitle": "Impossible de générer les analyses",
       "retryBtn": "Réessayer"
     },
+    "riskAdvice": {
+      "sectionTitle": "Niveau de risque",
+      "sectionSub": "Une lecture pondérée de l'amplitude des mouvements de ce portefeuille — pas une note de réussite ou d'échec",
+      "meterLow": "Plus calme",
+      "meterHigh": "Plus volatil",
+      "tipsTitle": "Points à garder à l'esprit",
+      "category": {
+        "conservative": {
+          "label": "Prudent",
+          "description": "Les positions et la répartition de ce portefeuille suggèrent des variations quotidiennes plutôt contenues — le type de profil vers lequel se tournent les investisseurs quand la stabilité compte plus que le potentiel de hausse."
+        },
+        "moderate": {
+          "label": "Modéré",
+          "description": "Ce portefeuille tend à bouger un peu plus qu'un mélange diversifié typique, sans pour autant se comporter comme un pari concentré sur un seul thème."
+        },
+        "elevated": {
+          "label": "Élevé",
+          "description": "Les variations et la concentration de ce portefeuille indiquent un parcours nettement plus chahuté qu'un mélange diversifié typique — un compromis que certains investisseurs acceptent délibérément pour une croissance attendue plus forte."
+        },
+        "high": {
+          "label": "Haut",
+          "description": "La combinaison de volatilité, d'historique de baisses et de concentration de ce portefeuille suggère que de larges variations sont courantes — un profil que certains investisseurs choisissent volontairement en visant une croissance agressive sur le long terme."
+        }
+      },
+      "narrative": {
+        "volatility": {
+          "good": "Une volatilité annualisée de {{value}} est en ligne avec un marché diversifié typique — les mouvements restent relativement contenus.",
+          "bad": "Une volatilité annualisée de {{value}} est bien supérieure à celle d'un marché diversifié typique — attendez-vous à des variations quotidiennes nettement plus importantes."
+        },
+        "maxdd": {
+          "good": "La pire baisse à ce jour, {{value}}, est restée dans la fourchette d'une correction de marché habituelle.",
+          "bad": "La pire baisse à ce jour, {{value}}, a été une chute sévère, de niveau crise."
+        },
+        "var": {
+          "good": "Lors d'une journée difficile typique, la perte estimée est d'environ {{value}} — un risque de baisse plutôt contenu.",
+          "bad": "Lors d'une journée difficile typique, la perte estimée est d'environ {{value}} — un risque de baisse important pour une seule journée."
+        },
+        "beta": {
+          "good": "Un bêta de {{value}} est proche de 1.0, donc ce portefeuille tend à évoluer en ligne avec le marché dans son ensemble.",
+          "bad": "Un bêta de {{value}} est très éloigné de 1.0, donc ce portefeuille évolue très différemment du marché dans son ensemble — de façon bien plus marquée, bien plus défensive, ou à l'inverse."
+        },
+        "diversification": {
+          "good": "Les positions sont réparties sur {{count}} classes d'actifs, aucune ne dépassant {{dominantPct}} % du portefeuille.",
+          "bad": "{{dominantClass}} représente {{dominantPct}} % du portefeuille, ce qui le concentre sur une seule classe d'actifs."
+        }
+      },
+      "tips": {
+        "conservative": {
+          "tip1": "Comme les variations y sont généralement plus faibles, un horizon de détention long n'est pas strictement nécessaire — mais il tend tout de même à lisser les à-coups qui surviennent.",
+          "tip2": "Vérifiez de temps en temps les actualités et résultats de vos positions individuelles — même les positions les plus calmes peuvent évoluer avec le temps.",
+          "tip3": "Les mouvements de taux comptent encore pour les mélanges à forte pondération obligataire — gardez un œil sur les tendances des taux d'intérêt."
+        },
+        "moderate": {
+          "tip1": "Un horizon de détention de plusieurs années ou plus laisse à ce type de mélange davantage de marge pour absorber ses variations.",
+          "tip2": "Passez en revue de temps à autre les actualités et tendances derrière vos plus grosses positions individuelles.",
+          "tip3": "Les variations de taux d'intérêt peuvent affecter les obligations et les positions sensibles aux taux — à surveiller si elles représentent une part notable du mélange.",
+          "tip4": "Revoir périodiquement la répartition par classe d'actifs permet de la garder alignée avec le niveau de variation que vous êtes à l'aise d'accepter."
+        },
+        "elevated": {
+          "tip1": "Un horizon de détention plus long compte davantage ici — des périodes plus courtes laissent moins de marge pour absorber les baisses.",
+          "tip2": "Suivez de plus près les actualités, résultats et tendances des positions individuelles à l'origine de l'essentiel du mouvement.",
+          "tip3": "La sensibilité aux taux d'intérêt mérite une surveillance attentive pour toute position exposée aux taux dans le mélange.",
+          "tip4": "Revoir périodiquement la concentration et la taille des positions peut aider à gérer l'influence d'une seule position sur le portefeuille."
+        },
+        "high": {
+          "tip1": "Un horizon de détention long est particulièrement pertinent ici — ce type de variations peut prendre du temps à se résorber.",
+          "tip2": "Il vaut la peine de suivre régulièrement les actualités, résultats et tendances sectorielles des plus grosses positions individuelles, vu leur poids sur le total.",
+          "tip3": "Les positions sensibles aux taux peuvent réagir fortement aux changements de taux d'intérêt — à surveiller de près.",
+          "tip4": "Revoir périodiquement la concentration et la taille des positions est l'un des moyens les plus directs de gérer un profil comme celui-ci."
+        },
+        "concentrationTip": "La concentration sur une seule classe d'actifs est généralement ici le signal le plus facile à corriger — répartir les positions sur davantage de classes tend à réduire directement ce type de risque."
+      }
+    },
     "pickerHeading": "Vos portefeuilles",
     "newPortfolioBtn": "+ Nouveau portefeuille",
     "defaultName": "Portefeuille {{n}}",

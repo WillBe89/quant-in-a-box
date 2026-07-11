@@ -339,6 +339,79 @@
       "errorTitle": "No se pudieron generar las perspectivas",
       "retryBtn": "Intentar de nuevo"
     },
+    "riskAdvice": {
+      "sectionTitle": "Grado de riesgo",
+      "sectionSub": "Una lectura ponderada de cuánto tiende a moverse esta cartera, no una puntuación de aprobado/reprobado",
+      "meterLow": "Más calmado",
+      "meterHigh": "Más volátil",
+      "tipsTitle": "Aspectos a tener en cuenta",
+      "category": {
+        "conservative": {
+          "label": "Conservadora",
+          "description": "Las posiciones y el reparto de esta cartera sugieren oscilaciones diarias bastante contenidas — el tipo de perfil al que recurren los inversores cuando la estabilidad importa más que el potencial de subida."
+        },
+        "moderate": {
+          "label": "Moderada",
+          "description": "Esta cartera tiende a moverse algo más que una mezcla diversificada típica, sin comportarse como una apuesta concentrada en un solo tema."
+        },
+        "elevated": {
+          "label": "Elevada",
+          "description": "Las oscilaciones y la concentración de esta cartera apuntan a un recorrido notablemente más accidentado que una mezcla diversificada típica — una contrapartida que algunos inversores asumen deliberadamente a cambio de un mayor crecimiento esperado."
+        },
+        "high": {
+          "label": "Alta",
+          "description": "La combinación de volatilidad, historial de caídas y concentración de esta cartera sugiere que las grandes oscilaciones son habituales — un perfil que algunos inversores eligen a propósito al buscar un crecimiento agresivo a largo plazo."
+        }
+      },
+      "narrative": {
+        "volatility": {
+          "good": "Una volatilidad anualizada del {{value}} está en línea con un mercado diversificado típico — los movimientos son relativamente contenidos.",
+          "bad": "Una volatilidad anualizada del {{value}} está muy por encima de un mercado diversificado típico — espera oscilaciones diarias notablemente mayores."
+        },
+        "maxdd": {
+          "good": "La peor caída hasta ahora, {{value}}, se mantuvo dentro del rango de una corrección de mercado habitual.",
+          "bad": "La peor caída hasta ahora, {{value}}, fue una caída severa, de nivel de crisis."
+        },
+        "var": {
+          "good": "En un día típico malo, la pérdida estimada es de aproximadamente {{value}} — una caída bastante contenida.",
+          "bad": "En un día típico malo, la pérdida estimada es de aproximadamente {{value}} — una caída considerable para un solo día."
+        },
+        "beta": {
+          "good": "Una beta de {{value}} está cerca de 1.0, por lo que esta cartera tiende a moverse en línea con el mercado en general.",
+          "bad": "Una beta de {{value}} está muy alejada de 1.0, por lo que esta cartera se mueve de forma muy distinta al mercado en general — de forma mucho más brusca, mucho más defensiva, o en sentido contrario."
+        },
+        "diversification": {
+          "good": "Las posiciones se reparten en {{count}} clases de activos, sin que ninguna supere el {{dominantPct}}% de la cartera.",
+          "bad": "{{dominantClass}} representa el {{dominantPct}}% de la cartera, lo que la deja concentrada en una sola clase de activo."
+        }
+      },
+      "tips": {
+        "conservative": {
+          "tip1": "Como las oscilaciones aquí suelen ser menores, un horizonte de inversión largo no es estrictamente necesario — pero igualmente ayuda a suavizar los baches que sí ocurran.",
+          "tip2": "Revisa de vez en cuando las noticias y resultados de tus posiciones individuales — incluso las posiciones más tranquilas pueden cambiar de carácter con el tiempo.",
+          "tip3": "Los movimientos de tipos de interés siguen importando para las mezclas con mucho peso en bonos — vale la pena seguir sus tendencias."
+        },
+        "moderate": {
+          "tip1": "Un horizonte de inversión de varios años o más le da a este tipo de mezcla más margen para sortear sus oscilaciones.",
+          "tip2": "Revisa de vez en cuando las noticias y tendencias detrás de tus posiciones individuales más grandes.",
+          "tip3": "Los cambios en los tipos de interés pueden mover los bonos y las posiciones sensibles a los tipos — vale la pena seguirlos si representan una parte importante de la mezcla.",
+          "tip4": "Revisar periódicamente la combinación de clases de activos ayuda a mantenerla alineada con el nivel de movimiento que te resulta cómodo."
+        },
+        "elevated": {
+          "tip1": "Un horizonte de inversión más largo importa más aquí — los plazos cortos dejan menos margen para recuperarse de las caídas.",
+          "tip2": "Presta más atención a las noticias, resultados y tendencias de las posiciones individuales que impulsan la mayor parte del movimiento.",
+          "tip3": "Vale la pena vigilar de cerca la sensibilidad a los tipos de interés de cualquier posición expuesta a ellos en la mezcla.",
+          "tip4": "Revisar periódicamente la concentración y el tamaño de las posiciones puede ayudar a gestionar cuánto influye una sola posición en la cartera."
+        },
+        "high": {
+          "tip1": "Un horizonte de inversión largo es especialmente relevante aquí — este tipo de oscilaciones pueden tardar en desarrollarse.",
+          "tip2": "Vale la pena seguir con regularidad las noticias, resultados y tendencias del sector de las mayores posiciones individuales, dado cuánto pueden mover el total.",
+          "tip3": "Las posiciones sensibles a los tipos pueden reaccionar con fuerza a los cambios de tipos de interés — vale la pena vigilarlas de cerca.",
+          "tip4": "Revisar periódicamente la concentración y el tamaño de las posiciones es una de las formas más directas de gestionar un perfil como este."
+        },
+        "concentrationTip": "La concentración en una sola clase de activo suele ser aquí la señal más fácil de corregir — repartir las posiciones entre más clases tiende a reducir directamente este tipo de riesgo."
+      }
+    },
     "pickerHeading": "Tus carteras",
     "newPortfolioBtn": "+ Nueva cartera",
     "defaultName": "Cartera {{n}}",

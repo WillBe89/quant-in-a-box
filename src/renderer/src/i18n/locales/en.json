@@ -386,6 +386,79 @@
       "errorTitle": "Couldn't generate insights",
       "retryBtn": "Try again"
     },
+    "riskAdvice": {
+      "sectionTitle": "Risk grade",
+      "sectionSub": "A weighted read on how much this portfolio tends to move, not a pass/fail score",
+      "meterLow": "Calmer",
+      "meterHigh": "More volatile",
+      "tipsTitle": "Things to keep in mind",
+      "category": {
+        "conservative": {
+          "label": "Conservative",
+          "description": "This portfolio's holdings and spread suggest fairly contained day-to-day swings — the kind of profile investors reach for when steadiness matters more than upside."
+        },
+        "moderate": {
+          "label": "Moderate",
+          "description": "This portfolio tends to move somewhat more than a typical diversified mix, without behaving like a concentrated, single-theme bet."
+        },
+        "elevated": {
+          "label": "Elevated",
+          "description": "This portfolio's swings and concentration point to a meaningfully bumpier ride than a typical diversified mix — a trade-off some investors make deliberately for higher expected growth."
+        },
+        "high": {
+          "label": "High",
+          "description": "This portfolio's combination of volatility, drawdown history, and concentration suggests large swings are common — a profile some investors choose on purpose when pursuing aggressive growth over a long horizon."
+        }
+      },
+      "narrative": {
+        "volatility": {
+          "good": "Annualized volatility of {{value}} is in line with a typical diversified market — moves are relatively contained.",
+          "bad": "Annualized volatility of {{value}} is well above a typical diversified market — expect noticeably bigger day-to-day swings."
+        },
+        "maxdd": {
+          "good": "The worst decline so far, {{value}}, stayed within the range of a routine market pullback.",
+          "bad": "The worst decline so far, {{value}}, was a severe, crisis-level drop."
+        },
+        "var": {
+          "good": "On a typical bad day, the estimated loss is about {{value}} — a fairly contained downside.",
+          "bad": "On a typical bad day, the estimated loss is about {{value}} — a sizeable single-day downside."
+        },
+        "beta": {
+          "good": "A beta of {{value}} is close to 1.0, so this portfolio tends to move in line with the broader market.",
+          "bad": "A beta of {{value}} is far from 1.0, so this portfolio moves very differently from the broader market — much more sharply, much more defensively, or in the opposite direction."
+        },
+        "diversification": {
+          "good": "Holdings are spread across {{count}} asset classes, with no single class over {{dominantPct}}% of the portfolio.",
+          "bad": "{{dominantClass}} makes up {{dominantPct}}% of the portfolio, leaving it concentrated in a single asset class."
+        }
+      },
+      "tips": {
+        "conservative": {
+          "tip1": "Because swings here tend to be smaller, a long holding horizon isn't strictly necessary — but it still tends to smooth out whatever bumps do happen.",
+          "tip2": "Check in on individual holdings' news and earnings periodically — even calmer positions can change character over time.",
+          "tip3": "Rate moves still matter for bond-heavy mixes — keep an eye on interest-rate trends."
+        },
+        "moderate": {
+          "tip1": "A holding horizon of a few years or more gives this kind of mix more room to ride out its swings.",
+          "tip2": "Review the news and trends behind your larger individual positions from time to time.",
+          "tip3": "Interest-rate shifts can move bond and rate-sensitive holdings — worth tracking if they make up a meaningful slice.",
+          "tip4": "Revisiting the asset-class mix periodically can keep it aligned with how much movement you're comfortable with."
+        },
+        "elevated": {
+          "tip1": "A longer holding horizon matters more here — shorter time frames leave less room to ride out drawdowns.",
+          "tip2": "Keep closer tabs on news, earnings, and trends for the individual holdings driving most of the movement.",
+          "tip3": "Interest-rate sensitivity is worth watching closely for any rate-exposed positions in the mix.",
+          "tip4": "Revisiting concentration and position sizing periodically can help manage how much any single holding drives the portfolio."
+        },
+        "high": {
+          "tip1": "A long holding horizon is especially relevant here — these swings can take a while to play out.",
+          "tip2": "Following news, earnings, and sector trends for the biggest individual holdings is worth doing regularly, given how much they can move the total.",
+          "tip3": "Rate-sensitive holdings can react sharply to interest-rate changes — worth monitoring closely.",
+          "tip4": "Periodically reviewing concentration and position sizing is one of the more direct ways to manage a profile like this."
+        },
+        "concentrationTip": "Concentration in a single asset class is usually the most fixable signal here — spreading holdings across more classes tends to reduce this kind of risk directly."
+      }
+    },
     "overview": {
       "badge": "Overview",
       "heading": "All portfolios",

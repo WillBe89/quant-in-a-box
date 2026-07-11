@@ -13,6 +13,7 @@ import HoldingsRankBar from '@renderer/components/portfolio/HoldingsRankBar'
 import BenchmarkSelector from '@renderer/components/portfolio/BenchmarkSelector'
 import BenchmarkCompareChart from '@renderer/components/portfolio/BenchmarkCompareChart'
 import BenchmarkCompareStats from '@renderer/components/portfolio/BenchmarkCompareStats'
+import PortfolioRiskAdvice from '@renderer/components/portfolio/PortfolioRiskAdvice'
 
 type AiAvailability = { claudeCode: boolean; apiKey: boolean }
 type AiInsightsResult = { commentary: string; source: 'claude-code' | 'api-key' }
@@ -169,6 +170,8 @@ export default function PortfolioDashboardTab({
           </div>
         )}
       </div>
+
+      {stats && !statsLoading && <PortfolioRiskAdvice stats={stats} classBreakdown={classBreakdown} />}
 
       {stats && !statsLoading && (
         <div className="portfolio-ai">
