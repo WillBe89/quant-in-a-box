@@ -116,6 +116,8 @@
     },
     "resizeDock": "Redimensionner la largeur du tableau de bord",
     "resizeOscillator": "Redimensionner la hauteur du panneau d'indicateurs",
+    "changeSymbol": "Changer de symbole",
+    "changeSymbolPlaceholder": "Rechercher un actif — AAPL, BTC, obligation du Trésor à 10 ans, VNQ…",
     "chartStyle": {
       "candles": "Chandeliers",
       "bars": "Barres",
@@ -470,6 +472,19 @@
       "bad": "Très différent de 1.0 — bien plus sensible, bien plus défensif, ou évoluant à l'inverse du marché.",
       "caveat": "Ce n'est ni bon ni mauvais — cela indique seulement à quel point cela s'écarte du \"comportement type du marché\"."
     }
+  },
+  "assetInsight": {
+    "trigger": "Profil de l'entreprise",
+    "close": "Fermer",
+    "loading": "Chargement du profil de l'entreprise…",
+    "unavailableForClass": "Les données de profil d'entreprise ne sont pas disponibles pour cette classe d'actifs.",
+    "notFound": "Aucune donnée de profil d'entreprise disponible pour ce symbole.",
+    "marketCap": "Capitalisation boursière",
+    "sharesOutstanding": "Actions en circulation",
+    "exchange": "Bourse",
+    "ipo": "Date d'introduction en bourse",
+    "country": "Pays",
+    "website": "Visiter le site web"
   },
   "modelPortfolio": {
     "conservative": {

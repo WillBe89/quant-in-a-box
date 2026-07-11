@@ -1,5 +1,12 @@
-import type { Asset, AssetClass, Candle, NewsItem, OptionQuote, Timeframe } from '@renderer/types/market'
-import { ASSETS_BY_CLASS, ALL_ASSETS, generateCandles, generateOptionChain, generateNews } from './mockData'
+import type { Asset, AssetClass, Candle, CompanyProfile, NewsItem, OptionQuote, Timeframe } from '@renderer/types/market'
+import {
+  ASSETS_BY_CLASS,
+  ALL_ASSETS,
+  generateCandles,
+  generateOptionChain,
+  generateNews,
+  generateCompanyProfile
+} from './mockData'
 import * as finnhub from './finnhubAdapter'
 import * as twelveData from './twelveDataAdapter'
 import { getFinnhubKey, getTwelveDataKey } from './apiKeyStore'
@@ -19,6 +26,7 @@ function ttlForTimeframe(timeframe: Timeframe): number {
 }
 
 const NEWS_TTL_MS = 15 * 60 * 1000
+const PROFILE_TTL_MS = 24 * 60 * 60 * 1000
 
 /** Same symbols→cache-key rule the news methods below already use to pick between
  *  company-news and general-news: one symbol keys on that symbol, anything else is general. */
@@ -33,6 +41,7 @@ export interface DataService {
   /** `symbols`: the set of tickers news should be relevant to (e.g. the selected
    *  symbol, the watchlist, or portfolio holdings) — omit for general market news. */
   getNews(symbols?: string[]): Promise<NewsItem[]>
+  getCompanyProfile(asset: Asset): Promise<CompanyProfile | null>
 }
 
 class MockDataService implements DataService {
@@ -47,6 +56,9 @@ class MockDataService implements DataService {
   }
   async getNews(symbols?: string[]): Promise<NewsItem[]> {
     return generateNews(symbols)
+  }
+  async getCompanyProfile(asset: Asset): Promise<CompanyProfile | null> {
+    return generateCompanyProfile(asset)
   }
 }
 
@@ -105,6 +117,22 @@ class FinnhubDataService implements DataService {
       return this.mock.getNews(symbols)
     }
   }
+
+  async getCompanyProfile(asset: Asset): Promise<CompanyProfile | null> {
+    if (asset.klass !== 'stocks') return null
+    const cached = await window.api?.getCachedProfile(asset.symbol, PROFILE_TTL_MS).catch(() => null)
+    if (cached) return cached
+    try {
+      const profile = await finnhub.fetchCompanyProfile(asset.symbol)
+      if (profile) {
+        window.api?.storeProfile(asset.symbol, 'finnhub', profile).catch(() => undefined)
+        return profile
+      }
+      return this.mock.getCompanyProfile(asset)
+    } catch {
+      return this.mock.getCompanyProfile(asset)
+    }
+  }
 }
 
 /**
@@ -141,6 +169,12 @@ class TwelveDataService implements DataService {
 
   async getNews(symbols?: string[]): Promise<NewsItem[]> {
     return this.mock.getNews(symbols)
+  }
+
+  async getCompanyProfile(asset: Asset): Promise<CompanyProfile | null> {
+    // No live TwelveData profile endpoint in scope — matches how this class already
+    // delegates getOptionChain/getNews to mock.
+    return this.mock.getCompanyProfile(asset)
   }
 }
 
@@ -181,6 +215,13 @@ class ReactiveDataService implements DataService {
 
   async getNews(symbols?: string[]): Promise<NewsItem[]> {
     return Boolean(getFinnhubKey()) ? this.finnhubSvc.getNews(symbols) : this.mock.getNews(symbols)
+  }
+
+  async getCompanyProfile(asset: Asset): Promise<CompanyProfile | null> {
+    // Finnhub-only, mirroring how getNews above routes (Finnhub-if-key-else-mock, no
+    // TwelveData involved).
+    if (asset.klass !== 'stocks') return null
+    return getFinnhubKey() ? this.finnhubSvc.getCompanyProfile(asset) : this.mock.getCompanyProfile(asset)
   }
 }
 

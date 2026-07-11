@@ -153,6 +153,8 @@
     "maLabel": "MA",
     "resizeDock": "Resize dashboard width",
     "resizeOscillator": "Resize indicator panel height",
+    "changeSymbol": "Change symbol",
+    "changeSymbolPlaceholder": "Search any asset (AAPL, BTC, 10Y Treasury, VNQ…)",
     "chartStyle": {
       "candles": "Candles",
       "bars": "Bars",
@@ -470,6 +472,19 @@
       "canceled": "Canceled",
       "error": "Export failed"
     }
+  },
+  "assetInsight": {
+    "trigger": "Company profile",
+    "close": "Close",
+    "loading": "Loading company profile…",
+    "unavailableForClass": "Company profile data isn't available for this asset class.",
+    "notFound": "No company profile data available for this symbol.",
+    "marketCap": "Market cap",
+    "sharesOutstanding": "Shares outstanding",
+    "exchange": "Exchange",
+    "ipo": "IPO date",
+    "country": "Country",
+    "website": "Visit website"
   },
   "modelPortfolio": {
     "conservative": {

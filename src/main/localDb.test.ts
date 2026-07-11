@@ -163,6 +163,42 @@ describe('localDb', () => {
       })
     })
 
+    describe('profiles', () => {
+      const sampleProfile: localDb.CompanyProfile = {
+        symbol: 'AAPL',
+        name: 'Apple Inc',
+        logo: 'https://example.com/aapl.png',
+        industry: 'Technology',
+        marketCapitalization: 2_950_000,
+        shareOutstanding: 15_500,
+        website: 'https://www.apple.com',
+        ipo: '1980-12-12',
+        exchange: 'NASDAQ',
+        currency: 'USD',
+        country: 'US'
+      }
+
+      it('returns null when nothing is cached for a symbol', () => {
+        expect(localDb.getCachedProfile('NFLX', 60_000)).toBeNull()
+      })
+
+      it('stores and retrieves a profile, round-tripping every field', () => {
+        localDb.storeProfile('AAPL', 'finnhub', sampleProfile)
+        expect(localDb.getCachedProfile('AAPL', 60_000)).toEqual(sampleProfile)
+      })
+
+      it('returns null once the fetch is older than maxAgeMs', () => {
+        localDb.storeProfile('MSFT', 'finnhub', { ...sampleProfile, symbol: 'MSFT' })
+        expect(localDb.getCachedProfile('MSFT', -1)).toBeNull()
+      })
+
+      it('upserts on symbol, replacing rather than duplicating (single row per symbol)', () => {
+        localDb.storeProfile('GOOG', 'finnhub', { ...sampleProfile, symbol: 'GOOG', name: 'Old Name' })
+        localDb.storeProfile('GOOG', 'finnhub', { ...sampleProfile, symbol: 'GOOG', name: 'New Name' })
+        expect(localDb.getCachedProfile('GOOG', 60_000)?.name).toBe('New Name')
+      })
+    })
+
     describe('export-oriented helpers', () => {
       it('getStoredSymbolsSummary summarizes row counts and time ranges per key', () => {
         localDb.storeCandles('finnhub', 'SUMM', '1D', [

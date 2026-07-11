@@ -30,6 +30,20 @@ export interface NewsItem {
   relatedSymbols: string[]
 }
 
+export interface CompanyProfile {
+  symbol: string
+  name: string
+  logo: string
+  industry: string
+  marketCapitalization: number // millions, per Finnhub convention
+  shareOutstanding: number // millions, per Finnhub convention
+  website: string
+  ipo: string // ISO date string
+  exchange: string
+  currency: string
+  country: string
+}
+
 export interface StoredSymbolSummary {
   source: string
   symbol: string
@@ -59,6 +73,13 @@ interface NewsRow {
   summary: string | null
   url: string | null
   published_at: number | null
+  fetched_at: number
+}
+
+interface ProfileRow {
+  symbol: string
+  source: string
+  data: string
   fetched_at: number
 }
 
@@ -96,6 +117,15 @@ export function initDb(dbPathOverride?: string): void {
       summary TEXT,
       url TEXT,
       published_at INTEGER,
+      fetched_at INTEGER NOT NULL
+    )
+  `)
+
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS profiles (
+      symbol TEXT PRIMARY KEY,
+      source TEXT NOT NULL,
+      data TEXT NOT NULL,
       fetched_at INTEGER NOT NULL
     )
   `)
@@ -192,6 +222,31 @@ export function storeNews(symbolsKey: string, items: NewsItem[]): void {
     }
   })
   insertAll(items)
+}
+
+/** Returns the cached company profile for `symbol` if present and fetched within
+ *  `maxAgeMs`; otherwise null (either nothing stored, or it's gone stale). */
+export function getCachedProfile(symbol: string, maxAgeMs: number): CompanyProfile | null {
+  const conn = requireDb()
+  const row = conn
+    .prepare<[string], ProfileRow>(`SELECT symbol, source, data, fetched_at FROM profiles WHERE symbol = ?`)
+    .get(symbol)
+
+  if (!row) return null
+  if (row.fetched_at < Date.now() - maxAgeMs) return null
+
+  return JSON.parse(row.data) as CompanyProfile
+}
+
+/** Persists a company profile, keyed on `symbol` alone (one row per symbol, unlike the
+ *  candles/news tables which key on source too — a symbol only ever has one current
+ *  profile). */
+export function storeProfile(symbol: string, source: string, profile: CompanyProfile): void {
+  const conn = requireDb()
+  const fetchedAt = Date.now()
+  conn
+    .prepare(`INSERT OR REPLACE INTO profiles (symbol, source, data, fetched_at) VALUES (?, ?, ?, ?)`)
+    .run(symbol, source, JSON.stringify(profile), fetchedAt)
 }
 
 function rowToNewsItem(r: NewsRow): NewsItem {

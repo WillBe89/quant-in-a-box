@@ -86,3 +86,17 @@ export interface ChartHoverInfo {
   bollUpper: number | null
   bollLower: number | null
 }
+
+export interface CompanyProfile {
+  symbol: string
+  name: string
+  logo: string
+  industry: string
+  marketCapitalization: number // millions, per Finnhub convention
+  shareOutstanding: number // millions, per Finnhub convention
+  website: string
+  ipo: string // ISO date string
+  exchange: string
+  currency: string
+  country: string
+}

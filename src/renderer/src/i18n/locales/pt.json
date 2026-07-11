@@ -116,6 +116,8 @@
     },
     "resizeDock": "Redimensionar a largura do painel",
     "resizeOscillator": "Redimensionar a altura do painel de indicadores",
+    "changeSymbol": "Alterar símbolo",
+    "changeSymbolPlaceholder": "Pesquisar qualquer ativo — AAPL, BTC, Tesouro a 10 anos, VNQ…",
     "chartStyle": {
       "candles": "Velas",
       "bars": "Barras",
@@ -470,6 +472,19 @@
       "bad": "Muito diferente de 1.0 — muito mais sensível, muito mais defensivo, ou a mover-se ao contrário do mercado.",
       "caveat": "Isto não é bom nem mau — apenas indica o quão diferente isto tem sido do \"comportamento típico do mercado\"."
     }
+  },
+  "assetInsight": {
+    "trigger": "Perfil da empresa",
+    "close": "Fechar",
+    "loading": "Carregando perfil da empresa…",
+    "unavailableForClass": "Dados de perfil da empresa não estão disponíveis para esta classe de ativo.",
+    "notFound": "Nenhum dado de perfil da empresa disponível para este símbolo.",
+    "marketCap": "Valor de mercado",
+    "sharesOutstanding": "Ações em circulação",
+    "exchange": "Bolsa",
+    "ipo": "Data do IPO",
+    "country": "País",
+    "website": "Visitar site"
   },
   "modelPortfolio": {
     "conservative": {

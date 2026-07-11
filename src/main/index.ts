@@ -9,10 +9,13 @@ import {
   storeCandles,
   getCachedNews,
   storeNews,
+  getCachedProfile,
+  storeProfile,
   getStoredSymbolsSummary,
   getCandleHistoryForExport,
   getNewsForExport,
   type Candle,
+  type CompanyProfile,
   type NewsItem
 } from './localDb'
 import {
@@ -105,6 +108,14 @@ app.whenReady().then(() => {
 
   ipcMain.handle('data:storeNews', async (_event, symbolsKey: string, items: NewsItem[]) => {
     storeNews(symbolsKey, items)
+  })
+
+  ipcMain.handle('data:getCachedProfile', async (_event, symbol: string, maxAgeMs: number) =>
+    getCachedProfile(symbol, maxAgeMs)
+  )
+
+  ipcMain.handle('data:storeProfile', async (_event, symbol: string, source: string, profile: CompanyProfile) => {
+    storeProfile(symbol, source, profile)
   })
 
   ipcMain.handle('data:exportPortfolioReport', async (_event, input: PortfolioReportInput) => {

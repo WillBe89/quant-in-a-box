@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import type { RefObject } from 'react'
+import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 import type { Candle, ChartHoverInfo, ChartStyleId, IndicatorId, Timeframe } from '@renderer/types/market'
 import { useAppState } from '@renderer/state/AppStateContext'
@@ -6,8 +8,11 @@ import { dataService } from '@renderer/data/dataService'
 import PriceChart from '@renderer/components/chart/PriceChart'
 import OscillatorPanel from '@renderer/components/chart/OscillatorPanel'
 import InfoIcon from '@renderer/academy/InfoIcon'
-import { IconStar } from '@renderer/components/icons/Icons'
+import { IconInfo, IconStar } from '@renderer/components/icons/Icons'
 import Tooltip from '@renderer/components/ui/Tooltip'
+import AssetSearchBox from '@renderer/components/ui/AssetSearchBox'
+import { useDismissablePopover } from '@renderer/lib/useDismissablePopover'
+import AssetInsightPanel from './AssetInsightPanel'
 import ResizeHandle from './ResizeHandle'
 
 const TIMEFRAMES: Timeframe[] = ['1D', '1W', '1M', '3M', '1Y', '5Y']
@@ -26,6 +31,20 @@ function formatVolume(v: number): string {
   return v.toFixed(0)
 }
 
+const POPOVER_WIDTH = 312
+
+/** Anchors a popover just under `el` in viewport (not ancestor-relative) coordinates, since
+ *  it's rendered through a portal into document.body — see the ChartSlot popovers below.
+ *  .chart-slot gained `overflow-y: auto` (see layout.css) to fix an unrelated RSI-panel bug,
+ *  which turned it into a clipping ancestor for any ordinary position:absolute popover
+ *  nested inside it; portaling out, the same way Tooltip.tsx already does, sidesteps that. */
+function computeAnchoredPosition(el: HTMLElement | null): { top: number; left: number } | null {
+  if (!el) return null
+  const rect = el.getBoundingClientRect()
+  const maxLeft = window.innerWidth - POPOVER_WIDTH - 8
+  return { top: rect.bottom + 6, left: Math.max(8, Math.min(rect.left, maxLeft)) }
+}
+
 export default function ChartSlot({
   slotId,
   focused,
@@ -38,6 +57,7 @@ export default function ChartSlot({
   const { t } = useTranslation()
   const {
     chartSlots,
+    setSlotSymbol,
     setSlotTimeframe,
     toggleSlotIndicator,
     setSlotChartStyle,
@@ -51,6 +71,42 @@ export default function ChartSlot({
   const slot = chartSlots.find((s) => s.id === slotId)
   const [candles, setCandles] = useState<Candle[]>([])
   const [hover, setHover] = useState<ChartHoverInfo | null>(null)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [insightOpen, setInsightOpen] = useState(false)
+  const { triggerRef: searchTriggerRef, popoverRef: searchPopoverRef } = useDismissablePopover(searchOpen, () =>
+    setSearchOpen(false)
+  )
+  const { triggerRef: insightTriggerRef, popoverRef: insightPopoverRef } = useDismissablePopover(insightOpen, () =>
+    setInsightOpen(false)
+  )
+  const [searchPos, setSearchPos] = useState<{ top: number; left: number } | null>(null)
+  const [insightPos, setInsightPos] = useState<{ top: number; left: number } | null>(null)
+
+  useEffect(() => {
+    if (!searchOpen) return
+    const update = (): void => setSearchPos(computeAnchoredPosition(searchTriggerRef.current))
+    update()
+    window.addEventListener('scroll', update, true)
+    window.addEventListener('resize', update)
+    return () => {
+      window.removeEventListener('scroll', update, true)
+      window.removeEventListener('resize', update)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchOpen])
+
+  useEffect(() => {
+    if (!insightOpen) return
+    const update = (): void => setInsightPos(computeAnchoredPosition(insightTriggerRef.current))
+    update()
+    window.addEventListener('scroll', update, true)
+    window.addEventListener('resize', update)
+    return () => {
+      window.removeEventListener('scroll', update, true)
+      window.removeEventListener('resize', update)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [insightOpen])
 
   const INDICATOR_META: Array<{ id: IndicatorId; label: string; lessonId: string }> = [
     { id: 'ma20', label: t('workspace.indicatorMa20'), lessonId: 'ma' },
@@ -81,8 +137,39 @@ export default function ChartSlot({
   return (
     <section className={'chart-slot' + (focused ? ' focused' : '')} onClick={onFocus}>
       <div className="symbol-header">
-        <span className="sym-ticker">{slot.symbol.symbol}</span>
-        <span className="sym-name">{slot.symbol.name}</span>
+        <span className="symbol-trigger-wrap">
+          <button
+            className="symbol-trigger"
+            aria-label={t('workspace.changeSymbol') ?? 'Change symbol'}
+            onClick={() => {
+              setSearchOpen((prev) => !prev)
+              setInsightOpen(false)
+            }}
+            ref={searchTriggerRef as unknown as RefObject<HTMLButtonElement>}
+          >
+            <span className="sym-ticker">{slot.symbol.symbol}</span>
+            <span className="sym-name">{slot.symbol.name}</span>
+          </button>
+          {searchOpen &&
+            searchPos &&
+            createPortal(
+              <div
+                className="symbol-search-popover"
+                style={{ top: searchPos.top, left: searchPos.left }}
+                ref={searchPopoverRef as unknown as RefObject<HTMLDivElement>}
+              >
+                <AssetSearchBox
+                  onSelect={(a) => {
+                    setSlotSymbol(slotId, a)
+                    setSearchOpen(false)
+                  }}
+                  placeholder={t('workspace.changeSymbolPlaceholder') ?? 'Search any asset'}
+                  autoFocus
+                />
+              </div>,
+              document.body
+            )}
+        </span>
         <Tooltip
           label={isInWatchlist(slot.symbol.symbol) ? t('workspace.removeFromWatchlist') : t('workspace.addToWatchlist')}
         >
@@ -96,6 +183,33 @@ export default function ChartSlot({
             <IconStar size={16} filled={isInWatchlist(slot.symbol.symbol)} />
           </button>
         </Tooltip>
+        <span className="insight-trigger-wrap">
+          <Tooltip label={t('assetInsight.trigger') ?? 'Company profile'}>
+            <button
+              className={'insight-btn' + (insightOpen ? ' active' : '')}
+              aria-label={t('assetInsight.trigger') ?? 'Company profile'}
+              onClick={() => {
+                setInsightOpen((prev) => !prev)
+                setSearchOpen(false)
+              }}
+              ref={insightTriggerRef as unknown as RefObject<HTMLButtonElement>}
+            >
+              <IconInfo size={16} />
+            </button>
+          </Tooltip>
+          {insightOpen &&
+            insightPos &&
+            createPortal(
+              <div
+                className="asset-insight-popover"
+                style={{ top: insightPos.top, left: insightPos.left }}
+                ref={insightPopoverRef as unknown as RefObject<HTMLDivElement>}
+              >
+                <AssetInsightPanel asset={slot.symbol} onClose={() => setInsightOpen(false)} />
+              </div>,
+              document.body
+            )}
+        </span>
         <span className="sym-price tnum">{formatPrice(slot.symbol.price, slot.symbol.isYield)}</span>
         <span
           className="sym-chg tnum"

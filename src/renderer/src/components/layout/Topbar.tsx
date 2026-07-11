@@ -1,12 +1,10 @@
-import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { AssetClass } from '@renderer/types/market'
-import { ALL_ASSETS } from '@renderer/data/mockData'
-import { searchAssets } from '@renderer/lib/assetSearch'
 import { useAppState } from '@renderer/state/AppStateContext'
 import { SUPPORTED_LANGUAGES } from '@renderer/i18n'
 import { IconAcademy, IconPortfolio } from '@renderer/components/icons/Icons'
 import Tooltip from '@renderer/components/ui/Tooltip'
+import AssetSearchBox from '@renderer/components/ui/AssetSearchBox'
 import PortfolioPicker from '@renderer/components/portfolio/PortfolioPicker'
 import logoMark from '@renderer/assets/logo-just.png'
 
@@ -14,7 +12,6 @@ export default function Topbar(): JSX.Element {
   const { t } = useTranslation()
   const { assetClass, setAssetClass, selectSymbol, theme, toggleTheme, openAcademy, allPortfolioSymbols, language, setLanguage } =
     useAppState()
-  const [query, setQuery] = useState('')
 
   const CLASS_OPTIONS: Array<{ id: AssetClass | 'all'; label: string }> = [
     { id: 'all', label: t('topbar.classAll') },
@@ -24,8 +21,6 @@ export default function Topbar(): JSX.Element {
     { id: 'fx', label: t('topbar.classFx') },
     { id: 're', label: t('topbar.classRe') }
   ]
-
-  const matches = useMemo(() => searchAssets(ALL_ASSETS, query), [query])
 
   return (
     <header className="topbar">
@@ -39,35 +34,7 @@ export default function Topbar(): JSX.Element {
       </div>
 
       <div className="global-search">
-        <div className="search-box">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-            <circle cx="11" cy="11" r="7" />
-            <path d="M21 21l-4.3-4.3" />
-          </svg>
-          <input
-            type="text"
-            placeholder={t('topbar.searchPlaceholder')}
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          {matches.length > 0 && (
-            <div className="search-results">
-              {matches.map((a) => (
-                <button
-                  key={a.symbol}
-                  className="search-result"
-                  onClick={() => {
-                    selectSymbol(a)
-                    setQuery('')
-                  }}
-                >
-                  <span className="sr-sym">{a.symbol}</span>
-                  <span className="sr-name">{a.name}</span>
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
+        <AssetSearchBox onSelect={selectSymbol} placeholder={t('topbar.searchPlaceholder')} />
         <div className="class-filters">
           {CLASS_OPTIONS.map((opt) => (
             <button

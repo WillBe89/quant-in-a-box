@@ -1,7 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import type { PortfolioInsightsRequest } from '../main/aiInsights'
-import type { Candle, NewsItem } from '../main/localDb'
+import type { Candle, CompanyProfile, NewsItem } from '../main/localDb'
 import type { PortfolioReportInput, SaveWorkbookResult } from '../main/exportData'
 
 const api = {
@@ -17,6 +17,10 @@ const api = {
   getCachedNews: (symbolsKey: string, maxAgeMs: number) =>
     ipcRenderer.invoke('data:getCachedNews', symbolsKey, maxAgeMs),
   storeNews: (symbolsKey: string, items: NewsItem[]) => ipcRenderer.invoke('data:storeNews', symbolsKey, items),
+  getCachedProfile: (symbol: string, maxAgeMs: number) =>
+    ipcRenderer.invoke('data:getCachedProfile', symbol, maxAgeMs),
+  storeProfile: (symbol: string, source: string, profile: CompanyProfile) =>
+    ipcRenderer.invoke('data:storeProfile', symbol, source, profile),
   exportPortfolioReport: (input: PortfolioReportInput): Promise<SaveWorkbookResult> =>
     ipcRenderer.invoke('data:exportPortfolioReport', input),
   exportMarketArchive: (symbol?: string): Promise<SaveWorkbookResult> =>

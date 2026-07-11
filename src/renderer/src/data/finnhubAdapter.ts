@@ -1,4 +1,4 @@
-import type { Asset, Candle, NewsItem, Timeframe } from '@renderer/types/market'
+import type { Asset, Candle, CompanyProfile, NewsItem, Timeframe } from '@renderer/types/market'
 import { getFinnhubKey } from './apiKeyStore'
 
 const BASE_URL = 'https://finnhub.io/api/v1'
@@ -78,6 +78,29 @@ export async function fetchCompanyNews(symbol: string): Promise<NewsItem[]> {
     publishedAt: item.datetime,
     relatedSymbols: [symbol]
   }))
+}
+
+export async function fetchCompanyProfile(symbol: string): Promise<CompanyProfile | null> {
+  const url = `${BASE_URL}/stock/profile2?symbol=${encodeURIComponent(symbol)}&token=${apiKey()}`
+  const res = await fetch(url)
+  if (!res.ok) throw new Error(`Finnhub profile failed: ${res.status}`)
+  const data = await res.json()
+  // Finnhub returns HTTP 200 with an empty {} body for an unknown/delisted symbol rather
+  // than a 404 — a truthy response is not the same as a valid one.
+  if (!data || !data.name) return null
+  return {
+    symbol,
+    name: data.name,
+    logo: data.logo ?? '',
+    industry: data.finnhubIndustry ?? '',
+    marketCapitalization: data.marketCapitalization ?? 0,
+    shareOutstanding: data.shareOutstanding ?? 0,
+    website: data.weburl ?? '',
+    ipo: data.ipo ?? '',
+    exchange: data.exchange ?? '',
+    currency: data.currency ?? '',
+    country: data.country ?? ''
+  }
 }
 
 export async function fetchGeneralNews(): Promise<NewsItem[]> {

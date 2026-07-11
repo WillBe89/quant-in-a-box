@@ -116,6 +116,8 @@
     },
     "resizeDock": "调整仪表盘宽度",
     "resizeOscillator": "调整指标面板高度",
+    "changeSymbol": "更改代码",
+    "changeSymbolPlaceholder": "搜索任意资产 — AAPL、BTC、10年期美债、VNQ…",
     "chartStyle": {
       "candles": "蜡烛图",
       "bars": "条形图",
@@ -470,6 +472,19 @@
       "bad": "与 1.0 相差较大——对市场敏感度高得多、低得多，或与大盘走势相反。",
       "caveat": "这并非好坏的评判——只是标示这与\"市场典型水平\"的偏离程度。"
     }
+  },
+  "assetInsight": {
+    "trigger": "公司概况",
+    "close": "关闭",
+    "loading": "正在加载公司概况…",
+    "unavailableForClass": "该资产类别暂无公司概况数据。",
+    "notFound": "该代码暂无公司概况数据。",
+    "marketCap": "市值",
+    "sharesOutstanding": "流通股数",
+    "exchange": "交易所",
+    "ipo": "上市日期",
+    "country": "国家/地区",
+    "website": "访问官网"
   },
   "modelPortfolio": {
     "conservative": {

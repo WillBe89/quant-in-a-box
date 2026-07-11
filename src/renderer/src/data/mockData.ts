@@ -1,4 +1,4 @@
-import type { Asset, AssetClass, Candle, NewsItem, OptionQuote, Timeframe } from '@renderer/types/market'
+import type { Asset, AssetClass, Candle, CompanyProfile, NewsItem, OptionQuote, Timeframe } from '@renderer/types/market'
 import { blackScholes } from '@renderer/lib/quant'
 import { GENERATED_STOCK_ASSETS, GENERATED_CRYPTO_ASSETS } from './assetUniverse'
 
@@ -278,6 +278,49 @@ const NEWS_TEMPLATES: Array<Omit<NewsItem, 'id' | 'publishedAt'>> = [
     relatedSymbols: ['XAUUSD']
   }
 ]
+
+const MOCK_INDUSTRIES = [
+  'Software—Infrastructure',
+  'Semiconductors',
+  'Consumer Electronics',
+  'Internet Retail',
+  'Biotechnology',
+  'Banks—Diversified',
+  'Oil & Gas Integrated',
+  'Aerospace & Defense'
+]
+
+/** Deterministic mock company profile for stocks-class assets, keyed off the same
+ *  hashSymbol/seededRandom pair every other generator in this file uses. Returns null for
+ *  any non-'stocks' asset class — the same rule the real Finnhub-backed path follows — so
+ *  the "not available for this asset class" UI state is exercisable even with zero API keys
+ *  configured. `logo` is deliberately left empty so the logo-fallback UI path is exercised
+ *  in mock mode too, not just on a real-API failure. */
+export function generateCompanyProfile(asset: Asset): CompanyProfile | null {
+  if (asset.klass !== 'stocks') return null
+  const seed = hashSymbol(asset.symbol)
+  const rand = seededRandom(seed)
+  const shareOutstanding = Math.round(500 + rand() * 15_000) // millions
+  const marketCapitalization = Math.round(asset.price * shareOutstanding) // millions
+  const industry = MOCK_INDUSTRIES[seed % MOCK_INDUSTRIES.length]
+  const ipoYear = 1990 + Math.floor(rand() * 34)
+  const ipoMonth = 1 + Math.floor(rand() * 12)
+  const ipoDay = 1 + Math.floor(rand() * 28)
+  const ipo = `${ipoYear}-${String(ipoMonth).padStart(2, '0')}-${String(ipoDay).padStart(2, '0')}`
+  return {
+    symbol: asset.symbol,
+    name: asset.name.split(' · ')[0],
+    logo: '',
+    industry,
+    marketCapitalization,
+    shareOutstanding,
+    website: `https://www.${asset.symbol.toLowerCase()}.example.com`,
+    ipo,
+    exchange: 'NASDAQ',
+    currency: 'USD',
+    country: 'US'
+  }
+}
 
 export function generateNews(relevantSymbols?: string[]): NewsItem[] {
   const now = Math.floor(Date.now() / 1000)
