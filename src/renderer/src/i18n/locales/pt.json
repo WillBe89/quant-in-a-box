@@ -89,7 +89,9 @@
       "twoFocus": "Foco + 1",
       "threeEqual": "3 gráficos",
       "threeGrid": "Grade 1+2"
-    }
+    },
+    "resizeDock": "Redimensionar a largura do painel",
+    "resizeOscillator": "Redimensionar a altura do painel de indicadores"
   },
   "dock": {
     "risk": {

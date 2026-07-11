@@ -1,10 +1,12 @@
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { MotionConfig } from 'motion/react'
 import { AppStateProvider, useAppState } from '@renderer/state/AppStateContext'
 import Topbar from '@renderer/components/layout/Topbar'
 import Rail from '@renderer/components/layout/Rail'
 import Workspace from '@renderer/components/layout/Workspace'
 import Dock from '@renderer/components/layout/Dock'
+import ResizeHandle from '@renderer/components/layout/ResizeHandle'
 import TickerTape from '@renderer/components/layout/TickerTape'
 import AcademyPanel from '@renderer/academy/AcademyPanel'
 import PortfolioWorkspace from '@renderer/components/portfolio/PortfolioWorkspace'
@@ -13,7 +15,8 @@ import DockCardOverlay from '@renderer/components/dock/DockCardOverlay'
 import '@renderer/components/layout/layout.css'
 
 function Shell(): JSX.Element {
-  const { theme } = useAppState()
+  const { t } = useTranslation()
+  const { theme, dockWidthPx, setDockWidthPx } = useAppState()
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
@@ -22,9 +25,18 @@ function Shell(): JSX.Element {
   return (
     <div className="app">
       <Topbar />
-      <div className="body">
+      <div className="body" style={{ ['--dock-width' as string]: `${dockWidthPx}px` }}>
         <Rail />
         <Workspace />
+        <ResizeHandle
+          axis="horizontal"
+          value={dockWidthPx}
+          onChange={setDockWidthPx}
+          min={260}
+          max={520}
+          invert
+          ariaLabel={t('workspace.resizeDock') ?? 'Resize dashboard width'}
+        />
         <Dock />
       </div>
       <TickerTape />

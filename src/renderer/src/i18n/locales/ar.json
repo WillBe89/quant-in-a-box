@@ -89,7 +89,9 @@
       "twoFocus": "تركيز + 1",
       "threeEqual": "3 رسوم بيانية",
       "threeGrid": "شبكة 1+2"
-    }
+    },
+    "resizeDock": "تغيير عرض لوحة المعلومات",
+    "resizeOscillator": "تغيير ارتفاع لوحة المؤشرات"
   },
   "dock": {
     "risk": {

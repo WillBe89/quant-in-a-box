@@ -8,6 +8,7 @@ import OscillatorPanel from '@renderer/components/chart/OscillatorPanel'
 import InfoIcon from '@renderer/academy/InfoIcon'
 import { IconStar } from '@renderer/components/icons/Icons'
 import Tooltip from '@renderer/components/ui/Tooltip'
+import ResizeHandle from './ResizeHandle'
 
 const TIMEFRAMES: Timeframe[] = ['1D', '1W', '1M', '3M', '1Y', '5Y']
 
@@ -41,7 +42,9 @@ export default function ChartSlot({
     theme,
     isInWatchlist,
     toggleWatchlist,
-    language
+    language,
+    oscillatorHeightPx,
+    setOscillatorHeightPx
   } = useAppState()
   const slot = chartSlots.find((s) => s.id === slotId)
   const [candles, setCandles] = useState<Candle[]>([])
@@ -192,13 +195,24 @@ export default function ChartSlot({
       </div>
 
       {showOsc && (
-        <div className="subpanel">
-          <span className="subpanel-label">
-            {oscMode === 'rsi' ? t('workspace.rsiLabel') : t('workspace.macdLabel')}
-            <InfoIcon lessonId={oscMode} />
-          </span>
-          <OscillatorPanel candles={candles} mode={oscMode} theme={theme} />
-        </div>
+        <>
+          <ResizeHandle
+            axis="vertical"
+            value={oscillatorHeightPx}
+            onChange={setOscillatorHeightPx}
+            min={80}
+            max={260}
+            invert
+            ariaLabel={t('workspace.resizeOscillator') ?? 'Resize indicator panel height'}
+          />
+          <div className="subpanel" style={{ height: oscillatorHeightPx, marginTop: 0 }}>
+            <span className="subpanel-label">
+              {oscMode === 'rsi' ? t('workspace.rsiLabel') : t('workspace.macdLabel')}
+              <InfoIcon lessonId={oscMode} />
+            </span>
+            <OscillatorPanel candles={candles} mode={oscMode} theme={theme} />
+          </div>
+        </>
       )}
     </section>
   )

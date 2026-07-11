@@ -89,7 +89,9 @@
       "twoFocus": "फ़ोकस + 1",
       "threeEqual": "3 चार्ट",
       "threeGrid": "1 + 2 ग्रिड"
-    }
+    },
+    "resizeDock": "डैशबोर्ड की चौड़ाई समायोजित करें",
+    "resizeOscillator": "इंडिकेटर पैनल की ऊंचाई समायोजित करें"
   },
   "dock": {
     "risk": {

@@ -89,7 +89,9 @@
       "twoFocus": "Focus + 1",
       "threeEqual": "3 graphiques",
       "threeGrid": "Grille 1+2"
-    }
+    },
+    "resizeDock": "Redimensionner la largeur du tableau de bord",
+    "resizeOscillator": "Redimensionner la hauteur du panneau d'indicateurs"
   },
   "dock": {
     "risk": {

@@ -89,7 +89,9 @@
       "twoFocus": "Foco + 1",
       "threeEqual": "3 gráficos",
       "threeGrid": "Cuadrícula 1+2"
-    }
+    },
+    "resizeDock": "Cambiar el ancho del panel",
+    "resizeOscillator": "Cambiar la altura del panel de indicadores"
   },
   "dock": {
     "risk": {

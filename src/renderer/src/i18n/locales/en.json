@@ -127,6 +127,8 @@
     "macdLabel": "MACD (12, 26, 9)",
     "volLabel": "Vol",
     "maLabel": "MA",
+    "resizeDock": "Resize dashboard width",
+    "resizeOscillator": "Resize indicator panel height",
     "template": {
       "single": "1 chart",
       "twoEqual": "2 charts",

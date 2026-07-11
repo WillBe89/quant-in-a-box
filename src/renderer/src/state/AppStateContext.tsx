@@ -14,6 +14,15 @@ const DOCK_LAYOUT_STORAGE_KEY = 'qiab:dockLayout:v1'
 const LAYOUT_TEMPLATE_STORAGE_KEY = 'qiab:layoutTemplate:v1'
 const CHART_SLOTS_STORAGE_KEY = 'qiab:chartSlots:v1'
 const FOCUSED_SLOT_STORAGE_KEY = 'qiab:focusedSlot:v1'
+const DOCK_WIDTH_STORAGE_KEY = 'qiab:dockWidthPx:v1'
+const OSCILLATOR_HEIGHT_STORAGE_KEY = 'qiab:oscillatorHeightPx:v1'
+
+const DOCK_WIDTH_DEFAULT = 320
+const DOCK_WIDTH_MIN = 260
+const DOCK_WIDTH_MAX = 520
+const OSCILLATOR_HEIGHT_DEFAULT = 108
+const OSCILLATOR_HEIGHT_MIN = 80
+const OSCILLATOR_HEIGHT_MAX = 260
 
 export type TickerSource = 'watchlist' | 'portfolio' | 'all'
 export type NewsSource = 'selected' | 'watchlist' | 'portfolio'
@@ -216,6 +225,19 @@ function loadFocusedSlotId(): string {
   return 'slot-0'
 }
 
+function loadClampedPx(key: string, min: number, max: number, fallback: number): number {
+  try {
+    const raw = localStorage.getItem(key)
+    if (raw) {
+      const n = Number(raw)
+      if (Number.isFinite(n)) return Math.min(max, Math.max(min, n))
+    }
+  } catch {
+    // fall through to default
+  }
+  return fallback
+}
+
 function loadWatchlist(): Asset[] {
   try {
     const raw = localStorage.getItem(WATCHLIST_STORAGE_KEY)
@@ -286,6 +308,10 @@ interface AppState {
   setSlotSymbol: (slotId: string, asset: Asset) => void
   setSlotTimeframe: (slotId: string, tf: Timeframe) => void
   toggleSlotIndicator: (slotId: string, id: IndicatorId) => void
+  dockWidthPx: number
+  setDockWidthPx: (px: number) => void
+  oscillatorHeightPx: number
+  setOscillatorHeightPx: (px: number) => void
 }
 
 export interface DockLayoutContextValue {
@@ -304,6 +330,12 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   const [layoutTemplate, setLayoutTemplateState] = useState<LayoutTemplateId>(() => loadLayoutTemplate())
   const [chartSlots, setChartSlots] = useState<ChartSlotState[]>(() => loadChartSlots())
   const [focusedSlotId, setFocusedSlotIdState] = useState<string>(() => loadFocusedSlotId())
+  const [dockWidthPx, setDockWidthPxState] = useState<number>(() =>
+    loadClampedPx(DOCK_WIDTH_STORAGE_KEY, DOCK_WIDTH_MIN, DOCK_WIDTH_MAX, DOCK_WIDTH_DEFAULT)
+  )
+  const [oscillatorHeightPx, setOscillatorHeightPxState] = useState<number>(() =>
+    loadClampedPx(OSCILLATOR_HEIGHT_STORAGE_KEY, OSCILLATOR_HEIGHT_MIN, OSCILLATOR_HEIGHT_MAX, OSCILLATOR_HEIGHT_DEFAULT)
+  )
   const focusedSlot = useMemo(
     () => chartSlots.find((s) => s.id === focusedSlotId) ?? chartSlots[0],
     [chartSlots, focusedSlotId]
@@ -407,8 +439,31 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
     }
   }, [focusedSlotId])
 
+  useEffect(() => {
+    try {
+      localStorage.setItem(DOCK_WIDTH_STORAGE_KEY, String(dockWidthPx))
+    } catch {
+      // best-effort persistence; ignore quota/availability errors
+    }
+  }, [dockWidthPx])
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(OSCILLATOR_HEIGHT_STORAGE_KEY, String(oscillatorHeightPx))
+    } catch {
+      // best-effort persistence; ignore quota/availability errors
+    }
+  }, [oscillatorHeightPx])
+
   const setLayoutTemplate = useCallback((tpl: LayoutTemplateId) => setLayoutTemplateState(tpl), [])
   const setFocusedSlotId = useCallback((id: string) => setFocusedSlotIdState(id), [])
+
+  const setDockWidthPx = useCallback((px: number) => {
+    setDockWidthPxState(Math.min(DOCK_WIDTH_MAX, Math.max(DOCK_WIDTH_MIN, px)))
+  }, [])
+  const setOscillatorHeightPx = useCallback((px: number) => {
+    setOscillatorHeightPxState(Math.min(OSCILLATOR_HEIGHT_MAX, Math.max(OSCILLATOR_HEIGHT_MIN, px)))
+  }, [])
 
   const setSlotSymbol = useCallback((slotId: string, asset: Asset) => {
     setChartSlots((prev) => prev.map((s) => (s.id === slotId ? { ...s, symbol: asset } : s)))
@@ -635,7 +690,11 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       setFocusedSlotId,
       setSlotSymbol,
       setSlotTimeframe,
-      toggleSlotIndicator
+      toggleSlotIndicator,
+      dockWidthPx,
+      setDockWidthPx,
+      oscillatorHeightPx,
+      setOscillatorHeightPx
     }),
     [
       assetClass,
@@ -688,7 +747,11 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       setFocusedSlotId,
       setSlotSymbol,
       setSlotTimeframe,
-      toggleSlotIndicator
+      toggleSlotIndicator,
+      dockWidthPx,
+      setDockWidthPx,
+      oscillatorHeightPx,
+      setOscillatorHeightPx
     ]
   )
 

@@ -277,8 +277,43 @@
 .body {
   flex: 1 1 auto;
   display: grid;
-  grid-template-columns: 68px minmax(0, 1fr) 320px;
+  grid-template-columns: 68px minmax(0, 1fr) 6px var(--dock-width, 320px);
   min-height: 0;
+}
+
+.resize-handle {
+  position: relative;
+  background: transparent;
+}
+.resize-handle::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  background: var(--border);
+  border-radius: 2px;
+}
+.resize-handle:hover::after,
+.resize-handle:focus-visible::after {
+  background: var(--accent-b);
+}
+.resize-handle-horizontal {
+  cursor: col-resize;
+  width: 6px;
+}
+.resize-handle-horizontal::after {
+  width: 2px;
+  height: 100%;
+}
+.resize-handle-vertical {
+  cursor: row-resize;
+  height: 6px;
+  flex: none;
+  margin: 2px 14px;
+}
+.resize-handle-vertical::after {
+  height: 2px;
+  width: 100%;
 }
 
 /* ---------- Rail ---------- */
@@ -1066,7 +1101,8 @@ table.greeks td {
   .body {
     grid-template-columns: 60px 1fr;
   }
-  .dock {
+  .dock,
+  .resize-handle-horizontal {
     display: none;
   }
 }

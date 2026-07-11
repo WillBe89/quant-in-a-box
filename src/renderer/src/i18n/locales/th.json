@@ -89,7 +89,9 @@
       "twoFocus": "โฟกัส + 1",
       "threeEqual": "3 กราฟ",
       "threeGrid": "กริด 1+2"
-    }
+    },
+    "resizeDock": "ปรับความกว้างของแดชบอร์ด",
+    "resizeOscillator": "ปรับความสูงของแผงตัวชี้วัด"
   },
   "dock": {
     "risk": {

@@ -89,7 +89,9 @@
       "twoFocus": "主图 + 1",
       "threeEqual": "3 张图表",
       "threeGrid": "1+2 网格"
-    }
+    },
+    "resizeDock": "调整仪表盘宽度",
+    "resizeOscillator": "调整指标面板高度"
   },
   "dock": {
     "risk": {

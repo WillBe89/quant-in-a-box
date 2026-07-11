@@ -89,7 +89,9 @@
       "twoFocus": "Фокус + 1",
       "threeEqual": "3 графика",
       "threeGrid": "Сетка 1+2"
-    }
+    },
+    "resizeDock": "Изменить ширину панели",
+    "resizeOscillator": "Изменить высоту панели индикаторов"
   },
   "dock": {
     "risk": {

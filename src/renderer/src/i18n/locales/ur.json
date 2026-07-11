@@ -89,7 +89,9 @@
       "twoFocus": "فوکس + 1",
       "threeEqual": "3 چارٹس",
       "threeGrid": "1+2 گرڈ"
-    }
+    },
+    "resizeDock": "ڈیش بورڈ کی چوڑائی ایڈجسٹ کریں",
+    "resizeOscillator": "انڈیکیٹر پینل کی اونچائی ایڈجسٹ کریں"
   },
   "dock": {
     "risk": {
