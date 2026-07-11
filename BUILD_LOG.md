@@ -2,6 +2,17 @@
 
 Running log of autonomous build cycles. Newest entries at the top.
 
+## 2026-07-11 - Fixed recurring tooltip-clipping bug at the root (direct request)
+
+**Built:** rewrote the shared `Tooltip.tsx` to render its bubble through a React portal into `document.body` at a fixed viewport position, instead of as a plain `position: absolute` child of its trigger. This was a real, recurring bug: any ancestor with `overflow: hidden` (stat tiles, scrollable dock/panel bodies) clipped the tooltip regardless of its `z-index`, since overflow clipping and stacking order are separate CSS mechanisms. Earlier passes patched this one container at a time (a `:has(.tooltip-bubble)` override on stat tiles, `side="right"` placement on dock card buttons, removing overflow from `OverlayPanel`) rather than fixing the shared component, so any new container built since kept the same underlying risk. A portal sidesteps the problem entirely: the tooltip is no longer a descendant of whatever might clip it, so no future container can reintroduce this bug.
+
+- Position is computed from the trigger's `getBoundingClientRect()` on show, converted to a single anchor point per `side` (top/bottom/left/right), with the existing centering handled via a static CSS `transform` instead of parent-relative `calc(100% + Npx)` offsets (which only worked because the tooltip used to share a positioning context with its trigger).
+- Added a scroll/resize listener while a tooltip is visible so it can't go stale-positioned if the page scrolls mid-hover, a new failure mode a portaled, viewport-fixed tooltip could otherwise introduce.
+- `z-index: 200` bumped to `1000` (highest in the app is otherwise 30), so the tooltip is unambiguously always on top now that it renders as a body-level sibling rather than nested inside whatever local stacking context its trigger lived in.
+- Removed the now-dead `.stat-tile:has(.tooltip-bubble) { overflow: visible }` rule — it can never match again since the tooltip no longer lives inside `.stat-tile` at all.
+
+**Verified:** `npm run typecheck`/`test` (62/62)/`build` all clean. Live in the browser: confirmed the tooltip bubble renders as a direct child of `document.body` (not nested under the stat tile), with `position: fixed` and `z-index: 1000`, fully visible and un-clipped.
+
 ## 2026-07-11 - Portfolio dashboard: combined "All portfolios" overview (phase 2 of 2, pass 4 of 4, last)
 
 **Built:** a new Rail entry point ("All portfolios," next to the existing per-portfolio quick-launch dots, same `portfolios.length > 0` gating) opening a standalone panel that merges every saved portfolio into one combined view: a real quantity-weighted merge (the same symbol held in two different portfolios becomes one row with summed quantity and a correctly blended average cost), reusing the exact Holdings/Dashboard tab composition every per-portfolio panel already has, so the class breakdown, holdings ranking, benchmark comparison, risk stats, and AI insights all Just Work here too without a third copy of any of that logic. Last of four sequenced passes for the portfolio dashboard feature, and the last of the two features from the original request (chart styles + portfolio dashboard).
