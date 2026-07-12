@@ -31,7 +31,8 @@
       "heading": "数据与 API 密钥",
       "intro": "连接您自己的免费套餐密钥以获取实时市场数据和 AI 洞察。密钥仅存储在本设备上。如果未设置任何密钥，应用将使用逼真的模拟数据运行。",
       "finnhubLabel": "Finnhub（实时报价、K线、新闻）",
-      "twelveDataLabel": "TwelveData（债券与外汇补充数据）",
+      "twelveDataLabel": "TwelveData（股票、债券、外汇与加密货币）",
+      "coinGeckoLabel": "CoinGecko（加密货币历史数据）",
       "anthropicLabel": "Anthropic（AI 投资组合洞察备用方案）",
       "placeholder": "粘贴您的 API 密钥",
       "saveBtn": "保存",
@@ -39,7 +40,14 @@
       "statusLive": "实时数据已启用",
       "statusMock": "模拟数据",
       "statusConfigured": "已配置",
-      "statusNotConfigured": "未配置"
+      "statusNotConfigured": "未配置",
+      "getFreeKey": "获取免费密钥",
+      "infoLabel": "这解锁了什么？",
+      "dataQualityCaveat": "一个简短而诚实的提示：过时、陈旧或低分辨率的真实数据可能会让这里的统计分析比本应用内部一致的生成默认数据更不实用，而不是更好。只有当密钥背后的数据确实是最新且完整的时候，连接密钥才算是真正的升级。",
+      "finnhubBenefit": "真实的报价、公司概况和按代码筛选的新闻。不过，历史K线数据在 Finnhub 的免费计划中已确认仅限付费套餐——即使连接了密钥，图表仍会回退到模拟数据。",
+      "twelveDataBenefit": "股票、债券、外汇和加密货币的真实多年每日价格历史——本应用获取真实历史图表的主要途径。连接后，后台回填还会自动拉取数年的历史数据。",
+      "coinGeckoBenefit": "真实的加密货币价格历史。最近 30 天内提供完整的每日或更精细的分辨率；在免费套餐中，更早的历史数据会变得更粗略，大约每隔几天才有一根K线。",
+      "anthropicBenefit": "由 Claude 驱动的真实投资组合洞察，取代未连接密钥时使用的本地 Claude Code CLI 回退方案。"
     },
     "marketArchive": {
       "heading": "市场数据存档",

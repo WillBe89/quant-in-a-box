@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import type { RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   useAppState,
@@ -15,17 +16,28 @@ import {
   clearFinnhubKey,
   getTwelveDataKey,
   setTwelveDataKey,
-  clearTwelveDataKey
+  clearTwelveDataKey,
+  getCoinGeckoKey,
+  setCoinGeckoKey,
+  clearCoinGeckoKey
 } from '@renderer/data/apiKeyStore'
 import { estimateCandleDownloadCalls, downloadHistoricalCandles } from '@renderer/data/historyDownload'
 import { FinnhubCandleRangeError } from '@renderer/data/finnhubAdapter'
 import type { Asset } from '@renderer/types/market'
-import { IconClose, IconTrash } from '@renderer/components/icons/Icons'
+import { IconClose, IconInfo, IconTrash } from '@renderer/components/icons/Icons'
 import { resolvePortfolioIcon, resolvePortfolioColor } from '@renderer/lib/portfolioStyle'
 import PortfolioStylePicker from '@renderer/components/portfolio/PortfolioStylePicker'
 import Tooltip from '@renderer/components/ui/Tooltip'
 import OverlayPanel from '@renderer/components/ui/OverlayPanel'
+import { useDismissablePopover } from '@renderer/lib/useDismissablePopover'
 import './customize.css'
+
+// Real, confirmed free-tier signup URLs — same "fetched and verified live" bar this file already
+// holds itself to for the exchange-listing download links below.
+const FINNHUB_SIGNUP_URL = 'https://finnhub.io/register'
+const TWELVE_DATA_SIGNUP_URL = 'https://twelvedata.com/register'
+const COINGECKO_SIGNUP_URL = 'https://www.coingecko.com/en/api/pricing'
+const ANTHROPIC_SIGNUP_URL = 'https://console.anthropic.com/settings/keys'
 
 const NEWS_SOURCES: NewsSource[] = ['selected', 'watchlist', 'portfolio']
 const DOCK_CARD_IDS: DockCardId[] = ['risk', 'options', 'news']
@@ -142,18 +154,29 @@ function ApiKeyRow({
   label,
   configured,
   statusLabel,
+  signupUrl,
+  benefitBody,
   onSave,
   onClear
 }: {
   label: string
   configured: boolean
   statusLabel: string
+  /** Real free-tier signup URL for this provider — rendered as a plain `target="_blank"` anchor,
+   *  which main/index.ts's `setWindowOpenHandler` already routes through `shell.openExternal` with
+   *  no new IPC needed. */
+  signupUrl: string
+  /** Honest, provider-specific copy for the "what does this unlock" popout — what connecting this
+   *  key actually changes over the mock default, including real limitations, never oversold. */
+  benefitBody: string
   onSave: (value: string) => void | Promise<void>
   onClear: () => void | Promise<void>
 }): JSX.Element {
   const { t } = useTranslation()
   const [value, setValue] = useState('')
   const [saving, setSaving] = useState(false)
+  const [infoOpen, setInfoOpen] = useState(false)
+  const { triggerRef, popoverRef } = useDismissablePopover(infoOpen, () => setInfoOpen(false))
 
   async function handleSave(): Promise<void> {
     const trimmed = value.trim()
@@ -173,6 +196,28 @@ function ApiKeyRow({
         <span className="apikey-label">{label}</span>
         <span className={'apikey-status' + (configured ? ' ok' : '')}>{statusLabel}</span>
       </div>
+      <div className="apikey-row-links">
+        <a className="apikey-signup-link" href={signupUrl} target="_blank" rel="noreferrer">
+          {t('customize.apiKeys.getFreeKey')}
+        </a>
+        <button
+          type="button"
+          className={'apikey-info-trigger' + (infoOpen ? ' active' : '')}
+          aria-label={t('customize.apiKeys.infoLabel') ?? undefined}
+          onClick={() => setInfoOpen((open) => !open)}
+          ref={triggerRef as unknown as RefObject<HTMLButtonElement>}
+        >
+          <IconInfo size={12} />
+        </button>
+      </div>
+      {infoOpen && (
+        // Deliberately an inline expanding block (pushes the key-input row below it down),
+        // not a floating absolutely-positioned popover — this row's input/save controls sit
+        // immediately below, and an overlay here would visually cover and block clicks on them.
+        <div className="apikey-info-popover" role="note" ref={popoverRef as unknown as RefObject<HTMLDivElement>}>
+          {benefitBody}
+        </div>
+      )}
       <div className="customize-add">
         <div className="customize-add-field">
           <input
@@ -476,6 +521,7 @@ export default function CustomizePanel(): JSX.Element {
 
         <h3 className="customize-section-heading customize-section-spaced">{t('customize.apiKeys.heading')}</h3>
         <p className="customize-intro">{t('customize.apiKeys.intro')}</p>
+        <p className="apikey-data-quality-caveat">{t('customize.apiKeys.dataQualityCaveat')}</p>
 
         <ApiKeyRow
           label={t('customize.apiKeys.finnhubLabel')}
@@ -483,6 +529,8 @@ export default function CustomizePanel(): JSX.Element {
           statusLabel={
             getFinnhubKey() ? t('customize.apiKeys.statusLive') : t('customize.apiKeys.statusMock')
           }
+          signupUrl={FINNHUB_SIGNUP_URL}
+          benefitBody={t('customize.apiKeys.finnhubBenefit')}
           onSave={(v) => {
             setFinnhubKey(v)
             bumpSettingsVersion()
@@ -498,12 +546,31 @@ export default function CustomizePanel(): JSX.Element {
           statusLabel={
             getTwelveDataKey() ? t('customize.apiKeys.statusLive') : t('customize.apiKeys.statusMock')
           }
+          signupUrl={TWELVE_DATA_SIGNUP_URL}
+          benefitBody={t('customize.apiKeys.twelveDataBenefit')}
           onSave={(v) => {
             setTwelveDataKey(v)
             bumpSettingsVersion()
           }}
           onClear={() => {
             clearTwelveDataKey()
+            bumpSettingsVersion()
+          }}
+        />
+        <ApiKeyRow
+          label={t('customize.apiKeys.coinGeckoLabel')}
+          configured={Boolean(getCoinGeckoKey())}
+          statusLabel={
+            getCoinGeckoKey() ? t('customize.apiKeys.statusLive') : t('customize.apiKeys.statusMock')
+          }
+          signupUrl={COINGECKO_SIGNUP_URL}
+          benefitBody={t('customize.apiKeys.coinGeckoBenefit')}
+          onSave={(v) => {
+            setCoinGeckoKey(v)
+            bumpSettingsVersion()
+          }}
+          onClear={() => {
+            clearCoinGeckoKey()
             bumpSettingsVersion()
           }}
         />
@@ -515,6 +582,8 @@ export default function CustomizePanel(): JSX.Element {
               ? t('customize.apiKeys.statusConfigured')
               : t('customize.apiKeys.statusNotConfigured')
           }
+          signupUrl={ANTHROPIC_SIGNUP_URL}
+          benefitBody={t('customize.apiKeys.anthropicBenefit')}
           onSave={async (v) => {
             await window.api?.setAnthropicKey(v)
             bumpSettingsVersion()

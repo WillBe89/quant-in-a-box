@@ -18,6 +18,7 @@ import {
 } from './mockData'
 import * as finnhub from './finnhubAdapter'
 import * as twelveData from './twelveDataAdapter'
+import * as coinGecko from './coinGeckoAdapter'
 import { getFinnhubKey, getTwelveDataKey } from './apiKeyStore'
 import { mergeNewsFeeds } from '@renderer/lib/newsMerge'
 
@@ -179,8 +180,12 @@ class FinnhubDataService implements DataService {
 }
 
 /**
- * TwelveData's free tier covers bonds/FX (Finnhub's is thin there) but has no news/options
- * endpoints on the free tier — it only ever supplies candles, falling back to mock otherwise.
+ * TwelveData's free tier covers real multi-year daily history for stocks, bonds, FX, AND crypto
+ * (Phase 8.8 widened this from bonds/FX-only, once Finnhub's candle endpoint was confirmed
+ * paid-tier-only across every asset class, and TwelveData's own free tier was confirmed to
+ * genuinely include crypto — pair-notation symbols like "BTC/USD", handled transparently by
+ * twelveDataAdapter.ts). It has no news/options endpoints on the free tier — it only ever supplies
+ * candles, falling back to mock otherwise.
  */
 class TwelveDataService implements DataService {
   private mock = new MockDataService()
@@ -195,7 +200,7 @@ class TwelveDataService implements DataService {
       .catch(() => null)
     if (cached && cached.length) return cached
     try {
-      const candles = await twelveData.fetchCandles(asset.symbol, timeframe)
+      const candles = await twelveData.fetchCandles(asset, timeframe)
       if (candles.length) {
         window.api?.storeCandles('twelvedata', asset.symbol, timeframe, candles).catch(() => undefined)
         return candles
@@ -222,6 +227,51 @@ class TwelveDataService implements DataService {
 }
 
 /**
+ * Phase 8.8 — CoinGecko-backed crypto candle source, used when no TwelveData key is configured
+ * (TwelveData is preferred first for crypto too — see ReactiveDataService.pickLiveService below).
+ * Works with or without a CoinGecko key (the public OHLC endpoint already returns real history
+ * keyless; a key just raises the rate limit — see coinGeckoAdapter.ts). Has no news/options/quote
+ * endpoint in scope here, matching TwelveDataService's own shape; an asset with no `coingeckoId`
+ * can never be served by the adapter and falls straight to mock.
+ */
+class CoinGeckoDataService implements DataService {
+  private mock = new MockDataService()
+
+  async listAssets(klass: AssetClass | 'all'): Promise<Asset[]> {
+    return this.mock.listAssets(klass)
+  }
+
+  async getCandles(asset: Asset, timeframe: Timeframe): Promise<Candle[]> {
+    const cached = await window.api
+      ?.getCachedCandles('coingecko', asset.symbol, timeframe, ttlForTimeframe(timeframe))
+      .catch(() => null)
+    if (cached && cached.length) return cached
+    try {
+      const candles = await coinGecko.fetchCandles(asset, timeframe)
+      if (candles.length) {
+        window.api?.storeCandles('coingecko', asset.symbol, timeframe, candles).catch(() => undefined)
+        return candles
+      }
+      return this.mock.getCandles(asset, timeframe)
+    } catch {
+      return this.mock.getCandles(asset, timeframe)
+    }
+  }
+
+  async getOptionChain(asset: Asset): Promise<OptionQuote[]> {
+    return this.mock.getOptionChain(asset)
+  }
+
+  async getNews(symbols?: string[], categories?: NewsCategory[]): Promise<NewsItem[]> {
+    return this.mock.getNews(symbols, categories)
+  }
+
+  async getCompanyProfile(asset: Asset): Promise<CompanyProfile | null> {
+    return this.mock.getCompanyProfile(asset)
+  }
+}
+
+/**
  * Delegates to whichever live service (if any) currently has a configured key, re-checked
  * on every call — so saving/clearing a key in Customize takes effect immediately, with no
  * app restart and no change needed at any `dataService.getCandles(...)`-style call site.
@@ -230,15 +280,33 @@ class ReactiveDataService implements DataService {
   private mock = new MockDataService()
   private finnhubSvc = new FinnhubDataService()
   private twelveDataSvc = new TwelveDataService()
+  private coinGeckoSvc = new CoinGeckoDataService()
 
-  /** Bonds/FX lean on TwelveData first (Finnhub's free-tier coverage is thin there per
-   *  .env.example's original framing); everything else prefers Finnhub. */
+  /**
+   * Phase 8.8 widened this considerably. Finnhub's candle endpoint is confirmed paid-tier-only
+   * across every asset class on the free tier (stocks, crypto, forex, and bonds alike) — so
+   * preferring TwelveData first, whenever a key is configured, only ever helps and never
+   * regresses anyone still Finnhub-only (this used to apply to bonds/fx only; now it's every
+   * class TwelveData covers).
+   *
+   * Crypto gets its own fallback chain instead of ever touching Finnhub for candles: TwelveData
+   * first (confirmed to genuinely cover crypto on its free tier, via pair-notation symbols
+   * handled transparently by twelveDataAdapter.ts), then CoinGecko's public OHLC endpoint
+   * (coinGeckoAdapter.ts — works with or without a CoinGecko key) when no TwelveData key is
+   * configured. Finnhub is never used for crypto candles at all, since its candle endpoint would
+   * just 403 there too.
+   */
   private pickLiveService(asset: Asset): DataService | null {
     const hasFinnhub = Boolean(getFinnhubKey())
     const hasTwelveData = Boolean(getTwelveDataKey())
-    if ((asset.klass === 'bonds' || asset.klass === 'fx') && hasTwelveData) return this.twelveDataSvc
-    if (hasFinnhub) return this.finnhubSvc
+
+    if (asset.klass === 'crypto') {
+      if (hasTwelveData) return this.twelveDataSvc
+      return this.coinGeckoSvc
+    }
+
     if (hasTwelveData) return this.twelveDataSvc
+    if (hasFinnhub) return this.finnhubSvc
     return null
   }
 

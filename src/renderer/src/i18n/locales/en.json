@@ -91,7 +91,8 @@
       "heading": "Data & API keys",
       "intro": "Connect your own free-tier keys for live market data and AI insights. Keys are stored on this device only. Without any keys, the app runs on realistic generated mock data.",
       "finnhubLabel": "Finnhub (live quotes, candles, news)",
-      "twelveDataLabel": "TwelveData (bonds & FX supplement)",
+      "twelveDataLabel": "TwelveData (stocks, bonds, FX & crypto)",
+      "coinGeckoLabel": "CoinGecko (crypto history)",
       "anthropicLabel": "Anthropic (AI portfolio insights fallback)",
       "placeholder": "Paste your API key",
       "saveBtn": "Save",
@@ -99,7 +100,14 @@
       "statusLive": "Live data active",
       "statusMock": "Mock data",
       "statusConfigured": "Configured",
-      "statusNotConfigured": "Not configured"
+      "statusNotConfigured": "Not configured",
+      "getFreeKey": "Get a free key",
+      "infoLabel": "What does this unlock?",
+      "dataQualityCaveat": "A quick honest note: outdated, stale, or low-resolution real data can make the statistical analysis here LESS useful than this app's internally consistent generated defaults, not more. Connecting a key is a genuine upgrade only when the data behind it is actually current and complete.",
+      "finnhubBenefit": "Real quotes, company profiles, and ticker-filtered news. Historical candle data is confirmed paid-tier-only on Finnhub's free plan, though — charts still fall back to generated data even with a key connected.",
+      "twelveDataBenefit": "Real multi-year daily price history for stocks, bonds, FX, and crypto — the main way to get real historical charts in this app. Once connected, a background backfill also pulls several years of history automatically.",
+      "coinGeckoBenefit": "Real crypto price history. Full daily-or-finer resolution within the last 30 days; older history coarsens to a bar every few days on the free tier.",
+      "anthropicBenefit": "Real Claude-powered portfolio insights, replacing the local Claude Code CLI fallback used when no key is connected."
     },
     "marketArchive": {
       "heading": "Market data archive",

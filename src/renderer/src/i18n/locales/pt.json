@@ -31,7 +31,8 @@
       "heading": "Dados e chaves de API",
       "intro": "Conecte suas próprias chaves gratuitas para dados de mercado ao vivo e insights de IA. As chaves são armazenadas apenas neste dispositivo. Sem nenhuma chave, o aplicativo funciona com dados simulados realistas.",
       "finnhubLabel": "Finnhub (cotações ao vivo, velas, notícias)",
-      "twelveDataLabel": "TwelveData (complemento de títulos e câmbio)",
+      "twelveDataLabel": "TwelveData (ações, títulos, câmbio e cripto)",
+      "coinGeckoLabel": "CoinGecko (histórico de cripto)",
       "anthropicLabel": "Anthropic (alternativa para insights de IA da carteira)",
       "placeholder": "Cole sua chave de API",
       "saveBtn": "Guardar",
@@ -39,7 +40,14 @@
       "statusLive": "Dados ao vivo ativos",
       "statusMock": "Dados simulados",
       "statusConfigured": "Configurado",
-      "statusNotConfigured": "Não configurado"
+      "statusNotConfigured": "Não configurado",
+      "getFreeKey": "Obter uma chave gratuita",
+      "infoLabel": "O que isso desbloqueia?",
+      "dataQualityCaveat": "Uma nota honesta e rápida: dados reais desatualizados, obsoletos ou de baixa resolução podem tornar a análise estatística aqui MENOS útil do que os padrões gerados e internamente consistentes deste aplicativo, não mais. Conectar uma chave só é uma melhoria genuína quando os dados por trás dela estão realmente atualizados e completos.",
+      "finnhubBenefit": "Cotações reais, perfis de empresas e notícias filtradas por ticker. No entanto, os dados históricos de velas são confirmados como exclusivos do plano pago no plano gratuito da Finnhub — os gráficos continuam recorrendo a dados simulados mesmo com uma chave conectada.",
+      "twelveDataBenefit": "Histórico real de preços diários de vários anos para ações, títulos, câmbio e cripto — a principal forma de obter gráficos históricos reais neste aplicativo. Depois de conectada, um preenchimento em segundo plano também traz automaticamente vários anos de histórico.",
+      "coinGeckoBenefit": "Histórico real de preços de criptomoedas. Resolução diária ou mais fina dentro dos últimos 30 dias; o histórico mais antigo fica mais espaçado, com uma barra a cada poucos dias no plano gratuito.",
+      "anthropicBenefit": "Insights reais de carteira baseados em Claude, substituindo a alternativa local do Claude Code CLI usada quando nenhuma chave está conectada."
     },
     "marketArchive": {
       "heading": "Arquivo de dados de mercado",

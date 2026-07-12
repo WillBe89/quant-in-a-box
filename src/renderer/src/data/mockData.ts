@@ -21,9 +21,9 @@ const CURATED_ASSETS_BY_CLASS: Record<AssetClass, Asset[]> = {
     { symbol: 'MSFT', name: 'Microsoft Corp · NASDAQ', klass: 'stocks', price: 441.9, changePct: -0.21 }
   ],
   crypto: [
-    { symbol: 'BTC', name: 'Bitcoin · Crypto', klass: 'crypto', price: 64230, changePct: -1.12 },
-    { symbol: 'ETH', name: 'Ethereum · Crypto', klass: 'crypto', price: 3412, changePct: 1.87 },
-    { symbol: 'SOL', name: 'Solana · Crypto', klass: 'crypto', price: 172.4, changePct: 4.02 }
+    { symbol: 'BTC', name: 'Bitcoin · Crypto', klass: 'crypto', price: 64230, changePct: -1.12, coingeckoId: 'bitcoin' },
+    { symbol: 'ETH', name: 'Ethereum · Crypto', klass: 'crypto', price: 3412, changePct: 1.87, coingeckoId: 'ethereum' },
+    { symbol: 'SOL', name: 'Solana · Crypto', klass: 'crypto', price: 172.4, changePct: 4.02, coingeckoId: 'solana' }
   ],
   bonds: [
     { symbol: 'US10Y', name: '10Y Treasury Yield', klass: 'bonds', price: 4.28, changePct: 0.04, isYield: true },
@@ -108,7 +108,17 @@ function dedupeCuratedAgainstGenerated(curated: Asset[], generated: Asset[]): [A
   const generatedBySymbol = new Map(generated.map((a) => [a.symbol, a]))
   const mergedCurated = curated.map((c) => {
     const match = generatedBySymbol.get(c.symbol)
-    return match ? { ...c, sector: match.sector, industry: match.industry, marketCap: match.marketCap, country: match.country, ipoYear: match.ipoYear } : c
+    return match
+      ? {
+          ...c,
+          sector: match.sector,
+          industry: match.industry,
+          marketCap: match.marketCap,
+          country: match.country,
+          ipoYear: match.ipoYear,
+          coingeckoId: match.coingeckoId
+        }
+      : c
   })
   const curatedSymbols = new Set(curated.map((c) => c.symbol))
   const dedupedGenerated = generated.filter((a) => !curatedSymbols.has(a.symbol))

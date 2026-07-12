@@ -4,6 +4,7 @@ import { MotionConfig } from 'motion/react'
 import { AppStateProvider, useAppState } from '@renderer/state/AppStateContext'
 import { ALL_ASSETS } from '@renderer/data/mockData'
 import { runDailyQuoteAccumulation } from '@renderer/data/dailyQuoteAccumulator'
+import { runTwelveDataBackfill } from '@renderer/data/twelveDataBackfill'
 import type { Asset } from '@renderer/types/market'
 import Topbar from '@renderer/components/layout/Topbar'
 import Rail from '@renderer/components/layout/Rail'
@@ -21,12 +22,14 @@ import '@renderer/components/layout/layout.css'
 
 /** Asset classes this daily-quote accumulator covers: 'stocks' and 're' (real estate assets
  *  here are plain equity/ETF/REIT tickers on the same Finnhub pipeline as stocks). NOT because
- *  routing exempts the others — dataService.ts's `pickLiveService` actually routes crypto through
- *  Finnhub identically to stocks/re whenever a Finnhub key is configured, and only exempts
- *  bonds/fx when a TwelveData key is *also* configured (Finnhub-only, bonds/fx hit the same
- *  blocked path too). The real reason crypto/bonds/fx are excluded here is symbol-format
- *  incompatibility: their bare-ticker/yield-series/forex-pair symbols wouldn't resolve as
- *  ordinary stock quotes via Finnhub's `/quote` endpoint even if we tried. */
+ *  dataService.ts's `pickLiveService` routing exempts the others from Finnhub for candles — as of
+ *  Phase 8.8 it never routes ANY class to Finnhub for candles when a TwelveData key is configured
+ *  (TwelveData is preferred first everywhere), and crypto never touches Finnhub for candles at
+ *  all (see pickLiveService's own comment). The real reason crypto/bonds/fx are excluded here is
+ *  symbol-format incompatibility with this specific accumulator: their bare-ticker/yield-series/
+ *  forex-pair symbols wouldn't resolve as ordinary stock quotes via Finnhub's `/quote` endpoint
+ *  even if we tried. TWELVE_DATA_BACKFILL_ASSET_CLASSES below covers all five classes instead,
+ *  since TwelveData's own symbol handling (see twelveDataAdapter.ts) does stretch that far. */
 const DAILY_QUOTE_ASSET_CLASSES: Asset['klass'][] = ['stocks', 're']
 
 /** Wait a few seconds after mount before the first background accumulation pass, so it never
@@ -36,6 +39,38 @@ const DAILY_QUOTE_INITIAL_DELAY_MS = 5000
 /** Re-run periodically while the app stays open, in case it wasn't open at a useful time earlier
  *  (e.g. outside market hours) or the watchlist/portfolio holdings changed since the last run. */
 const DAILY_QUOTE_INTERVAL_MS = 4 * 60 * 60 * 1000
+
+/** Asset classes twelveDataBackfill.ts covers. Unlike DAILY_QUOTE_ASSET_CLASSES above — limited to
+ *  stocks/re because Finnhub's `/quote` symbol conventions don't stretch to crypto/bonds/fx —
+ *  TwelveData's own free tier genuinely covers all five classes once its own symbol-format
+ *  handling is accounted for (bare tickers for stocks/re/bonds/fx, "BASE/USD" pair notation for
+ *  crypto — see twelveDataAdapter.ts), so every class is eligible for backfill here. */
+const TWELVE_DATA_BACKFILL_ASSET_CLASSES: Asset['klass'][] = ['stocks', 'crypto', 'bonds', 'fx', 're']
+
+/** Slightly later than the daily-quote accumulator's own initial delay, so the two background
+ *  effects don't both start firing network calls in the same instant right after mount. */
+const TWELVE_DATA_BACKFILL_INITIAL_DELAY_MS = 9000
+
+/** Re-check roughly once a day while the app stays open. Cheap even though most symbols will
+ *  already be within their own ~monthly backfill cadence (see BACKFILL_CADENCE_DAYS in
+ *  twelveDataBackfill.ts) and skip straight past — this interval just needs to notice newly-added
+ *  watchlist/portfolio symbols reasonably promptly, not re-run the actual backfill that often. */
+const TWELVE_DATA_BACKFILL_INTERVAL_MS = 24 * 60 * 60 * 1000
+
+/** Union of the watchlist and every portfolio's holdings (same union TickerTape/NewsCard build
+ *  from these two existing AppStateContext selectors), deduplicated by symbol — shared by both
+ *  background-accumulation effects below, each filtering the result to its own relevant asset
+ *  classes. */
+function unionWatchlistAndPortfolioAssets(watchlist: Asset[], portfolioSymbols: string[]): Asset[] {
+  const bySymbol = new Map<string, Asset>()
+  for (const a of watchlist) bySymbol.set(a.symbol, a)
+  for (const symbol of portfolioSymbols) {
+    if (bySymbol.has(symbol)) continue
+    const a = ALL_ASSETS.find((x) => x.symbol === symbol)
+    if (a) bySymbol.set(symbol, a)
+  }
+  return [...bySymbol.values()]
+}
 
 function Shell(): JSX.Element {
   const { t } = useTranslation()
@@ -60,18 +95,10 @@ function Shell(): JSX.Element {
   allPortfolioSymbolsRef.current = allPortfolioSymbols
 
   useEffect(() => {
-    // Union of the watchlist and every portfolio's holdings (same union TickerTape/NewsCard build
-    // from these two existing AppStateContext selectors), filtered to the asset classes confirmed
-    // above, deduplicated by symbol.
     function relevantAssets(): Asset[] {
-      const bySymbol = new Map<string, Asset>()
-      for (const a of watchlistRef.current) bySymbol.set(a.symbol, a)
-      for (const symbol of allPortfolioSymbolsRef.current) {
-        if (bySymbol.has(symbol)) continue
-        const a = ALL_ASSETS.find((x) => x.symbol === symbol)
-        if (a) bySymbol.set(symbol, a)
-      }
-      return [...bySymbol.values()].filter((a) => DAILY_QUOTE_ASSET_CLASSES.includes(a.klass))
+      return unionWatchlistAndPortfolioAssets(watchlistRef.current, allPortfolioSymbolsRef.current).filter((a) =>
+        DAILY_QUOTE_ASSET_CLASSES.includes(a.klass)
+      )
     }
 
     const initialTimer = setTimeout(() => {
@@ -81,6 +108,33 @@ function Shell(): JSX.Element {
     const interval = setInterval(() => {
       runDailyQuoteAccumulation(relevantAssets())
     }, DAILY_QUOTE_INTERVAL_MS)
+
+    return () => {
+      clearTimeout(initialTimer)
+      clearInterval(interval)
+    }
+  }, [])
+
+  // Phase 8.8 — sibling background effect to the daily-quote one above, but a fundamentally
+  // different kind of fetch: a genuine multi-year bulk backfill per symbol (see
+  // twelveDataBackfill.ts) rather than one real day accumulated at a time. runTwelveDataBackfill
+  // itself no-ops immediately, with zero network calls, whenever no TwelveData key is configured —
+  // this effect always fires on the same timers regardless, exactly like the daily-quote effect
+  // above always fires regardless of whether a Finnhub key is configured.
+  useEffect(() => {
+    function relevantBackfillAssets(): Asset[] {
+      return unionWatchlistAndPortfolioAssets(watchlistRef.current, allPortfolioSymbolsRef.current).filter((a) =>
+        TWELVE_DATA_BACKFILL_ASSET_CLASSES.includes(a.klass)
+      )
+    }
+
+    const initialTimer = setTimeout(() => {
+      runTwelveDataBackfill(relevantBackfillAssets())
+    }, TWELVE_DATA_BACKFILL_INITIAL_DELAY_MS)
+
+    const interval = setInterval(() => {
+      runTwelveDataBackfill(relevantBackfillAssets())
+    }, TWELVE_DATA_BACKFILL_INTERVAL_MS)
 
     return () => {
       clearTimeout(initialTimer)

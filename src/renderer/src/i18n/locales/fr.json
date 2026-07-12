@@ -31,7 +31,8 @@
       "heading": "Données et clés API",
       "intro": "Connectez vos propres clés gratuites pour les données de marché en direct et les analyses IA. Les clés sont stockées uniquement sur cet appareil. Sans clé, l'application fonctionne avec des données simulées réalistes.",
       "finnhubLabel": "Finnhub (cotations en direct, bougies, actualités)",
-      "twelveDataLabel": "TwelveData (complément obligations et forex)",
+      "twelveDataLabel": "TwelveData (actions, obligations, forex et crypto)",
+      "coinGeckoLabel": "CoinGecko (historique crypto)",
       "anthropicLabel": "Anthropic (repli pour les analyses IA du portefeuille)",
       "placeholder": "Collez votre clé API",
       "saveBtn": "Enregistrer",
@@ -39,7 +40,14 @@
       "statusLive": "Données en direct actives",
       "statusMock": "Données simulées",
       "statusConfigured": "Configuré",
-      "statusNotConfigured": "Non configuré"
+      "statusNotConfigured": "Non configuré",
+      "getFreeKey": "Obtenir une clé gratuite",
+      "infoLabel": "Qu'est-ce que cela débloque ?",
+      "dataQualityCaveat": "Une remarque honnête et rapide : des données réelles obsolètes, périmées ou à faible résolution peuvent rendre l'analyse statistique ici MOINS utile que les valeurs par défaut générées et cohérentes de cette application, pas plus. Connecter une clé n'est une véritable amélioration que si les données qui la sous-tendent sont réellement à jour et complètes.",
+      "finnhubBenefit": "Cotations réelles, profils d'entreprises et actualités filtrées par symbole. Les données de bougies historiques sont toutefois confirmées comme réservées au plan payant sur l'offre gratuite de Finnhub — les graphiques continuent d'utiliser des données simulées même avec une clé connectée.",
+      "twelveDataBenefit": "Historique réel des prix quotidiens sur plusieurs années pour les actions, obligations, le forex et les cryptos — le principal moyen d'obtenir de vrais graphiques historiques dans cette application. Une fois connectée, un remplissage automatique en arrière-plan récupère aussi plusieurs années d'historique.",
+      "coinGeckoBenefit": "Historique réel des prix des cryptomonnaies. Résolution quotidienne ou plus fine sur les 30 derniers jours ; l'historique plus ancien s'espace à une barre tous les quelques jours sur l'offre gratuite.",
+      "anthropicBenefit": "De véritables analyses de portefeuille propulsées par Claude, à la place du repli local sur Claude Code CLI utilisé lorsqu'aucune clé n'est connectée."
     },
     "marketArchive": {
       "heading": "Archive des données de marché",

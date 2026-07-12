@@ -27,12 +27,25 @@ function apiKey(): string {
   return key
 }
 
+/**
+ * TwelveData expects crypto symbols in base/quote pair notation (e.g. "BTC/USD"), confirmed
+ * against TwelveData's own docs and asset catalog (whose crypto entries are literally shaped
+ * `{"symbol": "BTC/USD"}`) — unlike this app's `Asset.symbol`, which stores crypto as a bare
+ * ticker ("BTC") to match Finnhub/CoinGecko's conventions instead. Only crypto gets this
+ * transformation; stocks/bonds/fx already pass their bare `Asset.symbol` straight through
+ * unchanged, exactly as before this fix, so that existing working path is untouched.
+ */
+function symbolForRequest(asset: Asset): string {
+  return asset.klass === 'crypto' ? `${asset.symbol}/USD` : asset.symbol
+}
+
 interface TwelveDataQuote {
   close: string
   percent_change: string
 }
 
-export async function fetchQuote(symbol: string): Promise<Pick<Asset, 'price' | 'changePct'>> {
+export async function fetchQuote(asset: Asset): Promise<Pick<Asset, 'price' | 'changePct'>> {
+  const symbol = symbolForRequest(asset)
   const url = `${BASE_URL}/quote?symbol=${encodeURIComponent(symbol)}&apikey=${apiKey()}`
   const res = await fetch(url)
   if (!res.ok) throw new Error(`TwelveData quote failed: ${res.status}`)
@@ -67,18 +80,9 @@ function parseUtcDatetime(raw: string): number {
   return Math.floor(new Date(iso).getTime() / 1000)
 }
 
-export async function fetchCandles(symbol: string, timeframe: Timeframe): Promise<Candle[]> {
-  const interval = INTERVAL_BY_TIMEFRAME[timeframe]
-  const outputsize = OUTPUTSIZE_BY_TIMEFRAME[timeframe]
-  const url =
-    `${BASE_URL}/time_series?symbol=${encodeURIComponent(symbol)}&interval=${interval}` +
-    `&outputsize=${outputsize}&timezone=UTC&apikey=${apiKey()}`
-  const res = await fetch(url)
-  if (!res.ok) throw new Error(`TwelveData time_series failed: ${res.status}`)
-  const data = (await res.json()) as TwelveDataSeriesResponse
-  if (data.status === 'error' || !data.values) return []
-  // TwelveData returns values most-recent-first; this app expects ascending chronological order.
-  return data.values
+// TwelveData returns values most-recent-first; this app expects ascending chronological order.
+function mapSeriesValues(values: TwelveDataSeriesValue[]): Candle[] {
+  return values
     .slice()
     .reverse()
     .map((v) => ({
@@ -89,4 +93,39 @@ export async function fetchCandles(symbol: string, timeframe: Timeframe): Promis
       close: parseFloat(v.close),
       volume: parseFloat(v.volume) || 0
     }))
+}
+
+export async function fetchCandles(asset: Asset, timeframe: Timeframe): Promise<Candle[]> {
+  const interval = INTERVAL_BY_TIMEFRAME[timeframe]
+  const outputsize = OUTPUTSIZE_BY_TIMEFRAME[timeframe]
+  const symbol = symbolForRequest(asset)
+  const url =
+    `${BASE_URL}/time_series?symbol=${encodeURIComponent(symbol)}&interval=${interval}` +
+    `&outputsize=${outputsize}&timezone=UTC&apikey=${apiKey()}`
+  const res = await fetch(url)
+  if (!res.ok) throw new Error(`TwelveData time_series failed: ${res.status}`)
+  const data = (await res.json()) as TwelveDataSeriesResponse
+  if (data.status === 'error' || !data.values) return []
+  return mapSeriesValues(data.values)
+}
+
+/**
+ * Phase 8.8 — genuine multi-year bulk backfill fetch, used by twelveDataBackfill.ts. A single
+ * TwelveData `time_series` call at daily ('1day') resolution can return up to ~5,000 points (about
+ * 19 years) per TwelveData's documented per-call cap — `outputsize` here is expected to stay
+ * comfortably under that (twelveDataBackfill.ts requests ~5 years, ~1,825 points). Unlike
+ * `fetchCandles` above (which maps a `Timeframe` to a pre-set interval/outputsize pair for ordinary
+ * per-view chart fetching), this always requests daily bars explicitly regardless of `Timeframe`,
+ * since a backfill's whole point is real daily-resolution history.
+ */
+export async function fetchDailyHistory(asset: Asset, outputsize: number): Promise<Candle[]> {
+  const symbol = symbolForRequest(asset)
+  const url =
+    `${BASE_URL}/time_series?symbol=${encodeURIComponent(symbol)}&interval=1day` +
+    `&outputsize=${outputsize}&timezone=UTC&apikey=${apiKey()}`
+  const res = await fetch(url)
+  if (!res.ok) throw new Error(`TwelveData time_series failed: ${res.status}`)
+  const data = (await res.json()) as TwelveDataSeriesResponse
+  if (data.status === 'error' || !data.values) return []
+  return mapSeriesValues(data.values)
 }

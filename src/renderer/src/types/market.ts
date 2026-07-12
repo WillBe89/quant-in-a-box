@@ -19,6 +19,10 @@ export interface Asset {
    *  international listings (symbol carries a matching suffix: .AX/.NZ/.SI/.HK/.T). Absent for
    *  the US-only NASDAQ-Trader-sourced universe, which has no suffix and no ambiguity. */
   exchange?: string
+  /** CoinGecko's internal id for this ticker (e.g. "bitcoin" for BTC), used to resolve
+   *  candle/market-data requests against CoinGecko's API — present only for crypto assets
+   *  matched against CoinGecko's public markets list. */
+  coingeckoId?: string
 }
 
 export interface Candle {

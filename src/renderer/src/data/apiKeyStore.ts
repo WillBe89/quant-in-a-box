@@ -3,6 +3,7 @@ const API_KEYS_STORAGE_KEY = 'qiab:apiKeys:v1'
 interface StoredApiKeys {
   finnhub?: string
   twelveData?: string
+  coinGecko?: string
 }
 
 function loadApiKeys(): StoredApiKeys {
@@ -52,5 +53,22 @@ export function setTwelveDataKey(key: string): void {
 export function clearTwelveDataKey(): void {
   const keys = loadApiKeys()
   delete keys.twelveData
+  saveApiKeys(keys)
+}
+
+/** CoinGecko's public OHLC endpoint already works keyless (see coinGeckoAdapter.ts) — this key is
+ *  optional purely to raise the rate limit, not a hard requirement the way Finnhub/TwelveData's
+ *  keys are. Same UI-entered-key-first, .env-fallback-second pattern as the other two. */
+export function getCoinGeckoKey(): string | undefined {
+  return loadApiKeys().coinGecko || import.meta.env.VITE_COINGECKO_API_KEY || undefined
+}
+
+export function setCoinGeckoKey(key: string): void {
+  saveApiKeys({ ...loadApiKeys(), coinGecko: key })
+}
+
+export function clearCoinGeckoKey(): void {
+  const keys = loadApiKeys()
+  delete keys.coinGecko
   saveApiKeys(keys)
 }

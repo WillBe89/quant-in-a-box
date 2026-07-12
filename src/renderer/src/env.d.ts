@@ -3,6 +3,7 @@
 interface ImportMetaEnv {
   readonly VITE_FINNHUB_API_KEY?: string
   readonly VITE_TWELVE_DATA_API_KEY?: string
+  readonly VITE_COINGECKO_API_KEY?: string
 }
 
 interface ImportMeta {
