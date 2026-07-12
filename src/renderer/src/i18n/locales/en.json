@@ -111,6 +111,7 @@
     "historyDownload": {
       "heading": "Download historical data",
       "intro": "Pull years of daily price history for one stock straight from Finnhub and store it locally, so scrolling back on the chart reveals it instantly next time — no repeated live calls. This only works for stocks; the candle endpoint used here doesn't cover crypto, bonds, FX, or real estate.",
+      "autoAccumulateNote": "Your watchlist and portfolio symbols also accumulate one real daily price automatically in the background, building real history one day at a time — no action needed.",
       "symbolPlaceholder": "Search for a stock — AAPL, MSFT…",
       "unsupportedAssetClass": "Stocks only — other asset classes aren't supported by this download.",
       "yearsLabel": "Years of history",

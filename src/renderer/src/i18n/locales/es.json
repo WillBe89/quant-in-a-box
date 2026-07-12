@@ -51,6 +51,7 @@
     "historyDownload": {
       "heading": "Descargar datos históricos",
       "intro": "Obtén años de historial de precios diarios de una acción directamente desde Finnhub y guárdalo localmente, para que al desplazarte hacia atrás en el gráfico aparezca al instante la próxima vez — sin llamadas en vivo repetidas. Esto solo funciona con acciones; el endpoint de velas usado aquí no cubre cripto, bonos, forex ni bienes raíces.",
+      "autoAccumulateNote": "Los símbolos de tu lista de seguimiento y tus carteras también acumulan automáticamente un precio diario real en segundo plano, construyendo historial real día a día — sin necesidad de hacer nada.",
       "symbolPlaceholder": "Busca una acción — AAPL, MSFT…",
       "unsupportedAssetClass": "Solo acciones — esta descarga no admite otras clases de activos.",
       "yearsLabel": "Años de historial",

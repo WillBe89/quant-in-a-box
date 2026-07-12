@@ -520,6 +520,7 @@ export default function CustomizePanel(): JSX.Element {
           {t('customize.historyDownload.heading')}
         </h3>
         <p className="customize-intro">{t('customize.historyDownload.intro')}</p>
+        <p className="customize-intro">{t('customize.historyDownload.autoAccumulateNote')}</p>
 
         {!hasFinnhubKey && (
           <p className="history-download-nokey">{t('customize.historyDownload.noKeyMessage')}</p>

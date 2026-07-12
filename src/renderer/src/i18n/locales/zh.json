@@ -51,6 +51,7 @@
     "historyDownload": {
       "heading": "下载历史数据",
       "intro": "直接从 Finnhub 拉取某支股票多年的每日价格历史并保存在本地，这样下次在图表上向左滚动时可以立即显示，无需重复发起实时请求。此功能仅适用于股票；这里使用的K线接口不支持加密货币、债券、外汇或房地产。",
+      "autoAccumulateNote": "你的关注列表和投资组合中的代码也会在后台自动累积每日真实价格，一天一条，逐步积累真实历史 —— 无需任何操作。",
       "symbolPlaceholder": "搜索股票 — AAPL、MSFT…",
       "unsupportedAssetClass": "仅支持股票 — 本下载功能不支持其他资产类别。",
       "yearsLabel": "历史年数",

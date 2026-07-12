@@ -51,6 +51,7 @@
     "historyDownload": {
       "heading": "Transferir dados históricos",
       "intro": "Obtenha anos de histórico de preços diários de uma ação diretamente do Finnhub e guarde-o localmente, para que ao recuar no gráfico este apareça instantaneamente da próxima vez — sem chamadas em tempo real repetidas. Isto só funciona com ações; o endpoint de velas aqui utilizado não cobre cripto, obrigações, câmbio ou imobiliário.",
+      "autoAccumulateNote": "Os símbolos da sua lista de observação e das suas carteiras também acumulam automaticamente um preço diário real em segundo plano, construindo histórico real dia após dia — sem qualquer ação da sua parte.",
       "symbolPlaceholder": "Procure uma ação — AAPL, MSFT…",
       "unsupportedAssetClass": "Apenas ações — esta transferência não é compatível com outras classes de ativos.",
       "yearsLabel": "Anos de histórico",

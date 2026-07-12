@@ -1,4 +1,4 @@
-import type { Asset, Candle, CompanyProfile, NewsItem, Timeframe } from '@renderer/types/market'
+import type { Candle, CompanyProfile, NewsItem, Timeframe } from '@renderer/types/market'
 import { getFinnhubKey } from './apiKeyStore'
 
 const BASE_URL = 'https://finnhub.io/api/v1'
@@ -28,15 +28,50 @@ function apiKey(): string {
 }
 
 /**
- * Real-quote fetch for a single symbol via Finnhub's /quote endpoint.
- * NOTE: not yet wired into the UI — the app runs on mock data until a key is present
- * (see dataService.ts). This exists so connecting a key later is a one-line swap.
+ * Full shape of Finnhub's free-tier `/quote` endpoint, widened (Phase 8.6) from the original
+ * `{ price, changePct }` pair so a full daily OHLC candle can be built from a single call — see
+ * `quoteToCandle` in data/dailyQuoteAccumulator.ts. `/quote` is the one candle-adjacent endpoint
+ * Finnhub's free tier actually permits; `/stock/candle` (fetchCandles/fetchCandlesInRange below)
+ * requires a paid plan and 403s on a free key (confirmed against a real key — see the Phase 8
+ * report). There is no volume field here at any tier; callers building a Candle from this fill
+ * that field with 0.
  */
-export async function fetchQuote(symbol: string): Promise<Pick<Asset, 'price' | 'changePct'>> {
+export interface FinnhubQuote {
+  /** current price */
+  price: number
+  /** percent change vs previous close */
+  changePct: number
+  /** today's open */
+  open: number
+  /** today's high */
+  high: number
+  /** today's low */
+  low: number
+  /** previous close */
+  previousClose: number
+  /** quote timestamp, unix seconds */
+  timestamp: number
+}
+
+/**
+ * Real-quote fetch for a single symbol via Finnhub's free /quote endpoint.
+ * Originally returned only `{ price, changePct }` for a future UI use that never materialized;
+ * widened in Phase 8.6 to power data/dailyQuoteAccumulator.ts's background daily-candle
+ * accumulation (see that file). Still not wired into any per-view chart display itself.
+ */
+export async function fetchQuote(symbol: string): Promise<FinnhubQuote> {
   const res = await fetch(`${BASE_URL}/quote?symbol=${encodeURIComponent(symbol)}&token=${apiKey()}`)
   if (!res.ok) throw new Error(`Finnhub quote failed: ${res.status}`)
   const data = await res.json()
-  return { price: data.c, changePct: data.dp }
+  return {
+    price: data.c,
+    changePct: data.dp,
+    open: data.o,
+    high: data.h,
+    low: data.l,
+    previousClose: data.pc,
+    timestamp: data.t
+  }
 }
 
 export async function fetchCandles(symbol: string, timeframe: Timeframe): Promise<Candle[]> {
