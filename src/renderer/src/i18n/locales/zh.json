@@ -271,12 +271,17 @@
     "quiz": {
       "disclaimerTitle": "这是为了你自己，不是为了徽章",
       "disclaimerBody": "借助 AI 或他人的答案蒙混过关，只会让这个徽章无法反映你真正掌握的知识。慢慢来，如果某道题难住了你，可以回顾资料库中的课程，并用你真正掌握的知识作答。",
+      "disclaimerCompact": "测验提醒——并非为了徽章",
+      "disclaimerCollapse": "收起为单行提醒",
+      "disclaimerExpand": "展开为完整提醒",
+      "disclaimerDismiss": "关闭此提醒",
       "disclaimerFooter": "这是为了你自己，不是为了徽章——请用你真正掌握的知识作答。",
       "questionOf": "第 {{n}} 题，共 {{total}} 题",
       "prevBtn": "上一题",
       "nextBtn": "下一题",
       "submitBtn": "提交测验",
-      "exitBtn": "退出测验"
+      "exitBtn": "退出测验",
+      "studyBtn": "查看课程笔记"
     },
     "results": {
       "heading": "测验结果",

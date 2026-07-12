@@ -26,6 +26,15 @@
   height: min(640px, 100%);
 }
 
+/* QuizRunner's in-quiz study reference (Phase 19) uses zIndex={120} on its own OverlayPanel —
+   higher than this Academy panel's 110 — for the exact same reason academy-panel sits above
+   Portfolio/Customize: it's opened from a button inside a panel (QuizRunner) that is itself
+   already an OverlayPanel, and must stack above it, not behind it. */
+.quiz-study-overlay {
+  width: min(760px, 100%);
+  height: min(680px, 100%);
+}
+
 .academy-body {
   flex: 1 1 auto;
   display: grid;
@@ -391,8 +400,17 @@
   text-transform: uppercase;
   color: var(--text-faint);
 }
+/* Groups the in-quiz study button with the existing exit button on the header's right side —
+   same shape as .portfolio-pane-header-actions in portfolio.css. */
+.quiz-runner-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+}
 .quiz-disclaimer-block {
   display: flex;
+  align-items: flex-start;
   gap: 10px;
   background: var(--warn-dim);
   border: 1px solid var(--warn);
@@ -416,6 +434,43 @@
   font-size: 12px;
   line-height: 1.55;
   color: var(--text-dim);
+}
+/* Collapse/expand/dismiss controls for the big block above — same card-action-btn markup and
+   compact-row treatment as ChartSlot's chart-forecast-disclaimer-* classes in layout.css; the
+   quiz-disclaimer-footer just below stays completely outside this mode, always rendered. */
+.quiz-disclaimer-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.quiz-disclaimer-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: none;
+}
+.quiz-disclaimer-actions .card-action-btn {
+  color: var(--warn);
+}
+.quiz-disclaimer-actions .card-action-btn:hover:not(:disabled) {
+  color: var(--text);
+  background: color-mix(in srgb, var(--warn) 18%, transparent);
+}
+.quiz-disclaimer-chev-collapse {
+  transform: rotate(180deg);
+}
+.quiz-disclaimer-compact {
+  align-items: center;
+  padding: 6px 10px;
+  gap: 8px;
+}
+.quiz-disclaimer-compact-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 12px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .quiz-question h3 {
   font-size: 17px;

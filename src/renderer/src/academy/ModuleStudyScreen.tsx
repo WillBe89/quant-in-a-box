@@ -105,15 +105,22 @@ function OptionsPayoffDiagram(): JSX.Element {
  *  in the phase brief — there's no standard visual convention for a Sharpe ratio the way there
  *  is for a moving-average crossover or an option payoff). Neither action here is time-gated:
  *  Skip and Start are both clickable immediately, same "trust the user's judgment" stance this
- *  app already takes with the collapsible forecast disclaimer. */
+ *  app already takes with the collapsible forecast disclaimer.
+ *
+ *  `contentOnly` is for QuizRunner's in-quiz study overlay (Phase 19): the quiz is already
+ *  running, so there's no "Skip"/"Start quiz" decision left to make — this mode hides the
+ *  header (title/framing/skip) and the bottom Start button and renders just the lesson content,
+ *  letting the caller (QuizRunner) supply its own overlay chrome (title + close) around it. */
 export default function ModuleStudyScreen({
   moduleId,
   onStartQuiz,
-  onSkip
+  onSkip,
+  contentOnly = false
 }: {
   moduleId: ModuleId
-  onStartQuiz: () => void
-  onSkip: () => void
+  onStartQuiz?: () => void
+  onSkip?: () => void
+  contentOnly?: boolean
 }): JSX.Element {
   const { t } = useTranslation()
   const { theme } = useAppState()
@@ -122,14 +129,16 @@ export default function ModuleStudyScreen({
 
   return (
     <div className="module-study-screen">
-      <div className="module-study-header">
-        <div className="academy-eyebrow">{t('academy.study.heading')}</div>
-        <h3>{t(MODULE_TITLE_KEY[moduleId])}</h3>
-        <p className="academy-summary">{t('academy.study.framing')}</p>
-        <button className="quiz-nav-btn module-study-skip-btn" onClick={onSkip}>
-          {t('academy.study.skipBtn')}
-        </button>
-      </div>
+      {!contentOnly && (
+        <div className="module-study-header">
+          <div className="academy-eyebrow">{t('academy.study.heading')}</div>
+          <h3>{t(MODULE_TITLE_KEY[moduleId])}</h3>
+          <p className="academy-summary">{t('academy.study.framing')}</p>
+          <button className="quiz-nav-btn module-study-skip-btn" onClick={onSkip}>
+            {t('academy.study.skipBtn')}
+          </button>
+        </div>
+      )}
 
       {moduleId === 'options' && (
         <div className="module-study-payoff-wrap">
@@ -163,9 +172,11 @@ export default function ModuleStudyScreen({
         )
       })}
 
-      <button className="quiz-nav-btn primary module-study-start-btn" onClick={onStartQuiz}>
-        {t('academy.study.startBtn')}
-      </button>
+      {!contentOnly && (
+        <button className="quiz-nav-btn primary module-study-start-btn" onClick={onStartQuiz}>
+          {t('academy.study.startBtn')}
+        </button>
+      )}
     </div>
   )
 }

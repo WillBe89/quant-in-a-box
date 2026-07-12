@@ -34,6 +34,7 @@ const DOCK_WIDTH_STORAGE_KEY = 'qiab:dockWidthPx:v1'
 const OSCILLATOR_HEIGHT_STORAGE_KEY = 'qiab:oscillatorHeightPx:v1'
 const GLASS_TIERS_STORAGE_KEY = 'qiab:glassTiers:v1'
 const FORECAST_DISCLAIMER_MODE_STORAGE_KEY = 'qiab:forecastDisclaimerMode:v1'
+const QUIZ_DISCLAIMER_MODE_STORAGE_KEY = 'qiab:quizDisclaimerMode:v1'
 const NEWS_CATEGORIES_STORAGE_KEY = 'qiab:newsCategories:v1'
 
 const DOCK_WIDTH_DEFAULT = 320
@@ -49,9 +50,17 @@ export type NewsSource = 'selected' | 'watchlist' | 'portfolio'
 // disclaimer is: 'full' is today's unchanged always-rendered block, 'compact' shrinks it to a
 // one-line reminder, 'hidden' renders nothing. Deliberately a one-off exception to this app's
 // usual "always-rendered, never dismissible" disclaimer stance — see forecastDisclaimerTitle/
-// forecastDisclaimerBody usage in ChartSlot.tsx. Does NOT apply to the AI Insights or Academy
-// anti-cheating disclaimers, which stay permanently rendered.
+// forecastDisclaimerBody usage in ChartSlot.tsx. Does NOT apply to the AI Insights disclaimer,
+// which stays permanently rendered. The Academy quiz's big pre-quiz anti-cheating block gets
+// this same full/compact/hidden treatment too now (see QuizDisclaimerMode just below) — but only
+// that big block; the quiz's small persistent per-question footer reminder is deliberately NOT
+// gated by it and always renders, so the user is never left with zero reminder even at 'hidden'.
 export type ForecastDisclaimerMode = 'full' | 'compact' | 'hidden'
+// Separate global preference (own localStorage key, independently controllable) for the same
+// full/compact/hidden collapse behavior applied to QuizRunner's big isFirst-only disclaimer
+// block — mirrors ForecastDisclaimerMode's pattern exactly but must stay its own state since a
+// user may want to dismiss one of these two disclaimers without dismissing the other.
+export type QuizDisclaimerMode = 'full' | 'compact' | 'hidden'
 export type DockCardId = 'risk' | 'options' | 'news'
 // 'modules' is kept as the internal value name for minimal risk (localStorage-adjacent logic
 // and any code checking for the literal string 'modules' keeps working) — only its DISPLAY
@@ -217,6 +226,16 @@ function loadNewsSource(): NewsSource {
 function loadForecastDisclaimerMode(): ForecastDisclaimerMode {
   try {
     const raw = localStorage.getItem(FORECAST_DISCLAIMER_MODE_STORAGE_KEY)
+    if (raw === 'full' || raw === 'compact' || raw === 'hidden') return raw
+  } catch {
+    // fall through to default
+  }
+  return 'full'
+}
+
+function loadQuizDisclaimerMode(): QuizDisclaimerMode {
+  try {
+    const raw = localStorage.getItem(QUIZ_DISCLAIMER_MODE_STORAGE_KEY)
     if (raw === 'full' || raw === 'compact' || raw === 'hidden') return raw
   } catch {
     // fall through to default
@@ -439,6 +458,8 @@ interface AppState {
   toggleGlassTier: (tier: GlassTier) => void
   forecastDisclaimerMode: ForecastDisclaimerMode
   setForecastDisclaimerMode: (mode: ForecastDisclaimerMode) => void
+  quizDisclaimerMode: QuizDisclaimerMode
+  setQuizDisclaimerMode: (mode: QuizDisclaimerMode) => void
   newsCategories: NewsCategory[]
   toggleNewsCategory: (cat: NewsCategory) => void
 }
@@ -486,6 +507,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   const [glassTiers, setGlassTiers] = useState<GlassTierState>(() => loadGlassTiers())
   const [forecastDisclaimerMode, setForecastDisclaimerModeState] = useState<ForecastDisclaimerMode>(() =>
     loadForecastDisclaimerMode()
+  )
+  const [quizDisclaimerMode, setQuizDisclaimerModeState] = useState<QuizDisclaimerMode>(() =>
+    loadQuizDisclaimerMode()
   )
   const [newsCategories, setNewsCategories] = useState<NewsCategory[]>(() => loadNewsCategories())
   const focusedSlot = useMemo(
@@ -662,6 +686,14 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
 
   useEffect(() => {
     try {
+      localStorage.setItem(QUIZ_DISCLAIMER_MODE_STORAGE_KEY, quizDisclaimerMode)
+    } catch {
+      // best-effort persistence; ignore quota/availability errors
+    }
+  }, [quizDisclaimerMode])
+
+  useEffect(() => {
+    try {
       localStorage.setItem(NEWS_CATEGORIES_STORAGE_KEY, JSON.stringify(newsCategories))
     } catch {
       // best-effort persistence; ignore quota/availability errors
@@ -688,6 +720,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
     (mode: ForecastDisclaimerMode) => setForecastDisclaimerModeState(mode),
     []
   )
+  const setQuizDisclaimerMode = useCallback((mode: QuizDisclaimerMode) => setQuizDisclaimerModeState(mode), [])
   const toggleNewsCategory = useCallback((cat: NewsCategory) => {
     setNewsCategories((prev) => {
       if (prev.includes(cat)) {
@@ -995,6 +1028,8 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       toggleGlassTier,
       forecastDisclaimerMode,
       setForecastDisclaimerMode,
+      quizDisclaimerMode,
+      setQuizDisclaimerMode,
       newsCategories,
       toggleNewsCategory
     }),
@@ -1069,6 +1104,8 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       toggleGlassTier,
       forecastDisclaimerMode,
       setForecastDisclaimerMode,
+      quizDisclaimerMode,
+      setQuizDisclaimerMode,
       newsCategories,
       toggleNewsCategory
     ]

@@ -273,12 +273,17 @@
     "quiz": {
       "disclaimerTitle": "Isto é para você, não para o distintivo",
       "disclaimerBody": "Usar IA ou respostas de outra pessoa para passar só significa que o distintivo não vai refletir o que você realmente entende. Não tenha pressa, revise a lição da biblioteca se uma pergunta te confundir, e responda com o que você realmente sabe.",
+      "disclaimerCompact": "Lembrete do teste — não é para o distintivo",
+      "disclaimerCollapse": "Reduzir a um lembrete de uma linha",
+      "disclaimerExpand": "Mostrar o lembrete completo",
+      "disclaimerDismiss": "Dispensar este lembrete",
       "disclaimerFooter": "Isto é para você, não para o distintivo — responda com o que você realmente sabe.",
       "questionOf": "Pergunta {{n}} de {{total}}",
       "prevBtn": "Voltar",
       "nextBtn": "Próxima",
       "submitBtn": "Enviar teste",
-      "exitBtn": "Sair do teste"
+      "exitBtn": "Sair do teste",
+      "studyBtn": "Rever anotações da lição"
     },
     "results": {
       "heading": "Resultados do teste",

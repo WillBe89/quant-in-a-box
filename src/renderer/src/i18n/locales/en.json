@@ -317,12 +317,17 @@
     "quiz": {
       "disclaimerTitle": "This is for you, not for the badge",
       "disclaimerBody": "Using AI or someone else's answers to get through only means the badge won't reflect what you understand. Take your time, revisit the library lesson if a question stumps you, and answer with what you actually know.",
+      "disclaimerCompact": "Quiz reminder — not for the badge",
+      "disclaimerCollapse": "Collapse to a one-line reminder",
+      "disclaimerExpand": "Expand to full reminder",
+      "disclaimerDismiss": "Dismiss this reminder",
       "disclaimerFooter": "This is for you, not for the badge — answer with what you actually know.",
       "questionOf": "Question {{n}} of {{total}}",
       "prevBtn": "Back",
       "nextBtn": "Next",
       "submitBtn": "Submit quiz",
-      "exitBtn": "Exit quiz"
+      "exitBtn": "Exit quiz",
+      "studyBtn": "Review lesson notes"
     },
     "results": {
       "heading": "Quiz results",

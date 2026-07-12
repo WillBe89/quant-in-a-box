@@ -273,12 +273,17 @@
     "quiz": {
       "disclaimerTitle": "C'est pour vous, pas pour le badge",
       "disclaimerBody": "Utiliser l'IA ou les réponses de quelqu'un d'autre pour réussir signifie seulement que le badge ne reflétera pas ce que vous comprenez réellement. Prenez votre temps, relisez la leçon de la bibliothèque si une question vous bloque, et répondez avec ce que vous savez vraiment.",
+      "disclaimerCompact": "Rappel du quiz — pas pour le badge",
+      "disclaimerCollapse": "Réduire à un rappel sur une ligne",
+      "disclaimerExpand": "Réafficher le rappel complet",
+      "disclaimerDismiss": "Masquer ce rappel",
       "disclaimerFooter": "C'est pour vous, pas pour le badge — répondez avec ce que vous savez vraiment.",
       "questionOf": "Question {{n}} sur {{total}}",
       "prevBtn": "Retour",
       "nextBtn": "Suivant",
       "submitBtn": "Envoyer le quiz",
-      "exitBtn": "Quitter le quiz"
+      "exitBtn": "Quitter le quiz",
+      "studyBtn": "Revoir les notes de la leçon"
     },
     "results": {
       "heading": "Résultats du quiz",

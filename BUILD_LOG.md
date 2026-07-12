@@ -2,6 +2,18 @@
 
 Running log of autonomous build cycles. Newest entries at the top.
 
+## 2026-07-12 - In-quiz study reference + collapsible quiz disclaimer (phase 19)
+
+**Built:** Direct follow-up to phase 18's new pre-quiz study screen - Will asked for the same study content to be reachable *during* an active quiz, not just before it starts, so a stumped user has somewhere real to look without losing progress or reaching for outside AI. He also asked for the anti-cheating disclaimer to become collapsible/dismissible like the chart's forecast disclaimer already is, reasoning that the quiz already has a second, smaller persistent footer reminder on every question, so collapsing or dismissing the big block never leaves zero reminder.
+
+**Collapsible disclaimer:** added `quizDisclaimerMode: 'full' | 'compact' | 'hidden'` to `AppStateContext.tsx`, a genuinely separate piece of state from the chart's `forecastDisclaimerMode` (own `qiab:quizDisclaimerMode:v1` localStorage key, independently toggleable - verified live that dismissing one never affects the other). The big first-question disclaimer block now collapses to a real one-line compact version, expands back, or dismisses entirely, reusing the exact same chevron/close icon pattern the chart's forecast disclaimer already uses. The small persistent footer shown on every question was left completely untouched and unconditional - traced directly in the JSX (no `quizDisclaimerMode` guard of any kind) and confirmed live across all three modes and multiple questions that it never disappears.
+
+**In-quiz study reference:** `QuizRunner` gained a `moduleId` prop and a new header button that opens the phase-18 `ModuleStudyScreen` as a layered overlay directly on top of the running quiz, in a new `contentOnly` mode that hides its own Start/Skip actions (those don't make sense mid-quiz). Opening and closing it is purely visual - the quiz's own question index and selected answers are completely untouched underneath, confirmed live by answering 3 questions, opening the overlay, closing it, and finding the exact same question with the exact same answer still selected.
+
+**Verified:** `npm run typecheck`/`build` clean, `npm run test` 246/246 clean (run directly by me after the workflow finished, not just trusted from its own report). Both the implement and an independent verify pass tested live in the browser: mode persistence survives a full page reload and exiting/restarting the quiz; the study overlay shows real, module-matched lesson content (checked against two different modules to rule out a hardcoded one); i18n parity confirmed non-empty and genuinely translated (not English-fallback) across all 11 locales. Zero bugs found by the independent verify pass.
+
+**A flagged (not a bug) environment quirk:** the verify pass noted `OverlayPanel`'s exit animation sometimes doesn't finish inside the headless browser-automation tool used for testing - traced to the tab never reporting itself as visible in that harness (`document.hidden` stuck `true`, animation frames never firing), and confirmed the same symptom already exists on the pre-existing, untouched Academy overlay too - a test-harness artifact, not something this phase introduced. Worth a quick real-window click-through if extra assurance is wanted, but not blocking.
+
 ## 2026-07-12 - Academy pre-quiz study screen + 3 real content-gap fixes (phase 18)
 
 **Built:** Will's observation - the Academy "rushes you into questions" with no diagrams or notes shown first, plus a sharp question: does the library actually have enough information to answer correctly, since "we can't tell a user not to use AI, but if we don't provide the content, where else can they look?" Investigated both parts before building anything.

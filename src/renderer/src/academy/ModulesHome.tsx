@@ -100,7 +100,12 @@ export default function ModulesHome(): JSX.Element {
   if (activeQuiz) {
     return (
       <div className="modules-home">
-        <QuizRunner questions={activeQuiz.questions} onSubmit={handleSubmit} onExit={() => setActiveQuiz(null)} />
+        <QuizRunner
+          moduleId={activeQuiz.moduleId}
+          questions={activeQuiz.questions}
+          onSubmit={handleSubmit}
+          onExit={() => setActiveQuiz(null)}
+        />
       </div>
     )
   }

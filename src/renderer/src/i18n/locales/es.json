@@ -273,12 +273,17 @@
     "quiz": {
       "disclaimerTitle": "Esto es para ti, no para la insignia",
       "disclaimerBody": "Usar IA o las respuestas de otra persona para pasar solo significa que la insignia no reflejará lo que realmente entiendes. Tómate tu tiempo, repasa la lección de la biblioteca si una pregunta te confunde, y responde con lo que realmente sabes.",
+      "disclaimerCompact": "Recordatorio del cuestionario — no es para la insignia",
+      "disclaimerCollapse": "Reducir a un recordatorio de una línea",
+      "disclaimerExpand": "Mostrar el recordatorio completo",
+      "disclaimerDismiss": "Descartar este recordatorio",
       "disclaimerFooter": "Esto es para ti, no para la insignia — responde con lo que realmente sabes.",
       "questionOf": "Pregunta {{n}} de {{total}}",
       "prevBtn": "Atrás",
       "nextBtn": "Siguiente",
       "submitBtn": "Enviar cuestionario",
-      "exitBtn": "Salir del cuestionario"
+      "exitBtn": "Salir del cuestionario",
+      "studyBtn": "Repasar apuntes de la lección"
     },
     "results": {
       "heading": "Resultados del cuestionario",
