@@ -6,7 +6,7 @@ import { resolveHoldingRows } from '@renderer/lib/portfolioHoldings'
 import { computeAssetClassBreakdown } from '@renderer/lib/portfolioBreakdown'
 import { usePortfolioRiskStats } from '@renderer/lib/usePortfolioRiskStats'
 import { searchAssets } from '@renderer/lib/assetSearch'
-import { IconClose } from '@renderer/components/icons/Icons'
+import { IconClose, IconTrash } from '@renderer/components/icons/Icons'
 import Tooltip from '@renderer/components/ui/Tooltip'
 import PortfolioDashboardTab from '@renderer/components/portfolio/PortfolioDashboardTab'
 import HoldingsTable from '@renderer/components/portfolio/HoldingsTable'
@@ -181,7 +181,7 @@ export default function PortfolioPane({
                 onClick={() => setConfirmingDelete(true)}
                 aria-label={t('customize.deletePortfolio') ?? undefined}
               >
-                <IconClose size={13} />
+                <IconTrash size={13} />
               </button>
             </Tooltip>
           )}

@@ -2,6 +2,12 @@
 
 Running log of autonomous build cycles. Newest entries at the top.
 
+## 2026-07-12 - A distinct trash-can icon for deleting a portfolio
+
+**Built:** Will noticed delete and close used the same X icon on a portfolio's own page. Added a new `IconTrash` (matching the existing hand-drawn stroke-SVG style already used by every other icon in `Icons.tsx`) and swapped it in for both places a portfolio's delete trigger renders an icon - `PortfolioPane.tsx`'s own header and the equivalent row in Customize's portfolio list, which had the identical issue. Close stays the X everywhere; delete is now a trash can everywhere.
+
+**Verified:** `npm run typecheck`/`build` clean. Confirmed live via DOM inspection that the delete and close buttons now render genuinely different SVG paths, not just visually inspected the same markup.
+
 ## 2026-07-12 - Fixed the duplicate NVDA/AAPL/MSFT/BTC/ETH/SOL search results
 
 **Built:** every symbol search result list in the app (Topbar, asset browser, the portfolio's own Add Position box, the chart-slot symbol popover) has been quietly showing NVDA, AAPL, MSFT, BTC, ETH, and SOL twice each, throwing a real React duplicate-key console warning everywhere it happened. Root cause, fully diagnosed this cycle (an earlier guess blaming raw duplicate rows inside the generated asset data turned out to be wrong - only one entry per symbol exists there): `mockData.ts` builds the full stock/crypto list as a plain concat of a small hand-picked "default watchlist seed" array with the much larger real, generated NASDAQ-Trader/CoinGecko-sourced universe - and those six tickers happen to be common enough that they were already present in both lists independently, with nothing deduping between them.

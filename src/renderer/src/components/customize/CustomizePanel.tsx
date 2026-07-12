@@ -20,7 +20,7 @@ import {
 import { estimateCandleDownloadCalls, downloadHistoricalCandles } from '@renderer/data/historyDownload'
 import { FinnhubCandleRangeError } from '@renderer/data/finnhubAdapter'
 import type { Asset } from '@renderer/types/market'
-import { IconClose } from '@renderer/components/icons/Icons'
+import { IconClose, IconTrash } from '@renderer/components/icons/Icons'
 import { resolvePortfolioIcon, resolvePortfolioColor } from '@renderer/lib/portfolioStyle'
 import PortfolioStylePicker from '@renderer/components/portfolio/PortfolioStylePicker'
 import Tooltip from '@renderer/components/ui/Tooltip'
@@ -130,7 +130,7 @@ function PortfolioRow({
             onClick={() => setConfirmingDelete(true)}
             aria-label={t('customize.deletePortfolio') ?? undefined}
           >
-            <IconClose size={12} />
+            <IconTrash size={12} />
           </button>
         </Tooltip>
       )}

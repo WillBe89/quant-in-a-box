@@ -73,6 +73,15 @@ export function IconClose({ size = 18, className }: IconProps): JSX.Element {
   )
 }
 
+export function IconTrash({ size = 18, className }: IconProps): JSX.Element {
+  return (
+    <svg width={size} height={size} className={className} {...base}>
+      <path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" />
+      <path d="M10 11v6M14 11v6" />
+    </svg>
+  )
+}
+
 export function IconStar({ size = 18, className, filled = false }: IconProps & { filled?: boolean }): JSX.Element {
   return (
     <svg width={size} height={size} className={className} {...base} fill={filled ? 'currentColor' : 'none'}>
