@@ -640,3 +640,120 @@
 .certificate-status.err {
   color: var(--loss);
 }
+
+/* --- Module study screen (pre-quiz) ------------------------------------------------------ */
+/* Reuses academy-eyebrow/academy-summary/academy-block/academy-block-label/academy-formula
+   directly from the Library view above — this section only adds the layout shell around them
+   (header, per-lesson dividers, compact chart/diagram wells) so the study screen and quick
+   review read as the same app, not a bolted-on new one. */
+.module-study-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 66ch;
+  margin: 0 auto;
+}
+.module-study-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.module-study-header h3 {
+  margin: 0 0 4px;
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 700;
+  text-wrap: balance;
+}
+.module-study-header .academy-summary {
+  margin-bottom: 10px;
+}
+.module-study-skip-btn {
+  align-self: flex-start;
+}
+.module-study-lesson {
+  padding: 22px 0;
+  border-bottom: 1px solid var(--border);
+}
+.module-study-lesson:last-of-type {
+  border-bottom: none;
+}
+.module-study-lesson h4 {
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  text-wrap: balance;
+}
+.module-study-lesson .academy-summary {
+  max-width: none;
+}
+.module-study-lesson .academy-block {
+  max-width: none;
+}
+/* Compact illustrative chart/oscillator — deliberately small and chrome-free (no toolbar, no
+   timeframe picker), just enough to show the shape of the indicator being taught. */
+.module-study-chart {
+  height: 150px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  padding: 6px 4px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.module-study-payoff-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 4px 0 20px;
+}
+.options-payoff-svg {
+  width: 100%;
+  max-width: 380px;
+  height: auto;
+}
+.options-payoff-label {
+  font-size: 10.5px;
+  font-weight: 600;
+}
+.module-study-start-btn {
+  align-self: center;
+  margin: 22px 0 4px;
+  padding: 11px 28px;
+}
+
+/* --- Final Exam quick review (lighter than the module study screen above) --------------- */
+.final-review-group {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.final-review-group:last-of-type {
+  border-bottom: none;
+}
+.final-review-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.final-review-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.final-review-item-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text);
+}
+.final-review-item-summary {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text-dim);
+}

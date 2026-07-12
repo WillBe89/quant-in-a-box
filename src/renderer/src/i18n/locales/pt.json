@@ -257,6 +257,19 @@
       "lockedFinalHint": "Aprove-se nos 4 módulos para desbloquear o Exame final",
       "cooldownHint": "Tente novamente em {{time}}"
     },
+    "study": {
+      "heading": "Estude antes de começar",
+      "framing": "Reserve um momento para revisar estas aulas — nada aqui tem tempo limite, e você pode pular para o teste quando quiser.",
+      "skipBtn": "Pular para o teste",
+      "startBtn": "Iniciar teste",
+      "finalHeading": "Revisão rápida",
+      "finalFraming": "Você já estudou cada um destes temas a fundo — aqui está um resumo rápido antes do Exame final.",
+      "finalSkipBtn": "Pular para o Exame final",
+      "finalStartBtn": "Iniciar Exame final",
+      "payoffStrikeLabel": "Preço de exercício",
+      "payoffCallLabel": "Call",
+      "payoffPutLabel": "Put"
+    },
     "quiz": {
       "disclaimerTitle": "Isto é para você, não para o distintivo",
       "disclaimerBody": "Usar IA ou respostas de outra pessoa para passar só significa que o distintivo não vai refletir o que você realmente entende. Não tenha pressa, revise a lição da biblioteca se uma pergunta te confundir, e responda com o que você realmente sabe.",

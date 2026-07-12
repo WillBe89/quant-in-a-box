@@ -257,6 +257,19 @@
       "lockedFinalHint": "Réussissez les 4 modules pour débloquer l'examen final",
       "cooldownHint": "Réessayez dans {{time}}"
     },
+    "study": {
+      "heading": "Révisez avant de commencer",
+      "framing": "Prenez un instant pour revoir ces leçons — rien n'est chronométré ici, et vous pouvez passer au quiz quand vous le souhaitez.",
+      "skipBtn": "Passer au quiz",
+      "startBtn": "Commencer le quiz",
+      "finalHeading": "Révision rapide",
+      "finalFraming": "Vous avez déjà étudié chacun de ces sujets en détail — voici un récapitulatif rapide avant l'examen final.",
+      "finalSkipBtn": "Passer à l'examen final",
+      "finalStartBtn": "Commencer l'examen final",
+      "payoffStrikeLabel": "Prix d'exercice",
+      "payoffCallLabel": "Call",
+      "payoffPutLabel": "Put"
+    },
     "quiz": {
       "disclaimerTitle": "C'est pour vous, pas pour le badge",
       "disclaimerBody": "Utiliser l'IA ou les réponses de quelqu'un d'autre pour réussir signifie seulement que le badge ne reflétera pas ce que vous comprenez réellement. Prenez votre temps, relisez la leçon de la bibliothèque si une question vous bloque, et répondez avec ce que vous savez vraiment.",

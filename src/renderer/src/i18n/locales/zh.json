@@ -255,6 +255,19 @@
       "lockedFinalHint": "通过全部 4 个模块以解锁期末测验",
       "cooldownHint": "{{time}} 后可重试"
     },
+    "study": {
+      "heading": "开始前先复习",
+      "framing": "花点时间复习这些课程——这里没有时间限制，你可以随时跳到测验。",
+      "skipBtn": "跳到测验",
+      "startBtn": "开始测验",
+      "finalHeading": "快速复习",
+      "finalFraming": "你已经完整学习过这些内容——这里是期末测验前的快速复习。",
+      "finalSkipBtn": "跳到期末测验",
+      "finalStartBtn": "开始期末测验",
+      "payoffStrikeLabel": "行权价",
+      "payoffCallLabel": "看涨期权",
+      "payoffPutLabel": "看跌期权"
+    },
     "quiz": {
       "disclaimerTitle": "这是为了你自己，不是为了徽章",
       "disclaimerBody": "借助 AI 或他人的答案蒙混过关，只会让这个徽章无法反映你真正掌握的知识。慢慢来，如果某道题难住了你，可以回顾资料库中的课程，并用你真正掌握的知识作答。",

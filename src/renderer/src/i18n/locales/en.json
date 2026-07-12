@@ -301,6 +301,19 @@
       "lockedFinalHint": "Pass all 4 modules to unlock the Final Exam",
       "cooldownHint": "Try again in {{time}}"
     },
+    "study": {
+      "heading": "Study before you begin",
+      "framing": "Take a moment to review these lessons — nothing here is timed, and you can skip ahead whenever you're ready.",
+      "skipBtn": "Skip to quiz",
+      "startBtn": "Start quiz",
+      "finalHeading": "Quick review",
+      "finalFraming": "You've already studied each of these in full — here's a fast recap before the Final Exam.",
+      "finalSkipBtn": "Skip to Final Exam",
+      "finalStartBtn": "Start Final Exam",
+      "payoffStrikeLabel": "Strike",
+      "payoffCallLabel": "Call",
+      "payoffPutLabel": "Put"
+    },
     "quiz": {
       "disclaimerTitle": "This is for you, not for the badge",
       "disclaimerBody": "Using AI or someone else's answers to get through only means the badge won't reflect what you understand. Take your time, revisit the library lesson if a question stumps you, and answer with what you actually know.",
@@ -405,7 +418,7 @@
       "volatility": {
         "title": "Annualized Volatility",
         "summary": "How much an asset's daily returns typically bounce around, scaled up to a yearly figure so different assets and timeframes are comparable on the same scale.",
-        "formula": "Vol(annual) = stdev(daily returns) × √252",
+        "formula": "Vol(annual) = stdev(daily returns) × √252 (252 is the approximate number of trading days in a year)",
         "howToUse": "Higher volatility means bigger swings in both directions: more potential upside, but also bigger potential drawdowns. Use it to size positions: a highly volatile asset warrants a smaller position for the same dollar risk.",
         "watchOutFor": "Volatility is symmetric: it doesn't distinguish good (upside) swings from bad (downside) ones. It also looks backward; past volatility doesn't guarantee future volatility."
       },
@@ -455,7 +468,7 @@
         "title": "Black-Scholes Option Pricing",
         "summary": "A mathematical model for estimating a fair theoretical price for a European-style option, based on the underlying price, strike, time to expiry, interest rates, and expected (implied) volatility.",
         "formula": "Call = S·N(d1) − K·e^(−rT)·N(d2)",
-        "howToUse": "Compare the model price to the market price of an option to gauge whether it looks statistically expensive or cheap given your volatility assumption, and use the Greeks it produces to understand your risk exposure if you hold the position.",
+        "howToUse": "S is the underlying price (the current market/spot price of the asset the option is based on), and K is the strike price (the price at which the option can be exercised). Compare the model price to the market price of an option to gauge whether it looks statistically expensive or cheap given your volatility assumption, and use the Greeks it produces to understand your risk exposure if you hold the position.",
         "watchOutFor": "The model assumes constant volatility, no dividends, and log-normal price behavior: all simplifications. It is a reference point for reasoning about risk, not a guarantee of what an option will actually trade at."
       }
     }

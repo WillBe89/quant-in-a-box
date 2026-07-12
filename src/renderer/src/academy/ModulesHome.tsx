@@ -16,6 +16,8 @@ import { BADGE_STYLES } from '@renderer/lib/badgeStyle'
 import BadgeShelf from './BadgeShelf'
 import QuizRunner from './QuizRunner'
 import QuizResults from './QuizResults'
+import ModuleStudyScreen from './ModuleStudyScreen'
+import FinalExamReview from './FinalExamReview'
 
 interface ActiveQuiz {
   moduleId: ModuleId
@@ -51,6 +53,12 @@ export default function ModulesHome(): JSX.Element {
   const [lastResult, setLastResult] = useState<LastResult | null>(null)
   const [celebrating, setCelebrating] = useState<ModuleId | null>(null)
   const [, forceTick] = useState(0)
+  // Set when a module card's Start/Retake button is clicked — renders the pre-quiz study
+  // screen (ModuleStudyScreen for the 4 subject modules, the lighter FinalExamReview for
+  // 'final') instead of jumping straight into the quiz. Cleared by either that screen's
+  // Skip or Start action, both of which then call startQuiz() the same way clicking through
+  // used to — see startQuizFromStudy below.
+  const [studyModuleId, setStudyModuleId] = useState<ModuleId | null>(null)
 
   // Keep cooldown countdown labels live without requiring a panel close/reopen.
   useEffect(() => {
@@ -63,6 +71,14 @@ export default function ModulesHome(): JSX.Element {
   function startQuiz(moduleId: ModuleId): void {
     setLastResult(null)
     setActiveQuiz({ moduleId, questions: sampleQuizFor(moduleId) })
+  }
+
+  // Shared by the study screen's Skip and Start actions: skipping just means starting the
+  // quiz without reading, so both wire to this exact same effect (see phase brief).
+  function startQuizFromStudy(): void {
+    if (!studyModuleId) return
+    startQuiz(studyModuleId)
+    setStudyModuleId(null)
   }
 
   function handleSubmit(correctCount: number, totalCount: number): void {
@@ -120,6 +136,18 @@ export default function ModulesHome(): JSX.Element {
     )
   }
 
+  if (studyModuleId) {
+    return (
+      <div className="modules-home">
+        {studyModuleId === 'final' ? (
+          <FinalExamReview onStartQuiz={startQuizFromStudy} onSkip={startQuizFromStudy} />
+        ) : (
+          <ModuleStudyScreen moduleId={studyModuleId} onStartQuiz={startQuizFromStudy} onSkip={startQuizFromStudy} />
+        )}
+      </div>
+    )
+  }
+
   return (
     <div className="modules-home">
       <BadgeShelf celebratingModuleId={celebrating} />
@@ -155,7 +183,7 @@ export default function ModulesHome(): JSX.Element {
                   </div>
                 )}
               </div>
-              <button className="quiz-nav-btn primary" disabled={!canStart} onClick={() => startQuiz(id)}>
+              <button className="quiz-nav-btn primary" disabled={!canStart} onClick={() => setStudyModuleId(id)}>
                 {record?.passed ? t('academy.modules.retakeBtn') : t('academy.modules.startBtn')}
               </button>
             </div>
