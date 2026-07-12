@@ -12,10 +12,11 @@ import ru from './locales/ru.json'
 import ur from './locales/ur.json'
 import th from './locales/th.json'
 // Quiz-content strings live in their own namespace, separate from the main translation
-// bundle above, and are English-only for now (see academy/quizQuestions.ts). Other locales
-// fall back to this English bundle via `fallbackLng` below rather than needing an empty
-// per-locale placeholder file.
+// bundle above. Thai is translated (see BUILD_LOG.md); the other 9 locales are still
+// English-only for now (see academy/quizQuestions.ts) and fall back to this English bundle
+// via `fallbackLng` below rather than needing an empty per-locale placeholder file.
 import enQuiz from './locales/academy-quiz/en.json'
+import thQuiz from './locales/academy-quiz/th.json'
 
 export interface LanguageMeta {
   code: string
@@ -55,7 +56,7 @@ i18n.use(initReactI18next).init({
     pt: { translation: pt },
     ru: { translation: ru },
     ur: { translation: ur },
-    th: { translation: th }
+    th: { translation: th, 'academy-quiz': thQuiz }
   },
   ns: ['translation', 'academy-quiz'],
   defaultNS: 'translation',
