@@ -83,6 +83,15 @@ export default function AssetBrowserPanel(): JSX.Element {
     setPage(0)
   }, [assetBrowserClassFilter, query])
 
+  // This panel never unmounts (only its OverlayPanel wrapper animates in/out), so a search left
+  // over from a previous visit would otherwise still be sitting in the box next time a Topbar
+  // chip opens it fresh — confusingly showing "no results" for a class it was never searched
+  // against. Only reset on the closed->open transition, not on every render, so narrowing the
+  // class filter from a chip *inside* the already-open panel doesn't clobber an active search.
+  useEffect(() => {
+    if (assetBrowserOpen) setQuery('')
+  }, [assetBrowserOpen])
+
   const { pageItems, pageCount, safePage } = useMemo(
     () => paginate(sorted, page, PAGE_SIZE),
     [sorted, page]
@@ -217,7 +226,7 @@ export default function AssetBrowserPanel(): JSX.Element {
         </div>
 
         <div className="asset-browser-pagination">
-          <button className="customize-reset" disabled={safePage === 0} onClick={() => setPage(safePage - 1)}>
+          <button className="customize-reset" disabled={safePage === 0} onClick={() => setPage((p) => p - 1)}>
             {t('assetBrowser.prevPage')}
           </button>
           <span className="asset-browser-page-indicator">
@@ -226,7 +235,7 @@ export default function AssetBrowserPanel(): JSX.Element {
           <button
             className="customize-reset"
             disabled={safePage >= pageCount - 1}
-            onClick={() => setPage(safePage + 1)}
+            onClick={() => setPage((p) => p + 1)}
           >
             {t('assetBrowser.nextPage')}
           </button>
