@@ -564,7 +564,7 @@ export default function CustomizePanel(): JSX.Element {
             getCoinGeckoKey() ? t('customize.apiKeys.statusLive') : t('customize.apiKeys.statusMock')
           }
           signupUrl={COINGECKO_SIGNUP_URL}
-          benefitBody={t('customize.apiKeys.coinGeckoBenefit')}
+          benefitBody={`${t('customize.apiKeys.coinGeckoBenefit')} ${t('customize.apiKeys.coinGeckoAutoAccumulateNote')}`}
           onSave={(v) => {
             setCoinGeckoKey(v)
             bumpSettingsVersion()

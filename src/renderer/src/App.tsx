@@ -5,6 +5,7 @@ import { AppStateProvider, useAppState } from '@renderer/state/AppStateContext'
 import { ALL_ASSETS } from '@renderer/data/mockData'
 import { runDailyQuoteAccumulation } from '@renderer/data/dailyQuoteAccumulator'
 import { runTwelveDataBackfill } from '@renderer/data/twelveDataBackfill'
+import { runCoinGeckoAccumulation } from '@renderer/data/coinGeckoAccumulator'
 import type { Asset } from '@renderer/types/market'
 import Topbar from '@renderer/components/layout/Topbar'
 import Rail from '@renderer/components/layout/Rail'
@@ -56,6 +57,23 @@ const TWELVE_DATA_BACKFILL_INITIAL_DELAY_MS = 9000
  *  twelveDataBackfill.ts) and skip straight past — this interval just needs to notice newly-added
  *  watchlist/portfolio symbols reasonably promptly, not re-run the actual backfill that often. */
 const TWELVE_DATA_BACKFILL_INTERVAL_MS = 24 * 60 * 60 * 1000
+
+/** Asset classes coinGeckoAccumulator.ts covers: 'crypto' only, and only ever the relevant subset
+ *  that also carries a `coingeckoId` (see App.tsx's `relevantCoinGeckoAssets` below) — deliberately
+ *  narrow, never the full generated crypto universe, matching Will's own request to accumulate
+ *  real crypto history proactively without burning through the Demo-tier credit budget needlessly. */
+const COINGECKO_ACCUMULATION_ASSET_CLASSES: Asset['klass'][] = ['crypto']
+
+/** Later still than both existing background effects' own initial delays, so all three don't fire
+ *  network calls in the same instant right after mount. */
+const COINGECKO_ACCUMULATION_INITIAL_DELAY_MS = 13000
+
+/** Re-run periodically while the app stays open, same "notice newly-added watchlist/portfolio
+ *  symbols reasonably promptly" reasoning as the other two background effects — one real daily
+ *  candle per relevant crypto asset per day is cheap enough that a several-times-a-day cadence
+ *  costs nothing extra once everything's already polled for today (symbolsNeedingPoll simply
+ *  returns an empty list). */
+const COINGECKO_ACCUMULATION_INTERVAL_MS = 4 * 60 * 60 * 1000
 
 /** Union of the watchlist and every portfolio's holdings (same union TickerTape/NewsCard build
  *  from these two existing AppStateContext selectors), deduplicated by symbol — shared by both
@@ -135,6 +153,34 @@ function Shell(): JSX.Element {
     const interval = setInterval(() => {
       runTwelveDataBackfill(relevantBackfillAssets())
     }, TWELVE_DATA_BACKFILL_INTERVAL_MS)
+
+    return () => {
+      clearTimeout(initialTimer)
+      clearInterval(interval)
+    }
+  }, [])
+
+  // Phase 8.9 — third sibling background effect: proactive CoinGecko real crypto history
+  // accumulation (see coinGeckoAccumulator.ts). runCoinGeckoAccumulation itself no-ops
+  // immediately, with zero network calls, whenever no CoinGecko key is configured — this effect
+  // always fires on its own timers regardless, exactly like the other two background effects
+  // above always fire regardless of whether their own relevant key is configured. Runs
+  // independently of whether a TwelveData key is also configured, per Will's own request to
+  // "start pulling that too" — not merely as TwelveData's fallback.
+  useEffect(() => {
+    function relevantCoinGeckoAssets(): Asset[] {
+      return unionWatchlistAndPortfolioAssets(watchlistRef.current, allPortfolioSymbolsRef.current).filter(
+        (a) => COINGECKO_ACCUMULATION_ASSET_CLASSES.includes(a.klass) && Boolean(a.coingeckoId)
+      )
+    }
+
+    const initialTimer = setTimeout(() => {
+      runCoinGeckoAccumulation(relevantCoinGeckoAssets())
+    }, COINGECKO_ACCUMULATION_INITIAL_DELAY_MS)
+
+    const interval = setInterval(() => {
+      runCoinGeckoAccumulation(relevantCoinGeckoAssets())
+    }, COINGECKO_ACCUMULATION_INTERVAL_MS)
 
     return () => {
       clearTimeout(initialTimer)

@@ -47,6 +47,7 @@
       "finnhubBenefit": "Cotations réelles, profils d'entreprises et actualités filtrées par symbole. Les données de bougies historiques sont toutefois confirmées comme réservées au plan payant sur l'offre gratuite de Finnhub — les graphiques continuent d'utiliser des données simulées même avec une clé connectée.",
       "twelveDataBenefit": "Historique réel des prix quotidiens sur plusieurs années pour les actions, obligations, le forex et les cryptos — le principal moyen d'obtenir de vrais graphiques historiques dans cette application. Une fois connectée, un remplissage automatique en arrière-plan récupère aussi plusieurs années d'historique.",
       "coinGeckoBenefit": "Historique réel des prix des cryptomonnaies. Résolution quotidienne ou plus fine sur les 30 derniers jours ; l'historique plus ancien s'espace à une barre tous les quelques jours sur l'offre gratuite.",
+      "coinGeckoAutoAccumulateNote": "Une fois connectée, les actifs crypto de votre liste de suivi et de vos portefeuilles accumulent aussi automatiquement une bougie quotidienne réelle en arrière-plan — sans aucune action de votre part.",
       "anthropicBenefit": "De véritables analyses de portefeuille propulsées par Claude, à la place du repli local sur Claude Code CLI utilisé lorsqu'aucune clé n'est connectée."
     },
     "marketArchive": {

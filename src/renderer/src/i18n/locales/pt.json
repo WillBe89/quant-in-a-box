@@ -47,6 +47,7 @@
       "finnhubBenefit": "Cotações reais, perfis de empresas e notícias filtradas por ticker. No entanto, os dados históricos de velas são confirmados como exclusivos do plano pago no plano gratuito da Finnhub — os gráficos continuam recorrendo a dados simulados mesmo com uma chave conectada.",
       "twelveDataBenefit": "Histórico real de preços diários de vários anos para ações, títulos, câmbio e cripto — a principal forma de obter gráficos históricos reais neste aplicativo. Depois de conectada, um preenchimento em segundo plano também traz automaticamente vários anos de histórico.",
       "coinGeckoBenefit": "Histórico real de preços de criptomoedas. Resolução diária ou mais fina dentro dos últimos 30 dias; o histórico mais antigo fica mais espaçado, com uma barra a cada poucos dias no plano gratuito.",
+      "coinGeckoAutoAccumulateNote": "Depois de conectada, os ativos cripto da sua lista de observação e das suas carteiras também acumulam automaticamente uma vela diária real em segundo plano — sem qualquer ação da sua parte.",
       "anthropicBenefit": "Insights reais de carteira baseados em Claude, substituindo a alternativa local do Claude Code CLI usada quando nenhuma chave está conectada."
     },
     "marketArchive": {
