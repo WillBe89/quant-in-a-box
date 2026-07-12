@@ -599,6 +599,22 @@
     "country": "País",
     "website": "Visitar site"
   },
+  "assetBrowser": {
+    "badge": "Explorar",
+    "heading": "Explorador de ativos",
+    "intro": "Pesquise, filtre e ordene todo o universo de ativos e selecione uma linha para carregá-la no gráfico em foco.",
+    "searchPlaceholder": "Pesquisar por símbolo ou nome…",
+    "colSymbol": "Símbolo",
+    "colName": "Nome",
+    "colPrice": "Preço",
+    "colChange": "Variação",
+    "resultCount_one": "{{count}} ativo",
+    "resultCount_other": "{{count}} ativos",
+    "empty": "Nenhum ativo corresponde à sua pesquisa.",
+    "prevPage": "Anterior",
+    "nextPage": "Próximo",
+    "pageIndicator": "Página {{page}} de {{totalPages}}"
+  },
   "modelPortfolio": {
     "conservative": {
       "name": "Conservadora",

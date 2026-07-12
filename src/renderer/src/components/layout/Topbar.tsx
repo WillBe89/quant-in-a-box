@@ -8,7 +8,7 @@ import logoMark from '@renderer/assets/logo-just.png'
 
 export default function Topbar(): JSX.Element {
   const { t } = useTranslation()
-  const { assetClass, setAssetClass, selectSymbol, theme, toggleTheme, language, setLanguage } = useAppState()
+  const { selectSymbol, openAssetBrowser, theme, toggleTheme, language, setLanguage } = useAppState()
 
   const CLASS_OPTIONS: Array<{ id: AssetClass | 'all'; label: string }> = [
     { id: 'all', label: t('topbar.classAll') },
@@ -34,11 +34,7 @@ export default function Topbar(): JSX.Element {
         <AssetSearchBox onSelect={selectSymbol} placeholder={t('topbar.searchPlaceholder')} />
         <div className="class-filters">
           {CLASS_OPTIONS.map((opt) => (
-            <button
-              key={opt.id}
-              className={'chip' + (assetClass === opt.id ? ' active grad' : '')}
-              onClick={() => setAssetClass(opt.id)}
-            >
+            <button key={opt.id} className="chip" onClick={() => openAssetBrowser(opt.id)}>
               {opt.label}
             </button>
           ))}

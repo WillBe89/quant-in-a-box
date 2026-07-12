@@ -599,6 +599,22 @@
     "country": "देश",
     "website": "वेबसाइट देखें"
   },
+  "assetBrowser": {
+    "badge": "ब्राउज़ करें",
+    "heading": "एसेट ब्राउज़र",
+    "intro": "पूरे एसेट यूनिवर्स को खोजें, फ़िल्टर करें और सॉर्ट करें, फिर किसी पंक्ति को चुनकर उसे फ़ोकस किए गए चार्ट में लोड करें।",
+    "searchPlaceholder": "सिंबल या नाम से खोजें…",
+    "colSymbol": "सिंबल",
+    "colName": "नाम",
+    "colPrice": "कीमत",
+    "colChange": "बदलाव",
+    "resultCount_one": "{{count}} एसेट",
+    "resultCount_other": "{{count}} एसेट्स",
+    "empty": "आपकी खोज से कोई एसेट मेल नहीं खाता।",
+    "prevPage": "पिछला",
+    "nextPage": "अगला",
+    "pageIndicator": "पृष्ठ {{page}} / {{totalPages}}"
+  },
   "modelPortfolio": {
     "conservative": {
       "name": "रूढ़िवादी",

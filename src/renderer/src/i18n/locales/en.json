@@ -599,6 +599,22 @@
     "country": "Country",
     "website": "Visit website"
   },
+  "assetBrowser": {
+    "badge": "Browse",
+    "heading": "Asset browser",
+    "intro": "Search, filter, and sort every asset in one place, then pick a row to load it into the focused chart.",
+    "searchPlaceholder": "Search by symbol or name…",
+    "colSymbol": "Symbol",
+    "colName": "Name",
+    "colPrice": "Price",
+    "colChange": "Change",
+    "resultCount_one": "{{count}} asset",
+    "resultCount_other": "{{count}} assets",
+    "empty": "No assets match your search.",
+    "prevPage": "Prev",
+    "nextPage": "Next",
+    "pageIndicator": "Page {{page}} of {{totalPages}}"
+  },
   "modelPortfolio": {
     "conservative": {
       "name": "Conservative",

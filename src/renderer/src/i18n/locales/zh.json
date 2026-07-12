@@ -598,6 +598,21 @@
     "country": "国家/地区",
     "website": "访问官网"
   },
+  "assetBrowser": {
+    "badge": "浏览",
+    "heading": "资产浏览器",
+    "intro": "搜索、筛选并排序完整的资产列表,然后选择一行将其加载到当前聚焦的图表中。",
+    "searchPlaceholder": "按代码或名称搜索…",
+    "colSymbol": "代码",
+    "colName": "名称",
+    "colPrice": "价格",
+    "colChange": "涨跌幅",
+    "resultCount_other": "{{count}} 项资产",
+    "empty": "没有与搜索匹配的资产。",
+    "prevPage": "上一页",
+    "nextPage": "下一页",
+    "pageIndicator": "第 {{page}} / {{totalPages}} 页"
+  },
   "modelPortfolio": {
     "conservative": {
       "name": "保守型",

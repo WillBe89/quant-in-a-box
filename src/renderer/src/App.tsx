@@ -16,6 +16,7 @@ import PortfolioWorkspace from '@renderer/components/portfolio/PortfolioWorkspac
 import PortfolioOverviewPanel from '@renderer/components/portfolio/PortfolioOverviewPanel'
 import CustomizePanel from '@renderer/components/customize/CustomizePanel'
 import DockCardOverlay from '@renderer/components/dock/DockCardOverlay'
+import AssetBrowserPanel from '@renderer/components/layout/AssetBrowserPanel'
 import '@renderer/components/layout/layout.css'
 
 /** Asset classes this daily-quote accumulator covers: 'stocks' and 're' (real estate assets
@@ -109,6 +110,7 @@ function Shell(): JSX.Element {
       <PortfolioWorkspace />
       <PortfolioOverviewPanel />
       <CustomizePanel />
+      <AssetBrowserPanel />
       <DockCardOverlay />
     </div>
   )

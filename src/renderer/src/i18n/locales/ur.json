@@ -599,6 +599,22 @@
     "country": "ملک",
     "website": "ویب سائٹ دیکھیں"
   },
+  "assetBrowser": {
+    "badge": "براؤز کریں",
+    "heading": "اثاثہ براؤزر",
+    "intro": "پورے اثاثہ یونیورس کو تلاش، فلٹر اور ترتیب دیں، پھر کسی قطار کو منتخب کر کے فوکس شدہ چارٹ میں لوڈ کریں۔",
+    "searchPlaceholder": "علامت یا نام سے تلاش کریں…",
+    "colSymbol": "علامت",
+    "colName": "نام",
+    "colPrice": "قیمت",
+    "colChange": "تبدیلی",
+    "resultCount_one": "{{count}} اثاثہ",
+    "resultCount_other": "{{count}} اثاثے",
+    "empty": "آپ کی تلاش سے کوئی اثاثہ میل نہیں کھاتا۔",
+    "prevPage": "پچھلا",
+    "nextPage": "اگلا",
+    "pageIndicator": "صفحہ {{page}} از {{totalPages}}"
+  },
   "modelPortfolio": {
     "conservative": {
       "name": "قدامت پسند",

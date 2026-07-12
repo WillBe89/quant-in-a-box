@@ -361,7 +361,6 @@ function loadWatchlist(): Asset[] {
 }
 
 interface AppState {
-  assetClass: AssetClass | 'all'
   symbol: Asset
   timeframe: Timeframe
   indicators: Record<IndicatorId, boolean>
@@ -371,7 +370,6 @@ interface AppState {
   academyLessonId: string | null
   academyMode: AcademyMode
 
-  setAssetClass: (klass: AssetClass | 'all') => void
   selectSymbol: (asset: Asset) => void
   setTimeframe: (tf: Timeframe) => void
   toggleIndicator: (id: IndicatorId) => void
@@ -405,6 +403,11 @@ interface AppState {
   overviewOpen: boolean
   openOverview: () => void
   closeOverview: () => void
+  assetBrowserOpen: boolean
+  assetBrowserClassFilter: AssetClass | 'all'
+  openAssetBrowser: (klass: AssetClass | 'all') => void
+  closeAssetBrowser: () => void
+  setAssetBrowserClassFilter: (klass: AssetClass | 'all') => void
   newsSource: NewsSource
   setNewsSource: (source: NewsSource) => void
   expandedCard: DockCardId | null
@@ -465,7 +468,6 @@ const DockLayoutCtx = createContext<DockLayoutContextValue | null>(null)
 const AcademyProgressCtx = createContext<AcademyProgressContextValue | null>(null)
 
 export function AppStateProvider({ children }: { children: React.ReactNode }): JSX.Element {
-  const [assetClass, setAssetClassState] = useState<AssetClass | 'all'>('all')
   const [layoutTemplate, setLayoutTemplateState] = useState<LayoutTemplateId>(() => loadLayoutTemplate())
   const [chartSlots, setChartSlots] = useState<ChartSlotState[]>(() => loadChartSlots())
   const [focusedSlotId, setFocusedSlotIdState] = useState<string>(() => loadFocusedSlotId())
@@ -507,6 +509,11 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   // Ephemeral, not persisted — mirrors customizeOpen exactly. Whether the aggregate Overview
   // panel is open resets to closed on every app launch, same as Customize/Academy.
   const [overviewOpen, setOverviewOpen] = useState(false)
+  // Ephemeral, not persisted — same lifecycle as overviewOpen/customizeOpen above. The class
+  // filter defaults to 'all' so a plain "browse everything" entry point never needs a separate
+  // trigger — see Topbar's "All" chip.
+  const [assetBrowserOpen, setAssetBrowserOpen] = useState(false)
+  const [assetBrowserClassFilter, setAssetBrowserClassFilterState] = useState<AssetClass | 'all'>('all')
   const [newsSource, setNewsSourceState] = useState<NewsSource>(() => loadNewsSource())
   const [dockLayout, setDockLayoutState] = useState<DockLayoutState>(() => loadDockLayout())
   const [expandedCard, setExpandedCard] = useState<DockCardId | null>(null)
@@ -687,16 +694,8 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   }, [])
 
   // symbol/timeframe/indicators (and their setters below) always target the currently-focused
-  // chart slot — every existing consumer (dock cards, Topbar search/class chips) keeps working
-  // unchanged, it just now reads/writes "whichever chart is focused" instead of one fixed global.
-  const setAssetClass = useCallback(
-    (klass: AssetClass | 'all') => {
-      setAssetClassState(klass)
-      const list = klass === 'all' ? Object.values(ASSETS_BY_CLASS).flat() : ASSETS_BY_CLASS[klass]
-      if (list[0]) setSlotSymbol(focusedSlotId, list[0])
-    },
-    [focusedSlotId, setSlotSymbol]
-  )
+  // chart slot — every existing consumer (dock cards, Topbar search) keeps working unchanged,
+  // it just now reads/writes "whichever chart is focused" instead of one fixed global.
 
   const selectSymbol = useCallback((asset: Asset) => setSlotSymbol(focusedSlotId, asset), [focusedSlotId, setSlotSymbol])
 
@@ -852,6 +851,12 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   const closeCustomize = useCallback(() => setCustomizeOpen(false), [])
   const openOverview = useCallback(() => setOverviewOpen(true), [])
   const closeOverview = useCallback(() => setOverviewOpen(false), [])
+  const setAssetBrowserClassFilter = useCallback((klass: AssetClass | 'all') => setAssetBrowserClassFilterState(klass), [])
+  const openAssetBrowser = useCallback((klass: AssetClass | 'all') => {
+    setAssetBrowserClassFilterState(klass)
+    setAssetBrowserOpen(true)
+  }, [])
+  const closeAssetBrowser = useCallback(() => setAssetBrowserOpen(false), [])
   const setNewsSource = useCallback((source: NewsSource) => setNewsSourceState(source), [])
 
   const setDockOrder = useCallback((order: DockCardId[]) => {
@@ -893,7 +898,6 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
 
   const value = useMemo<AppState>(
     () => ({
-      assetClass,
       symbol,
       timeframe,
       indicators,
@@ -902,7 +906,6 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       academyOpen,
       academyLessonId,
       academyMode,
-      setAssetClass,
       selectSymbol,
       setTimeframe,
       toggleIndicator,
@@ -936,6 +939,11 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       overviewOpen,
       openOverview,
       closeOverview,
+      assetBrowserOpen,
+      assetBrowserClassFilter,
+      openAssetBrowser,
+      closeAssetBrowser,
+      setAssetBrowserClassFilter,
       newsSource,
       setNewsSource,
       expandedCard,
@@ -965,7 +973,6 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       toggleNewsCategory
     }),
     [
-      assetClass,
       symbol,
       timeframe,
       indicators,
@@ -974,7 +981,6 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       academyOpen,
       academyLessonId,
       academyMode,
-      setAssetClass,
       selectSymbol,
       toggleIndicator,
       toggleTheme,
@@ -1007,6 +1013,11 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       overviewOpen,
       openOverview,
       closeOverview,
+      assetBrowserOpen,
+      assetBrowserClassFilter,
+      openAssetBrowser,
+      closeAssetBrowser,
+      setAssetBrowserClassFilter,
       newsSource,
       setNewsSource,
       expandedCard,

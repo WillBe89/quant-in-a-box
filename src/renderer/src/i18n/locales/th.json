@@ -598,6 +598,21 @@
     "country": "ประเทศ",
     "website": "เยี่ยมชมเว็บไซต์"
   },
+  "assetBrowser": {
+    "badge": "เรียกดู",
+    "heading": "เบราว์เซอร์สินทรัพย์",
+    "intro": "ค้นหา กรอง และเรียงลำดับสินทรัพย์ทั้งหมด แล้วเลือกแถวเพื่อโหลดเข้าสู่กราฟที่โฟกัสอยู่",
+    "searchPlaceholder": "ค้นหาด้วยสัญลักษณ์หรือชื่อ…",
+    "colSymbol": "สัญลักษณ์",
+    "colName": "ชื่อ",
+    "colPrice": "ราคา",
+    "colChange": "การเปลี่ยนแปลง",
+    "resultCount_other": "{{count}} รายการ",
+    "empty": "ไม่พบสินทรัพย์ที่ตรงกับการค้นหาของคุณ",
+    "prevPage": "ก่อนหน้า",
+    "nextPage": "ถัดไป",
+    "pageIndicator": "หน้า {{page}} จาก {{totalPages}}"
+  },
   "modelPortfolio": {
     "conservative": {
       "name": "อนุรักษ์นิยม",

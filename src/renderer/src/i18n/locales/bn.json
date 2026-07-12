@@ -599,6 +599,22 @@
     "country": "দেশ",
     "website": "ওয়েবসাইট দেখুন"
   },
+  "assetBrowser": {
+    "badge": "ব্রাউজ করুন",
+    "heading": "সম্পদ ব্রাউজার",
+    "intro": "পুরো সম্পদ তালিকা খুঁজুন, ফিল্টার করুন এবং সাজান, তারপর একটি সারি বেছে নিয়ে সেটি ফোকাসড চার্টে লোড করুন।",
+    "searchPlaceholder": "সিম্বল বা নাম দিয়ে খুঁজুন…",
+    "colSymbol": "সিম্বল",
+    "colName": "নাম",
+    "colPrice": "দাম",
+    "colChange": "পরিবর্তন",
+    "resultCount_one": "{{count}}টি সম্পদ",
+    "resultCount_other": "{{count}}টি সম্পদ",
+    "empty": "আপনার অনুসন্ধানের সাথে মেলে এমন কোনো সম্পদ নেই।",
+    "prevPage": "পূর্ববর্তী",
+    "nextPage": "পরবর্তী",
+    "pageIndicator": "পৃষ্ঠা {{page}} / {{totalPages}}"
+  },
   "modelPortfolio": {
     "conservative": {
       "name": "রক্ষণশীল",

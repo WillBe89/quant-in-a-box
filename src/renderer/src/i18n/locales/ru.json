@@ -601,6 +601,24 @@
     "country": "Страна",
     "website": "Перейти на сайт"
   },
+  "assetBrowser": {
+    "badge": "Обзор",
+    "heading": "Обзор активов",
+    "intro": "Ищите, фильтруйте и сортируйте весь список активов, затем выберите строку, чтобы загрузить её в выбранный график.",
+    "searchPlaceholder": "Поиск по тикеру или названию…",
+    "colSymbol": "Тикер",
+    "colName": "Название",
+    "colPrice": "Цена",
+    "colChange": "Изменение",
+    "resultCount_one": "{{count}} актив",
+    "resultCount_few": "{{count}} актива",
+    "resultCount_many": "{{count}} активов",
+    "resultCount_other": "{{count}} актива",
+    "empty": "Ни один актив не соответствует вашему запросу.",
+    "prevPage": "Назад",
+    "nextPage": "Далее",
+    "pageIndicator": "Страница {{page}} из {{totalPages}}"
+  },
   "modelPortfolio": {
     "conservative": {
       "name": "Консервативный",

@@ -602,6 +602,25 @@
     "country": "الدولة",
     "website": "زيارة الموقع الإلكتروني"
   },
+  "assetBrowser": {
+    "badge": "تصفح",
+    "heading": "متصفح الأصول",
+    "intro": "ابحث في كل الأصول وصفّها ورتّبها، ثم اختر صفًا لتحميله في الرسم البياني المحدد.",
+    "searchPlaceholder": "ابحث بالرمز أو الاسم…",
+    "colSymbol": "الرمز",
+    "colName": "الاسم",
+    "colPrice": "السعر",
+    "colChange": "التغيّر",
+    "resultCount_one": "أصل واحد",
+    "resultCount_two": "أصلان",
+    "resultCount_few": "{{count}} أصول",
+    "resultCount_many": "{{count}} أصلاً",
+    "resultCount_other": "{{count}} أصل",
+    "empty": "لا توجد أصول مطابقة لبحثك.",
+    "prevPage": "السابق",
+    "nextPage": "التالي",
+    "pageIndicator": "الصفحة {{page}} من {{totalPages}}"
+  },
   "modelPortfolio": {
     "conservative": {
       "name": "متحفظة",

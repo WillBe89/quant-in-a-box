@@ -599,6 +599,22 @@
     "country": "Pays",
     "website": "Visiter le site web"
   },
+  "assetBrowser": {
+    "badge": "Parcourir",
+    "heading": "Explorateur d'actifs",
+    "intro": "Recherchez, filtrez et triez l'ensemble des actifs, puis sélectionnez une ligne pour la charger dans le graphique actif.",
+    "searchPlaceholder": "Rechercher par symbole ou nom…",
+    "colSymbol": "Symbole",
+    "colName": "Nom",
+    "colPrice": "Prix",
+    "colChange": "Variation",
+    "resultCount_one": "{{count}} actif",
+    "resultCount_other": "{{count}} actifs",
+    "empty": "Aucun actif ne correspond à votre recherche.",
+    "prevPage": "Précédent",
+    "nextPage": "Suivant",
+    "pageIndicator": "Page {{page}} sur {{totalPages}}"
+  },
   "modelPortfolio": {
     "conservative": {
       "name": "Prudent",
