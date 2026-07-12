@@ -172,6 +172,17 @@ export default function ChartSlot({
       .catch(() => undefined)
   }, [])
 
+  // Fired (once per fresh crossing — see PriceChart's onScrollIntoFuture) when the user pans past
+  // the last loaded candle into empty future space. Only ever turns the forecast indicator ON —
+  // reads slotRef instead of `slot` so this stays the same function identity across renders (it's
+  // captured once by PriceChart's chart-creation effect; see handleScrollNearOldestEdge above for
+  // why that matters), and bails out if forecast is already on so it can never flip it back off.
+  const handleScrollIntoFuture = useCallback(() => {
+    const currentSlot = slotRef.current
+    if (!currentSlot || currentSlot.indicators.forecast) return
+    toggleSlotIndicator(slotId, 'forecast')
+  }, [slotId, toggleSlotIndicator])
+
   if (!slot) return null
 
   const up = slot.symbol.changePct >= 0
@@ -338,6 +349,7 @@ export default function ChartSlot({
           theme={theme}
           onHover={setHover}
           onScrollNearOldestEdge={handleScrollNearOldestEdge}
+          onScrollIntoFuture={handleScrollIntoFuture}
         />
         {hover && (
           <div className="readout">

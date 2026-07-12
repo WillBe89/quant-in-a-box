@@ -25,6 +25,14 @@ interface Props {
    *  bar. Purely a signal to go check for more *already-stored* local history (see ChartSlot's
    *  loadMoreLocalHistory) — this component never fetches anything itself on this path. */
   onScrollNearOldestEdge?: () => void
+  /** Fires once when scrolling/zooming carries the visible range's *newest* edge past the last
+   *  currently-loaded bar, into empty future whitespace — i.e. the transition from "still showing
+   *  real data" to "panned into the future". Edge-triggered, not level-triggered: this does not
+   *  re-fire on every tick while already past the edge, only fires again on a fresh
+   *  false-to-true transition (scroll back to a historical view, then forward past the edge again).
+   *  Purely a signal — see ChartSlot's handleScrollIntoFuture, which uses it to switch the
+   *  forecast indicator on. */
+  onScrollIntoFuture?: () => void
 }
 
 /** How close (in bars) the visible range's left edge has to get to logical index 0 — the
@@ -68,7 +76,8 @@ export default function PriceChart({
   forecastMethod,
   theme,
   onHover,
-  onScrollNearOldestEdge
+  onScrollNearOldestEdge,
+  onScrollIntoFuture
 }: Props): JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null)
   const chartRef = useRef<IChartApi | null>(null)
@@ -84,6 +93,10 @@ export default function PriceChart({
   // Always holds the latest candles + computed indicator arrays so the crosshair
   // handler (subscribed once, in the chart-creation effect) never reads stale closures.
   const dataCacheRef = useRef<IndicatorCache>({ candles: [], ma20: [], ma50: [], bollUpper: [], bollLower: [] })
+  // Tracks whether the *previous* subscribeVisibleLogicalRangeChange tick was already past the
+  // future edge, so onScrollIntoFuture fires only on the false-to-true transition (see below),
+  // not on every tick while the user remains scrolled into future whitespace.
+  const pastFutureEdgeRef = useRef(false)
 
   // Create (or recreate, on theme change) the chart. Colors come from the explicit
   // chartColors() map, not the DOM — reading data-theme off <html> here would race
@@ -252,8 +265,21 @@ export default function PriceChart({
     })
 
     chart.timeScale().subscribeVisibleLogicalRangeChange((range) => {
-      if (!onScrollNearOldestEdge || !range) return
-      if (range.from <= OLDEST_EDGE_PROXIMITY_BARS) onScrollNearOldestEdge()
+      if (!range) return
+
+      if (onScrollNearOldestEdge && range.from <= OLDEST_EDGE_PROXIMITY_BARS) {
+        onScrollNearOldestEdge()
+      }
+
+      // Last logical bar index among the *real* loaded candles (from the always-current cache,
+      // not the `candles` closed over at chart-creation time — see dataCacheRef above). -1 when
+      // nothing has loaded yet, which correctly never counts as "past" the edge.
+      const lastBarIndex = dataCacheRef.current.candles.length - 1
+      const pastFutureEdge = lastBarIndex >= 0 && range.to > lastBarIndex
+      if (pastFutureEdge && !pastFutureEdgeRef.current) {
+        onScrollIntoFuture?.()
+      }
+      pastFutureEdgeRef.current = pastFutureEdge
     })
 
     return () => {
