@@ -15,6 +15,10 @@ export interface Asset {
   marketCap?: number
   country?: string
   ipoYear?: number
+  /** Listing exchange, e.g. "ASX"/"NZX"/"SGX"/"HKEX"/"TSE" — present for the hand-curated
+   *  international listings (symbol carries a matching suffix: .AX/.NZ/.SI/.HK/.T). Absent for
+   *  the US-only NASDAQ-Trader-sourced universe, which has no suffix and no ambiguity. */
+  exchange?: string
 }
 
 export interface Candle {
