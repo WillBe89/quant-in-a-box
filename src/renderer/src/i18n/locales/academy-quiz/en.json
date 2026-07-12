@@ -5,39 +5,149 @@
       "A loan to the company that must be repaid with interest",
       "A small ownership stake in the company's future profits and losses",
       "A guaranteed fixed dividend payment",
-      "A contract to buy the stock at a future date"
+      "A voucher redeemable for company products"
     ],
-    "explanation": "A share is partial ownership of the business itself, not a loan (that's a bond) or a fixed-payment instrument."
+    "explanation": "A share is partial ownership of the business itself — its profits and losses — not a loan (that's a bond) or a fixed-payment voucher."
   },
   "assetStocks-02": {
-    "prompt": "What is the main advantage of an ETF over picking individual stocks?",
+    "prompt": "What is the main advantage of an ETF over picking individual stocks, per the lesson?",
     "options": [
-      "It guarantees higher returns than any individual stock",
-      "It removes all market risk",
-      "It spreads ownership across many companies, reducing single-company risk",
-      "It pays a fixed, government-guaranteed dividend"
+      "It guarantees a higher return than any single stock",
+      "It spreads ownership across many companies or a sector, reducing single-company risk",
+      "It removes all market risk entirely",
+      "It pays a government-guaranteed dividend"
     ],
-    "explanation": "An ETF bundles many stocks into one basket, spreading out (not eliminating) risk."
+    "explanation": "An ETF bundles many stocks into one basket, spreading ownership across a sector or market instead of concentrating it in one company."
   },
   "assetStocks-03": {
-    "prompt": "A stock's price starts at $100, ends at $110, and pays $2 in dividends. Using Total Return = (Price_end − Price_start + Dividends) / Price_start, what is the Total Return?",
-    "options": ["8%", "10%", "12%", "2%"],
-    "explanation": "(110 − 100 + 2) / 100 = 12 / 100 = 12%."
+    "prompt": "A stock's price starts at $50, ends at $54, and pays a $1 dividend. Using Total Return = (Price_end − Price_start + Dividends) / Price_start, what is the Total Return?",
+    "options": [
+      "8%",
+      "10%",
+      "4%",
+      "2%"
+    ],
+    "explanation": "(54 − 50 + 1) / 50 = 5 / 50 = 10%."
   },
   "assetStocks-04": {
-    "prompt": "According to the lesson, is a stock that has \"gone up a lot\" automatically overvalued?",
+    "prompt": "Per the lesson, is a stock that has \"gone up a lot\" automatically overvalued?",
     "options": [
       "Yes, always",
-      "No — check the metrics, not just the sticker price",
-      "Only if it's a tech stock",
-      "Yes, but only during earnings season"
+      "No — check the underlying metrics, not just the recent price move",
+      "Only if it pays no dividend",
+      "Yes, but only for ETFs"
     ],
-    "explanation": "A big move up (or down) isn't automatically a signal of over- or under-valuation on its own."
+    "explanation": "A big move up or down isn't automatically a signal of over- or under-valuation on its own; the lesson says to check the metrics, not the sticker price."
   },
   "assetStocks-05": {
-    "prompt": "What kind of risk does diversifying across many stocks (or buying a broad ETF) mostly remove?",
-    "options": ["Overall market risk", "Company-specific risk", "Interest rate risk", "Currency risk"],
-    "explanation": "Diversification removes most company-specific risk; broad market risk remains."
+    "prompt": "What kind of risk does diversifying across many stocks, or buying a broad ETF, mostly remove?",
+    "options": [
+      "Overall market risk",
+      "Company-specific risk, like a bad product launch or scandal at one firm",
+      "Interest-rate risk",
+      "Currency risk"
+    ],
+    "explanation": "Diversification removes most company-specific risk; the broader market risk that affects all stocks together remains."
+  },
+  "assetStocks-06": {
+    "prompt": "Over long (5-10+ year) periods, how has the stock market historically behaved, per the lesson, despite day-to-day volatility?",
+    "options": [
+      "It has trended upward",
+      "It has stayed perfectly flat",
+      "It has trended downward",
+      "It has become risk-free"
+    ],
+    "explanation": "Stocks are volatile day-to-day but have historically trended upward over long multi-year periods."
+  },
+  "assetStocks-07": {
+    "prompt": "Per the lesson, roughly how much can a single bad headline move an individual stock in a day?",
+    "options": [
+      "0.1-0.5%",
+      "10-20%",
+      "50-75%",
+      "100%+ every time"
+    ],
+    "explanation": "The lesson notes a single bad headline can move an individual stock 10-20% in a day, and calls that volatility normal rather than automatically a signal to panic-sell."
+  },
+  "assetStocks-08": {
+    "prompt": "Instead of reacting only to a stock's recent price swing, what does the lesson say to check?",
+    "options": [
+      "The stock's ticker symbol length",
+      "The underlying metrics, not just the sticker price",
+      "Only the company's logo and branding",
+      "Nothing — price alone tells the full story"
+    ],
+    "explanation": "The lesson's guidance is to check the metrics, not just the sticker price, before deciding a move up or down means anything."
+  },
+  "assetStocks-09": {
+    "prompt": "Beyond the change in share price, what else does the stock Total Return formula add in?",
+    "options": [
+      "Trading commissions",
+      "Dividends paid",
+      "Analyst price targets",
+      "Index membership fees"
+    ],
+    "explanation": "Total Return = (Price_end − Price_start + Dividends) / Price_start — dividends are added on top of the price change."
+  },
+  "assetStocks-10": {
+    "prompt": "A stock's price starts at $200 and ends at $180, with no dividends paid. What is its Total Return?",
+    "options": [
+      "-10%",
+      "-20%",
+      "+10%",
+      "0%"
+    ],
+    "explanation": "(180 − 200 + 0) / 200 = −20 / 200 = −10%."
+  },
+  "assetStocks-11": {
+    "prompt": "A bad product launch or a corporate scandal at one company is an example of what the lesson calls:",
+    "options": [
+      "Interest-rate risk",
+      "Company-specific risk",
+      "Currency risk",
+      "Systemic market risk"
+    ],
+    "explanation": "These are examples of company-specific risk — risk tied to one firm rather than the whole market."
+  },
+  "assetStocks-12": {
+    "prompt": "An ETF spreads ownership across:",
+    "options": [
+      "A single company's different share classes",
+      "A whole sector or market instead of one company",
+      "Only government bonds",
+      "A single country's currency"
+    ],
+    "explanation": "An ETF bundles many stocks, spreading ownership across a sector or market rather than one company."
+  },
+  "assetStocks-13": {
+    "prompt": "Per the lesson, is a stock that has \"gone down a lot\" automatically cheap?",
+    "options": [
+      "Yes, always a bargain",
+      "No — a big drop isn't automatically a signal of undervaluation either",
+      "Only during earnings season",
+      "Yes, but only for ETFs"
+    ],
+    "explanation": "Just like a rally doesn't automatically mean overvalued, a decline doesn't automatically mean cheap — check the metrics."
+  },
+  "assetStocks-14": {
+    "prompt": "What's the tradeoff of removing company-specific risk through diversification, per the lesson?",
+    "options": [
+      "You give up some upside you'd have gotten from picking a single big winner",
+      "You take on unlimited additional risk",
+      "You lose the ability to sell at any time",
+      "You must hold the position forever"
+    ],
+    "explanation": "Diversification removes most company-specific risk at the cost of some upside if you'd have picked a big individual winner instead."
+  },
+  "assetStocks-15": {
+    "prompt": "Company-specific risk sits on top of which risk that always affects individual stocks, per the lesson?",
+    "options": [
+      "Overall market risk",
+      "Currency risk only",
+      "Regulatory risk only",
+      "No other risk applies"
+    ],
+    "explanation": "Individual stocks carry company-specific risk on top of the overall market risk that affects stocks broadly."
   },
   "assetCrypto-01": {
     "prompt": "What secures and records a cryptocurrency transaction?",
@@ -50,9 +160,14 @@
     "explanation": "Crypto is secured by cryptography and recorded on a decentralized ledger, not issued or backed by a government or company."
   },
   "assetCrypto-02": {
-    "prompt": "Unlike a stock's Total Return, what does crypto's Total Return formula NOT include?",
-    "options": ["Price appreciation", "Price depreciation", "Dividends or coupons", "Percentage change"],
-    "explanation": "Crypto's return is pure price appreciation or loss — there's no dividend or coupon to add."
+    "prompt": "Unlike a stock's Total Return formula, what does crypto's Total Return formula NOT include?",
+    "options": [
+      "Price appreciation",
+      "Price depreciation",
+      "Dividends or coupons",
+      "Percentage change"
+    ],
+    "explanation": "Crypto's return is pure price appreciation or loss — (Price_end − Price_start) / Price_start — there's no dividend or coupon to add."
   },
   "assetCrypto-03": {
     "prompt": "Why is it hard to anchor a \"fair value\" for crypto the way you can for a stock?",
@@ -62,7 +177,7 @@
       "Crypto prices are fixed by regulators",
       "Crypto only trades once a day"
     ],
-    "explanation": "With no underlying business or cash flow, price is driven almost entirely by sentiment, adoption, and flows."
+    "explanation": "With no underlying business or cash flow, crypto's price is driven almost entirely by sentiment, adoption, and flows."
   },
   "assetCrypto-04": {
     "prompt": "How should the lesson's guidance lead you to size a crypto allocation?",
@@ -72,7 +187,7 @@
       "Avoid it entirely under all circumstances",
       "Match it 1:1 with your bond allocation"
     ],
-    "explanation": "The lesson recommends treating crypto as a small, high-volatility, speculative allocation."
+    "explanation": "The lesson recommends treating crypto as a small, high-volatility, speculative allocation, not a core holding."
   },
   "assetCrypto-05": {
     "prompt": "What trading-hours risk factor does crypto carry that stocks don't?",
@@ -82,22 +197,127 @@
       "It closes on weekends only",
       "It requires a licensed floor broker"
     ],
-    "explanation": "Crypto trades around the clock with no circuit breakers to pause a sharp move."
+    "explanation": "Crypto trades around the clock with no circuit breakers to pause a sharp move, unlike exchange-listed stocks."
+  },
+  "assetCrypto-06": {
+    "prompt": "Using Total Return = (Price_end − Price_start) / Price_start, a crypto position moves from $1,000 to $1,250 with no dividends. What is its Total Return?",
+    "options": [
+      "12.5%",
+      "20%",
+      "25%",
+      "250%"
+    ],
+    "explanation": "(1,250 − 1,000) / 1,000 = 250 / 1,000 = 25%."
+  },
+  "assetCrypto-07": {
+    "prompt": "With no earnings or cash flow to anchor value, what mainly drives crypto's price, per the lesson?",
+    "options": [
+      "Sentiment, adoption, and flows",
+      "A fixed government-set exchange rate",
+      "Quarterly dividend announcements",
+      "Bond coupon schedules"
+    ],
+    "explanation": "Absent an underlying business, crypto price is driven almost entirely by sentiment, adoption, and flows."
+  },
+  "assetCrypto-08": {
+    "prompt": "Who issues or backs a cryptocurrency, per the lesson?",
+    "options": [
+      "A central government",
+      "A single company",
+      "No government or company — it's secured by cryptography and a decentralized ledger",
+      "An international bank consortium"
+    ],
+    "explanation": "Crypto isn't issued or backed by any government or company; it's secured by cryptography on a decentralized ledger."
+  },
+  "assetCrypto-09": {
+    "prompt": "What extra risk does directly holding your own crypto (self-custody) carry that this app doesn't manage?",
+    "options": [
+      "Dividend withholding tax",
+      "Security risk of custody",
+      "Bond default risk",
+      "Stock split adjustments"
+    ],
+    "explanation": "Direct custody of crypto carries security risks that this app doesn't manage — always understand exactly what you're holding and where."
+  },
+  "assetCrypto-10": {
+    "prompt": "Compared to stocks, crypto is described as being more exposed to:",
+    "options": [
+      "Dividend cuts",
+      "Regulatory headlines",
+      "Bond rating downgrades",
+      "Stock split announcements"
+    ],
+    "explanation": "Crypto is more exposed to regulatory headlines than traditional stocks, on top of trading 24/7 with no circuit breakers."
+  },
+  "assetCrypto-11": {
+    "prompt": "Roughly how much can crypto move in a single day, per the lesson, far beyond what's normal for stocks or bonds?",
+    "options": [
+      "0.5-1%",
+      "2-3%",
+      "10-20%+",
+      "Exactly 50% every day"
+    ],
+    "explanation": "The lesson notes crypto can move 10-20%+ in a single day, well beyond typical stock or bond moves."
+  },
+  "assetCrypto-12": {
+    "prompt": "A crypto position drops from $500 to $400 with no dividends. Using Total Return = (Price_end − Price_start) / Price_start, what is the Total Return?",
+    "options": [
+      "-25%",
+      "-20%",
+      "-10%",
+      "+20%"
+    ],
+    "explanation": "(400 − 500) / 500 = −100 / 500 = −20%."
+  },
+  "assetCrypto-13": {
+    "prompt": "Per the lesson's guidance, should crypto typically be treated as a core, majority portfolio holding?",
+    "options": [
+      "Yes, it should anchor the portfolio",
+      "No — it should be a smaller, high-volatility, speculative slice",
+      "Yes, but only for retirees",
+      "No, it should never be held in any amount"
+    ],
+    "explanation": "The lesson recommends sizing crypto as a speculative slice, not a core holding, given its volatility."
+  },
+  "assetCrypto-14": {
+    "prompt": "Before holding crypto directly, what does the \"watch out for\" guidance say you should always understand?",
+    "options": [
+      "Its historical P/E ratio",
+      "Exactly what you're holding and where it's custodied",
+      "Its bond coupon rate",
+      "Its dividend reinvestment schedule"
+    ],
+    "explanation": "Because direct custody carries security risks this app doesn't manage, always understand exactly what you're holding and where."
+  },
+  "assetCrypto-15": {
+    "prompt": "Does crypto have an underlying business generating profit the way a stock does?",
+    "options": [
+      "Yes, always",
+      "No — value comes from what the market is willing to pay for it, not business profit",
+      "Only for the largest cryptocurrencies",
+      "Yes, but only during bull markets"
+    ],
+    "explanation": "Unlike a stock, there's no underlying business generating profit — crypto's value comes from what the market is willing to pay."
   },
   "assetBonds-01": {
-    "prompt": "What is a bond, fundamentally?",
+    "prompt": "A bond is, fundamentally:",
     "options": [
       "Ownership in a company",
       "A loan to a government or company in exchange for interest and principal repayment",
       "A basket of stocks",
       "A cryptocurrency-backed token"
     ],
-    "explanation": "A bond is a claim on a borrower's promise to pay, not ownership in anything."
+    "explanation": "A bond is a claim on a borrower's promise to pay — interest plus principal at maturity — not ownership in anything."
   },
   "assetBonds-02": {
-    "prompt": "A bond pays a $50 annual coupon and currently trades at $1,000. Using Current Yield ≈ Annual Coupon / Current Price, what is its approximate current yield?",
-    "options": ["0.5%", "5%", "50%", "10%"],
-    "explanation": "50 / 1000 = 5%."
+    "prompt": "A bond pays a $40 annual coupon and trades at $800. Using Current Yield ≈ Annual Coupon / Current Price, what is its approximate current yield?",
+    "options": [
+      "4%",
+      "5%",
+      "8%",
+      "0.5%"
+    ],
+    "explanation": "40 / 800 = 5%."
   },
   "assetBonds-03": {
     "prompt": "What happens to existing bond prices when interest rates rise?",
@@ -107,7 +327,7 @@
       "They stay exactly flat",
       "They automatically default"
     ],
-    "explanation": "Bond prices move inversely to rates — a rising-rate environment makes older, lower-yielding bonds less attractive."
+    "explanation": "Bond prices move inversely to rates — rising rates make older, lower-yielding bonds less attractive, so their price falls."
   },
   "assetBonds-04": {
     "prompt": "Which bonds are more sensitive to interest-rate changes?",
@@ -115,9 +335,9 @@
       "Shorter-maturity bonds",
       "Longer-maturity bonds",
       "Maturity doesn't affect rate sensitivity",
-      "Only zero-coupon government bonds"
+      "Only zero-coupon corporate bonds"
     ],
-    "explanation": "Longer-maturity bonds feel rate changes more than short-term ones."
+    "explanation": "Longer-maturity bonds feel rate changes more strongly than short-term ones."
   },
   "assetBonds-05": {
     "prompt": "If a corporate bond yields much more than a comparable government bond, what does that usually signal?",
@@ -128,6 +348,106 @@
       "That the bond is tax-exempt"
     ],
     "explanation": "A higher yield than a comparable government bond usually reflects the market pricing in genuine default risk, not a free lunch."
+  },
+  "assetBonds-06": {
+    "prompt": "How does government bond default risk generally compare to corporate bond default risk?",
+    "options": [
+      "Government bonds carry far less default risk",
+      "Government bonds always carry more default risk",
+      "They carry identical default risk",
+      "Government bonds have no yield at all"
+    ],
+    "explanation": "Government bonds carry far less default risk than corporate bonds, which pay more specifically because they carry more risk."
+  },
+  "assetBonds-07": {
+    "prompt": "What does a bond ladder (staggered maturities) help manage?",
+    "options": [
+      "The company's dividend policy",
+      "The tradeoff between yield and how long your money is locked up",
+      "The stock market's overall volatility",
+      "Crypto custody risk"
+    ],
+    "explanation": "A bond ladder staggers maturities to help manage the tradeoff between the yield you earn and how long your money is tied up."
+  },
+  "assetBonds-08": {
+    "prompt": "Bonds are generally used for:",
+    "options": [
+      "Aggressive growth",
+      "Stability and income rather than growth",
+      "Maximum speculative upside",
+      "Currency hedging exclusively"
+    ],
+    "explanation": "Bonds are generally used for stability and income, in contrast to growth-oriented assets like stocks."
+  },
+  "assetBonds-09": {
+    "prompt": "A bond pays a $30 annual coupon and trades at $600. Using Current Yield ≈ Annual Coupon / Current Price, what is its approximate current yield?",
+    "options": [
+      "3%",
+      "5%",
+      "6%",
+      "2%"
+    ],
+    "explanation": "30 / 600 = 5%."
+  },
+  "assetBonds-10": {
+    "prompt": "Why do corporate bonds typically pay a higher yield than comparable government bonds?",
+    "options": [
+      "To compensate investors for taking on more default risk",
+      "Because corporations are legally required to overpay",
+      "Because corporate bonds have no maturity date",
+      "Because they are exempt from all taxes"
+    ],
+    "explanation": "Corporate bonds pay more specifically because they carry more default risk than government bonds."
+  },
+  "assetBonds-11": {
+    "prompt": "When rates rise and an existing bond's price falls as a result, has the borrower's creditworthiness necessarily changed?",
+    "options": [
+      "Yes, the price fall means the borrower is now less creditworthy",
+      "No — the price fall is a rate effect, even though nothing about the borrower changed",
+      "Yes, the borrower has defaulted",
+      "No, because bond prices never move with rates"
+    ],
+    "explanation": "The lesson notes existing bond prices fall as rates rise even though nothing about the borrower changed — it's a rate effect, not a credit event."
+  },
+  "assetBonds-12": {
+    "prompt": "A bond pays a $50 annual coupon and trades at $900. Using Current Yield ≈ Annual Coupon / Current Price, its approximate current yield is closest to:",
+    "options": [
+      "4.5%",
+      "5.6%",
+      "6.5%",
+      "10%"
+    ],
+    "explanation": "50 / 900 ≈ 5.6%."
+  },
+  "assetBonds-13": {
+    "prompt": "Besides regular interest payments, what does a bondholder receive at maturity?",
+    "options": [
+      "A share of company profits",
+      "The principal back",
+      "A guaranteed capital gain",
+      "Additional voting rights"
+    ],
+    "explanation": "A bond returns regular interest payments plus the principal back at maturity — a loan structure, not ownership."
+  },
+  "assetBonds-14": {
+    "prompt": "A rise in interest rates can push down the price of an existing bond even though:",
+    "options": [
+      "The bond's coupon payment has changed",
+      "Nothing about the underlying borrower has changed",
+      "The bond has already matured",
+      "The bond is government-issued only"
+    ],
+    "explanation": "Existing bond prices can fall purely because newly issued bonds now offer more, even with no change to the original borrower."
+  },
+  "assetBonds-15": {
+    "prompt": "Per the lesson, a much higher yield than a comparable government bond should NOT be read as:",
+    "options": [
+      "A signal of real default risk",
+      "A \"free lunch\" with no extra risk attached",
+      "A market pricing signal",
+      "Something worth investigating further"
+    ],
+    "explanation": "That extra yield usually reflects the market pricing in real default risk — it isn't a free lunch."
   },
   "assetFx-01": {
     "prompt": "If EUR/USD rises from 1.05 to 1.10, what does that mean?",
@@ -150,11 +470,26 @@
     "explanation": "Commodities are raw physical goods traded on their own supply and demand."
   },
   "assetFx-03": {
-    "prompt": "What risk factor is FX trading very frequently combined with, which magnifies both gains and losses?",
-    "options": ["Dividends", "Leverage", "Stock splits", "Maturity dates"],
-    "explanation": "FX is very frequently traded with leverage, which magnifies both gains and losses far beyond the underlying price move."
+    "prompt": "What factors does the lesson say FX trading is driven by?",
+    "options": [
+      "Corporate quarterly earnings only",
+      "Interest rate differences, trade flows, and macroeconomic conditions between countries",
+      "A fixed peg set once per year",
+      "Stock buyback announcements"
+    ],
+    "explanation": "FX is driven by interest rate differences, trade flows, and macro conditions between the two countries involved."
   },
   "assetFx-04": {
+    "prompt": "What risk factor is FX trading very frequently combined with, which magnifies both gains and losses?",
+    "options": [
+      "Dividends",
+      "Leverage",
+      "Stock splits",
+      "Maturity dates"
+    ],
+    "explanation": "FX is very frequently traded with leverage, which magnifies both gains and losses far beyond the underlying price move."
+  },
+  "assetFx-05": {
     "prompt": "Who does the lesson say FX and commodities are usually the domain of?",
     "options": [
       "Long-term retail dividend investors",
@@ -164,7 +499,7 @@
     ],
     "explanation": "FX and commodities are usually the domain of macro/institutional traders or businesses hedging real currency or commodity exposure."
   },
-  "assetFx-05": {
+  "assetFx-06": {
     "prompt": "What can move FX and commodity prices sharply with little warning?",
     "options": [
       "Quarterly earnings calls",
@@ -173,6 +508,96 @@
       "ETF rebalancing dates"
     ],
     "explanation": "Both FX and commodities are highly sensitive to central bank decisions and geopolitical events."
+  },
+  "assetFx-07": {
+    "prompt": "If EUR/USD falls from 1.20 to 1.15, what does that mean?",
+    "options": [
+      "The euro strengthened against the US dollar",
+      "The euro weakened against the US dollar",
+      "The US dollar is no longer traded",
+      "Both currencies strengthened equally"
+    ],
+    "explanation": "A falling EUR/USD means fewer US dollars buy one euro — the euro has weakened against the dollar."
+  },
+  "assetFx-08": {
+    "prompt": "On a heavily leveraged FX position, a 1% move in the underlying currency pair can:",
+    "options": [
+      "Have no effect at all",
+      "Wipe out a large portion of the position",
+      "Only affect the dividend received",
+      "Be legally capped at 0.1%"
+    ],
+    "explanation": "Because leverage magnifies moves, even a 1% currency move can wipe out a heavily leveraged position."
+  },
+  "assetFx-09": {
+    "prompt": "Per the lesson, should FX typically be a core retail holding?",
+    "options": [
+      "Yes, it should anchor most retail portfolios",
+      "No — it's usually the domain of macro/institutional traders or hedgers, and a smaller, higher-risk allocation if traded speculatively",
+      "Yes, but only for retirees",
+      "No, retail investors are legally barred from it"
+    ],
+    "explanation": "The lesson frames FX and commodities as usually institutional or hedging tools, with speculative retail use sized as a smaller, higher-risk allocation."
+  },
+  "assetFx-10": {
+    "prompt": "Besides trade flows and macro conditions, what other factor does the lesson say drives FX?",
+    "options": [
+      "Interest rate differences between countries",
+      "Dividend payout ratios",
+      "Stock index membership",
+      "Bond coupon schedules"
+    ],
+    "explanation": "FX is driven by interest rate differences, trade flows, and macroeconomic conditions between countries."
+  },
+  "assetFx-11": {
+    "prompt": "Gold and oil prices are driven mainly by:",
+    "options": [
+      "Corporate earnings season",
+      "Their own physical supply and demand",
+      "Fixed government pricing schedules",
+      "Dividend reinvestment plans"
+    ],
+    "explanation": "Unlike stocks, commodities are raw physical goods priced on their own supply and demand."
+  },
+  "assetFx-12": {
+    "prompt": "Central bank decisions are described as a sharp, little-warning mover of:",
+    "options": [
+      "Only individual stock prices",
+      "Both FX and commodity prices",
+      "Only bond coupon rates",
+      "Only cryptocurrency prices"
+    ],
+    "explanation": "The lesson calls out central bank decisions and geopolitical events as sharp movers of both FX and commodities."
+  },
+  "assetFx-13": {
+    "prompt": "If EUR/USD rises from 1.10 to 1.20, what happened?",
+    "options": [
+      "The euro strengthened against the US dollar",
+      "The euro weakened against the US dollar",
+      "The quote became invalid",
+      "The US dollar strengthened against the euro"
+    ],
+    "explanation": "A rising EUR/USD number means the euro buys more US dollars — the euro has strengthened."
+  },
+  "assetFx-14": {
+    "prompt": "What specifically amplifies both gains and losses in typical FX trading, per the watch-out guidance?",
+    "options": [
+      "Diversification",
+      "Leverage",
+      "Dividend reinvestment",
+      "Bond laddering"
+    ],
+    "explanation": "Leverage is very commonly combined with FX trading, and it magnifies both gains and losses."
+  },
+  "assetFx-15": {
+    "prompt": "If trading FX or commodities speculatively rather than for hedging, how should you size the allocation, per the lesson?",
+    "options": [
+      "As a large, core position",
+      "As a smaller, higher-risk allocation",
+      "Match it exactly to your bond allocation",
+      "Avoid position sizing altogether"
+    ],
+    "explanation": "The lesson advises treating speculative FX/commodity trading as a smaller, higher-risk allocation, not a core position."
   },
   "assetRealEstate-01": {
     "prompt": "How does this app track real estate exposure?",
@@ -185,9 +610,14 @@
     "explanation": "This app tracks real estate through REITs — companies that own income-producing property and trade like a stock."
   },
   "assetRealEstate-02": {
-    "prompt": "A REIT distributes $4/share annually and trades at $80. Using Dividend Yield = Annual Distribution / Share Price, what is its dividend yield?",
-    "options": ["2%", "4%", "5%", "8%"],
-    "explanation": "4 / 80 = 5%."
+    "prompt": "A REIT distributes $5/share annually and trades at $100. Using Dividend Yield = Annual Distribution / Share Price, what is its dividend yield?",
+    "options": [
+      "3%",
+      "5%",
+      "8%",
+      "10%"
+    ],
+    "explanation": "5 / 100 = 5%."
   },
   "assetRealEstate-03": {
     "prompt": "What gives REITs an advantage over owning physical property directly?",
@@ -219,6 +649,106 @@
     ],
     "explanation": "A REIT is not the same as owning a specific building — you own a share of a diversified, professionally managed portfolio."
   },
+  "assetRealEstate-06": {
+    "prompt": "What do REITs do with most of the rental income their properties generate?",
+    "options": [
+      "Reinvest all of it into new buildings, paying nothing to shareholders",
+      "Distribute most of it to shareholders",
+      "Donate it to charity",
+      "Convert it into cryptocurrency"
+    ],
+    "explanation": "REITs own and operate income-producing property and distribute most of that rental income to shareholders."
+  },
+  "assetRealEstate-07": {
+    "prompt": "A REIT distributes $3/share annually and trades at $60. Using Dividend Yield = Annual Distribution / Share Price, what is its dividend yield?",
+    "options": [
+      "6%",
+      "5%",
+      "3%",
+      "10%"
+    ],
+    "explanation": "3 / 60 = 5%."
+  },
+  "assetRealEstate-08": {
+    "prompt": "Does rising interest rates only pressure REIT prices when the underlying properties are performing poorly?",
+    "options": [
+      "Yes, only then",
+      "No — rising rates can pressure REIT prices even when the properties are performing fine",
+      "REITs are never affected by interest rates",
+      "Only for REITs based outside the US"
+    ],
+    "explanation": "Because REITs are valued partly like a bond, rising rates can pressure prices even when the underlying properties are doing well."
+  },
+  "assetRealEstate-09": {
+    "prompt": "Why are REITs often used for diversification, per the lesson?",
+    "options": [
+      "They always move in lockstep with the stock market",
+      "Real estate doesn't always move in lockstep with the broader stock market",
+      "They are immune to all market risk",
+      "They are the only asset class with guaranteed returns"
+    ],
+    "explanation": "REITs are often used for diversification and income since real estate doesn't always move in lockstep with the broader stock market."
+  },
+  "assetRealEstate-10": {
+    "prompt": "REITs trade like:",
+    "options": [
+      "A stock",
+      "A physical deed transfer",
+      "A private, illiquid partnership only",
+      "A fixed-term bank certificate of deposit"
+    ],
+    "explanation": "REITs are companies that trade like a stock, unlike direct ownership of physical property."
+  },
+  "assetRealEstate-11": {
+    "prompt": "A REIT distributes $4/share annually and trades at $50. Using Dividend Yield = Annual Distribution / Share Price, what is its dividend yield?",
+    "options": [
+      "4%",
+      "5%",
+      "8%",
+      "10%"
+    ],
+    "explanation": "4 / 50 = 8%."
+  },
+  "assetRealEstate-12": {
+    "prompt": "REITs are valued partly like a bond because of:",
+    "options": [
+      "Their income stream",
+      "Their fixed maturity date",
+      "Their voting rights",
+      "Their credit rating agency"
+    ],
+    "explanation": "The income stream a REIT pays out gives it some bond-like valuation sensitivity to interest rates."
+  },
+  "assetRealEstate-13": {
+    "prompt": "Compared to selling an actual building, selling a REIT share is:",
+    "options": [
+      "Slower and requires a licensed broker",
+      "Effectively instant, like selling any other stock",
+      "Only possible once a year",
+      "Legally prohibited"
+    ],
+    "explanation": "REITs give stock-like liquidity — you can buy or sell instantly, unlike an actual property sale."
+  },
+  "assetRealEstate-14": {
+    "prompt": "A REIT's Dividend Yield formula is described as this app's version of a landlord's:",
+    "options": [
+      "Mortgage rate",
+      "Cap rate",
+      "Security deposit",
+      "Property tax rate"
+    ],
+    "explanation": "Dividend Yield = Annual Distribution / Share Price is described as a REIT's version of a landlord's cap rate."
+  },
+  "assetRealEstate-15": {
+    "prompt": "Is owning a REIT share the same as owning one specific building?",
+    "options": [
+      "Yes, each share corresponds to one building",
+      "No — it's a share of a diversified portfolio managed by someone else",
+      "Yes, but only for residential REITs",
+      "No, REITs don't own any real property at all"
+    ],
+    "explanation": "A REIT share represents a stake in a diversified, professionally managed portfolio, not one specific building."
+  },
   "ma-01": {
     "prompt": "What does a Moving Average do to a price series?",
     "options": [
@@ -227,7 +757,7 @@
       "Predicts the exact next closing price",
       "Removes all risk from a position"
     ],
-    "explanation": "An MA is the average closing price over the last N days, filtering out day-to-day noise."
+    "explanation": "An MA is the average closing price over the last N days, filtering out day-to-day noise to reveal the underlying trend."
   },
   "ma-02": {
     "prompt": "A \"golden cross\" refers to:",
@@ -240,6 +770,16 @@
     "explanation": "A golden cross is a shorter MA (e.g. 20-day) crossing above a longer one (e.g. 50-day), read as bullish."
   },
   "ma-03": {
+    "prompt": "What is a \"death cross\", as the reverse of a golden cross?",
+    "options": [
+      "A shorter MA crossing above a longer MA",
+      "A shorter MA crossing below a longer MA — read as bearish",
+      "RSI falling below 30",
+      "The MA line disappearing from the chart"
+    ],
+    "explanation": "The reverse of a golden cross — a shorter MA crossing below a longer one — is read as bearish."
+  },
+  "ma-04": {
     "prompt": "What is a key limitation of moving averages?",
     "options": [
       "They predict reversals before they happen",
@@ -249,7 +789,7 @@
     ],
     "explanation": "MAs are lagging indicators: they confirm a trend after it starts, not before."
   },
-  "ma-04": {
+  "ma-05": {
     "prompt": "In a choppy, sideways market, moving average crossovers tend to:",
     "options": [
       "Perfectly predict every reversal",
@@ -259,7 +799,7 @@
     ],
     "explanation": "In a choppy, sideways market, MA crossovers generate false signals repeatedly."
   },
-  "ma-05": {
+  "ma-06": {
     "prompt": "A 10-day MA is calculated as:",
     "options": [
       "The sum of the last 10 closes",
@@ -268,6 +808,96 @@
       "The single most recent close"
     ],
     "explanation": "MA(n) = (close₁ + close₂ + … + closeₙ) / n."
+  },
+  "ma-07": {
+    "prompt": "Using MA(n) = sum of the last n closes / n, what is the 3-day MA of closes 10, 12, 14?",
+    "options": [
+      "10",
+      "12",
+      "14",
+      "36"
+    ],
+    "explanation": "(10 + 12 + 14) / 3 = 36 / 3 = 12."
+  },
+  "ma-08": {
+    "prompt": "Price trading above a rising moving average generally signals:",
+    "options": [
+      "A downtrend",
+      "An uptrend",
+      "No trend at all",
+      "A guaranteed reversal"
+    ],
+    "explanation": "Price above a rising MA generally signals an uptrend; below a falling MA signals a downtrend."
+  },
+  "ma-09": {
+    "prompt": "Price trading below a falling moving average generally signals:",
+    "options": [
+      "An uptrend",
+      "A downtrend",
+      "A golden cross",
+      "Zero volatility"
+    ],
+    "explanation": "Price below a falling MA generally signals a downtrend."
+  },
+  "ma-10": {
+    "prompt": "In the lesson's golden-cross example, which shorter-period MA is used?",
+    "options": [
+      "5-day",
+      "20-day",
+      "100-day",
+      "200-day"
+    ],
+    "explanation": "The lesson's example uses a 20-day MA crossing above a 50-day MA as the golden cross."
+  },
+  "ma-11": {
+    "prompt": "In the lesson's golden-cross example, which longer-period MA is used?",
+    "options": [
+      "10-day",
+      "20-day",
+      "50-day",
+      "250-day"
+    ],
+    "explanation": "The lesson's example pairs a 20-day MA crossing above a 50-day MA."
+  },
+  "ma-12": {
+    "prompt": "Using MA(n) = sum of the last n closes / n, what is the 4-day MA of closes 5, 7, 9, 11?",
+    "options": [
+      "7",
+      "8",
+      "9",
+      "32"
+    ],
+    "explanation": "(5 + 7 + 9 + 11) / 4 = 32 / 4 = 8."
+  },
+  "ma-13": {
+    "prompt": "Can a moving average predict a reversal before it happens?",
+    "options": [
+      "Yes, that's its main purpose",
+      "No — it's a lagging indicator that confirms a trend after it starts",
+      "Yes, but only the 200-day MA can",
+      "No, MAs cannot be plotted on a chart"
+    ],
+    "explanation": "MAs lag price; they confirm a trend after it has already started rather than predicting it in advance."
+  },
+  "ma-14": {
+    "prompt": "Between a 20-day MA and a 50-day MA, which one reacts faster to a recent price change?",
+    "options": [
+      "The 50-day MA, since it averages more data",
+      "The 20-day MA, since fewer days are averaged so each recent close carries more weight",
+      "Neither — both react identically",
+      "It depends on the stock's ticker symbol"
+    ],
+    "explanation": "A shorter-period MA averages fewer days, so a recent price change makes up a larger share of the average and shows up faster."
+  },
+  "ma-15": {
+    "prompt": "On a price chart, a Moving Average is typically plotted as:",
+    "options": [
+      "A jagged, erratic line",
+      "A smooth line that filters day-to-day noise",
+      "A series of unconnected dots",
+      "A horizontal flat line only"
+    ],
+    "explanation": "The MA is plotted as a smooth line — the average closing price over the last N days — filtering out day-to-day noise."
   },
   "boll-01": {
     "prompt": "What determines how wide Bollinger Bands are?",
@@ -281,7 +911,12 @@
   },
   "boll-02": {
     "prompt": "Per the formula Upper = MA(20) + 2σ, Lower = MA(20) − 2σ, what does the upper band equal?",
-    "options": ["MA(20) − 2σ", "MA(20) + 2σ", "MA(20) × 2", "MA(20) / σ"],
+    "options": [
+      "MA(20) − 2σ",
+      "MA(20) + 2σ",
+      "MA(20) × 2",
+      "MA(20) / σ"
+    ],
     "explanation": "The upper band is the 20-day moving average plus two standard deviations."
   },
   "boll-03": {
@@ -314,14 +949,124 @@
     ],
     "explanation": "Touching a band is not automatically a buy or sell signal — bands describe recent volatility, not direction."
   },
+  "boll-06": {
+    "prompt": "Using Upper = MA(20) + 2σ, if MA(20) = 100 and σ = 5, what is the upper band?",
+    "options": [
+      "105",
+      "110",
+      "90",
+      "150"
+    ],
+    "explanation": "100 + (2 × 5) = 110."
+  },
+  "boll-07": {
+    "prompt": "Using Lower = MA(20) − 2σ, if MA(20) = 50 and σ = 3, what is the lower band?",
+    "options": [
+      "47",
+      "44",
+      "53",
+      "56"
+    ],
+    "explanation": "50 − (2 × 3) = 44."
+  },
+  "boll-08": {
+    "prompt": "Per the formula, what does the lower band equal?",
+    "options": [
+      "MA(20) + 2σ",
+      "MA(20) − 2σ",
+      "MA(20) × σ",
+      "2 × MA(20)"
+    ],
+    "explanation": "The lower band is the 20-day moving average minus two standard deviations."
+  },
+  "boll-09": {
+    "prompt": "Bollinger Bands widen when:",
+    "options": [
+      "Volatility falls",
+      "Volatility rises",
+      "Volume falls to zero",
+      "The moving average flattens permanently"
+    ],
+    "explanation": "Bands widen when recent price volatility (standard deviation) rises."
+  },
+  "boll-10": {
+    "prompt": "Bollinger Bands narrow when:",
+    "options": [
+      "Volatility rises",
+      "Volatility falls",
+      "Price rises sharply",
+      "Trading volume spikes"
+    ],
+    "explanation": "Bands narrow when recent price volatility (standard deviation) falls — a potential squeeze setup."
+  },
+  "boll-11": {
+    "prompt": "Bollinger Bands are plotted around which central line?",
+    "options": [
+      "The day's high price",
+      "A 20-day moving average",
+      "The prior year's closing price",
+      "The risk-free rate"
+    ],
+    "explanation": "Per the formula, the bands sit above and below a 20-day moving average (MA(20))."
+  },
+  "boll-12": {
+    "prompt": "Does price touching the upper band guarantee it will reverse and fall?",
+    "options": [
+      "Yes, always",
+      "No — in a strong trend price can keep walking along the band",
+      "Yes, but only for ETFs",
+      "No, because the bands never actually get touched"
+    ],
+    "explanation": "Touching a band is not a guaranteed reversal signal — in a strong trend, price can \"walk the band\" for an extended stretch."
+  },
+  "boll-13": {
+    "prompt": "Bollinger Bands primarily describe:",
+    "options": [
+      "The direction price will move next",
+      "Recent volatility, not direction",
+      "The company's dividend policy",
+      "The risk-free interest rate"
+    ],
+    "explanation": "Bands describe recent volatility (how stretched price is), not which direction price will move next."
+  },
+  "boll-14": {
+    "prompt": "What other technical tool from the Trend & Momentum lessons are Bollinger Bands built around?",
+    "options": [
+      "RSI",
+      "A moving average",
+      "MACD",
+      "Beta"
+    ],
+    "explanation": "Per the formula, the bands are spaced around a 20-day moving average (MA(20))."
+  },
+  "boll-15": {
+    "prompt": "Per the standard formula, over how many days is the moving average and standard deviation for Bollinger Bands measured?",
+    "options": [
+      "5 days",
+      "10 days",
+      "20 days",
+      "50 days"
+    ],
+    "explanation": "The standard formula uses a 20-day moving average and its 20-day standard deviation."
+  },
   "rsi-01": {
     "prompt": "RSI is scaled between:",
-    "options": ["-100 and 100", "0 and 100", "0 and 1", "-1 and 1"],
+    "options": [
+      "-100 and 100",
+      "0 and 100",
+      "0 and 1",
+      "-1 and 1"
+    ],
     "explanation": "RSI is a momentum oscillator from 0-100."
   },
   "rsi-02": {
     "prompt": "A traditional \"overbought\" RSI reading is generally considered to be:",
-    "options": ["Below 30", "Above 70", "Exactly 50", "Below 0"],
+    "options": [
+      "Below 30",
+      "Above 70",
+      "Exactly 50",
+      "Below 0"
+    ],
     "explanation": "Readings above 70 are traditionally read as overbought, below 30 as oversold."
   },
   "rsi-03": {
@@ -353,6 +1098,106 @@
       "A measure of trading volume"
     ],
     "explanation": "Treat RSI as a momentum reading, not a countdown timer."
+  },
+  "rsi-06": {
+    "prompt": "Using RSI = 100 − 100 / (1 + average gain / average loss), if the average gain is 8 and the average loss is 2, what is the RSI?",
+    "options": [
+      "20",
+      "50",
+      "80",
+      "100"
+    ],
+    "explanation": "RS = 8/2 = 4; RSI = 100 − 100/(1+4) = 100 − 20 = 80."
+  },
+  "rsi-07": {
+    "prompt": "Using RSI = 100 − 100 / (1 + average gain / average loss), if the average gain is 2 and the average loss is 8, what is the RSI?",
+    "options": [
+      "80",
+      "50",
+      "20",
+      "0"
+    ],
+    "explanation": "RS = 2/8 = 0.25; RSI = 100 − 100/(1+0.25) = 100 − 80 = 20."
+  },
+  "rsi-08": {
+    "prompt": "A traditional \"oversold\" RSI reading is generally considered to be:",
+    "options": [
+      "Below 30",
+      "Above 70",
+      "Exactly 100",
+      "Above 50"
+    ],
+    "explanation": "Readings below 30 are traditionally read as oversold, above 70 as overbought."
+  },
+  "rsi-09": {
+    "prompt": "RSI measures how fast and how much price has moved recently, based on the size of:",
+    "options": [
+      "Trading volume vs open interest",
+      "Up days versus down days",
+      "Dividend payments vs coupon payments",
+      "Implied volatility vs historical volatility"
+    ],
+    "explanation": "RSI is a momentum oscillator based on the size of recent up days versus down days."
+  },
+  "rsi-10": {
+    "prompt": "An RSI divergence should NOT be read as:",
+    "options": [
+      "An early trend-exhaustion hint",
+      "A guarantee that the trend will reverse tomorrow",
+      "Something worth watching",
+      "A momentum signal"
+    ],
+    "explanation": "Divergences are early hints, not guarantees of an imminent reversal."
+  },
+  "rsi-11": {
+    "prompt": "Using RSI = 100 − 100 / (1 + average gain / average loss), if average gain equals average loss (RS = 1), what is the RSI?",
+    "options": [
+      "0",
+      "25",
+      "50",
+      "100"
+    ],
+    "explanation": "RS = 1; RSI = 100 − 100/(1+1) = 100 − 50 = 50."
+  },
+  "rsi-12": {
+    "prompt": "RSI is described as a \"momentum oscillator\" measuring:",
+    "options": [
+      "The company's dividend yield",
+      "How fast and how much price has moved recently",
+      "The bond coupon rate",
+      "The stock's market capitalization"
+    ],
+    "explanation": "RSI is a momentum oscillator measuring how fast and how much price has moved recently."
+  },
+  "rsi-13": {
+    "prompt": "Using RSI = 100 − 100 / (1 + average gain / average loss), if the average gain is 6 and the average loss is 3, what is the RSI (rounded)?",
+    "options": [
+      "50",
+      "67",
+      "75",
+      "33"
+    ],
+    "explanation": "RS = 6/3 = 2; RSI = 100 − 100/(1+2) = 100 − 33.3 ≈ 67."
+  },
+  "rsi-14": {
+    "prompt": "An RSI above 70 or below 30 hints at:",
+    "options": [
+      "A certain, guaranteed reversal",
+      "A possible pullback or bounce, not a certainty",
+      "The stock is about to be delisted",
+      "The data feed has failed"
+    ],
+    "explanation": "Overbought/oversold readings hint that a pullback or bounce may be near — not a certainty."
+  },
+  "rsi-15": {
+    "prompt": "The endpoints of the RSI scale are:",
+    "options": [
+      "-1 and 1",
+      "0 and 100",
+      "0 and 10",
+      "-100 and 0"
+    ],
+    "explanation": "RSI runs from 0 to 100."
   },
   "macd-01": {
     "prompt": "MACD is calculated as the difference between:",
@@ -386,7 +1231,12 @@
   },
   "macd-04": {
     "prompt": "Like other EMA-based tools, MACD:",
-    "options": ["Leads price perfectly", "Lags price", "Has nothing to do with moving averages", "Only works on options"],
+    "options": [
+      "Leads price perfectly",
+      "Lags price",
+      "Has nothing to do with moving averages",
+      "Only works on options"
+    ],
     "explanation": "Like all EMA-based tools, MACD lags price."
   },
   "macd-05": {
@@ -399,9 +1249,114 @@
     ],
     "explanation": "MACD works best in trending markets and produces frequent whipsaw signals in flat, range-bound ones."
   },
+  "macd-06": {
+    "prompt": "MACD crossing below its signal line is generally read as:",
+    "options": [
+      "Bullish momentum building",
+      "Bearish momentum building",
+      "A stock split",
+      "No signal at all"
+    ],
+    "explanation": "MACD crossing below its signal line is read as bearish momentum building — the opposite of a bullish crossover."
+  },
+  "macd-07": {
+    "prompt": "A MACD histogram growing taller (further from zero) shows:",
+    "options": [
+      "Momentum accelerating in that direction",
+      "The stock is about to be delisted",
+      "Volatility dropping to zero",
+      "A dividend cut"
+    ],
+    "explanation": "A taller histogram shows the gap between the MACD line and signal line widening — momentum accelerating in that direction."
+  },
+  "macd-08": {
+    "prompt": "Using MACD = EMA(12) − EMA(26), if EMA(12) = 50 and EMA(26) = 45, what is the MACD value?",
+    "options": [
+      "-5",
+      "5",
+      "95",
+      "45"
+    ],
+    "explanation": "50 − 45 = 5."
+  },
+  "macd-09": {
+    "prompt": "Using MACD = EMA(12) − EMA(26), if EMA(12) = 30 and EMA(26) = 34, what is the MACD value, and is it bullish or bearish?",
+    "options": [
+      "+4, bullish",
+      "-4, bearish",
+      "0, neutral",
+      "+34, bullish"
+    ],
+    "explanation": "30 − 34 = −4; a negative MACD means the fast EMA is below the slow EMA, generally read as bearish."
+  },
+  "macd-10": {
+    "prompt": "The MACD signal line is constructed as:",
+    "options": [
+      "A 9-day EMA of the MACD line itself",
+      "The raw closing price",
+      "A 26-day SMA of volume",
+      "The 50-day moving average"
+    ],
+    "explanation": "Signal = EMA(9) of the MACD line, smoothing the gap between the fast and slow EMAs."
+  },
+  "macd-11": {
+    "prompt": "What period is the \"fast\" EMA in the standard MACD formula?",
+    "options": [
+      "9-day",
+      "12-day",
+      "20-day",
+      "26-day"
+    ],
+    "explanation": "The standard MACD uses a 12-day fast EMA and a 26-day slow EMA."
+  },
+  "macd-12": {
+    "prompt": "What period is the \"slow\" EMA in the standard MACD formula?",
+    "options": [
+      "9-day",
+      "12-day",
+      "20-day",
+      "26-day"
+    ],
+    "explanation": "The standard MACD uses a 26-day slow EMA against a 12-day fast EMA."
+  },
+  "macd-13": {
+    "prompt": "A MACD histogram shrinking back toward zero suggests:",
+    "options": [
+      "Momentum accelerating further",
+      "Momentum decelerating as the fast and slow EMAs converge",
+      "A new dividend has been announced",
+      "The asset has stopped trading"
+    ],
+    "explanation": "MACD stands for Moving Average Convergence Divergence — a shrinking histogram reflects the EMAs converging, i.e. momentum fading."
+  },
+  "macd-14": {
+    "prompt": "If the MACD line is at 3 and the signal line is at 1, what is the histogram value?",
+    "options": [
+      "4",
+      "2",
+      "-2",
+      "3"
+    ],
+    "explanation": "Histogram = MACD line − signal line = 3 − 1 = 2."
+  },
+  "macd-15": {
+    "prompt": "MACD-based crossover signals tend to work best in:",
+    "options": [
+      "Flat, range-bound markets",
+      "Trending markets",
+      "Markets with zero trading volume",
+      "Markets that are closed for a holiday"
+    ],
+    "explanation": "MACD works best in trending markets; flat, range-bound markets tend to generate whipsaw signals instead."
+  },
   "volatility-01": {
     "prompt": "Annualized volatility is calculated by scaling daily return standard deviation by:",
-    "options": ["√252", "252", "12", "√12"],
+    "options": [
+      "√252",
+      "252",
+      "12",
+      "√12"
+    ],
     "explanation": "Vol(annual) = stdev(daily returns) × √252."
   },
   "volatility-02": {
@@ -412,7 +1367,7 @@
       "A guaranteed positive return",
       "That the asset pays a dividend"
     ],
-    "explanation": "Higher volatility means bigger swings in both directions."
+    "explanation": "Higher volatility means bigger swings in both directions, not just bigger losses."
   },
   "volatility-03": {
     "prompt": "Volatility is described as \"symmetric\" because it:",
@@ -444,6 +1399,106 @@
     ],
     "explanation": "Use volatility to size positions — a more volatile asset warrants a smaller position for the same dollar risk."
   },
+  "volatility-06": {
+    "prompt": "Using Vol(annual) = stdev(daily returns) × √252, if daily return standard deviation is 1%, what is the approximate annualized volatility?",
+    "options": [
+      "1%",
+      "4%",
+      "16%",
+      "25%"
+    ],
+    "explanation": "1% × √252 ≈ 1% × 15.87 ≈ 15.9%, roughly 16%."
+  },
+  "volatility-07": {
+    "prompt": "Using Vol(annual) = stdev(daily returns) × √252, if daily return standard deviation is 2%, what is the approximate annualized volatility?",
+    "options": [
+      "8%",
+      "16%",
+      "32%",
+      "50%"
+    ],
+    "explanation": "2% × √252 ≈ 2% × 15.87 ≈ 31.7%, roughly 32%."
+  },
+  "volatility-08": {
+    "prompt": "Why is volatility annualized rather than left as a raw daily figure?",
+    "options": [
+      "Annualizing removes all risk from the number",
+      "So different assets and timeframes are comparable on the same yearly scale",
+      "Because daily volatility cannot be computed",
+      "Because regulators require it to be hidden"
+    ],
+    "explanation": "Scaling to an annual figure makes volatility comparable across different assets and timeframes."
+  },
+  "volatility-09": {
+    "prompt": "What does volatility fundamentally measure?",
+    "options": [
+      "How much an asset's daily returns typically bounce around",
+      "The asset's dividend yield",
+      "The asset's absolute price level",
+      "The bond coupon rate"
+    ],
+    "explanation": "Volatility measures how much an asset's daily returns typically bounce around, scaled to a yearly figure."
+  },
+  "volatility-10": {
+    "prompt": "Does higher volatility guarantee an asset will lose money?",
+    "options": [
+      "Yes, always",
+      "No — it means bigger swings in both directions, including potential upside",
+      "Yes, but only for crypto",
+      "No, volatility has no relationship to potential losses"
+    ],
+    "explanation": "Higher volatility means bigger swings both ways; it doesn't guarantee losses, though it does mean bigger potential drawdowns too."
+  },
+  "volatility-11": {
+    "prompt": "If an asset's annualized volatility is about 25.2% (≈ 15.87 × its daily stdev), what is its approximate daily return standard deviation?",
+    "options": [
+      "0.5%",
+      "1%",
+      "1.6%",
+      "2.5%"
+    ],
+    "explanation": "25.2% ÷ √252 ≈ 25.2% ÷ 15.87 ≈ 1.6%."
+  },
+  "volatility-12": {
+    "prompt": "Unlike a downside-only risk measure, standard volatility treats:",
+    "options": [
+      "Only losses as risk",
+      "Upside and downside swings the same way",
+      "Only gains as risk",
+      "Bonds differently from stocks"
+    ],
+    "explanation": "Volatility is symmetric — it doesn't distinguish an upside swing from a downside one, unlike downside-focused measures."
+  },
+  "volatility-13": {
+    "prompt": "In the annualization formula (× √252), what does 252 represent?",
+    "options": [
+      "The number of stocks in the S&P 500",
+      "The approximate number of trading days in a year",
+      "The number of days in a leap year",
+      "The risk-free interest rate in basis points"
+    ],
+    "explanation": "252 is the approximate number of trading days in a year, used to scale daily volatility up to an annual figure."
+  },
+  "volatility-14": {
+    "prompt": "Does a low realized volatility over the past year guarantee low volatility next year?",
+    "options": [
+      "Yes, volatility is constant over time",
+      "No — volatility looks backward and past volatility doesn't guarantee future volatility",
+      "Yes, but only for bonds",
+      "No, because volatility can only be measured once"
+    ],
+    "explanation": "Volatility is a backward-looking measure; a calm past period doesn't guarantee a calm future one."
+  },
+  "volatility-15": {
+    "prompt": "For comparing different assets and timeframes, volatility is typically expressed on what timescale?",
+    "options": [
+      "Hourly",
+      "Daily only, never converted",
+      "Annualized (yearly)",
+      "Per-trade only"
+    ],
+    "explanation": "Volatility is annualized so different assets and timeframes are comparable on the same scale."
+  },
   "sharpe-01": {
     "prompt": "The Sharpe Ratio measures:",
     "options": [
@@ -466,7 +1521,12 @@
   },
   "sharpe-03": {
     "prompt": "A Sharpe Ratio above roughly 2 is generally considered:",
-    "options": ["Poor", "Very good", "Meaningless", "Only relevant for bonds"],
+    "options": [
+      "Poor",
+      "Very good",
+      "Meaningless",
+      "Only relevant for bonds"
+    ],
     "explanation": "Above 1 is decent, above 2 very good, above 3 excellent."
   },
   "sharpe-04": {
@@ -489,6 +1549,106 @@
     ],
     "explanation": "Sharpe assumes roughly normally distributed returns, which is often false for real markets."
   },
+  "sharpe-06": {
+    "prompt": "Using Sharpe = (annual return − risk-free rate) / annual volatility, if annual return is 12%, the risk-free rate is 2%, and annual volatility is 10%, what is the Sharpe Ratio?",
+    "options": [
+      "0.5",
+      "1.0",
+      "1.4",
+      "2.0"
+    ],
+    "explanation": "(12% − 2%) / 10% = 10% / 10% = 1.0."
+  },
+  "sharpe-07": {
+    "prompt": "Using Sharpe = (annual return − risk-free rate) / annual volatility, if annual return is 8%, the risk-free rate is 2%, and annual volatility is 15%, what is the Sharpe Ratio (rounded)?",
+    "options": [
+      "0.2",
+      "0.4",
+      "0.6",
+      "1.0"
+    ],
+    "explanation": "(8% − 2%) / 15% = 6% / 15% = 0.4."
+  },
+  "sharpe-08": {
+    "prompt": "A Sharpe Ratio above roughly 1 is generally considered:",
+    "options": [
+      "Poor",
+      "Decent",
+      "Impossible",
+      "Irrelevant to volatility"
+    ],
+    "explanation": "Above 1 is generally considered decent, above 2 very good, above 3 excellent."
+  },
+  "sharpe-09": {
+    "prompt": "A Sharpe Ratio above roughly 3 is generally considered:",
+    "options": [
+      "Poor",
+      "Decent",
+      "Excellent",
+      "Below average"
+    ],
+    "explanation": "Above 3 is generally considered excellent."
+  },
+  "sharpe-10": {
+    "prompt": "The Sharpe Ratio is most useful for:",
+    "options": [
+      "Comparing two strategies or assets with different volatility profiles",
+      "Determining a bond's coupon rate",
+      "Calculating a REIT's dividend yield",
+      "Measuring FX leverage"
+    ],
+    "explanation": "Use Sharpe to compare strategies or assets with different volatility profiles: the higher Sharpe delivered more return for the risk endured."
+  },
+  "sharpe-11": {
+    "prompt": "The Sharpe Ratio's numerator is:",
+    "options": [
+      "Annual return minus the risk-free rate",
+      "Annual volatility",
+      "Downside deviation",
+      "Market beta"
+    ],
+    "explanation": "Sharpe's numerator is the excess return: annual return minus the risk-free rate."
+  },
+  "sharpe-12": {
+    "prompt": "The Sharpe Ratio's denominator is:",
+    "options": [
+      "Downside deviation only",
+      "Annual volatility (total risk)",
+      "Market beta",
+      "The risk-free rate alone"
+    ],
+    "explanation": "Sharpe's denominator is annual volatility — total risk, not just downside risk."
+  },
+  "sharpe-13": {
+    "prompt": "A strategy with big, occasional upside spikes tends to:",
+    "options": [
+      "Always score higher under Sharpe than a smoother strategy",
+      "Potentially score \"worse\" under Sharpe than a smoother, mediocre strategy, since upside volatility is penalized too",
+      "Be immune to the Sharpe calculation",
+      "Always have a Sharpe of exactly 1"
+    ],
+    "explanation": "Because Sharpe penalizes upside volatility the same as downside, a spiky-upside strategy can score worse than a smoother, mediocre one."
+  },
+  "sharpe-14": {
+    "prompt": "Using Sharpe = (annual return − risk-free rate) / annual volatility, if annual return is 15%, the risk-free rate is 3%, and annual volatility is 6%, what is the Sharpe Ratio?",
+    "options": [
+      "1.0",
+      "1.5",
+      "2.0",
+      "2.5"
+    ],
+    "explanation": "(15% − 3%) / 6% = 12% / 6% = 2.0."
+  },
+  "sharpe-15": {
+    "prompt": "Why can Sharpe's normal-distribution assumption be misleading for real markets?",
+    "options": [
+      "Real markets have no volatility at all",
+      "Real markets often show fat tails and crashes, not a clean normal distribution",
+      "Real markets only ever go up",
+      "Real markets have no risk-free rate"
+    ],
+    "explanation": "Real markets often have fat tails and crash risk that a normal-distribution assumption understates."
+  },
   "sortino-01": {
     "prompt": "How does the Sortino Ratio differ from the Sharpe Ratio?",
     "options": [
@@ -501,7 +1661,12 @@
   },
   "sortino-02": {
     "prompt": "The Sortino Ratio's denominator is:",
-    "options": ["Total annual volatility", "Downside deviation", "Market beta", "The risk-free rate alone"],
+    "options": [
+      "Total annual volatility",
+      "Downside deviation",
+      "Market beta",
+      "The risk-free rate alone"
+    ],
     "explanation": "Sortino = (annual return − risk-free rate) / downside deviation."
   },
   "sortino-03": {
@@ -533,6 +1698,106 @@
       "The data is invalid"
     ],
     "explanation": "A high Sortino with a much lower Sharpe suggests most of the volatility has been on the upside."
+  },
+  "sortino-06": {
+    "prompt": "Using Sortino = (annual return − risk-free rate) / downside deviation, if annual return is 10%, the risk-free rate is 2%, and downside deviation is 4%, what is the Sortino Ratio?",
+    "options": [
+      "0.5",
+      "2.0",
+      "4.0",
+      "8.0"
+    ],
+    "explanation": "(10% − 2%) / 4% = 8% / 4% = 2.0."
+  },
+  "sortino-07": {
+    "prompt": "Using Sortino = (annual return − risk-free rate) / downside deviation, if annual return is 9%, the risk-free rate is 1%, and downside deviation is 8%, what is the Sortino Ratio?",
+    "options": [
+      "0.5",
+      "1.0",
+      "1.5",
+      "2.0"
+    ],
+    "explanation": "(9% − 1%) / 8% = 8% / 8% = 1.0."
+  },
+  "sortino-08": {
+    "prompt": "Which returns feed into the downside deviation used by Sortino?",
+    "options": [
+      "All returns, positive and negative alike",
+      "Only the negative (down-day) returns",
+      "Only the single largest loss",
+      "Only positive returns"
+    ],
+    "explanation": "Downside deviation is computed only from the negative returns — the down days — unlike total volatility which uses all of them."
+  },
+  "sortino-09": {
+    "prompt": "Does the Sortino Ratio penalize upside volatility?",
+    "options": [
+      "Yes, exactly like Sharpe does",
+      "No — it only penalizes downside volatility",
+      "Yes, but only for bonds",
+      "No, it ignores all volatility entirely"
+    ],
+    "explanation": "Sortino specifically excludes upside volatility from its risk measure, only penalizing downside moves."
+  },
+  "sortino-10": {
+    "prompt": "For the Sortino Ratio to be statistically meaningful, the sample needs:",
+    "options": [
+      "Zero down-days",
+      "Enough down-days to make the downside deviation meaningful",
+      "Only up-days",
+      "A fixed 252-day window and nothing else"
+    ],
+    "explanation": "Sortino needs enough down-days in the sample to be statistically meaningful; too few makes the downside deviation unreliable."
+  },
+  "sortino-11": {
+    "prompt": "Using Sortino = (annual return − risk-free rate) / downside deviation, if annual return is 20%, the risk-free rate is 4%, and downside deviation is 8%, what is the Sortino Ratio?",
+    "options": [
+      "1.0",
+      "2.0",
+      "3.0",
+      "4.0"
+    ],
+    "explanation": "(20% − 4%) / 8% = 16% / 8% = 2.0."
+  },
+  "sortino-12": {
+    "prompt": "Sortino is generally more forgiving than Sharpe specifically for:",
+    "options": [
+      "Bond ladders",
+      "Strategies with big upside spikes, like momentum or options strategies",
+      "Government bond funds only",
+      "Strategies with zero volatility"
+    ],
+    "explanation": "Because Sortino ignores upside volatility, it's more forgiving for strategies like momentum or options that have big upside spikes."
+  },
+  "sortino-13": {
+    "prompt": "Compared to Sharpe, what does Sortino measure return against?",
+    "options": [
+      "Total annual volatility",
+      "Downside deviation instead of total volatility",
+      "The bond coupon rate",
+      "Market capitalization"
+    ],
+    "explanation": "Sortino swaps out total volatility for downside deviation — only the bad swings."
+  },
+  "sortino-14": {
+    "prompt": "Is a very high Sortino Ratio measured over a short, unusually calm period automatically trustworthy?",
+    "options": [
+      "Yes, always",
+      "No — with too few down-days, downside deviation can be tiny and misleadingly inflate the ratio",
+      "Yes, but only for crypto",
+      "No, Sortino cannot be computed over short periods"
+    ],
+    "explanation": "A short, calm sample can have too few down-days, letting downside deviation shrink and misleadingly inflate the ratio."
+  },
+  "sortino-15": {
+    "prompt": "Sortino's numerator is the same as Sharpe's:",
+    "options": [
+      "Downside deviation",
+      "Annual return minus the risk-free rate",
+      "Market beta",
+      "Bond coupon rate"
+    ],
+    "explanation": "Both Sharpe and Sortino use annual return minus the risk-free rate as the numerator; they differ only in the denominator."
   },
   "maxdd-01": {
     "prompt": "Maximum Drawdown measures:",
@@ -584,6 +1849,106 @@
     ],
     "explanation": "It's one of the most intuitive risk numbers — use it to gauge emotional/financial tolerance for the worst stretch."
   },
+  "maxdd-06": {
+    "prompt": "Using MaxDD = (price − running peak) / running peak, if the running peak is $100 and the price falls to $75, what is the drawdown at that point?",
+    "options": [
+      "-15%",
+      "-25%",
+      "-33%",
+      "-75%"
+    ],
+    "explanation": "(75 − 100) / 100 = −25 / 100 = −25%."
+  },
+  "maxdd-07": {
+    "prompt": "Using MaxDD = (price − running peak) / running peak, if the running peak is $50 and the price falls to $40, what is the drawdown at that point?",
+    "options": [
+      "-10%",
+      "-20%",
+      "-25%",
+      "-40%"
+    ],
+    "explanation": "(40 − 50) / 50 = −10 / 50 = −20%."
+  },
+  "maxdd-08": {
+    "prompt": "Max drawdown is typically expressed as:",
+    "options": [
+      "A positive percentage",
+      "A negative fraction or percentage representing the decline",
+      "An absolute dollar amount only",
+      "A ratio greater than 1"
+    ],
+    "explanation": "MaxDD is expressed as a negative fraction — the size of the worst peak-to-trough decline."
+  },
+  "maxdd-09": {
+    "prompt": "Is max drawdown the same thing as volatility?",
+    "options": [
+      "Yes, they measure identically the same thing",
+      "No — max drawdown is the single largest decline, while volatility measures typical swings in both directions",
+      "Yes, but only for stocks",
+      "No, max drawdown only applies to bonds"
+    ],
+    "explanation": "Max drawdown captures one specific worst decline, while volatility measures the typical size of swings in both directions."
+  },
+  "maxdd-10": {
+    "prompt": "Can a future drawdown ever be larger than any drawdown seen historically?",
+    "options": [
+      "No, past drawdowns set a hard ceiling",
+      "Yes — markets can always make a new, larger drawdown",
+      "No, drawdowns can only get smaller over time",
+      "Yes, but only for cryptocurrencies"
+    ],
+    "explanation": "Past drawdowns don't cap future ones; markets can always produce a new, larger drawdown."
+  },
+  "maxdd-11": {
+    "prompt": "Besides not predicting future drawdowns, what else does max drawdown fail to tell you?",
+    "options": [
+      "The stock's ticker symbol",
+      "How long the recovery from that decline took",
+      "The current share price",
+      "The company's headquarters location"
+    ],
+    "explanation": "Max drawdown says nothing about how long it took to recover from that decline."
+  },
+  "maxdd-12": {
+    "prompt": "Max drawdown is best understood as describing:",
+    "options": [
+      "A best-case scenario",
+      "A worst-case \"bought the top, sold the bottom\" scenario",
+      "An average scenario",
+      "A risk-free scenario"
+    ],
+    "explanation": "MaxDD describes the worst-case peak-to-trough scenario over the period shown."
+  },
+  "maxdd-13": {
+    "prompt": "Using MaxDD = (price − running peak) / running peak, if the running peak is $200 and the price falls to $150, what is the drawdown at that point?",
+    "options": [
+      "-20%",
+      "-25%",
+      "-33%",
+      "-50%"
+    ],
+    "explanation": "(150 − 200) / 200 = −50 / 200 = −25%."
+  },
+  "maxdd-14": {
+    "prompt": "What should you practically use max drawdown for?",
+    "options": [
+      "Timing the exact bottom of the next decline",
+      "Gauging whether you could emotionally and financially tolerate the worst historical stretch",
+      "Setting the exact coupon on a new bond",
+      "Calculating a REIT's dividend yield"
+    ],
+    "explanation": "Use max drawdown to gut-check your tolerance for holding through the worst historical stretch, not to time future declines."
+  },
+  "maxdd-15": {
+    "prompt": "Is a -30% max drawdown better or worse than a -10% max drawdown?",
+    "options": [
+      "Better — a bigger number is always better",
+      "Worse — it reflects a larger peak-to-trough decline",
+      "They are identical in meaning",
+      "Neither — max drawdown can't be compared across assets"
+    ],
+    "explanation": "A -30% drawdown reflects a larger decline from a prior high than a -10% one, so it's the worse outcome."
+  },
   "var-01": {
     "prompt": "A 95% VaR of -3.2% means:",
     "options": [
@@ -616,7 +1981,12 @@
   },
   "var-04": {
     "prompt": "A $10,000 position has a daily VaR(95%) of -3.2%. Roughly how often should a loss of ~$320 or worse occur?",
-    "options": ["About 1 day in 20", "Every single day", "Never", "Exactly once a year"],
+    "options": [
+      "About 1 day in 20",
+      "Every single day",
+      "Never",
+      "Exactly once a year"
+    ],
     "explanation": "A 95% confidence level implies the loss is exceeded on roughly 1 day in 20 (the other 5%)."
   },
   "var-05": {
@@ -628,6 +1998,106 @@
       "Only during the first day of trading"
     ],
     "explanation": "VaR doesn't bound how bad the worst days can get — crashes live in that unmeasured tail."
+  },
+  "var-06": {
+    "prompt": "A $50,000 position has a daily VaR(95%) of -2%. Roughly what dollar loss threshold does that imply, and how often might it be exceeded?",
+    "options": [
+      "~$1,000, about 1 day in 20",
+      "~$2,000, about 1 day in 100",
+      "~$500, every day",
+      "~$1,000, exactly once a year"
+    ],
+    "explanation": "2% of $50,000 is $1,000, and a 95% confidence level implies that loss level is exceeded roughly 1 day in 20."
+  },
+  "var-07": {
+    "prompt": "A $20,000 position has a daily VaR(99%) of -5%. Roughly what dollar loss threshold does that imply, and how often might it be exceeded?",
+    "options": [
+      "~$1,000, about 1 day in 20",
+      "~$1,000, about 1 day in 100",
+      "~$5,000, about 1 day in 100",
+      "~$100, every day"
+    ],
+    "explanation": "5% of $20,000 is $1,000; a 99% confidence level implies that loss is exceeded roughly 1 day in 100 (the remaining 1%)."
+  },
+  "var-08": {
+    "prompt": "Compared to a 95% VaR, a 99% VaR generally reflects:",
+    "options": [
+      "A smaller loss threshold, exceeded more often",
+      "A larger loss threshold, exceeded less often (roughly 1 day in 100 rather than 1 in 20)",
+      "Exactly the same loss threshold",
+      "No relationship to frequency at all"
+    ],
+    "explanation": "Higher confidence levels push the measured loss threshold further into the tail, exceeded less frequently."
+  },
+  "var-09": {
+    "prompt": "Does VaR bound how bad the worst possible loss could be?",
+    "options": [
+      "Yes, it's a hard ceiling on losses",
+      "No — it says nothing about the unmeasured tail beyond its confidence level",
+      "Yes, but only for a 100% confidence level",
+      "No, VaR cannot be computed for real assets"
+    ],
+    "explanation": "VaR doesn't bound how bad the worst days can get; the tail beyond its confidence level is unmeasured."
+  },
+  "var-10": {
+    "prompt": "In the lesson's example (\"95% VaR of -3.2%\"), what confidence level is used?",
+    "options": [
+      "50%",
+      "90%",
+      "95%",
+      "99.9%"
+    ],
+    "explanation": "The lesson's example uses a 95% confidence level."
+  },
+  "var-11": {
+    "prompt": "VaR is most useful for setting expectations about:",
+    "options": [
+      "The exact date of the next market crash",
+      "A \"normal bad day\", not the extreme tail",
+      "The company's next earnings report",
+      "The bond's coupon schedule"
+    ],
+    "explanation": "Use VaR to set expectations for a normal bad day, not to bound the extreme tail risk."
+  },
+  "var-12": {
+    "prompt": "A $25,000 position has a daily VaR(95%) of -4%. What is the approximate dollar loss threshold?",
+    "options": [
+      "$400",
+      "$1,000",
+      "$4,000",
+      "$10,000"
+    ],
+    "explanation": "4% of $25,000 = $1,000."
+  },
+  "var-13": {
+    "prompt": "At 95% confidence, roughly how often does an actual daily loss exceed the VaR threshold?",
+    "options": [
+      "About 50% of days",
+      "About 5% of days (1 in 20)",
+      "About 1% of days",
+      "Never"
+    ],
+    "explanation": "By construction, a 95% confidence level implies the threshold is exceeded on about 5% of days."
+  },
+  "var-14": {
+    "prompt": "Is VaR a guarantee of the maximum possible loss?",
+    "options": [
+      "Yes, it is a strict guarantee",
+      "No — it's a statistical estimate, not a guaranteed ceiling",
+      "Yes, but only over one trading day",
+      "No, VaR only applies to guaranteed-return assets"
+    ],
+    "explanation": "VaR is a statistical estimate of a typical bad-day loss, not a guaranteed ceiling on the worst possible outcome."
+  },
+  "var-15": {
+    "prompt": "VaR is best thought of as describing:",
+    "options": [
+      "The single worst day imaginable",
+      "A typical \"normal bad day\", not the extreme tail scenario",
+      "The average daily return",
+      "The dividend yield of the position"
+    ],
+    "explanation": "VaR describes a typical bad day at the chosen confidence level — the extreme tail beyond it is explicitly unmeasured."
   },
   "beta-01": {
     "prompt": "Beta measures:",
@@ -679,9 +2149,114 @@
     ],
     "explanation": "Beta is measured over a specific historical window and can drift significantly over time."
   },
+  "beta-06": {
+    "prompt": "Using Beta = covariance(asset, market) ÷ variance(market), if the covariance is 8 and the market variance is 4, what is the beta?",
+    "options": [
+      "0.5",
+      "2.0",
+      "4.0",
+      "32"
+    ],
+    "explanation": "8 ÷ 4 = 2.0."
+  },
+  "beta-07": {
+    "prompt": "Using Beta = covariance(asset, market) ÷ variance(market), if the covariance is 3 and the market variance is 6, what is the beta?",
+    "options": [
+      "0.5",
+      "2.0",
+      "3.0",
+      "18"
+    ],
+    "explanation": "3 ÷ 6 = 0.5."
+  },
+  "beta-08": {
+    "prompt": "A beta above 1 generally means the asset is:",
+    "options": [
+      "More defensive, dampening market moves",
+      "More aggressive, amplifying market moves",
+      "Completely uncorrelated with the market",
+      "Guaranteed to outperform"
+    ],
+    "explanation": "Beta above 1 means amplified market moves — a more aggressive profile."
+  },
+  "beta-09": {
+    "prompt": "A beta below 1 generally means the asset is:",
+    "options": [
+      "More aggressive, amplifying market moves",
+      "More defensive, dampening market moves",
+      "Negatively correlated with the market",
+      "Impossible to compute"
+    ],
+    "explanation": "Beta below 1 means dampened moves relative to the market — a more defensive profile."
+  },
+  "beta-10": {
+    "prompt": "An asset with a beta of exactly 1.0 has historically:",
+    "options": [
+      "Moved in line with the market",
+      "Moved opposite the market",
+      "Had zero volatility",
+      "Never traded"
+    ],
+    "explanation": "A beta of 1.0 means the asset's returns have historically moved in line with the market benchmark."
+  },
+  "beta-11": {
+    "prompt": "Negative beta is particularly useful for:",
+    "options": [
+      "Maximizing correlation with the market",
+      "Diversification and hedging",
+      "Boosting dividend income",
+      "Reducing a bond's default risk"
+    ],
+    "explanation": "An asset that moves opposite the market (negative beta) can be useful for diversification or hedging."
+  },
+  "beta-12": {
+    "prompt": "Using Beta = covariance(asset, market) ÷ variance(market), if the covariance is -5 and the market variance is 10, what is the beta, and what does it imply?",
+    "options": [
+      "+0.5, moves with the market",
+      "-0.5, tends to move opposite the market",
+      "-2.0, tends to move opposite the market",
+      "+2.0, amplifies market moves"
+    ],
+    "explanation": "-5 ÷ 10 = -0.5 — a negative beta, meaning the asset tends to move opposite the market."
+  },
+  "beta-13": {
+    "prompt": "What broader benchmark does the lesson use as its example for measuring beta against?",
+    "options": [
+      "The 10-year Treasury yield",
+      "The S&P 500",
+      "A single competitor's stock",
+      "Gold prices"
+    ],
+    "explanation": "The lesson uses the S&P 500 as the example broader market benchmark."
+  },
+  "beta-14": {
+    "prompt": "Does an asset's beta, once measured, stay fixed forever?",
+    "options": [
+      "Yes, beta is a permanent, unchanging property",
+      "No — it's measured over a specific window and can drift as the asset or sector's risk profile changes",
+      "Yes, but only for bonds",
+      "No, beta can only be computed once per company's lifetime"
+    ],
+    "explanation": "Beta is measured over a specific historical window and can drift significantly as risk profile changes over time."
+  },
+  "beta-15": {
+    "prompt": "An asset with a beta of 0.5 has historically moved:",
+    "options": [
+      "About twice as much as the market",
+      "About half as much as the market, in the same direction",
+      "Exactly opposite the market",
+      "With zero relationship to the market"
+    ],
+    "explanation": "A beta of 0.5 means the asset has historically moved about half as much as the market, in the same direction — a more defensive profile."
+  },
   "greeks-01": {
     "prompt": "Which Greek approximates how much an option's price moves per $1 move in the underlying?",
-    "options": ["Theta", "Delta", "Vega", "Gamma"],
+    "options": [
+      "Theta",
+      "Delta",
+      "Vega",
+      "Gamma"
+    ],
     "explanation": "Delta ≈ how much the option price moves per $1 move in the underlying."
   },
   "greeks-02": {
@@ -706,7 +2281,12 @@
   },
   "greeks-04": {
     "prompt": "Vega measures an option's sensitivity to changes in:",
-    "options": ["The strike price", "Implied volatility", "The number of days until expiry only", "Trading volume"],
+    "options": [
+      "The strike price",
+      "Implied volatility",
+      "The number of days until expiry only",
+      "Trading volume"
+    ],
     "explanation": "Vega is sensitivity to changes in implied volatility."
   },
   "greeks-05": {
@@ -718,6 +2298,136 @@
       "Options never expire"
     ],
     "explanation": "The Greeks are estimates from a pricing model that assumes constant volatility and no big price jumps."
+  },
+  "greeks-06": {
+    "prompt": "Besides showing the $-move per $1 in the underlying, what does Delta also roughly approximate?",
+    "options": [
+      "The bond's coupon rate",
+      "The odds of the option expiring in-the-money",
+      "The dividend yield of the stock",
+      "The option's time to expiry"
+    ],
+    "explanation": "Delta ≈ how much the option price moves per $1 move in the underlying, and roughly the odds of expiring in-the-money."
+  },
+  "greeks-07": {
+    "prompt": "Which Greek is often informally described as \"the Delta of Delta\"?",
+    "options": [
+      "Theta",
+      "Vega",
+      "Gamma",
+      "Rho"
+    ],
+    "explanation": "Gamma measures how fast Delta itself changes, hence the informal \"Delta of Delta\" description."
+  },
+  "greeks-08": {
+    "prompt": "Theta represents a value the option:",
+    "options": [
+      "Gains each day, all else equal",
+      "Loses each day, all else equal, just from time passing",
+      "Gains only on expiry day",
+      "Loses only if the stock pays a dividend"
+    ],
+    "explanation": "Theta is the value an option loses each day just from time passing, holding other inputs equal."
+  },
+  "greeks-09": {
+    "prompt": "If an option's Delta is 0.60, roughly how much would you expect the option's price to move for a $1 move in the underlying?",
+    "options": [
+      "$0.30",
+      "$0.60",
+      "$1.00",
+      "$6.00"
+    ],
+    "explanation": "Delta ≈ how much the option price moves per $1 move in the underlying, so a Delta of 0.60 implies roughly a $0.60 move."
+  },
+  "greeks-10": {
+    "prompt": "The Greeks are described as sensitivities computed from:",
+    "options": [
+      "A pricing model (Black-Scholes)",
+      "A random number generator",
+      "The company's dividend history",
+      "A bond rating agency"
+    ],
+    "explanation": "Greeks are instantaneous estimates from a pricing model (Black-Scholes here)."
+  },
+  "greeks-11": {
+    "prompt": "Which Greek specifically captures sensitivity to changes in implied volatility, distinct from time or underlying price?",
+    "options": [
+      "Delta",
+      "Gamma",
+      "Theta",
+      "Vega"
+    ],
+    "explanation": "Vega isolates sensitivity to implied volatility changes, separate from Delta (price), Gamma, or Theta (time)."
+  },
+  "greeks-12": {
+    "prompt": "Which Greek specifically captures sensitivity to the passage of time?",
+    "options": [
+      "Delta",
+      "Vega",
+      "Theta",
+      "Gamma"
+    ],
+    "explanation": "Theta is the Greek that captures the daily value lost just from time passing."
+  },
+  "greeks-13": {
+    "prompt": "Which Greek specifically captures sensitivity to a $1 move in the underlying?",
+    "options": [
+      "Delta",
+      "Vega",
+      "Theta",
+      "Gamma"
+    ],
+    "explanation": "Delta approximates how much the option price moves per $1 move in the underlying."
+  },
+  "greeks-14": {
+    "prompt": "Around earnings or major news events, why can Greek-based estimates become misleading?",
+    "options": [
+      "Because the Greeks stop being calculated during earnings season",
+      "Because the underlying can jump sharply and volatility can shift, violating the model's constant-volatility, no-jumps assumption",
+      "Because dividends are suspended automatically",
+      "Because Theta becomes negative for the first time"
+    ],
+    "explanation": "The Greeks assume constant volatility and no big jumps — assumptions that earnings and news events regularly violate."
+  },
+  "greeks-15": {
+    "prompt": "The Greeks describe an option's sensitivity to which three kinds of inputs?",
+    "options": [
+      "Dividend yield, market cap, and P/E ratio",
+      "Underlying price, time, and volatility",
+      "Bond coupon, maturity, and credit rating",
+      "Trading volume, open interest, and float"
+    ],
+    "explanation": "The Greeks describe how an option's price is expected to change as the underlying price, time, and volatility move."
+  },
+  "greeks-16": {
+    "prompt": "Is Gamma a fixed number that stays the same for the life of an option?",
+    "options": [
+      "Yes, Gamma is always constant",
+      "No — since Gamma measures how fast Delta changes, Gamma itself changes as inputs move",
+      "Yes, but only for at-the-money options",
+      "No, Gamma only applies to Theta"
+    ],
+    "explanation": "Gamma measures the rate of change of Delta, and like the other Greeks it shifts as the underlying, time, and volatility move."
+  },
+  "greeks-17": {
+    "prompt": "Are the Greeks a guaranteed forecast of how an option's price will actually move?",
+    "options": [
+      "Yes, they are exact and guaranteed",
+      "No — they are instantaneous estimates from a pricing model, not guarantees",
+      "Yes, but only for European options",
+      "No, the Greeks cannot be computed for real options"
+    ],
+    "explanation": "The Greeks are instantaneous estimates from a pricing model (Black-Scholes), not a guarantee of future price behavior."
+  },
+  "greeks-18": {
+    "prompt": "If an option's Delta is 0.30, roughly how much would you expect the option's price to move for a $1 move in the underlying?",
+    "options": [
+      "$0.03",
+      "$0.30",
+      "$3.00",
+      "$0.70"
+    ],
+    "explanation": "Delta ≈ how much the option price moves per $1 move in the underlying, so a Delta of 0.30 implies roughly a $0.30 move."
   },
   "blackscholes-01": {
     "prompt": "The Black-Scholes model estimates a fair price for:",
@@ -768,5 +2478,135 @@
       "Irrelevant to the Greeks"
     ],
     "explanation": "It's a reference point for reasoning about risk, not a guarantee of what an option will actually trade at."
+  },
+  "blackscholes-06": {
+    "prompt": "Which of these lists only Black-Scholes core inputs?",
+    "options": [
+      "Underlying price, strike, time to expiry, interest rate, implied volatility",
+      "Dividend yield, market cap, P/E ratio, EPS, revenue",
+      "Bond coupon, maturity, credit rating, yield spread",
+      "Trading volume, open interest, float, short interest"
+    ],
+    "explanation": "Black-Scholes is based on the underlying price, strike, time to expiry, interest rate, and implied volatility."
+  },
+  "blackscholes-07": {
+    "prompt": "Does the Black-Scholes model, as described in the lesson, treat dividends on the underlying as an input?",
+    "options": [
+      "Yes, dividends are one of its core inputs",
+      "No — the model assumes no dividends, one of its simplifications",
+      "Yes, but only for quarterly dividends",
+      "No, because the model can only price bonds"
+    ],
+    "explanation": "No dividends is one of the model's stated simplifying assumptions."
+  },
+  "blackscholes-08": {
+    "prompt": "What type of option is Black-Scholes specifically designed to price, per the lesson?",
+    "options": [
+      "American-style only",
+      "European-style",
+      "Perpetual options with no expiry",
+      "Options on physical commodities only"
+    ],
+    "explanation": "Black-Scholes estimates a fair theoretical price specifically for a European-style option."
+  },
+  "blackscholes-09": {
+    "prompt": "If you treat a Black-Scholes output as a literal, guaranteed trading price, you would be:",
+    "options": [
+      "Using it correctly, exactly as intended",
+      "Misusing it — the lesson frames it as a reference point, not a guarantee",
+      "Following the exchange's legal requirement",
+      "Ignoring the Greeks entirely"
+    ],
+    "explanation": "The lesson is explicit that the model price is a reference point for reasoning about risk, not a guaranteed trading price."
+  },
+  "blackscholes-10": {
+    "prompt": "Per the lesson, what do the Greeks produced alongside the Black-Scholes price help you understand?",
+    "options": [
+      "The company's dividend history",
+      "Your risk exposure if you hold the position",
+      "The bond's credit rating",
+      "The stock's historical P/E ratio"
+    ],
+    "explanation": "Use the Greeks the model produces to understand your risk exposure if you hold the option position."
+  },
+  "blackscholes-11": {
+    "prompt": "Time to expiry is:",
+    "options": [
+      "Not used by the Black-Scholes model",
+      "One of the Black-Scholes model's core inputs",
+      "Only relevant to bonds, not options",
+      "The same thing as implied volatility"
+    ],
+    "explanation": "Time to expiry is one of the core inputs to the Black-Scholes model, alongside underlying price, strike, interest rate, and implied volatility."
+  },
+  "blackscholes-12": {
+    "prompt": "The \"log-normal price behavior\" assumption in Black-Scholes means the model:",
+    "options": [
+      "Assumes prices can never go up",
+      "Assumes a specific statistical distribution for prices — a simplification of real market behavior",
+      "Only works for currencies",
+      "Ignores the strike price entirely"
+    ],
+    "explanation": "Log-normal price behavior is one of the model's simplifying statistical assumptions about how prices move."
+  },
+  "blackscholes-13": {
+    "prompt": "A Black-Scholes price that diverges meaningfully from the market price of an option most likely suggests:",
+    "options": [
+      "A guaranteed arbitrage opportunity with no risk",
+      "The option may look statistically expensive or cheap relative to your volatility assumption",
+      "The exchange has made a data error",
+      "The option has expired"
+    ],
+    "explanation": "A divergence is a signal to reassess, not proof of a risk-free arbitrage — it may reflect your volatility assumption differing from the market's."
+  },
+  "blackscholes-14": {
+    "prompt": "In the Black-Scholes core inputs, what does the strike price represent?",
+    "options": [
+      "The current market price of the underlying",
+      "The price at which the option can be exercised",
+      "The option's implied volatility",
+      "The risk-free interest rate"
+    ],
+    "explanation": "The strike price is the price at which the option holder can exercise, distinct from the underlying's current (spot) price."
+  },
+  "blackscholes-15": {
+    "prompt": "In the Black-Scholes core inputs, what does the underlying price represent?",
+    "options": [
+      "The option's strike price",
+      "The current market (spot) price of the asset the option is based on",
+      "The risk-free interest rate",
+      "The implied volatility"
+    ],
+    "explanation": "The underlying price is the current market price of the asset the option is written on."
+  },
+  "blackscholes-16": {
+    "prompt": "Which of the following IS one of the Black-Scholes model's core inputs?",
+    "options": [
+      "The company's credit rating",
+      "Expected (implied) volatility",
+      "The bond's coupon rate",
+      "The stock's historical dividend growth rate"
+    ],
+    "explanation": "Expected (implied) volatility is one of the model's core inputs, alongside underlying price, strike, time to expiry, and interest rates."
+  },
+  "blackscholes-17": {
+    "prompt": "Interest rates, as used in Black-Scholes, are:",
+    "options": [
+      "Ignored entirely by the model",
+      "One of the model's core inputs",
+      "Only relevant for bonds, never options",
+      "The same as implied volatility"
+    ],
+    "explanation": "Interest rates are one of Black-Scholes's core inputs, used alongside underlying price, strike, time to expiry, and volatility."
+  },
+  "blackscholes-18": {
+    "prompt": "The overall purpose of comparing a Black-Scholes price to an option's market price is to:",
+    "options": [
+      "Legally determine the option's true value",
+      "Reason about whether the option looks statistically expensive or cheap under your volatility assumption",
+      "Set the company's next dividend",
+      "Calculate the bond's yield to maturity"
+    ],
+    "explanation": "The comparison is a tool for reasoning about relative value under your own volatility assumption, not a legal determination of true value."
   }
 }
