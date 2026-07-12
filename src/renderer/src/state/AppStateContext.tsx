@@ -5,6 +5,7 @@ import type {
   ChartStyleId,
   ForecastMethodId,
   IndicatorId,
+  NewsCategory,
   Portfolio,
   PortfolioPosition,
   Timeframe
@@ -33,6 +34,7 @@ const DOCK_WIDTH_STORAGE_KEY = 'qiab:dockWidthPx:v1'
 const OSCILLATOR_HEIGHT_STORAGE_KEY = 'qiab:oscillatorHeightPx:v1'
 const GLASS_TIERS_STORAGE_KEY = 'qiab:glassTiers:v1'
 const FORECAST_DISCLAIMER_MODE_STORAGE_KEY = 'qiab:forecastDisclaimerMode:v1'
+const NEWS_CATEGORIES_STORAGE_KEY = 'qiab:newsCategories:v1'
 
 const DOCK_WIDTH_DEFAULT = 320
 const DOCK_WIDTH_MIN = 260
@@ -63,6 +65,10 @@ export type GlassTier = 'panels' | 'chrome' | 'chart'
 export type GlassTierState = Record<GlassTier, boolean>
 const DEFAULT_GLASS_TIERS: GlassTierState = { panels: true, chrome: false, chart: false }
 const GLASS_TIER_IDS: GlassTier[] = ['panels', 'chrome', 'chart']
+
+/** Fixed display order for the news category chip row (NewsCard.tsx) — independent of
+ *  whatever order categories happen to sit in within the persisted/toggled state array. */
+export const ALL_NEWS_CATEGORIES: NewsCategory[] = ['general', 'forex', 'crypto', 'merger']
 
 export interface ChartSlotState {
   id: string
@@ -160,6 +166,26 @@ function loadGlassTiers(): GlassTierState {
     // fall through to default
   }
   return DEFAULT_GLASS_TIERS
+}
+
+function isNewsCategory(x: unknown): x is NewsCategory {
+  return typeof x === 'string' && (ALL_NEWS_CATEGORIES as string[]).includes(x)
+}
+
+function loadNewsCategories(): NewsCategory[] {
+  try {
+    const raw = localStorage.getItem(NEWS_CATEGORIES_STORAGE_KEY)
+    if (raw) {
+      const parsed = JSON.parse(raw)
+      if (Array.isArray(parsed)) {
+        const filtered = parsed.filter(isNewsCategory)
+        if (filtered.length > 0) return filtered
+      }
+    }
+  } catch {
+    // fall through to default
+  }
+  return ALL_NEWS_CATEGORIES
 }
 
 function loadTickerSource(): TickerSource {
@@ -404,6 +430,8 @@ interface AppState {
   toggleGlassTier: (tier: GlassTier) => void
   forecastDisclaimerMode: ForecastDisclaimerMode
   setForecastDisclaimerMode: (mode: ForecastDisclaimerMode) => void
+  newsCategories: NewsCategory[]
+  toggleNewsCategory: (cat: NewsCategory) => void
 }
 
 export interface DockLayoutContextValue {
@@ -451,6 +479,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   const [forecastDisclaimerMode, setForecastDisclaimerModeState] = useState<ForecastDisclaimerMode>(() =>
     loadForecastDisclaimerMode()
   )
+  const [newsCategories, setNewsCategories] = useState<NewsCategory[]>(() => loadNewsCategories())
   const focusedSlot = useMemo(
     () => chartSlots.find((s) => s.id === focusedSlotId) ?? chartSlots[0],
     [chartSlots, focusedSlotId]
@@ -599,6 +628,14 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   }, [forecastDisclaimerMode])
 
   useEffect(() => {
+    try {
+      localStorage.setItem(NEWS_CATEGORIES_STORAGE_KEY, JSON.stringify(newsCategories))
+    } catch {
+      // best-effort persistence; ignore quota/availability errors
+    }
+  }, [newsCategories])
+
+  useEffect(() => {
     saveAcademyProgress(academyProgress)
   }, [academyProgress])
 
@@ -618,6 +655,18 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
     (mode: ForecastDisclaimerMode) => setForecastDisclaimerModeState(mode),
     []
   )
+  const toggleNewsCategory = useCallback((cat: NewsCategory) => {
+    setNewsCategories((prev) => {
+      if (prev.includes(cat)) {
+        // Never allow disabling the last remaining active category — a no-op instead of
+        // silently leaving zero categories active, which would blank the feed with no way
+        // back via the chip row itself (every chip would read as "off").
+        if (prev.length === 1) return prev
+        return prev.filter((c) => c !== cat)
+      }
+      return [...prev, cat]
+    })
+  }, [])
 
   const setSlotSymbol = useCallback((slotId: string, asset: Asset) => {
     setChartSlots((prev) => prev.map((s) => (s.id === slotId ? { ...s, symbol: asset } : s)))
@@ -911,7 +960,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       glassTiers,
       toggleGlassTier,
       forecastDisclaimerMode,
-      setForecastDisclaimerMode
+      setForecastDisclaimerMode,
+      newsCategories,
+      toggleNewsCategory
     }),
     [
       assetClass,
@@ -980,7 +1031,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       glassTiers,
       toggleGlassTier,
       forecastDisclaimerMode,
-      setForecastDisclaimerMode
+      setForecastDisclaimerMode,
+      newsCategories,
+      toggleNewsCategory
     ]
   )
 

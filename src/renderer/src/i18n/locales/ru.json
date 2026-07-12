@@ -195,7 +195,13 @@
       "sideBySideNote": "отображается рядом с вашим графиком",
       "openFull": "Открыть статью полностью",
       "minutesAgo": "{{count}} мин назад",
-      "hoursAgo": "{{count}} ч назад"
+      "hoursAgo": "{{count}} ч назад",
+      "category": {
+        "general": "Общие",
+        "forex": "Форекс",
+        "crypto": "Крипто",
+        "merger": "Слияния"
+      }
     }
   },
   "academy": {

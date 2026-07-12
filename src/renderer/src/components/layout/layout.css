@@ -1148,6 +1148,45 @@ table.greeks td {
   border-top: 1px solid var(--border);
 }
 
+.news-cat-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 2px 8px 10px;
+}
+.news-cat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-dim);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+.news-cat-chip .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.5;
+}
+.news-cat-chip.on {
+  color: var(--text);
+  border-color: var(--border-strong);
+  background: var(--surface-2);
+}
+.news-cat-chip.on .dot {
+  opacity: 1;
+}
+
 .news-list {
   display: flex;
   flex-direction: column;
@@ -1166,6 +1205,31 @@ table.greeks td {
 }
 .news-item:hover {
   background: var(--surface-2);
+}
+.news-item-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.news-item-text {
+  flex: 1;
+  min-width: 0;
+}
+.news-thumb {
+  flex: none;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  background: var(--surface-2);
+}
+.news-thumb-sm {
+  width: 48px;
+  height: 48px;
+}
+.news-thumb-lg {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  margin-bottom: 8px;
 }
 .news-item .src {
   font-size: 10px;

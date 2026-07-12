@@ -192,7 +192,13 @@
       "sideBySideNote": "与你的图表并排显示",
       "openFull": "查看全文",
       "minutesAgo": "{{count}} 分钟前",
-      "hoursAgo": "{{count}} 小时前"
+      "hoursAgo": "{{count}} 小时前",
+      "category": {
+        "general": "综合",
+        "forex": "外汇",
+        "crypto": "加密货币",
+        "merger": "并购"
+      }
     }
   },
   "academy": {

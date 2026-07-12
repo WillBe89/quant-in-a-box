@@ -193,7 +193,13 @@
       "sideBySideNote": "आपके चार्ट के साथ-साथ प्रदर्शित",
       "openFull": "पूरा लेख खोलें",
       "minutesAgo": "{{count}} मिनट पहले",
-      "hoursAgo": "{{count}} घंटे पहले"
+      "hoursAgo": "{{count}} घंटे पहले",
+      "category": {
+        "general": "सामान्य",
+        "forex": "एफएक्स",
+        "crypto": "क्रिप्टो",
+        "merger": "विलय"
+      }
     }
   },
   "academy": {

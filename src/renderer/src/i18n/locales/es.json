@@ -193,7 +193,13 @@
       "sideBySideNote": "se muestra junto a tu gráfico",
       "openFull": "Abrir artículo completo",
       "minutesAgo": "hace {{count}} min",
-      "hoursAgo": "hace {{count}} h"
+      "hoursAgo": "hace {{count}} h",
+      "category": {
+        "general": "General",
+        "forex": "Divisas",
+        "crypto": "Cripto",
+        "merger": "Fusiones"
+      }
     }
   },
   "academy": {

@@ -2,6 +2,14 @@
 
 Running log of autonomous build cycles. Newest entries at the top.
 
+## 2026-07-12 - News images, category tags, and filter controls (phase 11)
+
+**Built:** market news now carries real category tags (general/forex/crypto/merger) and article thumbnails where the source provides one. A new chip row lets you toggle categories on/off — disabling the last active one is a no-op rather than leaving you with zero categories — and it's hidden entirely when you're viewing a single asset's own news, since a single-symbol feed has no category dimension to filter. One failing category's fetch never blanks the others (each fetched independently, merged and deduped by article id, sorted newest-first). Since the local news table already exists in shipped installs, adding the new `category`/`image` columns needed a real migration (`PRAGMA table_info` + conditional `ALTER TABLE`), not just an edited table-creation statement.
+
+**Verified with real rigor on the highest-risk part:** rather than only testing the migration against a fresh database, the implementing pass hand-built a *pre-existing* news table in the old schema shape, seeded a real row into it, then ran the actual migration code against that populated table — confirming the old row survives untouched and the new columns work afterward, not just that a brand-new install works. `npm run typecheck`/`test` (211/211)/`build` all clean, confirmed independently a second time. Live in the browser myself: expanded the Market News card and confirmed article thumbnails render correctly (the new merger-tagged article — "Chipmaker to acquire AI inference startup in an all-cash deal" — showing right alongside a real image), and confirmed the category chip row is correctly absent when news is scoped to a single symbol, exactly matching how the feature is designed to behave.
+
+**What still needs a real key to fully confirm:** a genuine live Finnhub fetch where one category's request actually fails over the network and the others still render (verified via a mocked-fetch test instead, which proves the logic but not the real network behavior) — same honest boundary as every phase in this project that depends on real API behavior no key currently exists here to exercise.
+
 ## 2026-07-12 - Collapsible/dismissible forecast disclaimer, plus a critical fix to a regression it exposed (phase 8.7)
 
 **Built:** the "Not a prediction" forecast disclaimer got naggy after repeated exposure, so it can now be collapsed to a compact one-line notice or dismissed entirely — a deliberate, one-off exception to this app's usual "always-rendered, never dismissible" disclaimer rule (AI Insights and the Academy's anti-cheating notice both stay fully permanent, untouched by this change). The choice is global (not per-chart) and reversible: a small control in Customize brings it back to full at any time, so hiding it is a genuine deliberate choice, not a dead end.

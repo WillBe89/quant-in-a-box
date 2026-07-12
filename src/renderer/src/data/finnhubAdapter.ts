@@ -1,4 +1,4 @@
-import type { Candle, CompanyProfile, NewsItem, Timeframe } from '@renderer/types/market'
+import type { Candle, CompanyProfile, NewsCategory, NewsItem, Timeframe } from '@renderer/types/market'
 import { getFinnhubKey } from './apiKeyStore'
 
 const BASE_URL = 'https://finnhub.io/api/v1'
@@ -168,7 +168,8 @@ export async function fetchCompanyNews(symbol: string): Promise<NewsItem[]> {
     summary: item.summary,
     url: item.url,
     publishedAt: item.datetime,
-    relatedSymbols: [symbol]
+    relatedSymbols: [symbol],
+    image: item.image || undefined
   }))
 }
 
@@ -195,8 +196,8 @@ export async function fetchCompanyProfile(symbol: string): Promise<CompanyProfil
   }
 }
 
-export async function fetchGeneralNews(): Promise<NewsItem[]> {
-  const url = `${BASE_URL}/news?category=general&token=${apiKey()}`
+export async function fetchGeneralNews(category: NewsCategory): Promise<NewsItem[]> {
+  const url = `${BASE_URL}/news?category=${encodeURIComponent(category)}&token=${apiKey()}`
   const res = await fetch(url)
   if (!res.ok) throw new Error(`Finnhub general news failed: ${res.status}`)
   const data = await res.json()
@@ -207,6 +208,10 @@ export async function fetchGeneralNews(): Promise<NewsItem[]> {
     summary: item.summary,
     url: item.url,
     publishedAt: item.datetime,
-    relatedSymbols: []
+    relatedSymbols: [],
+    image: item.image || undefined,
+    // Finnhub's own response may or may not echo the requested category back reliably —
+    // prefer whatever it reports, falling back to the category we actually requested.
+    category: item.category ?? category
   }))
 }

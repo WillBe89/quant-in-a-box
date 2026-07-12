@@ -30,6 +30,8 @@ export type Timeframe = '1D' | '1W' | '1M' | '3M' | '1Y' | '5Y'
 
 export type ChartStyleId = 'candles' | 'bars' | 'line' | 'area' | 'baseline'
 
+export type NewsCategory = 'general' | 'forex' | 'crypto' | 'merger'
+
 export interface NewsItem {
   id: string
   source: string
@@ -38,6 +40,13 @@ export interface NewsItem {
   url: string
   publishedAt: number // unix seconds
   relatedSymbols: string[]
+  /** Article thumbnail URL, when the source provided one — absent (not empty-string) rather
+   *  than assumed, since not every article has an image. */
+  image?: string
+  /** Which news category this article was fetched/tagged under — absent for company-news
+   *  articles (fetched per-symbol, not per-category) and for any older cached row predating
+   *  this field. */
+  category?: NewsCategory
 }
 
 export interface OptionQuote {

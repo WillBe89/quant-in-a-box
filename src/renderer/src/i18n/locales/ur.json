@@ -193,7 +193,13 @@
       "sideBySideNote": "آپ کے چارٹ کے ساتھ ساتھ دکھایا گیا",
       "openFull": "مکمل مضمون کھولیں",
       "minutesAgo": "{{count}} منٹ پہلے",
-      "hoursAgo": "{{count}} گھنٹے پہلے"
+      "hoursAgo": "{{count}} گھنٹے پہلے",
+      "category": {
+        "general": "عمومی",
+        "forex": "FX",
+        "crypto": "کرپٹو",
+        "merger": "انضمام"
+      }
     }
   },
   "academy": {

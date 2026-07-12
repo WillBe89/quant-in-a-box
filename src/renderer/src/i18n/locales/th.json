@@ -192,7 +192,13 @@
       "sideBySideNote": "แสดงเคียงข้างกับกราฟของคุณ",
       "openFull": "เปิดอ่านบทความเต็ม",
       "minutesAgo": "{{count}} นาทีที่แล้ว",
-      "hoursAgo": "{{count}} ชั่วโมงที่แล้ว"
+      "hoursAgo": "{{count}} ชั่วโมงที่แล้ว",
+      "category": {
+        "general": "ทั่วไป",
+        "forex": "FX",
+        "crypto": "คริปโต",
+        "merger": "ควบรวมกิจการ"
+      }
     }
   },
   "academy": {

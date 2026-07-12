@@ -193,7 +193,13 @@
       "sideBySideNote": "আপনার চার্টের পাশাপাশি প্রদর্শিত",
       "openFull": "সম্পূর্ণ প্রতিবেদন খুলুন",
       "minutesAgo": "{{count}} মিনিট আগে",
-      "hoursAgo": "{{count}} ঘণ্টা আগে"
+      "hoursAgo": "{{count}} ঘণ্টা আগে",
+      "category": {
+        "general": "সাধারণ",
+        "forex": "ফরেক্স",
+        "crypto": "ক্রিপ্টো",
+        "merger": "একত্রীকরণ"
+      }
     }
   },
   "academy": {

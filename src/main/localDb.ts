@@ -20,6 +20,8 @@ export interface Candle {
   volume: number
 }
 
+export type NewsCategory = 'general' | 'forex' | 'crypto' | 'merger'
+
 export interface NewsItem {
   id: string
   source: string
@@ -28,6 +30,8 @@ export interface NewsItem {
   url: string
   publishedAt: number // unix seconds
   relatedSymbols: string[]
+  image?: string
+  category?: NewsCategory
 }
 
 export interface CompanyProfile {
@@ -74,6 +78,8 @@ interface NewsRow {
   url: string | null
   published_at: number | null
   fetched_at: number
+  category: string | null
+  image: string | null
 }
 
 interface ProfileRow {
@@ -120,6 +126,19 @@ export function initDb(dbPathOverride?: string): void {
       fetched_at INTEGER NOT NULL
     )
   `)
+
+  // CREATE TABLE IF NOT EXISTS above is a no-op against a database file from an earlier
+  // shipped version that already has a `news` table without these columns — an explicit,
+  // guarded ALTER TABLE is required so upgrading users' existing local databases actually
+  // gain the new columns instead of silently missing them forever.
+  const newsColumns = db.prepare(`PRAGMA table_info(news)`).all() as Array<{ name: string }>
+  const newsColumnNames = new Set(newsColumns.map((c) => c.name))
+  if (!newsColumnNames.has('category')) {
+    db.exec(`ALTER TABLE news ADD COLUMN category TEXT`)
+  }
+  if (!newsColumnNames.has('image')) {
+    db.exec(`ALTER TABLE news ADD COLUMN image TEXT`)
+  }
 
   db.exec(`
     CREATE TABLE IF NOT EXISTS profiles (
@@ -215,7 +234,7 @@ export function getCachedNews(symbolsKey: string, maxAgeMs: number): NewsItem[] 
   const conn = requireDb()
   const rows = conn
     .prepare<[string], NewsRow>(
-      `SELECT id, symbols, source, headline, summary, url, published_at, fetched_at FROM news
+      `SELECT id, symbols, source, headline, summary, url, published_at, fetched_at, category, image FROM news
        WHERE symbols = ?
        ORDER BY published_at DESC`
     )
@@ -236,13 +255,26 @@ export function storeNews(symbolsKey: string, items: NewsItem[]): void {
   const conn = requireDb()
   const fetchedAt = Date.now()
   const insert = conn.prepare(
-    `INSERT OR REPLACE INTO news (id, symbols, source, headline, summary, url, published_at, fetched_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+    `INSERT OR REPLACE INTO news (id, symbols, source, headline, summary, url, published_at, fetched_at, category, image)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
   )
   const insertAll = conn.transaction((rows: NewsItem[]) => {
     for (const item of rows) {
       const id = createHash('sha1').update(item.url).digest('hex')
-      insert.run(id, symbolsKey, item.source, item.headline, item.summary, item.url, item.publishedAt, fetchedAt)
+      // better-sqlite3 throws on an `undefined` bind parameter — coerce the optional
+      // category/image fields to `null` explicitly rather than passing them through as-is.
+      insert.run(
+        id,
+        symbolsKey,
+        item.source,
+        item.headline,
+        item.summary,
+        item.url,
+        item.publishedAt,
+        fetchedAt,
+        item.category ?? null,
+        item.image ?? null
+      )
     }
   })
   insertAll(items)
@@ -281,7 +313,12 @@ function rowToNewsItem(r: NewsRow): NewsItem {
     summary: r.summary ?? '',
     url: r.url ?? '',
     publishedAt: r.published_at ?? 0,
-    relatedSymbols: r.symbols === 'general' ? [] : [r.symbols]
+    // The literal 'general' key predates per-category caching; 'general:<category>' keys
+    // (see dataService.ts's FinnhubDataService.getNews) are the same "no specific symbol"
+    // case and reconstruct to an empty relatedSymbols the same way.
+    relatedSymbols: r.symbols === 'general' || r.symbols.startsWith('general:') ? [] : [r.symbols],
+    category: (r.category as NewsCategory | null) ?? undefined,
+    image: r.image ?? undefined
   }
 }
 
@@ -335,14 +372,14 @@ export function getNewsForExport(symbolsKey?: string): NewsItem[] {
   const rows = symbolsKey
     ? conn
         .prepare<[string], NewsRow>(
-          `SELECT id, symbols, source, headline, summary, url, published_at, fetched_at FROM news
+          `SELECT id, symbols, source, headline, summary, url, published_at, fetched_at, category, image FROM news
            WHERE symbols = ?
            ORDER BY published_at DESC`
         )
         .all(symbolsKey)
     : conn
         .prepare<[], NewsRow>(
-          `SELECT id, symbols, source, headline, summary, url, published_at, fetched_at FROM news
+          `SELECT id, symbols, source, headline, summary, url, published_at, fetched_at, category, image FROM news
            ORDER BY published_at DESC`
         )
         .all()

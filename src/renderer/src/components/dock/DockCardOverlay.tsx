@@ -72,6 +72,17 @@ function NewsOverlayBody({
   onOpenItem: (item: NewsItem) => void
   onBack: () => void
 }): JSX.Element {
-  const news = useNewsFeed()
-  return <NewsCardBody news={news} openItem={openItem} onOpenItem={onOpenItem} onBack={onBack} />
+  const { newsCategories, toggleNewsCategory } = useAppState()
+  const { news, relevantSymbols } = useNewsFeed()
+  return (
+    <NewsCardBody
+      news={news}
+      openItem={openItem}
+      onOpenItem={onOpenItem}
+      onBack={onBack}
+      relevantSymbols={relevantSymbols}
+      newsCategories={newsCategories}
+      onToggleCategory={toggleNewsCategory}
+    />
+  )
 }

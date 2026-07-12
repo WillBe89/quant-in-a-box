@@ -2,6 +2,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { mkdtempSync, rmSync } from 'fs'
 import { tmpdir } from 'os'
 import { join } from 'path'
+import Database from 'better-sqlite3'
 import * as localDb from './localDb'
 
 // This runs localDb.ts (better-sqlite3-backed) directly against a throwaway SQLite file in
@@ -220,6 +221,44 @@ describe('localDb', () => {
         expect(() => localDb.storeNews('EMPTY', [])).not.toThrow()
         expect(localDb.getCachedNews('EMPTY', 60_000)).toBeNull()
       })
+
+      it('round-trips category and image when both are present', () => {
+        localDb.storeNews('CATIMG', [
+          {
+            id: 'z',
+            source: 'CoinDesk',
+            headline: 'Category and image round trip',
+            summary: 'Sum',
+            url: 'https://example.com/cat-img',
+            publishedAt: 1,
+            relatedSymbols: [],
+            category: 'crypto',
+            image: 'https://example.com/thumb.png'
+          }
+        ])
+        const result = localDb.getCachedNews('CATIMG', 60_000)
+        expect(result![0].category).toBe('crypto')
+        expect(result![0].image).toBe('https://example.com/thumb.png')
+      })
+
+      it('coerces missing category/image to undefined rather than throwing on the undefined bind', () => {
+        expect(() =>
+          localDb.storeNews('NOCATIMG', [
+            {
+              id: 'w',
+              source: 'S',
+              headline: 'No category or image',
+              summary: 'Sum',
+              url: 'https://example.com/no-cat-img',
+              publishedAt: 1,
+              relatedSymbols: []
+            }
+          ])
+        ).not.toThrow()
+        const result = localDb.getCachedNews('NOCATIMG', 60_000)
+        expect(result![0].category).toBeUndefined()
+        expect(result![0].image).toBeUndefined()
+      })
     })
 
     describe('profiles', () => {
@@ -303,6 +342,110 @@ describe('localDb', () => {
         expect(scoped.length).toBeGreaterThanOrEqual(1)
         expect(all.length).toBeGreaterThanOrEqual(scoped.length)
       })
+    })
+  })
+
+  // Distinct from every test above: those all run against a database initDb() itself created
+  // from scratch, where CREATE TABLE IF NOT EXISTS already has the category/image columns baked
+  // in from the start — that path can never actually exercise the ALTER TABLE migration logic.
+  // This block instead hand-builds a `news` table in the OLD (pre-category/image) shape, seeds a
+  // row into it exactly like a real user's already-populated database from an earlier shipped
+  // version would have, and only then calls initDb() against that same file — the one scenario
+  // that actually proves the guarded ALTER TABLE runs (and is safe) against a pre-existing table.
+  describe('schema migration against a pre-existing (pre-category/image) database file', () => {
+    let dbDir: string
+    let dbPath: string
+    const FOREVER = Number.MAX_SAFE_INTEGER
+
+    beforeAll(() => {
+      dbDir = mkdtempSync(join(tmpdir(), 'qiab-localdb-migration-test-'))
+      dbPath = join(dbDir, 'legacy.db')
+
+      const legacyDb = new Database(dbPath)
+      legacyDb.exec(`
+        CREATE TABLE IF NOT EXISTS news (
+          id TEXT PRIMARY KEY,
+          symbols TEXT NOT NULL,
+          source TEXT,
+          headline TEXT,
+          summary TEXT,
+          url TEXT,
+          published_at INTEGER,
+          fetched_at INTEGER NOT NULL
+        )
+      `)
+      legacyDb
+        .prepare(
+          `INSERT INTO news (id, symbols, source, headline, summary, url, published_at, fetched_at)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+        )
+        .run(
+          'legacy-1',
+          'general',
+          'Reuters',
+          'Pre-migration headline',
+          'Pre-migration summary',
+          'https://example.com/legacy',
+          1000,
+          2000
+        )
+      legacyDb.close()
+
+      // Opened the same way the real app does on launch — initDb() must detect the missing
+      // columns on this ALREADY-EXISTING table and ALTER TABLE them in, not just no-op because
+      // CREATE TABLE IF NOT EXISTS found a table already there.
+      localDb.initDb(dbPath)
+    })
+
+    afterAll(() => {
+      localDb.closeDb()
+      // This block opens two separate Database handles against the same directory (the
+      // hand-built "legacy" one, then localDb's own) — on Windows the OS can hold the file
+      // handle open past close() for longer than any reasonable retry budget (AV scanning,
+      // etc.). Leaving the OS temp dir behind is harmless (it's reclaimed eventually) and must
+      // never fail this suite over a cleanup step, so failures here are swallowed rather than
+      // thrown, after still giving a few retries a chance to succeed the normal way.
+      try {
+        rmSync(dbDir, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 })
+      } catch {
+        // best-effort cleanup only — see comment above
+      }
+    })
+
+    it('preserves the pre-existing row, readable and untouched, after the migration runs', () => {
+      const result = localDb.getCachedNews('general', FOREVER)
+      const legacyRow = result?.find((r) => r.headline === 'Pre-migration headline')
+      expect(legacyRow).toBeDefined()
+      expect(legacyRow?.summary).toBe('Pre-migration summary')
+      expect(legacyRow?.category).toBeUndefined()
+      expect(legacyRow?.image).toBeUndefined()
+    })
+
+    it('allows storing and retrieving category/image on the now-migrated table', () => {
+      localDb.storeNews('general', [
+        {
+          id: 'ignored-source-id',
+          source: 'CoinDesk',
+          headline: 'Post-migration headline',
+          summary: 'Post-migration summary',
+          url: 'https://example.com/post-migration',
+          publishedAt: 3000,
+          relatedSymbols: [],
+          category: 'crypto',
+          image: 'https://example.com/img.png'
+        }
+      ])
+      const result = localDb.getCachedNews('general', FOREVER)
+      const newRow = result?.find((r) => r.headline === 'Post-migration headline')
+      expect(newRow?.category).toBe('crypto')
+      expect(newRow?.image).toBe('https://example.com/img.png')
+    })
+
+    it('running initDb again against the same already-migrated file is a safe no-op', () => {
+      expect(() => localDb.initDb(dbPath)).not.toThrow()
+      // Still readable afterwards, including the row inserted before the second initDb call.
+      const result = localDb.getCachedNews('general', FOREVER)
+      expect(result?.some((r) => r.headline === 'Pre-migration headline')).toBe(true)
     })
   })
 })

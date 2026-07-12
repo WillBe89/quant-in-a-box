@@ -237,7 +237,13 @@
       "sideBySideNote": "displayed side-by-side with your chart",
       "openFull": "Open full article",
       "minutesAgo": "{{count}}m ago",
-      "hoursAgo": "{{count}}h ago"
+      "hoursAgo": "{{count}}h ago",
+      "category": {
+        "general": "General",
+        "forex": "Forex",
+        "crypto": "Crypto",
+        "merger": "M&A"
+      }
     }
   },
   "academy": {

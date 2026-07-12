@@ -1,6 +1,18 @@
-import type { Asset, AssetClass, Candle, CompanyProfile, NewsItem, OptionQuote, Timeframe } from '@renderer/types/market'
+import type {
+  Asset,
+  AssetClass,
+  Candle,
+  CompanyProfile,
+  NewsCategory,
+  NewsItem,
+  OptionQuote,
+  Timeframe
+} from '@renderer/types/market'
 import { blackScholes } from '@renderer/lib/quant'
 import { GENERATED_STOCK_ASSETS, GENERATED_CRYPTO_ASSETS } from './assetUniverse'
+// Already-bundled local asset (also used for the app's own branding — see Topbar.tsx) reused
+// here so mock-mode news thumbnails render with zero network dependency.
+import newsThumb from '@renderer/assets/logo-just.png'
 
 const CURATED_ASSETS_BY_CLASS: Record<AssetClass, Asset[]> = {
   stocks: [
@@ -195,7 +207,8 @@ const NEWS_TEMPLATES: Array<Omit<NewsItem, 'id' | 'publishedAt'>> = [
     summary:
       'Policymakers held rates steady and reiterated a data-dependent path, noting three consecutive months of softer core inflation readings. Futures markets modestly increased bets on a cut later this year.',
     url: 'https://www.reuters.com/markets/',
-    relatedSymbols: ['US10Y', 'US2Y', 'LQD']
+    relatedSymbols: ['US10Y', 'US2Y', 'LQD'],
+    category: 'general'
   },
   {
     source: 'Bloomberg',
@@ -203,7 +216,9 @@ const NEWS_TEMPLATES: Array<Omit<NewsItem, 'id' | 'publishedAt'>> = [
     summary:
       'Several major semiconductor suppliers raised forward guidance citing sustained demand from hyperscale data center buildouts, sending the sector to fresh highs in early trading.',
     url: 'https://www.bloomberg.com/markets',
-    relatedSymbols: ['NVDA']
+    relatedSymbols: ['NVDA'],
+    category: 'general',
+    image: newsThumb
   },
   {
     source: 'MarketWatch',
@@ -211,7 +226,8 @@ const NEWS_TEMPLATES: Array<Omit<NewsItem, 'id' | 'publishedAt'>> = [
     summary:
       'Yields drifted higher as traders positioned ahead of a $58B note auction, with dealers watching foreign demand metrics closely after last month’s soft bid-to-cover ratio.',
     url: 'https://www.marketwatch.com/investing/bonds',
-    relatedSymbols: ['US10Y']
+    relatedSymbols: ['US10Y'],
+    category: 'general'
   },
   {
     source: 'Reuters',
@@ -219,7 +235,8 @@ const NEWS_TEMPLATES: Array<Omit<NewsItem, 'id' | 'publishedAt'>> = [
     summary:
       'REIT-focused funds outperformed the broader market as investors rotated into sectors seen as most sensitive to an eventual easing in borrowing costs.',
     url: 'https://www.reuters.com/markets/us/',
-    relatedSymbols: ['VNQ', 'IYR']
+    relatedSymbols: ['VNQ', 'IYR'],
+    category: 'general'
   },
   {
     source: 'CNBC',
@@ -227,7 +244,9 @@ const NEWS_TEMPLATES: Array<Omit<NewsItem, 'id' | 'publishedAt'>> = [
     summary:
       'On-chain data showed a notable uptick in exchange outflows overnight, which some analysts read as accumulation, even as spot price pulled back from recent highs.',
     url: 'https://www.cnbc.com/cryptoworld/',
-    relatedSymbols: ['BTC', 'ETH']
+    relatedSymbols: ['BTC', 'ETH'],
+    category: 'crypto',
+    image: newsThumb
   },
   {
     source: 'Bloomberg',
@@ -235,7 +254,8 @@ const NEWS_TEMPLATES: Array<Omit<NewsItem, 'id' | 'publishedAt'>> = [
     summary:
       'Component-level checks across the supply chain suggest order volumes are holding up better than the cautious guidance implied last quarter, easing some concern about a demand air pocket.',
     url: 'https://www.bloomberg.com/markets',
-    relatedSymbols: ['AAPL']
+    relatedSymbols: ['AAPL'],
+    category: 'general'
   },
   {
     source: 'Reuters',
@@ -243,7 +263,8 @@ const NEWS_TEMPLATES: Array<Omit<NewsItem, 'id' | 'publishedAt'>> = [
     summary:
       'Several large enterprise customers signaled renewed multi-year commitments to cloud infrastructure spend, a read-through investors are treating as broadly positive for the sector.',
     url: 'https://www.reuters.com/technology/',
-    relatedSymbols: ['MSFT']
+    relatedSymbols: ['MSFT'],
+    category: 'general'
   },
   {
     source: 'CoinDesk',
@@ -251,7 +272,8 @@ const NEWS_TEMPLATES: Array<Omit<NewsItem, 'id' | 'publishedAt'>> = [
     summary:
       'Core developers moved a long-discussed upgrade proposal into testnet staging, with a mainnet timeline still pending further review — historically a period of elevated volatility for the token.',
     url: 'https://www.coindesk.com/tech/',
-    relatedSymbols: ['ETH']
+    relatedSymbols: ['ETH'],
+    category: 'crypto'
   },
   {
     source: 'The Block',
@@ -259,7 +281,8 @@ const NEWS_TEMPLATES: Array<Omit<NewsItem, 'id' | 'publishedAt'>> = [
     summary:
       'On-chain transaction counts and active wallet metrics climbed to their highest levels in several months, though analysts caution activity metrics can be inflated by low-value automated transactions.',
     url: 'https://www.theblock.co/',
-    relatedSymbols: ['SOL']
+    relatedSymbols: ['SOL'],
+    category: 'crypto'
   },
   {
     source: 'Reuters',
@@ -267,7 +290,8 @@ const NEWS_TEMPLATES: Array<Omit<NewsItem, 'id' | 'publishedAt'>> = [
     summary:
       'The greenback held recent gains against major peers as markets priced in a slower pace of rate cuts domestically than in several other developed economies.',
     url: 'https://www.reuters.com/markets/currencies/',
-    relatedSymbols: ['EURUSD', 'GBPUSD']
+    relatedSymbols: ['EURUSD', 'GBPUSD'],
+    category: 'forex'
   },
   {
     source: 'MarketWatch',
@@ -275,7 +299,21 @@ const NEWS_TEMPLATES: Array<Omit<NewsItem, 'id' | 'publishedAt'>> = [
     summary:
       'Bullion prices consolidated near recent highs, with continued central bank buying offsetting some pressure from a steadier dollar and diminished expectations for near-term rate cuts.',
     url: 'https://www.marketwatch.com/investing/future/gold',
-    relatedSymbols: ['XAUUSD']
+    relatedSymbols: ['XAUUSD'],
+    category: 'forex',
+    image: newsThumb
+  },
+  {
+    source: 'Bloomberg',
+    headline: 'Chipmaker to acquire AI inference startup in all-cash deal',
+    summary:
+      'The acquirer said the deal accelerates its push into specialized inference hardware and is expected to close within two quarters pending regulatory approval, with reports of the takeover premium sending the target’s shares sharply higher.',
+    url: 'https://www.bloomberg.com/deals',
+    // Deliberately overlaps with the default watchlist (NVDA) rather than a symbol outside it,
+    // so this template is reachable via the symbol-relevance filter in the app's out-of-the-box
+    // state, not just when a user has customized their watchlist to include a different stock.
+    relatedSymbols: ['NVDA'],
+    category: 'merger'
   }
 ]
 
@@ -330,16 +368,27 @@ export function generateCompanyProfile(asset: Asset): CompanyProfile | null {
   }
 }
 
-export function generateNews(relevantSymbols?: string[]): NewsItem[] {
+export function generateNews(relevantSymbols?: string[], categories?: NewsCategory[]): NewsItem[] {
   const now = Math.floor(Date.now() / 1000)
   const withIds = NEWS_TEMPLATES.map((item, i) => ({
     ...item,
     id: `mock-${i}`,
     publishedAt: now - (i + 1) * (25 * 60)
   }))
-  if (!relevantSymbols || relevantSymbols.length === 0) return withIds
-  const filtered = withIds.filter((item) => item.relatedSymbols.some((s) => relevantSymbols.includes(s)))
-  // Fall back to the full feed rather than showing an empty card when nothing matches —
-  // this small mock pool doesn't cover every symbol, and "no news" reads as broken, not filtered.
-  return filtered.length > 0 ? filtered : withIds
+
+  let pool = withIds
+  if (relevantSymbols && relevantSymbols.length > 0) {
+    const filtered = withIds.filter((item) => item.relatedSymbols.some((s) => relevantSymbols.includes(s)))
+    // Fall back to the full feed rather than showing an empty card when nothing matches —
+    // this small mock pool doesn't cover every symbol, and "no news" reads as broken, not filtered.
+    pool = filtered.length > 0 ? filtered : withIds
+  }
+
+  // Unlike the symbol fallback above, a category filter that matches nothing is a real,
+  // intentional result (the user toggled every matching category off) — no fallback here.
+  if (categories && categories.length > 0) {
+    pool = pool.filter((item) => categories.includes(item.category as NewsCategory))
+  }
+
+  return pool
 }

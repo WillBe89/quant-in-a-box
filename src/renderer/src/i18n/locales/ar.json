@@ -196,7 +196,13 @@
       "sideBySideNote": "معروضة جنبًا إلى جنب مع الرسم البياني الخاص بك",
       "openFull": "فتح المقال كاملاً",
       "minutesAgo": "منذ {{count}} د",
-      "hoursAgo": "منذ {{count}} س"
+      "hoursAgo": "منذ {{count}} س",
+      "category": {
+        "general": "عام",
+        "forex": "الفوركس",
+        "crypto": "العملات الرقمية",
+        "merger": "الاندماجات"
+      }
     }
   },
   "academy": {

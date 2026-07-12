@@ -1,4 +1,13 @@
-import type { Asset, AssetClass, Candle, CompanyProfile, NewsItem, OptionQuote, Timeframe } from '@renderer/types/market'
+import type {
+  Asset,
+  AssetClass,
+  Candle,
+  CompanyProfile,
+  NewsCategory,
+  NewsItem,
+  OptionQuote,
+  Timeframe
+} from '@renderer/types/market'
 import {
   ASSETS_BY_CLASS,
   ALL_ASSETS,
@@ -10,6 +19,7 @@ import {
 import * as finnhub from './finnhubAdapter'
 import * as twelveData from './twelveDataAdapter'
 import { getFinnhubKey, getTwelveDataKey } from './apiKeyStore'
+import { mergeNewsFeeds } from '@renderer/lib/newsMerge'
 
 /** True once a real API key is present (checked live, not cached — a key added via
  *  Customize takes effect immediately without restarting the app). */
@@ -31,7 +41,16 @@ const PROFILE_TTL_MS = 24 * 60 * 60 * 1000
 /** Same symbols→cache-key rule the news methods below already use to pick between
  *  company-news and general-news: one symbol keys on that symbol, anything else is general. */
 function newsSymbolsKey(symbols?: string[]): string {
-  return symbols && symbols.length === 1 ? symbols[0] : 'general'
+  return isSingleSymbolNews(symbols) ? symbols![0] : 'general'
+}
+
+/** True only when `symbols` is exactly one ticker — the one case where "news relevant to this
+ *  view" has an unambiguous single subject (the selected asset) and therefore no category
+ *  dimension to filter by. Exported so the UI can hide the category chip row in that case
+ *  (see NewsCard.tsx) using the exact same rule the data layer uses to pick company-news over
+ *  general-news. */
+export function isSingleSymbolNews(symbols?: string[]): boolean {
+  return Boolean(symbols && symbols.length === 1)
 }
 
 export interface DataService {
@@ -39,8 +58,10 @@ export interface DataService {
   getCandles(asset: Asset, timeframe: Timeframe): Promise<Candle[]>
   getOptionChain(asset: Asset): Promise<OptionQuote[]>
   /** `symbols`: the set of tickers news should be relevant to (e.g. the selected
-   *  symbol, the watchlist, or portfolio holdings) — omit for general market news. */
-  getNews(symbols?: string[]): Promise<NewsItem[]>
+   *  symbol, the watchlist, or portfolio holdings) — omit for general market news.
+   *  `categories`: which general-news categories to include — ignored when `symbols`
+   *  is a single ticker (see `isSingleSymbolNews`), since company news has no category axis. */
+  getNews(symbols?: string[], categories?: NewsCategory[]): Promise<NewsItem[]>
   getCompanyProfile(asset: Asset): Promise<CompanyProfile | null>
 }
 
@@ -54,8 +75,8 @@ class MockDataService implements DataService {
   async getOptionChain(asset: Asset): Promise<OptionQuote[]> {
     return generateOptionChain(asset)
   }
-  async getNews(symbols?: string[]): Promise<NewsItem[]> {
-    return generateNews(symbols)
+  async getNews(symbols?: string[], categories?: NewsCategory[]): Promise<NewsItem[]> {
+    return generateNews(symbols, categories)
   }
   async getCompanyProfile(asset: Asset): Promise<CompanyProfile | null> {
     return generateCompanyProfile(asset)
@@ -100,22 +121,44 @@ class FinnhubDataService implements DataService {
     return this.mock.getOptionChain(asset)
   }
 
-  async getNews(symbols?: string[]): Promise<NewsItem[]> {
-    const symbolsKey = newsSymbolsKey(symbols)
-    const cached = await window.api?.getCachedNews(symbolsKey, NEWS_TTL_MS).catch(() => null)
-    if (cached && cached.length) return cached
-    try {
-      // Finnhub's company-news endpoint takes one symbol at a time; for a single
-      // relevant symbol (the common case — viewing one asset) fetch its news
-      // directly. For a broader set (watchlist/portfolio) general market news is
-      // used instead of firing one request per symbol — revisit if that's too coarse.
-      const news =
-        symbols && symbols.length === 1 ? await finnhub.fetchCompanyNews(symbols[0]) : await finnhub.fetchGeneralNews()
-      window.api?.storeNews(symbolsKey, news).catch(() => undefined)
-      return news
-    } catch {
-      return this.mock.getNews(symbols)
+  async getNews(symbols?: string[], categories?: NewsCategory[]): Promise<NewsItem[]> {
+    // Finnhub's company-news endpoint takes one symbol at a time; for a single relevant
+    // symbol (the common case — viewing one asset) fetch its news directly, with no category
+    // dimension involved. For a broader set (watchlist/portfolio/general) each active category
+    // is fetched independently below so one category failing never blanks the others.
+    if (isSingleSymbolNews(symbols)) {
+      const symbolsKey = newsSymbolsKey(symbols)
+      const cached = await window.api?.getCachedNews(symbolsKey, NEWS_TTL_MS).catch(() => null)
+      if (cached && cached.length) return cached
+      try {
+        const news = await finnhub.fetchCompanyNews(symbols![0])
+        window.api?.storeNews(symbolsKey, news).catch(() => undefined)
+        return news
+      } catch {
+        return this.mock.getNews(symbols, categories)
+      }
     }
+
+    const activeCategories: NewsCategory[] = categories && categories.length > 0 ? categories : ['general']
+    const settled = await Promise.allSettled(
+      activeCategories.map(async (category) => {
+        // Per-category cache key so one category's fetch failing (and falling back to a
+        // stale/missing cache entry) never affects another category's freshness.
+        const cacheKey = `general:${category}`
+        const cached = await window.api?.getCachedNews(cacheKey, NEWS_TTL_MS).catch(() => null)
+        if (cached && cached.length) return cached
+        const news = await finnhub.fetchGeneralNews(category)
+        window.api?.storeNews(cacheKey, news).catch(() => undefined)
+        return news
+      })
+    )
+    const feeds = settled
+      .filter((r): r is PromiseFulfilledResult<NewsItem[]> => r.status === 'fulfilled')
+      .map((r) => r.value)
+    // Only fall back to mock data if every single category's fetch (and its cache) failed —
+    // one failing category should never blank out the others.
+    if (feeds.length === 0) return this.mock.getNews(symbols, categories)
+    return mergeNewsFeeds(feeds)
   }
 
   async getCompanyProfile(asset: Asset): Promise<CompanyProfile | null> {
@@ -167,8 +210,8 @@ class TwelveDataService implements DataService {
     return this.mock.getOptionChain(asset)
   }
 
-  async getNews(symbols?: string[]): Promise<NewsItem[]> {
-    return this.mock.getNews(symbols)
+  async getNews(symbols?: string[], categories?: NewsCategory[]): Promise<NewsItem[]> {
+    return this.mock.getNews(symbols, categories)
   }
 
   async getCompanyProfile(asset: Asset): Promise<CompanyProfile | null> {
@@ -213,8 +256,10 @@ class ReactiveDataService implements DataService {
     return svc ? svc.getOptionChain(asset) : this.mock.getOptionChain(asset)
   }
 
-  async getNews(symbols?: string[]): Promise<NewsItem[]> {
-    return Boolean(getFinnhubKey()) ? this.finnhubSvc.getNews(symbols) : this.mock.getNews(symbols)
+  async getNews(symbols?: string[], categories?: NewsCategory[]): Promise<NewsItem[]> {
+    return Boolean(getFinnhubKey())
+      ? this.finnhubSvc.getNews(symbols, categories)
+      : this.mock.getNews(symbols, categories)
   }
 
   async getCompanyProfile(asset: Asset): Promise<CompanyProfile | null> {
