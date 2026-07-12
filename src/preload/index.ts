@@ -1,9 +1,10 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import type { PortfolioInsightsRequest } from '../main/aiInsights'
-import type { Candle, CompanyProfile, NewsItem } from '../main/localDb'
+import type { Candle, CompanyProfile, NewsItem, UserAssetRecord } from '../main/localDb'
 import type { PortfolioReportInput, SaveWorkbookResult } from '../main/exportData'
 import type { CertificateRequest, CertificateSaveResult } from '../main/certificate'
+import type { ImportUserAssetsResult } from '../main/userAssetImport'
 
 const api = {
   checkAiAvailability: () => ipcRenderer.invoke('ai:checkAvailability'),
@@ -29,7 +30,9 @@ const api = {
   exportMarketArchive: (symbol?: string): Promise<SaveWorkbookResult> =>
     ipcRenderer.invoke('data:exportMarketArchive', symbol),
   downloadCertificate: (request: CertificateRequest): Promise<CertificateSaveResult> =>
-    ipcRenderer.invoke('academy:downloadCertificate', request)
+    ipcRenderer.invoke('academy:downloadCertificate', request),
+  importUserAssetsFile: (): Promise<ImportUserAssetsResult> => ipcRenderer.invoke('data:importUserAssetsFile'),
+  getUserAssets: (): Promise<UserAssetRecord[]> => ipcRenderer.invoke('data:getUserAssets')
 }
 
 if (process.contextIsolated) {

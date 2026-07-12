@@ -148,6 +148,63 @@ function hashSymbol(symbol: string): number {
   return Math.abs(h) || 1
 }
 
+/** Mirrors main/localDb.ts's UserAssetRecord shape locally (see that file's own header comment
+ *  for why main and renderer don't import each other's data modules directly) — one listing the
+ *  user personally imported via Customize > Import local listings. */
+export interface UserAssetRecord {
+  symbol: string
+  name: string
+  klass: string
+  sector?: string
+  country?: string
+  exchange?: string
+}
+
+/** Deterministic seeded price/changePct for a user-imported listing — same hashSymbol/
+ *  seededRandom pair as every other generator in this file, reused directly rather than
+ *  duplicated since this function lives in the same module they're already private to. Unlike
+ *  the marketCap synthesis in generateCompanyProfile, there's no existing price to perturb here
+ *  (a freshly-imported symbol has no baseline of its own), so a plausible-looking price and day
+ *  change are synthesized directly from the symbol hash alone. */
+function assetFromUserRecord(record: UserAssetRecord): Asset {
+  const rand = seededRandom(hashSymbol(record.symbol))
+  const price = Math.round((2 + rand() * 498) * 100) / 100
+  const changePct = Math.round((rand() - 0.5) * 600) / 100
+  return {
+    symbol: record.symbol,
+    name: record.name,
+    klass: 'stocks',
+    price,
+    changePct,
+    sector: record.sector,
+    country: record.country,
+    exchange: record.exchange
+  }
+}
+
+/** Merges user-imported listings into the shared ALL_ASSETS/ASSETS_BY_CLASS.stocks arrays IN
+ *  PLACE — called once at app startup, after the main process's data:getUserAssets IPC call
+ *  resolves (see the effect in AppStateContext.tsx). Every existing
+ *  `import { ALL_ASSETS } from '@renderer/data/mockData'` call site keeps working completely
+ *  unchanged: since ALL_ASSETS/ASSETS_BY_CLASS.stocks are never reassigned (only ever pushed
+ *  into), every module holding that same array reference sees the merged-in rows the moment
+ *  this runs, with no code change required at any of those call sites — the static import
+ *  becomes effectively dynamic at runtime.
+ *  Idempotent and duplicate-safe: skips any record whose symbol is already present in ALL_ASSETS
+ *  (whether bundled or already merged in) — a second, authoritative safety net on top of
+ *  main/userAssetImport.ts's own dedupe, and what makes this safe to call more than once (e.g.
+ *  React StrictMode's double-invoked effects in dev). */
+export function mergeUserAssets(records: UserAssetRecord[]): void {
+  const existingSymbols = new Set(ALL_ASSETS.map((a) => a.symbol))
+  for (const record of records) {
+    if (existingSymbols.has(record.symbol)) continue
+    const asset = assetFromUserRecord(record)
+    existingSymbols.add(asset.symbol)
+    ASSETS_BY_CLASS.stocks.push(asset)
+    ALL_ASSETS.push(asset)
+  }
+}
+
 export function generateCandles(asset: Asset, timeframe: Timeframe): Candle[] {
   const n = TIMEFRAME_BARS[timeframe]
   const step = TIMEFRAME_STEP_SECONDS[timeframe]

@@ -67,6 +67,22 @@
       "errorRateLimited": "Finnhub devolvió 429 — has alcanzado su límite de solicitudes. Espera un momento e inténtalo de nuevo.",
       "errorGeneric": "La descarga falló y no se guardó nada localmente — no se sustituyó con datos simulados."
     },
+    "importListings": {
+      "heading": "Importar listados locales",
+      "intro": "ASX, HKEX, JPX y SET Tailandia restringen la reutilización de sus archivos de listados al uso personal y no comercial, así que esta app nunca descarga, almacena en caché ni incluye esos datos por sí misma. Haz clic en un enlace de abajo para descargar el archivo propio de la bolsa a tu ordenador y luego usa el botón para importarlo a tu propia base de datos local.",
+      "asxLink": "Descargar desde asx.com.au (CSV)",
+      "hkexLink": "Descargar desde hkex.com.hk (Excel)",
+      "jpxLink": "Descargar desde jpx.co.jp (Excel)",
+      "setLink": "Descargar desde set.or.th (Excel)",
+      "nzxSgxNote": "NZX y SGX no aparecen aquí — ninguna de las dos bolsas publica un archivo de listados masivo descargable (NZX es solo de consulta, SGX solo permite navegar sin exportar), así que esta herramienta no se aplica a ellas.",
+      "importBtn": "Importar archivo de listados…",
+      "importing": "Importando…",
+      "added_one": "Se añadió {{count}} nuevo listado de {{format}}.",
+      "added_other": "Se añadieron {{count}} nuevos listados de {{format}}.",
+      "noNew": "Sin listados nuevos — ya estaban importados.",
+      "unrecognized": "Ese archivo no coincide con ninguno de los 4 formatos admitidos (ASX/HKEX/JPX/SET). Asegúrate de que sea el archivo sin modificar descargado del enlace de la bolsa de arriba.",
+      "error": "Algo salió mal al leer ese archivo. No se importó nada."
+    },
     "glass": {
       "heading": "Apariencia de cristal",
       "intro": "Elige cuánta parte de la interfaz flota como cristal translúcido sobre el fondo. El fondo con degradado suave siempre está activado.",

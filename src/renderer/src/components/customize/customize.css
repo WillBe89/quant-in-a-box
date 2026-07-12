@@ -364,3 +364,14 @@
 .history-download-status.err {
   color: var(--loss);
 }
+
+.customize-exchange-link {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent-b);
+  text-decoration: none;
+  flex: none;
+}
+.customize-exchange-link:hover {
+  text-decoration: underline;
+}

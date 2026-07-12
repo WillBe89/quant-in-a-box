@@ -127,6 +127,22 @@
       "errorRateLimited": "Finnhub returned 429 — you've hit its rate limit. Wait a bit and try again.",
       "errorGeneric": "The download failed, and nothing was saved locally — no mock data was substituted."
     },
+    "importListings": {
+      "heading": "Import local listings",
+      "intro": "ASX, HKEX, JPX and SET Thailand restrict reuse of their listing files to personal, non-commercial use, so this app never downloads, caches, or bundles their data itself. Click a link below to download the exchange's own file to your computer, then use the button to import it into your own local database.",
+      "asxLink": "Download from asx.com.au (CSV)",
+      "hkexLink": "Download from hkex.com.hk (Excel)",
+      "jpxLink": "Download from jpx.co.jp (Excel)",
+      "setLink": "Download from set.or.th (Excel)",
+      "nzxSgxNote": "NZX and SGX aren't listed here — neither exchange publishes a downloadable bulk listing file (NZX is view-only, SGX is browse-only with no export), so this tool doesn't apply to them.",
+      "importBtn": "Import listings file…",
+      "importing": "Importing…",
+      "added_one": "Added {{count}} new {{format}} listing.",
+      "added_other": "Added {{count}} new {{format}} listings.",
+      "noNew": "No new listings — already imported.",
+      "unrecognized": "That file doesn't match any of the 4 supported formats (ASX/HKEX/JPX/SET). Make sure it's the unmodified file downloaded from the exchange's own link above.",
+      "error": "Something went wrong reading that file. Nothing was imported."
+    },
     "glass": {
       "heading": "Glass appearance",
       "intro": "Choose how much of the interface floats as translucent glass over the background. The soft gradient background itself is always on.",

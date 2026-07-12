@@ -57,6 +57,18 @@ export interface StoredSymbolSummary {
   newestTime: number
 }
 
+/** One listing the user personally imported via Customize > Import local listings (see
+ *  main/userAssetImport.ts) — a row they downloaded themselves from an exchange's own site and
+ *  fed through this app's local parser/importer, never fetched or bundled by the app itself. */
+export interface UserAssetRecord {
+  symbol: string
+  name: string
+  klass: string
+  sector?: string
+  country?: string
+  exchange?: string
+}
+
 let db: Database.Database | null = null
 
 interface CandleRow {
@@ -87,6 +99,16 @@ interface ProfileRow {
   source: string
   data: string
   fetched_at: number
+}
+
+interface UserAssetDbRow {
+  symbol: string
+  name: string
+  klass: string
+  sector: string | null
+  country: string | null
+  exchange: string | null
+  imported_at: number
 }
 
 /**
@@ -146,6 +168,18 @@ export function initDb(dbPathOverride?: string): void {
       source TEXT NOT NULL,
       data TEXT NOT NULL,
       fetched_at INTEGER NOT NULL
+    )
+  `)
+
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS userAssets (
+      symbol TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      klass TEXT NOT NULL,
+      sector TEXT,
+      country TEXT,
+      exchange TEXT,
+      imported_at INTEGER NOT NULL
     )
   `)
 }
@@ -303,6 +337,46 @@ export function storeProfile(symbol: string, source: string, profile: CompanyPro
   conn
     .prepare(`INSERT OR REPLACE INTO profiles (symbol, source, data, fetched_at) VALUES (?, ?, ?, ?)`)
     .run(symbol, source, JSON.stringify(profile), fetchedAt)
+}
+
+/** Every listing the user has imported so far, symbol-ascending. Used both to merge into the
+ *  renderer's asset universe at startup (see data:getUserAssets in main/index.ts) and, by
+ *  main/userAssetImport.ts, to make a re-import of the same exchange file a safe no-op instead
+ *  of a duplicate row. */
+export function getUserAssets(): UserAssetRecord[] {
+  const conn = requireDb()
+  const rows = conn
+    .prepare<[], UserAssetDbRow>(
+      `SELECT symbol, name, klass, sector, country, exchange, imported_at FROM userAssets ORDER BY symbol ASC`
+    )
+    .all()
+  return rows.map((r) => ({
+    symbol: r.symbol,
+    name: r.name,
+    klass: r.klass,
+    sector: r.sector ?? undefined,
+    country: r.country ?? undefined,
+    exchange: r.exchange ?? undefined
+  }))
+}
+
+/** Inserts (or replaces, on a symbol collision) a batch of user-imported listing rows in a single
+ *  transaction. Callers are responsible for filtering out already-known symbols first (see
+ *  main/userAssetImport.ts's dedupeAgainstKnown) — this always writes whatever it's given. */
+export function insertUserAssets(records: UserAssetRecord[]): void {
+  if (records.length === 0) return
+  const conn = requireDb()
+  const importedAt = Date.now()
+  const insert = conn.prepare(
+    `INSERT OR REPLACE INTO userAssets (symbol, name, klass, sector, country, exchange, imported_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?)`
+  )
+  const insertAll = conn.transaction((rows: UserAssetRecord[]) => {
+    for (const r of rows) {
+      insert.run(r.symbol, r.name, r.klass, r.sector ?? null, r.country ?? null, r.exchange ?? null, importedAt)
+    }
+  })
+  insertAll(records)
 }
 
 function rowToNewsItem(r: NewsRow): NewsItem {

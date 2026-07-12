@@ -10,7 +10,7 @@ import type {
   PortfolioPosition,
   Timeframe
 } from '@renderer/types/market'
-import { ALL_ASSETS, ASSETS_BY_CLASS } from '@renderer/data/mockData'
+import { ALL_ASSETS, ASSETS_BY_CLASS, mergeUserAssets } from '@renderer/data/mockData'
 import { defaultStyleForPortfolio } from '@renderer/lib/portfolioStyle'
 import i18n, { languageDir } from '@renderer/i18n'
 import type { ModuleId } from '@renderer/academy/modules'
@@ -518,6 +518,26 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   const [dockLayout, setDockLayoutState] = useState<DockLayoutState>(() => loadDockLayout())
   const [expandedCard, setExpandedCard] = useState<DockCardId | null>(null)
   const [settingsVersion, setSettingsVersion] = useState(0)
+
+  // Loads listings the user has personally imported (Customize > Import local listings) and
+  // merges them into the shared ALL_ASSETS/ASSETS_BY_CLASS.stocks arrays once at startup — see
+  // mergeUserAssets's own header comment in mockData.ts for why this makes the static ALL_ASSETS
+  // import effectively dynamic without any other call site needing to change. Best-effort only:
+  // if this IPC call ever fails, the app simply runs with whatever's bundled, same as before this
+  // feature existed, rather than surfacing an error for a background enrichment step.
+  useEffect(() => {
+    let cancelled = false
+    Promise.resolve(window.api?.getUserAssets())
+      .then((records) => {
+        if (!cancelled && records && records.length > 0) mergeUserAssets(records)
+      })
+      .catch(() => {
+        // best-effort only; see comment above
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   useEffect(() => {
     i18n.changeLanguage(language)

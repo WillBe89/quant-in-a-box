@@ -15,10 +15,12 @@ import {
   getCandleHistoryForExport,
   getNewsForExport,
   getStoredCandlesBefore,
+  getUserAssets,
   type Candle,
   type CompanyProfile,
   type NewsItem
 } from './localDb'
+import { importUserAssetsFile } from './userAssetImport'
 import {
   buildPortfolioReportWorkbook,
   buildMarketArchiveWorkbook,
@@ -158,6 +160,10 @@ app.whenReady().then(() => {
     const defaultFileName = `market-archive-${sanitizeFileNamePart(symbol ?? 'all')}.xlsx`
     return saveWorkbookViaDialog(buffer, defaultFileName)
   })
+
+  ipcMain.handle('data:importUserAssetsFile', async () => importUserAssetsFile())
+
+  ipcMain.handle('data:getUserAssets', async () => getUserAssets())
 
   ipcMain.handle('academy:downloadCertificate', async (_event, request: CertificateRequest) => {
     const buffer = await generateCertificatePdf(request)

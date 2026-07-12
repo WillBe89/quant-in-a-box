@@ -67,6 +67,22 @@
       "errorRateLimited": "O Finnhub devolveu 429 — atingiu o limite de pedidos. Aguarde um pouco e tente novamente.",
       "errorGeneric": "A transferência falhou e nada foi guardado localmente — não foi substituído por dados simulados."
     },
+    "importListings": {
+      "heading": "Importar listagens locais",
+      "intro": "ASX, HKEX, JPX e SET Tailândia restringem a reutilização dos seus ficheiros de listagem a uso pessoal e não comercial, por isso esta aplicação nunca transfere, armazena em cache ou inclui esses dados por conta própria. Clique num dos links abaixo para transferir o ficheiro próprio da bolsa para o seu computador e depois use o botão para o importar para a sua própria base de dados local.",
+      "asxLink": "Transferir de asx.com.au (CSV)",
+      "hkexLink": "Transferir de hkex.com.hk (Excel)",
+      "jpxLink": "Transferir de jpx.co.jp (Excel)",
+      "setLink": "Transferir de set.or.th (Excel)",
+      "nzxSgxNote": "NZX e SGX não aparecem aqui — nenhuma das duas bolsas publica um ficheiro de listagem em massa transferível (a NZX é apenas de consulta, a SGX apenas permite navegar sem exportar), por isso esta ferramenta não se aplica a elas.",
+      "importBtn": "Importar ficheiro de listagens…",
+      "importing": "A importar…",
+      "added_one": "Adicionada {{count}} nova listagem da {{format}}.",
+      "added_other": "Adicionadas {{count}} novas listagens da {{format}}.",
+      "noNew": "Sem novas listagens — já importadas.",
+      "unrecognized": "Esse ficheiro não corresponde a nenhum dos 4 formatos suportados (ASX/HKEX/JPX/SET). Certifique-se de que é o ficheiro original, sem alterações, transferido do link da bolsa acima.",
+      "error": "Ocorreu um erro ao ler esse ficheiro. Nada foi importado."
+    },
     "glass": {
       "heading": "Aparência em vidro",
       "intro": "Escolha quanto da interface flutua como vidro translúcido sobre o fundo. O fundo com gradiente suave permanece sempre ativo.",

@@ -67,6 +67,22 @@
       "errorRateLimited": "Finnhub a renvoyé 429 — vous avez atteint sa limite de requêtes. Patientez un instant puis réessayez.",
       "errorGeneric": "Le téléchargement a échoué et rien n'a été enregistré localement — aucune donnée simulée n'a été substituée."
     },
+    "importListings": {
+      "heading": "Importer des listes locales",
+      "intro": "ASX, HKEX, JPX et SET Thaïlande limitent la réutilisation de leurs fichiers de cotations à un usage personnel et non commercial, donc cette application ne télécharge, ne met en cache ni n'intègre jamais ces données elle-même. Cliquez sur un lien ci-dessous pour télécharger le fichier propre à la bourse sur votre ordinateur, puis utilisez le bouton pour l'importer dans votre propre base de données locale.",
+      "asxLink": "Télécharger depuis asx.com.au (CSV)",
+      "hkexLink": "Télécharger depuis hkex.com.hk (Excel)",
+      "jpxLink": "Télécharger depuis jpx.co.jp (Excel)",
+      "setLink": "Télécharger depuis set.or.th (Excel)",
+      "nzxSgxNote": "NZX et SGX ne figurent pas ici — aucune des deux bourses ne publie de fichier de cotations groupé téléchargeable (NZX est en consultation seule, SGX en parcours seul sans export), donc cet outil ne s'applique pas à elles.",
+      "importBtn": "Importer un fichier de cotations…",
+      "importing": "Importation…",
+      "added_one": "{{count}} nouvelle cotation {{format}} ajoutée.",
+      "added_other": "{{count}} nouvelles cotations {{format}} ajoutées.",
+      "noNew": "Aucune nouvelle cotation — déjà importées.",
+      "unrecognized": "Ce fichier ne correspond à aucun des 4 formats pris en charge (ASX/HKEX/JPX/SET). Vérifiez qu'il s'agit du fichier non modifié téléchargé depuis le lien de la bourse ci-dessus.",
+      "error": "Une erreur s'est produite lors de la lecture de ce fichier. Rien n'a été importé."
+    },
     "glass": {
       "heading": "Apparence en verre",
       "intro": "Choisissez la part de l'interface qui flotte sous forme de verre translucide au-dessus de l'arrière-plan. Le dégradé de fond en douceur reste toujours actif.",

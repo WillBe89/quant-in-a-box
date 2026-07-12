@@ -206,6 +206,17 @@ const HISTORY_DOWNLOAD_YEAR_PRESETS = [1, 2, 5, 10, 20]
 
 type HistoryDownloadStatus = 'idle' | 'loading' | 'success' | 'forbidden' | 'rateLimited' | 'error'
 
+// Real, confirmed download URLs — fetched and verified live directly against each exchange's own
+// site while building this feature. Plain links only: this app never fetches, caches, or bundles
+// a copy of any of these files itself (see the "Import local listings" section's intro copy for
+// why — each exchange restricts reuse of this data to personal, non-commercial use).
+const ASX_LISTINGS_URL = 'https://www.asx.com.au/asx/research/ASXListedCompanies.csv'
+const HKEX_LISTINGS_URL = 'https://www.hkex.com.hk/eng/services/trading/securities/securitieslists/ListOfSecurities.xlsx'
+const JPX_LISTINGS_URL = 'https://www.jpx.co.jp/english/markets/statistics-equities/misc/tvdivq0000001vg2-att/data_e.xls'
+const SET_LISTINGS_URL = 'https://www.set.or.th/dat/eod/listedcompany/static/listedCompanies_en_US.xls'
+
+type ImportListingsStatus = 'idle' | 'importing' | 'added' | 'noNew' | 'unrecognized' | 'canceled' | 'error'
+
 export default function CustomizePanel(): JSX.Element {
   const { t } = useTranslation()
   const {
@@ -234,6 +245,9 @@ export default function CustomizePanel(): JSX.Element {
   const [historySelected, setHistorySelected] = useState<Asset | null>(null)
   const [historyYears, setHistoryYears] = useState<number>(5)
   const [historyStatus, setHistoryStatus] = useState<HistoryDownloadStatus>('idle')
+  const [importStatus, setImportStatus] = useState<ImportListingsStatus>('idle')
+  const [importAddedCount, setImportAddedCount] = useState(0)
+  const [importFormat, setImportFormat] = useState<string>('')
 
   useEffect(() => {
     let cancelled = false
@@ -310,6 +324,31 @@ export default function CustomizePanel(): JSX.Element {
       } else {
         setHistoryStatus('error')
       }
+    }
+  }
+
+  async function handleImportListings(): Promise<void> {
+    if (importStatus === 'importing') return
+    setImportStatus('importing')
+    try {
+      const result = await window.api?.importUserAssetsFile()
+      if (!result) {
+        setImportStatus('error')
+        return
+      }
+      if (result.canceled) {
+        setImportStatus('canceled')
+        return
+      }
+      if (result.error) {
+        setImportStatus(result.error === 'unrecognized-format' ? 'unrecognized' : 'error')
+        return
+      }
+      setImportAddedCount(result.addedCount)
+      setImportFormat(result.format ?? '')
+      setImportStatus(result.addedCount > 0 ? 'added' : 'noNew')
+    } catch {
+      setImportStatus('error')
     }
   }
 
@@ -614,6 +653,63 @@ export default function CustomizePanel(): JSX.Element {
             </p>
           )}
         </div>
+
+        <h3 className="customize-section-heading customize-section-spaced">
+          {t('customize.importListings.heading')}
+        </h3>
+        <p className="customize-intro">{t('customize.importListings.intro')}</p>
+        <div className="customize-list">
+          <div className="customize-list-item">
+            <span className="customize-list-sym">ASX</span>
+            <a className="customize-exchange-link" href={ASX_LISTINGS_URL} target="_blank" rel="noreferrer">
+              {t('customize.importListings.asxLink')}
+            </a>
+          </div>
+          <div className="customize-list-item">
+            <span className="customize-list-sym">HKEX</span>
+            <a className="customize-exchange-link" href={HKEX_LISTINGS_URL} target="_blank" rel="noreferrer">
+              {t('customize.importListings.hkexLink')}
+            </a>
+          </div>
+          <div className="customize-list-item">
+            <span className="customize-list-sym">JPX</span>
+            <a className="customize-exchange-link" href={JPX_LISTINGS_URL} target="_blank" rel="noreferrer">
+              {t('customize.importListings.jpxLink')}
+            </a>
+          </div>
+          <div className="customize-list-item">
+            <span className="customize-list-sym">SET</span>
+            <a className="customize-exchange-link" href={SET_LISTINGS_URL} target="_blank" rel="noreferrer">
+              {t('customize.importListings.setLink')}
+            </a>
+          </div>
+        </div>
+        <p className="history-download-nokey">{t('customize.importListings.nzxSgxNote')}</p>
+
+        <button
+          className="customize-add-btn history-download-btn"
+          disabled={importStatus === 'importing'}
+          onClick={() => handleImportListings()}
+        >
+          {importStatus === 'importing'
+            ? t('customize.importListings.importing')
+            : t('customize.importListings.importBtn')}
+        </button>
+
+        {importStatus !== 'idle' && importStatus !== 'importing' && (
+          <p
+            className={
+              'archive-status' + (importStatus === 'added' ? ' ok' : importStatus === 'noNew' ? '' : ' err')
+            }
+          >
+            {importStatus === 'added' &&
+              t('customize.importListings.added', { count: importAddedCount, format: importFormat })}
+            {importStatus === 'noNew' && t('customize.importListings.noNew')}
+            {importStatus === 'unrecognized' && t('customize.importListings.unrecognized')}
+            {importStatus === 'canceled' && t('portfolio.export.canceled')}
+            {importStatus === 'error' && t('customize.importListings.error')}
+          </p>
+        )}
 
         <h3 className="customize-section-heading customize-section-spaced">{t('customize.glass.heading')}</h3>
         <p className="customize-intro">{t('customize.glass.intro')}</p>

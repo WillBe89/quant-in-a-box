@@ -66,6 +66,21 @@
       "errorRateLimited": "Finnhub 返回了 429 —— 已达到调用频率限制，请稍等片刻后重试。",
       "errorGeneric": "下载失败，本地未保存任何内容 —— 系统不会用模拟数据代替。"
     },
+    "importListings": {
+      "heading": "导入本地上市清单",
+      "intro": "ASX、HKEX、JPX 和泰国 SET 均规定其上市清单文件仅限个人非商业用途重复使用，因此本应用绝不会自行下载、缓存或捆绑这些数据。点击下方链接，将交易所自己的文件下载到你的电脑，然后使用按钮将其导入你自己的本地数据库。",
+      "asxLink": "从 asx.com.au 下载（CSV）",
+      "hkexLink": "从 hkex.com.hk 下载（Excel）",
+      "jpxLink": "从 jpx.co.jp 下载（Excel）",
+      "setLink": "从 set.or.th 下载（Excel）",
+      "nzxSgxNote": "此处未列出 NZX 和 SGX——这两家交易所均未提供可下载的批量上市清单文件（NZX 仅供查看，SGX 仅供浏览且无法导出），因此本工具不适用于它们。",
+      "importBtn": "导入上市清单文件…",
+      "importing": "正在导入…",
+      "added_other": "已添加 {{count}} 条新的 {{format}} 上市清单。",
+      "noNew": "没有新清单——已导入过。",
+      "unrecognized": "该文件与 4 种受支持的格式（ASX/HKEX/JPX/SET）均不匹配。请确认这是从上方交易所链接下载的未经修改的原始文件。",
+      "error": "读取该文件时出错，未导入任何内容。"
+    },
     "glass": {
       "heading": "玻璃质感外观",
       "intro": "选择界面中有多少部分以半透明玻璃效果悬浮在背景之上。柔和的渐变背景本身始终保持开启。",

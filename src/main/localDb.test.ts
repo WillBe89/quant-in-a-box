@@ -297,6 +297,57 @@ describe('localDb', () => {
       })
     })
 
+    describe('userAssets', () => {
+      it('returns an empty array when nothing has been imported yet', () => {
+        expect(localDb.getUserAssets()).toEqual([])
+      })
+
+      it('round-trips a record with every optional field present', () => {
+        localDb.insertUserAssets([
+          { symbol: 'XRO.AX', name: 'Xero Limited', klass: 'stocks', sector: 'Information Technology', country: 'Australia', exchange: 'ASX' }
+        ])
+        expect(localDb.getUserAssets()).toEqual([
+          { symbol: 'XRO.AX', name: 'Xero Limited', klass: 'stocks', sector: 'Information Technology', country: 'Australia', exchange: 'ASX' }
+        ])
+      })
+
+      it('round-trips a record with every optional field absent', () => {
+        localDb.insertUserAssets([{ symbol: 'BARE.AX', name: 'Bare Co', klass: 'stocks' }])
+        expect(localDb.getUserAssets()).toContainEqual({
+          symbol: 'BARE.AX',
+          name: 'Bare Co',
+          klass: 'stocks',
+          sector: undefined,
+          country: undefined,
+          exchange: undefined
+        })
+      })
+
+      it('upserts on symbol, replacing rather than duplicating', () => {
+        localDb.insertUserAssets([{ symbol: 'DUP.AX', name: 'Old Name', klass: 'stocks' }])
+        localDb.insertUserAssets([{ symbol: 'DUP.AX', name: 'New Name', klass: 'stocks' }])
+        const matches = localDb.getUserAssets().filter((a) => a.symbol === 'DUP.AX')
+        expect(matches).toHaveLength(1)
+        expect(matches[0].name).toBe('New Name')
+      })
+
+      it('is a safe no-op given an empty array', () => {
+        const before = localDb.getUserAssets().length
+        localDb.insertUserAssets([])
+        expect(localDb.getUserAssets()).toHaveLength(before)
+      })
+
+      it('returns rows ordered by symbol ascending', () => {
+        localDb.insertUserAssets([
+          { symbol: 'ZZZ.AX', name: 'Z Co', klass: 'stocks' },
+          { symbol: 'AAA.AX', name: 'A Co', klass: 'stocks' }
+        ])
+        const symbols = localDb.getUserAssets().map((a) => a.symbol)
+        const sorted = [...symbols].sort()
+        expect(symbols).toEqual(sorted)
+      })
+    })
+
     describe('export-oriented helpers', () => {
       it('getStoredSymbolsSummary summarizes row counts and time ranges per key', () => {
         localDb.storeCandles('finnhub', 'SUMM', '1D', [
