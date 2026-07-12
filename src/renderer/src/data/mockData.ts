@@ -96,10 +96,38 @@ const CURATED_ASSETS_BY_CLASS: Record<AssetClass, Asset[]> = {
   ]
 }
 
+/** A few curated symbols (NVDA/AAPL/MSFT, BTC/ETH/SOL) are real tickers that also exist in the
+ *  generated NASDAQ-Trader/CoinGecko-sourced universe below, which caused genuine duplicate-key
+ *  React warnings anywhere both lists get rendered together (search results, the asset browser).
+ *  Rather than dropping either copy outright: keep the curated entry's position (index 0 of
+ *  `stocks`/`crypto` is relied on elsewhere as the default startup symbol - see
+ *  AppStateContext.tsx's "Slot 0 keeps today's exact startup default" fallback), but merge in
+ *  whatever richer metadata (sector/industry/marketCap/country/ipoYear) the generated version
+ *  has, then drop that symbol from the generated array so it isn't rendered a second time. */
+function dedupeCuratedAgainstGenerated(curated: Asset[], generated: Asset[]): [Asset[], Asset[]] {
+  const generatedBySymbol = new Map(generated.map((a) => [a.symbol, a]))
+  const mergedCurated = curated.map((c) => {
+    const match = generatedBySymbol.get(c.symbol)
+    return match ? { ...c, sector: match.sector, industry: match.industry, marketCap: match.marketCap, country: match.country, ipoYear: match.ipoYear } : c
+  })
+  const curatedSymbols = new Set(curated.map((c) => c.symbol))
+  const dedupedGenerated = generated.filter((a) => !curatedSymbols.has(a.symbol))
+  return [mergedCurated, dedupedGenerated]
+}
+
+const [mergedCuratedStocks, dedupedGeneratedStocks] = dedupeCuratedAgainstGenerated(
+  CURATED_ASSETS_BY_CLASS.stocks,
+  GENERATED_STOCK_ASSETS
+)
+const [mergedCuratedCrypto, dedupedGeneratedCrypto] = dedupeCuratedAgainstGenerated(
+  CURATED_ASSETS_BY_CLASS.crypto,
+  GENERATED_CRYPTO_ASSETS
+)
+
 export const ASSETS_BY_CLASS: Record<AssetClass, Asset[]> = {
   ...CURATED_ASSETS_BY_CLASS,
-  stocks: [...CURATED_ASSETS_BY_CLASS.stocks, ...GENERATED_STOCK_ASSETS],
-  crypto: [...CURATED_ASSETS_BY_CLASS.crypto, ...GENERATED_CRYPTO_ASSETS]
+  stocks: [...mergedCuratedStocks, ...dedupedGeneratedStocks],
+  crypto: [...mergedCuratedCrypto, ...dedupedGeneratedCrypto]
 }
 
 export const ALL_ASSETS: Asset[] = Object.values(ASSETS_BY_CLASS).flat()
