@@ -32,6 +32,7 @@ const FOCUSED_SLOT_STORAGE_KEY = 'qiab:focusedSlot:v1'
 const DOCK_WIDTH_STORAGE_KEY = 'qiab:dockWidthPx:v1'
 const OSCILLATOR_HEIGHT_STORAGE_KEY = 'qiab:oscillatorHeightPx:v1'
 const GLASS_TIERS_STORAGE_KEY = 'qiab:glassTiers:v1'
+const FORECAST_DISCLAIMER_MODE_STORAGE_KEY = 'qiab:forecastDisclaimerMode:v1'
 
 const DOCK_WIDTH_DEFAULT = 320
 const DOCK_WIDTH_MIN = 260
@@ -42,6 +43,13 @@ const OSCILLATOR_HEIGHT_MAX = 260
 
 export type TickerSource = 'watchlist' | 'portfolio' | 'all'
 export type NewsSource = 'selected' | 'watchlist' | 'portfolio'
+// Global (not per-slot, not per-symbol) preference for how naggy the chart's forecast
+// disclaimer is: 'full' is today's unchanged always-rendered block, 'compact' shrinks it to a
+// one-line reminder, 'hidden' renders nothing. Deliberately a one-off exception to this app's
+// usual "always-rendered, never dismissible" disclaimer stance — see forecastDisclaimerTitle/
+// forecastDisclaimerBody usage in ChartSlot.tsx. Does NOT apply to the AI Insights or Academy
+// anti-cheating disclaimers, which stay permanently rendered.
+export type ForecastDisclaimerMode = 'full' | 'compact' | 'hidden'
 export type DockCardId = 'risk' | 'options' | 'news'
 // 'modules' is kept as the internal value name for minimal risk (localStorage-adjacent logic
 // and any code checking for the literal string 'modules' keeps working) — only its DISPLAY
@@ -172,6 +180,16 @@ function loadNewsSource(): NewsSource {
     // fall through to default
   }
   return 'selected'
+}
+
+function loadForecastDisclaimerMode(): ForecastDisclaimerMode {
+  try {
+    const raw = localStorage.getItem(FORECAST_DISCLAIMER_MODE_STORAGE_KEY)
+    if (raw === 'full' || raw === 'compact' || raw === 'hidden') return raw
+  } catch {
+    // fall through to default
+  }
+  return 'full'
 }
 
 function loadLanguage(): string {
@@ -384,6 +402,8 @@ interface AppState {
   setOscillatorHeightPx: (px: number) => void
   glassTiers: GlassTierState
   toggleGlassTier: (tier: GlassTier) => void
+  forecastDisclaimerMode: ForecastDisclaimerMode
+  setForecastDisclaimerMode: (mode: ForecastDisclaimerMode) => void
 }
 
 export interface DockLayoutContextValue {
@@ -428,6 +448,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
     loadClampedPx(OSCILLATOR_HEIGHT_STORAGE_KEY, OSCILLATOR_HEIGHT_MIN, OSCILLATOR_HEIGHT_MAX, OSCILLATOR_HEIGHT_DEFAULT)
   )
   const [glassTiers, setGlassTiers] = useState<GlassTierState>(() => loadGlassTiers())
+  const [forecastDisclaimerMode, setForecastDisclaimerModeState] = useState<ForecastDisclaimerMode>(() =>
+    loadForecastDisclaimerMode()
+  )
   const focusedSlot = useMemo(
     () => chartSlots.find((s) => s.id === focusedSlotId) ?? chartSlots[0],
     [chartSlots, focusedSlotId]
@@ -568,6 +591,14 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   }, [glassTiers])
 
   useEffect(() => {
+    try {
+      localStorage.setItem(FORECAST_DISCLAIMER_MODE_STORAGE_KEY, forecastDisclaimerMode)
+    } catch {
+      // best-effort persistence; ignore quota/availability errors
+    }
+  }, [forecastDisclaimerMode])
+
+  useEffect(() => {
     saveAcademyProgress(academyProgress)
   }, [academyProgress])
 
@@ -583,6 +614,10 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
   const toggleGlassTier = useCallback((tier: GlassTier) => {
     setGlassTiers((prev) => ({ ...prev, [tier]: !prev[tier] }))
   }, [])
+  const setForecastDisclaimerMode = useCallback(
+    (mode: ForecastDisclaimerMode) => setForecastDisclaimerModeState(mode),
+    []
+  )
 
   const setSlotSymbol = useCallback((slotId: string, asset: Asset) => {
     setChartSlots((prev) => prev.map((s) => (s.id === slotId ? { ...s, symbol: asset } : s)))
@@ -874,7 +909,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       oscillatorHeightPx,
       setOscillatorHeightPx,
       glassTiers,
-      toggleGlassTier
+      toggleGlassTier,
+      forecastDisclaimerMode,
+      setForecastDisclaimerMode
     }),
     [
       assetClass,
@@ -941,7 +978,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): J
       oscillatorHeightPx,
       setOscillatorHeightPx,
       glassTiers,
-      toggleGlassTier
+      toggleGlassTier,
+      forecastDisclaimerMode,
+      setForecastDisclaimerMode
     ]
   )
 

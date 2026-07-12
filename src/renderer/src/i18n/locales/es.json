@@ -92,6 +92,11 @@
         "portfolio": "Cartera",
         "star": "Estrella"
       }
+    },
+    "forecastDisclaimer": {
+      "heading": "Aviso de pronóstico",
+      "intro": "Si has minimizado u ocultado el aviso \"No es una predicción\" en un gráfico, vuelve a mostrarlo aquí en su tamaño completo.",
+      "restoreBtn": "Mostrar el aviso de pronóstico completo"
     }
   },
   "ticker": {
@@ -159,7 +164,11 @@
       "montecarlo": "Montecarlo"
     },
     "forecastDisclaimerTitle": "No es una predicción",
-    "forecastDisclaimerBody": "Esta superposición es una proyección estadística basada en la volatilidad y la tendencia recientes del propio activo, no una predicción del precio futuro. Es solo para fines educativos e informativos y no constituye asesoramiento de inversión."
+    "forecastDisclaimerBody": "Esta superposición es una proyección estadística basada en la volatilidad y la tendencia recientes del propio activo, no una predicción del precio futuro. Es solo para fines educativos e informativos y no constituye asesoramiento de inversión.",
+    "forecastDisclaimerCompact": "Superposición de pronóstico — no es una predicción",
+    "forecastDisclaimerCollapse": "Reducir a un aviso de una línea",
+    "forecastDisclaimerExpand": "Mostrar el aviso completo",
+    "forecastDisclaimerDismiss": "Descartar este aviso"
   },
   "dock": {
     "risk": {

@@ -15,7 +15,7 @@ import { dataService } from '@renderer/data/dataService'
 import PriceChart from '@renderer/components/chart/PriceChart'
 import OscillatorPanel from '@renderer/components/chart/OscillatorPanel'
 import InfoIcon from '@renderer/academy/InfoIcon'
-import { IconAlertTriangle, IconInfo, IconStar } from '@renderer/components/icons/Icons'
+import { IconAlertTriangle, IconChevronDown, IconClose, IconInfo, IconStar } from '@renderer/components/icons/Icons'
 import Tooltip from '@renderer/components/ui/Tooltip'
 import AssetSearchBox from '@renderer/components/ui/AssetSearchBox'
 import { useDismissablePopover } from '@renderer/lib/useDismissablePopover'
@@ -75,16 +75,28 @@ export default function ChartSlot({
     toggleWatchlist,
     language,
     oscillatorHeightPx,
-    setOscillatorHeightPx
+    setOscillatorHeightPx,
+    forecastDisclaimerMode,
+    setForecastDisclaimerMode
   } = useAppState()
   const slot = chartSlots.find((s) => s.id === slotId)
   const [candles, setCandles] = useState<Candle[]>([])
-  // Mirrors `slot`/`candles` so handleScrollNearOldestEdge (passed to PriceChart, whose
-  // chart-creation effect captures it once and never re-subscribes on prop changes — see
-  // PriceChart.tsx) always reads the current symbol/timeframe/oldest-bar instead of whatever was
-  // current the one time the chart instance itself was (re)created.
+  // Mirrors `slot`/`candles` so handleScrollNearOldestEdge/handleScrollIntoFuture (passed to
+  // PriceChart, whose chart-creation effect captures them once and never re-subscribes on prop
+  // changes — see PriceChart.tsx) always read the current symbol/timeframe/indicators instead of
+  // whatever was current the one time the chart instance itself was (re)created.
+  // Assigned directly during render (not inside a useEffect) - lightweight-charts fires
+  // subscribeVisibleLogicalRangeChange synchronously as a side effect of fitContent(), which can
+  // happen before React gets to run this component's own effects on the same commit. Toggling
+  // Forecast on triggers exactly that fitContent() call (to reveal the new projection), which
+  // used to read a still-stale `slotRef.current.indicators.forecast === false` from a `useEffect`
+  // that hadn't run yet - so handleScrollIntoFuture's guard didn't bail, and it toggled Forecast
+  // straight back off, undoing the user's own click. Refs may be written during render (unlike
+  // state), so this keeps them permanently in sync a render ahead of any effect timing.
   const slotRef = useRef(slot)
+  slotRef.current = slot
   const candlesRef = useRef(candles)
+  candlesRef.current = candles
   const [hover, setHover] = useState<ChartHoverInfo | null>(null)
   const [searchOpen, setSearchOpen] = useState(false)
   const [insightOpen, setInsightOpen] = useState(false)
@@ -144,12 +156,6 @@ export default function ChartSlot({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slot?.symbol, slot?.timeframe])
 
-  useEffect(() => {
-    slotRef.current = slot
-  }, [slot])
-  useEffect(() => {
-    candlesRef.current = candles
-  }, [candles])
 
   // Reads whatever's already sitting in local SQLite — from an earlier explicit bulk download
   // (see the Customize panel's "Download historical data" section / historyDownload.ts), or just
@@ -330,12 +336,59 @@ export default function ChartSlot({
         )}
       </div>
 
-      {slot.indicators.forecast && (
+      {slot.indicators.forecast && forecastDisclaimerMode === 'full' && (
         <div className="chart-forecast-disclaimer">
           <IconAlertTriangle size={16} />
-          <div>
+          <div className="chart-forecast-disclaimer-body">
             <div className="chart-forecast-disclaimer-title">{t('workspace.forecastDisclaimerTitle')}</div>
             <p>{t('workspace.forecastDisclaimerBody')}</p>
+          </div>
+          <div className="chart-forecast-disclaimer-actions">
+            <Tooltip label={t('workspace.forecastDisclaimerCollapse') ?? ''}>
+              <button
+                className="card-action-btn"
+                onClick={() => setForecastDisclaimerMode('compact')}
+                aria-label={t('workspace.forecastDisclaimerCollapse') ?? undefined}
+              >
+                <IconChevronDown size={12} className="chart-forecast-disclaimer-chev-collapse" />
+              </button>
+            </Tooltip>
+            <Tooltip label={t('workspace.forecastDisclaimerDismiss') ?? ''}>
+              <button
+                className="card-action-btn"
+                onClick={() => setForecastDisclaimerMode('hidden')}
+                aria-label={t('workspace.forecastDisclaimerDismiss') ?? undefined}
+              >
+                <IconClose size={11} />
+              </button>
+            </Tooltip>
+          </div>
+        </div>
+      )}
+
+      {slot.indicators.forecast && forecastDisclaimerMode === 'compact' && (
+        <div className="chart-forecast-disclaimer chart-forecast-disclaimer-compact">
+          <IconAlertTriangle size={13} />
+          <span className="chart-forecast-disclaimer-compact-text">{t('workspace.forecastDisclaimerCompact')}</span>
+          <div className="chart-forecast-disclaimer-actions">
+            <Tooltip label={t('workspace.forecastDisclaimerExpand') ?? ''}>
+              <button
+                className="card-action-btn"
+                onClick={() => setForecastDisclaimerMode('full')}
+                aria-label={t('workspace.forecastDisclaimerExpand') ?? undefined}
+              >
+                <IconChevronDown size={12} />
+              </button>
+            </Tooltip>
+            <Tooltip label={t('workspace.forecastDisclaimerDismiss') ?? ''}>
+              <button
+                className="card-action-btn"
+                onClick={() => setForecastDisclaimerMode('hidden')}
+                aria-label={t('workspace.forecastDisclaimerDismiss') ?? undefined}
+              >
+                <IconClose size={11} />
+              </button>
+            </Tooltip>
           </div>
         </div>
       )}

@@ -220,7 +220,9 @@ export default function CustomizePanel(): JSX.Element {
     settingsVersion,
     bumpSettingsVersion,
     glassTiers,
-    toggleGlassTier
+    toggleGlassTier,
+    forecastDisclaimerMode,
+    setForecastDisclaimerMode
   } = useAppState()
   const { dockHidden, toggleDockCardHidden, resetDockLayout } = useDockLayout()
   const [query, setQuery] = useState('')
@@ -626,6 +628,18 @@ export default function CustomizePanel(): JSX.Element {
             </label>
           ))}
         </div>
+
+        <h3 className="customize-section-heading customize-section-spaced">
+          {t('customize.forecastDisclaimer.heading')}
+        </h3>
+        <p className="customize-intro">{t('customize.forecastDisclaimer.intro')}</p>
+        <button
+          className="customize-reset"
+          onClick={() => setForecastDisclaimerMode('full')}
+          disabled={forecastDisclaimerMode === 'full'}
+        >
+          {t('customize.forecastDisclaimer.restoreBtn')}
+        </button>
       </div>
     </OverlayPanel>
   )

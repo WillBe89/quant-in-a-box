@@ -215,6 +215,14 @@
   border-color: var(--border-strong);
   color: var(--text);
 }
+.customize-reset:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.customize-reset:disabled:hover {
+  border-color: var(--border);
+  color: var(--text-dim);
+}
 
 .portfolio-row-main {
   display: flex;

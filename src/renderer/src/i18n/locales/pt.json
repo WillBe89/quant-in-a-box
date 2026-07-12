@@ -92,6 +92,11 @@
         "portfolio": "Carteira",
         "star": "Estrela"
       }
+    },
+    "forecastDisclaimer": {
+      "heading": "Aviso de previsão",
+      "intro": "Se reduziu ou dispensou o aviso \"Não é uma previsão\" num gráfico, volte a mostrá-lo aqui em tamanho completo.",
+      "restoreBtn": "Mostrar o aviso de previsão completo"
     }
   },
   "ticker": {
@@ -159,7 +164,11 @@
       "montecarlo": "Monte Carlo"
     },
     "forecastDisclaimerTitle": "Não é uma previsão",
-    "forecastDisclaimerBody": "Esta sobreposição é uma projeção estatística baseada na volatilidade e na tendência recentes do próprio ativo, não uma previsão do preço futuro. É apenas para fins educativos e informativos e não constitui aconselhamento de investimento."
+    "forecastDisclaimerBody": "Esta sobreposição é uma projeção estatística baseada na volatilidade e na tendência recentes do próprio ativo, não uma previsão do preço futuro. É apenas para fins educativos e informativos e não constitui aconselhamento de investimento.",
+    "forecastDisclaimerCompact": "Sobreposição de previsão — não é uma previsão",
+    "forecastDisclaimerCollapse": "Reduzir a um aviso de uma linha",
+    "forecastDisclaimerExpand": "Mostrar o aviso completo",
+    "forecastDisclaimerDismiss": "Dispensar este aviso"
   },
   "dock": {
     "risk": {

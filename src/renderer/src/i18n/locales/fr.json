@@ -92,6 +92,11 @@
         "portfolio": "Portefeuille",
         "star": "Étoile"
       }
+    },
+    "forecastDisclaimer": {
+      "heading": "Avis de prévision",
+      "intro": "Si vous avez réduit ou masqué l'avis « Ce n'est pas une prédiction » sur un graphique, réaffichez-le ici dans sa taille complète.",
+      "restoreBtn": "Réafficher l'avis de prévision en entier"
     }
   },
   "ticker": {
@@ -159,7 +164,11 @@
       "montecarlo": "Monte-Carlo"
     },
     "forecastDisclaimerTitle": "Ce n'est pas une prédiction",
-    "forecastDisclaimerBody": "Cette superposition est une projection statistique basée sur la volatilité et la tendance récentes de l'actif lui-même, et non une prédiction du prix futur. Elle est fournie à titre éducatif et informatif uniquement et ne constitue pas un conseil en investissement."
+    "forecastDisclaimerBody": "Cette superposition est une projection statistique basée sur la volatilité et la tendance récentes de l'actif lui-même, et non une prédiction du prix futur. Elle est fournie à titre éducatif et informatif uniquement et ne constitue pas un conseil en investissement.",
+    "forecastDisclaimerCompact": "Superposition de prévision — ce n'est pas une prédiction",
+    "forecastDisclaimerCollapse": "Réduire à un avis sur une ligne",
+    "forecastDisclaimerExpand": "Réafficher l'avis complet",
+    "forecastDisclaimerDismiss": "Masquer cet avis"
   },
   "dock": {
     "risk": {

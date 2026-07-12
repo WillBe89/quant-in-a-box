@@ -136,6 +136,11 @@
       "chromeDesc": "Topbar, sidebar, dock panel, and ticker tape",
       "chartLabel": "Chart background",
       "chartDesc": "The price chart's own background"
+    },
+    "forecastDisclaimer": {
+      "heading": "Forecast notice",
+      "intro": "If you've collapsed or dismissed the \"Not a prediction\" forecast notice on a chart, bring it back to full size here.",
+      "restoreBtn": "Show the forecast notice in full"
     }
   },
   "ticker": {
@@ -197,6 +202,10 @@
     },
     "forecastDisclaimerTitle": "Not a prediction",
     "forecastDisclaimerBody": "This overlay is a statistical projection based on the asset's own recent volatility and trend, not a prediction of future price. It is for educational and informational purposes only and is not investment advice.",
+    "forecastDisclaimerCompact": "Forecast overlay — not a prediction",
+    "forecastDisclaimerCollapse": "Collapse to a one-line notice",
+    "forecastDisclaimerExpand": "Expand to full notice",
+    "forecastDisclaimerDismiss": "Dismiss this notice",
     "template": {
       "single": "1 chart",
       "twoEqual": "2 charts",
