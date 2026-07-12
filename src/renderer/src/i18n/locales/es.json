@@ -152,6 +152,7 @@
     "indicatorRsi": "RSI",
     "indicatorMacd": "MACD",
     "indicatorForecast": "Pronóstico",
+    "indicatorVolume": "Volumen",
     "rsiLabel": "RSI (14)",
     "macdLabel": "MACD (12, 26, 9)",
     "volLabel": "Vol",
@@ -440,6 +441,7 @@
     "dashboard": {
       "tabHoldings": "Posiciones",
       "tabDashboard": "Panel",
+      "tabCharts": "Gráficos",
       "classBreakdownTitle": "Desglose por clase de activo",
       "classBreakdownSub": "Cómo se reparte el valor de tu cartera entre acciones, cripto, bonos, divisas y bienes raíces",
       "holdingBreakdownTitle": "Desglose por posición",
@@ -546,6 +548,7 @@
     "pickerHeading": "Tus carteras",
     "newPortfolioBtn": "+ Nueva cartera",
     "defaultName": "Cartera {{n}}",
+    "renamePortfolio": "Cambiar nombre de la cartera",
     "overview": {
       "badge": "Resumen",
       "heading": "Todas las carteras",

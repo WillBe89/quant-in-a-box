@@ -150,6 +150,7 @@
     "indicatorRsi": "RSI",
     "indicatorMacd": "MACD",
     "indicatorForecast": "การพยากรณ์",
+    "indicatorVolume": "ปริมาณ",
     "rsiLabel": "RSI (14)",
     "macdLabel": "MACD (12, 26, 9)",
     "volLabel": "Vol",
@@ -438,6 +439,7 @@
     "dashboard": {
       "tabHoldings": "การถือครอง",
       "tabDashboard": "แดชบอร์ด",
+      "tabCharts": "กราฟ",
       "classBreakdownTitle": "แบ่งตามประเภทสินทรัพย์",
       "classBreakdownSub": "มูลค่าพอร์ตของคุณกระจายอยู่ในหุ้น คริปโต ตราสารหนี้ ฟอเร็กซ์ และอสังหาริมทรัพย์อย่างไร",
       "holdingBreakdownTitle": "แบ่งตามรายการถือครอง",
@@ -544,6 +546,7 @@
     "pickerHeading": "พอร์ตของคุณ",
     "newPortfolioBtn": "+ พอร์ตใหม่",
     "defaultName": "พอร์ต {{n}}",
+    "renamePortfolio": "เปลี่ยนชื่อพอร์ต",
     "overview": {
       "badge": "ภาพรวม",
       "heading": "พอร์ตทั้งหมด",

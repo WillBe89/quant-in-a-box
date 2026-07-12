@@ -156,6 +156,7 @@
     "indicatorRsi": "RSI",
     "indicatorMacd": "MACD",
     "indicatorForecast": "Прогноз",
+    "indicatorVolume": "Объём",
     "rsiLabel": "RSI (14)",
     "macdLabel": "MACD (12, 26, 9)",
     "volLabel": "Объём",
@@ -444,6 +445,7 @@
     "dashboard": {
       "tabHoldings": "Позиции",
       "tabDashboard": "Панель",
+      "tabCharts": "Графики",
       "classBreakdownTitle": "Распределение по классам активов",
       "classBreakdownSub": "Как стоимость вашего портфеля распределена между акциями, крипто, облигациями, валютой и недвижимостью",
       "holdingBreakdownTitle": "Распределение по позициям",
@@ -550,6 +552,7 @@
     "pickerHeading": "Ваши портфели",
     "newPortfolioBtn": "+ Новый портфель",
     "defaultName": "Портфель {{n}}",
+    "renamePortfolio": "Переименовать портфель",
     "overview": {
       "badge": "Обзор",
       "heading": "Все портфели",

@@ -152,6 +152,7 @@
     "indicatorRsi": "RSI",
     "indicatorMacd": "MACD",
     "indicatorForecast": "Previsão",
+    "indicatorVolume": "Volume",
     "rsiLabel": "RSI (14)",
     "macdLabel": "MACD (12, 26, 9)",
     "volLabel": "Vol",
@@ -440,6 +441,7 @@
     "dashboard": {
       "tabHoldings": "Posições",
       "tabDashboard": "Painel",
+      "tabCharts": "Gráficos",
       "classBreakdownTitle": "Distribuição por classe de ativo",
       "classBreakdownSub": "Como o valor da sua carteira se divide entre ações, cripto, títulos, câmbio e imóveis",
       "holdingBreakdownTitle": "Distribuição por posição",
@@ -546,6 +548,7 @@
     "pickerHeading": "As suas carteiras",
     "newPortfolioBtn": "+ Nova carteira",
     "defaultName": "Carteira {{n}}",
+    "renamePortfolio": "Renomear carteira",
     "overview": {
       "badge": "Visão geral",
       "heading": "Todas as carteiras",

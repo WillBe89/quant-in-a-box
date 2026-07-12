@@ -11,6 +11,7 @@ import Tooltip from '@renderer/components/ui/Tooltip'
 import PortfolioDashboardTab from '@renderer/components/portfolio/PortfolioDashboardTab'
 import HoldingsTable from '@renderer/components/portfolio/HoldingsTable'
 import ExportReportButton from '@renderer/components/portfolio/ExportReportButton'
+import HoldingChartCard from '@renderer/components/portfolio/HoldingChartCard'
 import type { Asset, PortfolioRiskStats } from '@renderer/types/market'
 import './portfolio.css'
 
@@ -23,6 +24,15 @@ const ZERO_RISK_STATS: PortfolioRiskStats = {
   beta: 0
 }
 
+// How many holding-chart cards the 'charts' tab mounts up front — each one is a real
+// lightweight-charts instance (via PriceChart), not a free DOM node, so a portfolio with many
+// holdings must not silently mount one per row. Mirrors HoldingsRankBar's own
+// show-top-N/show-all toggle (same dashboard tab, same "don't render everything at once by
+// default" instinct) rather than the asset browser's page-number pagination, since cards stay
+// mounted once revealed (no need to page back and forth) and a typical portfolio's holding
+// count (a handful to a few dozen) is small enough that "show more" beats real pagination.
+const CHARTS_INITIAL_COUNT = 6
+
 export default function PortfolioPane({
   portfolioId,
   onClose
@@ -31,7 +41,7 @@ export default function PortfolioPane({
   onClose: () => void
 }): JSX.Element | null {
   const { t } = useTranslation()
-  const { portfolios, addPosition, removePosition } = useAppState()
+  const { portfolios, addPosition, removePosition, renamePortfolio, deletePortfolio, selectSymbol } = useAppState()
   const portfolio = portfolios.find((p) => p.id === portfolioId)
 
   const [symbolQuery, setSymbolQuery] = useState('')
@@ -40,7 +50,12 @@ export default function PortfolioPane({
   const [costBasisInput, setCostBasisInput] = useState('')
   const quantityInputRef = useRef<HTMLInputElement | null>(null)
 
-  const [tab, setTab] = useState<'holdings' | 'dashboard'>('holdings')
+  const [tab, setTab] = useState<'holdings' | 'dashboard' | 'charts'>('holdings')
+  const [renaming, setRenaming] = useState(false)
+  const [nameDraft, setNameDraft] = useState('')
+  const [nameTaken, setNameTaken] = useState(false)
+  const [confirmingDelete, setConfirmingDelete] = useState(false)
+  const [chartsExpanded, setChartsExpanded] = useState(false)
 
   const positions = useMemo(() => portfolio?.positions ?? [], [portfolio])
 
@@ -59,6 +74,9 @@ export default function PortfolioPane({
 
   const matches = useMemo(() => searchAssets(ALL_ASSETS, symbolQuery), [symbolQuery])
 
+  const visibleChartRows = chartsExpanded ? rows : rows.slice(0, CHARTS_INITIAL_COUNT)
+  const canExpandCharts = rows.length > CHARTS_INITIAL_COUNT
+
   if (!portfolio) return null
 
   function handleAdd(): void {
@@ -74,10 +92,73 @@ export default function PortfolioPane({
     setCostBasisInput('')
   }
 
+  function startRename(): void {
+    setNameDraft(portfolio!.name)
+    setNameTaken(false)
+    setRenaming(true)
+  }
+
+  function commitRename(): void {
+    const trimmed = nameDraft.trim()
+    if (!trimmed || trimmed === portfolio!.name) {
+      setRenaming(false)
+      setNameTaken(false)
+      return
+    }
+    if (renamePortfolio(portfolioId, trimmed)) {
+      setRenaming(false)
+      setNameTaken(false)
+    } else {
+      setNameTaken(true)
+    }
+  }
+
+  // Deleting the portfolio this pane is showing must not leave the pane open on a portfolio
+  // that no longer exists. deletePortfolio() already drops portfolioId out of openPortfolioIds
+  // (see AppStateContext), which alone would make PortfolioWorkspace stop rendering this pane —
+  // onClose() is called too so this stays correct even if that internal wiring ever changes,
+  // and matches the instruction to close (not auto-switch to another portfolio), same as
+  // CustomizePanel's own delete button does today.
+  function handleDelete(): void {
+    deletePortfolio(portfolioId)
+    onClose()
+  }
+
   return (
     <div className="portfolio-pane" role="group" aria-label={portfolio.name}>
       <div className="portfolio-pane-header">
-        <h3 className="portfolio-pane-name">{portfolio.name}</h3>
+        <div className="portfolio-pane-name-wrap">
+          {renaming ? (
+            <input
+              className="portfolio-pane-name-input"
+              value={nameDraft}
+              autoFocus
+              onChange={(e) => {
+                setNameDraft(e.target.value)
+                setNameTaken(false)
+              }}
+              onBlur={commitRename}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') commitRename()
+                if (e.key === 'Escape') {
+                  setRenaming(false)
+                  setNameTaken(false)
+                }
+              }}
+            />
+          ) : (
+            <Tooltip label={t('portfolio.renamePortfolio') ?? ''}>
+              <button
+                className="portfolio-pane-name"
+                onClick={startRename}
+                aria-label={t('portfolio.renamePortfolio') ?? undefined}
+              >
+                {portfolio.name}
+              </button>
+            </Tooltip>
+          )}
+          {nameTaken && <span className="portfolio-pane-rename-error">{t('customize.portfolioNameTaken')}</span>}
+        </div>
         <div className="portfolio-pane-header-actions">
           <ExportReportButton
             portfolioName={portfolio.name}
@@ -85,6 +166,25 @@ export default function PortfolioPane({
             stats={risk.stats ?? ZERO_RISK_STATS}
             classBreakdown={classBreakdown}
           />
+          {confirmingDelete ? (
+            <button
+              className="portfolio-pane-delete-confirm"
+              onClick={handleDelete}
+              onBlur={() => setConfirmingDelete(false)}
+            >
+              {t('customize.confirmDelete')}
+            </button>
+          ) : (
+            <Tooltip label={t('customize.deletePortfolio') ?? ''}>
+              <button
+                className="icon-btn portfolio-pane-delete-btn"
+                onClick={() => setConfirmingDelete(true)}
+                aria-label={t('customize.deletePortfolio') ?? undefined}
+              >
+                <IconClose size={13} />
+              </button>
+            </Tooltip>
+          )}
           <Tooltip label={t('common.close') ?? ''}>
             <button className="icon-btn" onClick={onClose} aria-label={t('common.close') ?? undefined}>
               <IconClose size={13} />
@@ -157,6 +257,9 @@ export default function PortfolioPane({
               <button className={tab === 'dashboard' ? 'active' : ''} onClick={() => setTab('dashboard')}>
                 {t('portfolio.dashboard.tabDashboard')}
               </button>
+              <button className={tab === 'charts' ? 'active' : ''} onClick={() => setTab('charts')}>
+                {t('portfolio.dashboard.tabCharts')}
+              </button>
             </div>
 
             {tab === 'holdings' ? (
@@ -187,8 +290,30 @@ export default function PortfolioPane({
 
                 <HoldingsTable rows={rows} onRemove={(sym) => removePosition(portfolioId, sym)} />
               </>
-            ) : (
+            ) : tab === 'dashboard' ? (
               <PortfolioDashboardTab rows={rows} risk={risk} />
+            ) : (
+              <div className="portfolio-charts-tab">
+                <div className="portfolio-charts-grid">
+                  {visibleChartRows.map((row) => (
+                    <HoldingChartCard
+                      key={row.asset.symbol}
+                      row={row}
+                      onSelect={() => {
+                        selectSymbol(row.asset)
+                        onClose()
+                      }}
+                    />
+                  ))}
+                </div>
+                {canExpandCharts && (
+                  <button className="holdings-rank-toggle" onClick={() => setChartsExpanded((v) => !v)}>
+                    {chartsExpanded
+                      ? t('portfolio.dashboard.showTopBtn', { n: CHARTS_INITIAL_COUNT })
+                      : t('portfolio.dashboard.showAllBtn', { count: rows.length })}
+                  </button>
+                )}
+              </div>
             )}
           </>
         )}

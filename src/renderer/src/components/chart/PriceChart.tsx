@@ -355,11 +355,13 @@ export default function PriceChart({
     }
 
     volumeSeriesRef.current.setData(
-      candles.map((c) => ({
-        time: c.time as UTCTimestamp,
-        value: c.volume,
-        color: c.close >= c.open ? colors.gain : colors.loss
-      }))
+      indicators.volume
+        ? candles.map((c) => ({
+            time: c.time as UTCTimestamp,
+            value: c.volume,
+            color: c.close >= c.open ? colors.gain : colors.loss
+          }))
+        : []
     )
 
     const closes = closesOf(candles)

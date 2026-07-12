@@ -152,6 +152,7 @@
     "indicatorRsi": "RSI",
     "indicatorMacd": "MACD",
     "indicatorForecast": "Prévision",
+    "indicatorVolume": "Volume",
     "rsiLabel": "RSI (14)",
     "macdLabel": "MACD (12, 26, 9)",
     "volLabel": "Vol",
@@ -440,6 +441,7 @@
     "dashboard": {
       "tabHoldings": "Positions",
       "tabDashboard": "Tableau de bord",
+      "tabCharts": "Graphiques",
       "classBreakdownTitle": "Répartition par classe d'actifs",
       "classBreakdownSub": "Comment la valeur de votre portefeuille se répartit entre actions, cryptos, obligations, devises et immobilier",
       "holdingBreakdownTitle": "Répartition par position",
@@ -546,6 +548,7 @@
     "pickerHeading": "Vos portefeuilles",
     "newPortfolioBtn": "+ Nouveau portefeuille",
     "defaultName": "Portefeuille {{n}}",
+    "renamePortfolio": "Renommer le portefeuille",
     "overview": {
       "badge": "Vue d'ensemble",
       "heading": "Tous les portefeuilles",

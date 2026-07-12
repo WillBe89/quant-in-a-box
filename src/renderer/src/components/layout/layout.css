@@ -793,6 +793,10 @@
   background: var(--accent-a);
   color: var(--accent-a);
 }
+.ind-chip[data-ind='volume'].on .dot {
+  background: #8a94a6;
+  color: #8a94a6;
+}
 
 .chart-forecast-disclaimer {
   display: flex;

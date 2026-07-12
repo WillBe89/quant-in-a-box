@@ -196,6 +196,7 @@
     "indicatorRsi": "RSI",
     "indicatorMacd": "MACD",
     "indicatorForecast": "Forecast",
+    "indicatorVolume": "Volume",
     "rsiLabel": "RSI (14)",
     "macdLabel": "MACD (12, 26, 9)",
     "volLabel": "Vol",
@@ -465,6 +466,7 @@
     "pickerHeading": "Your portfolios",
     "newPortfolioBtn": "+ New portfolio",
     "defaultName": "Portfolio {{n}}",
+    "renamePortfolio": "Rename portfolio",
     "symbolPlaceholder": "Symbol (AAPL, BTC…)",
     "quantityPlaceholder": "Quantity",
     "costBasisPlaceholder": "Avg. cost basis",
@@ -487,6 +489,7 @@
     "dashboard": {
       "tabHoldings": "Holdings",
       "tabDashboard": "Dashboard",
+      "tabCharts": "Charts",
       "classBreakdownTitle": "Breakdown by asset class",
       "classBreakdownSub": "How your portfolio's value splits across stocks, crypto, bonds, FX, and real estate",
       "holdingBreakdownTitle": "Breakdown by holding",

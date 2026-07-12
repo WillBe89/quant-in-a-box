@@ -150,6 +150,7 @@
     "indicatorRsi": "RSI",
     "indicatorMacd": "MACD",
     "indicatorForecast": "预测",
+    "indicatorVolume": "成交量",
     "rsiLabel": "RSI (14)",
     "macdLabel": "MACD (12, 26, 9)",
     "volLabel": "成交量",
@@ -438,6 +439,7 @@
     "dashboard": {
       "tabHoldings": "持仓",
       "tabDashboard": "仪表盘",
+      "tabCharts": "图表",
       "classBreakdownTitle": "按资产类别划分",
       "classBreakdownSub": "您的投资组合价值在股票、加密货币、债券、外汇和房地产之间的分布",
       "holdingBreakdownTitle": "按持仓划分",
@@ -544,6 +546,7 @@
     "pickerHeading": "你的持仓组合",
     "newPortfolioBtn": "+ 新建组合",
     "defaultName": "投资组合 {{n}}",
+    "renamePortfolio": "重命名投资组合",
     "overview": {
       "badge": "总览",
       "heading": "所有投资组合",

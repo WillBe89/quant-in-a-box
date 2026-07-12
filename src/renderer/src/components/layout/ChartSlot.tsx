@@ -136,6 +136,7 @@ export default function ChartSlot({
   }, [insightOpen])
 
   const INDICATOR_META: Array<{ id: IndicatorId; label: string; lessonId: string }> = [
+    { id: 'volume', label: t('workspace.indicatorVolume'), lessonId: 'ma' },
     { id: 'ma20', label: t('workspace.indicatorMa20'), lessonId: 'ma' },
     { id: 'ma50', label: t('workspace.indicatorMa50'), lessonId: 'ma' },
     { id: 'boll', label: t('workspace.indicatorBoll'), lessonId: 'boll' },

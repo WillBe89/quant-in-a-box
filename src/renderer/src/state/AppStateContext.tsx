@@ -101,7 +101,13 @@ function isForecastMethod(x: unknown): x is ForecastMethodId {
 }
 
 function defaultIndicators(): Record<IndicatorId, boolean> {
-  return { ma20: true, ma50: false, boll: false, rsi: false, macd: false, forecast: false }
+  // 'volume' defaults to true (unlike every other indicator here) because the volume histogram
+  // was always-on before it became a toggleable IndicatorId at all — this default is what
+  // loadChartSlots' `{ ...def.indicators, ...stored.indicators }` merge falls back to for any
+  // already-saved slot whose stored indicators blob predates this key, so existing users keep
+  // seeing volume exactly as before instead of it silently vanishing. Same widening mechanism
+  // used when 'forecast' was added (just with the opposite default, since forecast was new/off).
+  return { ma20: true, ma50: false, boll: false, rsi: false, macd: false, forecast: false, volume: true }
 }
 
 /** Slot 0 keeps today's exact startup default (first curated stock) so existing users see no

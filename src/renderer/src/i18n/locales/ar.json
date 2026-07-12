@@ -158,6 +158,7 @@
     "indicatorRsi": "RSI",
     "indicatorMacd": "MACD",
     "indicatorForecast": "التوقع",
+    "indicatorVolume": "الحجم",
     "rsiLabel": "RSI (14)",
     "macdLabel": "MACD (12, 26, 9)",
     "volLabel": "الحجم",
@@ -446,6 +447,7 @@
     "dashboard": {
       "tabHoldings": "المراكز",
       "tabDashboard": "لوحة المعلومات",
+      "tabCharts": "الرسوم البيانية",
       "classBreakdownTitle": "التوزيع حسب فئة الأصول",
       "classBreakdownSub": "كيف تتوزع قيمة محفظتك بين الأسهم والعملات الرقمية والسندات والعملات الأجنبية والعقارات",
       "holdingBreakdownTitle": "التوزيع حسب المركز",
@@ -552,6 +554,7 @@
     "pickerHeading": "محافظك",
     "newPortfolioBtn": "+ محفظة جديدة",
     "defaultName": "محفظة {{n}}",
+    "renamePortfolio": "إعادة تسمية المحفظة",
     "overview": {
       "badge": "نظرة عامة",
       "heading": "جميع المحافظ",

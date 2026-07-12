@@ -152,6 +152,7 @@
     "indicatorRsi": "RSI",
     "indicatorMacd": "MACD",
     "indicatorForecast": "पूर्वानुमान",
+    "indicatorVolume": "वॉल्यूम",
     "rsiLabel": "RSI (14)",
     "macdLabel": "MACD (12, 26, 9)",
     "volLabel": "वॉल्यूम",
@@ -440,6 +441,7 @@
     "dashboard": {
       "tabHoldings": "होल्डिंग्स",
       "tabDashboard": "डैशबोर्ड",
+      "tabCharts": "चार्ट",
       "classBreakdownTitle": "एसेट क्लास के अनुसार विभाजन",
       "classBreakdownSub": "आपके पोर्टफोलियो का मूल्य स्टॉक्स, क्रिप्टो, बॉन्ड्स, एफएक्स और रियल एस्टेट में कैसे बंटा है",
       "holdingBreakdownTitle": "होल्डिंग के अनुसार विभाजन",
@@ -546,6 +548,7 @@
     "pickerHeading": "आपके पोर्टफोलियो",
     "newPortfolioBtn": "+ नया पोर्टफोलियो",
     "defaultName": "पोर्टफोलियो {{n}}",
+    "renamePortfolio": "पोर्टफोलियो का नाम बदलें",
     "overview": {
       "badge": "अवलोकन",
       "heading": "सभी पोर्टफोलियो",

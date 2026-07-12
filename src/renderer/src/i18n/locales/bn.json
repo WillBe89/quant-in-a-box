@@ -152,6 +152,7 @@
     "indicatorRsi": "RSI",
     "indicatorMacd": "MACD",
     "indicatorForecast": "পূর্বাভাস",
+    "indicatorVolume": "ভলিউম",
     "rsiLabel": "RSI (14)",
     "macdLabel": "MACD (12, 26, 9)",
     "volLabel": "ভলিউম",
@@ -440,6 +441,7 @@
     "dashboard": {
       "tabHoldings": "হোল্ডিংস",
       "tabDashboard": "ড্যাশবোর্ড",
+      "tabCharts": "চার্ট",
       "classBreakdownTitle": "সম্পদের শ্রেণি অনুযায়ী বিভাজন",
       "classBreakdownSub": "আপনার পোর্টফোলিওর মূল্য স্টক, ক্রিপ্টো, বন্ড, ফরেক্স ও রিয়েল এস্টেটে কীভাবে বিভক্ত",
       "holdingBreakdownTitle": "হোল্ডিং অনুযায়ী বিভাজন",
@@ -546,6 +548,7 @@
     "pickerHeading": "আপনার পোর্টফোলিওগুলো",
     "newPortfolioBtn": "+ নতুন পোর্টফোলিও",
     "defaultName": "পোর্টফোলিও {{n}}",
+    "renamePortfolio": "পোর্টফোলিওর নাম পরিবর্তন করুন",
     "overview": {
       "badge": "সারসংক্ষেপ",
       "heading": "সব পোর্টফোলিও",
