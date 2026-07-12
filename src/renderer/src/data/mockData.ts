@@ -300,10 +300,18 @@ export function generateCompanyProfile(asset: Asset): CompanyProfile | null {
   if (asset.klass !== 'stocks') return null
   const seed = hashSymbol(asset.symbol)
   const rand = seededRandom(seed)
-  const shareOutstanding = Math.round(500 + rand() * 15_000) // millions
-  const marketCapitalization = Math.round(asset.price * shareOutstanding) // millions
-  const industry = MOCK_INDUSTRIES[seed % MOCK_INDUSTRIES.length]
-  const ipoYear = 1990 + Math.floor(rand() * 34)
+  // Real data from a NASDAQ screener export (see assetUniverse.ts) takes priority per-field;
+  // anything the source didn't have for this symbol falls back to the existing synthetic
+  // generation, same seeded approach as before.
+  const marketCapitalization = asset.marketCap
+    ? Math.round(asset.marketCap / 1_000_000) // real, in dollars -> millions
+    : Math.round(asset.price * (500 + rand() * 15_000)) // synthetic, already in millions
+  const shareOutstanding =
+    asset.marketCap && asset.price > 0
+      ? Math.round(marketCapitalization / asset.price)
+      : Math.round(500 + rand() * 15_000)
+  const industry = asset.industry ?? asset.sector ?? MOCK_INDUSTRIES[seed % MOCK_INDUSTRIES.length]
+  const ipoYear = asset.ipoYear ?? 1990 + Math.floor(rand() * 34)
   const ipoMonth = 1 + Math.floor(rand() * 12)
   const ipoDay = 1 + Math.floor(rand() * 28)
   const ipo = `${ipoYear}-${String(ipoMonth).padStart(2, '0')}-${String(ipoDay).padStart(2, '0')}`
@@ -318,7 +326,7 @@ export function generateCompanyProfile(asset: Asset): CompanyProfile | null {
     ipo,
     exchange: 'NASDAQ',
     currency: 'USD',
-    country: 'US'
+    country: asset.country === 'United States' ? 'US' : (asset.country ?? 'US')
   }
 }
 

@@ -8,6 +8,13 @@ export interface Asset {
   changePct: number
   /** true when `price` is a yield/percentage rather than a currency amount */
   isYield?: boolean
+  /** Real metadata from a NASDAQ screener export, present only for stocks covered by that
+   *  source — absent (not empty-string) when the source had no value for that field. */
+  sector?: string
+  industry?: string
+  marketCap?: number
+  country?: string
+  ipoYear?: number
 }
 
 export interface Candle {
