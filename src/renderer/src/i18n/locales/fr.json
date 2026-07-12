@@ -613,7 +613,13 @@
     "exchange": "Bourse",
     "ipo": "Date d'introduction en bourse",
     "country": "Pays",
-    "website": "Visiter le site web"
+    "website": "Visiter le site web",
+    "etfCategory": "Catégorie",
+    "etfIndexTracked": "Indice suivi",
+    "etfExpenseRatio": "Frais de gestion",
+    "etfExpenseRatioValue": "{{value}}% par an",
+    "etfExpenseRatioNotPublished": "Non publiés",
+    "etfComposition": "Composition"
   },
   "assetBrowser": {
     "badge": "Parcourir",

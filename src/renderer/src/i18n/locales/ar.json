@@ -619,7 +619,13 @@
     "exchange": "البورصة",
     "ipo": "تاريخ الطرح العام",
     "country": "الدولة",
-    "website": "زيارة الموقع الإلكتروني"
+    "website": "زيارة الموقع الإلكتروني",
+    "etfCategory": "الفئة",
+    "etfIndexTracked": "المؤشر المتتبَّع",
+    "etfExpenseRatio": "نسبة المصروفات",
+    "etfExpenseRatioValue": "{{value}}% سنويًا",
+    "etfExpenseRatioNotPublished": "غير معلنة",
+    "etfComposition": "تكوين المحفظة"
   },
   "assetBrowser": {
     "badge": "تصفح",

@@ -613,7 +613,13 @@
     "exchange": "এক্সচেঞ্জ",
     "ipo": "আইপিও তারিখ",
     "country": "দেশ",
-    "website": "ওয়েবসাইট দেখুন"
+    "website": "ওয়েবসাইট দেখুন",
+    "etfCategory": "শ্রেণি",
+    "etfIndexTracked": "অনুসরণকৃত সূচক",
+    "etfExpenseRatio": "ব্যয় অনুপাত",
+    "etfExpenseRatioValue": "{{value}}% বার্ষিক",
+    "etfExpenseRatioNotPublished": "প্রকাশিত হয়নি",
+    "etfComposition": "পোর্টফোলিও গঠন"
   },
   "assetBrowser": {
     "badge": "ব্রাউজ করুন",

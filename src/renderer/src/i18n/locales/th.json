@@ -611,7 +611,13 @@
     "exchange": "ตลาดหลักทรัพย์",
     "ipo": "วันที่ IPO",
     "country": "ประเทศ",
-    "website": "เยี่ยมชมเว็บไซต์"
+    "website": "เยี่ยมชมเว็บไซต์",
+    "etfCategory": "หมวดหมู่",
+    "etfIndexTracked": "ดัชนีอ้างอิง",
+    "etfExpenseRatio": "อัตราส่วนค่าใช้จ่าย",
+    "etfExpenseRatioValue": "{{value}}% ต่อปี",
+    "etfExpenseRatioNotPublished": "ยังไม่เปิดเผย",
+    "etfComposition": "โครงสร้างการลงทุน"
   },
   "assetBrowser": {
     "badge": "เรียกดู",

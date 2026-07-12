@@ -611,7 +611,13 @@
     "exchange": "交易所",
     "ipo": "上市日期",
     "country": "国家/地区",
-    "website": "访问官网"
+    "website": "访问官网",
+    "etfCategory": "类别",
+    "etfIndexTracked": "跟踪指数",
+    "etfExpenseRatio": "费用比率",
+    "etfExpenseRatioValue": "{{value}}%（年化）",
+    "etfExpenseRatioNotPublished": "未公布",
+    "etfComposition": "持仓构成"
   },
   "assetBrowser": {
     "badge": "浏览",

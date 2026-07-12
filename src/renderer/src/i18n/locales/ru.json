@@ -617,7 +617,13 @@
     "exchange": "Биржа",
     "ipo": "Дата IPO",
     "country": "Страна",
-    "website": "Перейти на сайт"
+    "website": "Перейти на сайт",
+    "etfCategory": "Категория",
+    "etfIndexTracked": "Отслеживаемый индекс",
+    "etfExpenseRatio": "Коэффициент расходов",
+    "etfExpenseRatioValue": "{{value}}% годовых",
+    "etfExpenseRatioNotPublished": "Не опубликовано",
+    "etfComposition": "Состав фонда"
   },
   "assetBrowser": {
     "badge": "Обзор",

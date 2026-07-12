@@ -613,7 +613,13 @@
     "exchange": "ایکسچینج",
     "ipo": "آئی پی او تاریخ",
     "country": "ملک",
-    "website": "ویب سائٹ دیکھیں"
+    "website": "ویب سائٹ دیکھیں",
+    "etfCategory": "زمرہ",
+    "etfIndexTracked": "ٹریک کردہ انڈیکس",
+    "etfExpenseRatio": "اخراجات کا تناسب",
+    "etfExpenseRatioValue": "{{value}}% سالانہ",
+    "etfExpenseRatioNotPublished": "شائع نہیں کیا گیا",
+    "etfComposition": "پورٹ فولیو ساخت"
   },
   "assetBrowser": {
     "badge": "براؤز کریں",

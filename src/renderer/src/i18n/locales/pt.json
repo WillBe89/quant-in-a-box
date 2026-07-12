@@ -613,7 +613,13 @@
     "exchange": "Bolsa",
     "ipo": "Data do IPO",
     "country": "País",
-    "website": "Visitar site"
+    "website": "Visitar site",
+    "etfCategory": "Categoria",
+    "etfIndexTracked": "Índice de referência",
+    "etfExpenseRatio": "Taxa de administração",
+    "etfExpenseRatioValue": "{{value}}% ao ano",
+    "etfExpenseRatioNotPublished": "Não divulgada",
+    "etfComposition": "Composição"
   },
   "assetBrowser": {
     "badge": "Explorar",
