@@ -1,8 +1,15 @@
 <div align="center">
 
-# Quant In A Box
+<table>
+<tr>
+<td align="center" width="50%"><img src="assets/logo-header-en.png" alt="Quant In A Box" width="380"></td>
+<td align="center" width="50%"><img src="assets/logo-header-th.png" alt="ควอนท์ อิน อะ บ็อกซ์ (Quant In A Box, Thai)" width="380"></td>
+</tr>
+</table>
 
 ### Institutional-grade quant analytics for retail traders and students.
+
+_Thai (ไทย) is the first non-English language with the Academy's quiz content fully translated too, not just the interface — see [Internationalization](#internationalization)._
 
 [![Download for Windows](https://img.shields.io/badge/Download-Windows-0078D6?style=for-the-badge)](https://github.com/WillBe89/quant-in-a-box/releases/latest)
 [![Download for macOS](https://img.shields.io/badge/Download-macOS-black?style=for-the-badge)](https://github.com/WillBe89/quant-in-a-box/releases/latest)

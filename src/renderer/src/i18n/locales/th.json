@@ -132,8 +132,8 @@
     "emptyPortfolio": "พอร์ตของคุณว่างเปล่า — เพิ่มโพซิชันเพื่อให้แสดงที่นี่"
   },
   "topbar": {
-    "brandFirst": "Quant",
-    "brandSecond": "In A Box",
+    "brandFirst": "ควอนท์",
+    "brandSecond": "อิน อะ บ็อกซ์",
     "searchPlaceholder": "ค้นหาสินทรัพย์ใดก็ได้ — AAPL, BTC, พันธบัตรอายุ 10 ปี, VNQ…",
     "classAll": "ทั้งหมด",
     "classStocks": "หุ้น",
