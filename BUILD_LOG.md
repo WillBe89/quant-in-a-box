@@ -2,6 +2,12 @@
 
 Running log of autonomous build cycles. Newest entries at the top.
 
+## 2026-07-13 - Published v1.1.1
+
+**Built:** a patch release covering everything since v1.1.0 - the xlsx security fix, the Thai logo/branding work, and the trading-scope research documentation. No new app features, so a patch bump rather than another minor. All 4 CI jobs (typecheck/test, package on ubuntu/windows-2022/macos) went green on the first attempt this time, confirming the windows-2022 CI pin from the previous release holds.
+
+**Verified:** confirmed the published release carries all three installers (`.exe`, `.dmg`, `.AppImage`) plus auto-updater manifests before publishing, same discipline as v1.1.0.
+
 ## 2026-07-13 - Real trade execution: researched, and documented why it's not happening yet
 
 **Built:** Will asked to "scope for real trading," specifically AU-first (he and his girlfriend are both Australia-based) including crypto exchanges. Ran a 101-agent adversarially-verified deep-research pass (5 search angles, 19 sources fetched, 82 claims extracted, 25 verified, 14 confirmed/11 refuted) into whether a "bring-your-own-broker-key" order-relay model - no custody, no advice, just relaying an order the user typed to their own already-licensed broker via that broker's own API, mirroring this app's existing BYOK data model - would avoid needing an AFSL (Australian Financial Services License).
