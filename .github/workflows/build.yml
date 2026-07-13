@@ -31,7 +31,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        # windows-latest is pinned to windows-2022, not the floating label: GitHub's newer
+        # windows-latest image ships a Visual Studio version node-gyp@10.1.0 doesn't recognize
+        # ("unknown version \"undefined\""), which breaks better-sqlite3's native rebuild whenever
+        # its prebuilt binary doesn't match the runner's exact Node patch version.
+        os: [ubuntu-latest, windows-2022, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
