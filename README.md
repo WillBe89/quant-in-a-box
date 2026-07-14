@@ -35,16 +35,15 @@ I hope it helps someone, even in some small way, understand what they're looking
 
 ## Screenshots
 
-> _Screenshots below are placeholders pending a live capture pass from the actual running app — see [`docs/screenshots/`](docs/screenshots/). Each will be replaced with a real image taken directly from the app, not stock/placeholder art._
+All screenshots below are taken directly from the running app (mock data mode), not stock or placeholder art.
 
 | | |
 |---|---|
-| **Candlestick workspace with indicators** _(placeholder)_ | **Forward-forecasting overlay** _(placeholder)_ |
-| **Glass/fluid visual theme** _(placeholder)_ | **Portfolio risk grade & advice** _(placeholder)_ |
-| **Options pricing & Greeks** _(placeholder)_ | **Market news with images & categories** _(placeholder)_ |
-| **Academy home & pre-quiz study screen** _(placeholder)_ | **A quiz in progress, with an earned badge** _(placeholder)_ |
-| **Asset browser table** _(placeholder)_ | **Portfolio holdings-chart dashboard** _(placeholder)_ |
-| **A non-English (RTL) locale** _(placeholder)_ | |
+| ![Candlestick workspace with live indicators, options Greeks, and market news](docs/screenshots/workspace-indicators.png)<br>**Candlestick workspace** — live indicators, portfolio risk, options Greeks, and market news together | ![Multi-chart layout with a 3-method forecast overlay](docs/screenshots/forecast-overlay.png)<br>**Forward-forecasting overlay** — a 1+2 grid layout with the Trend method projected on BTC |
+| ![Portfolio breakdown by asset class and holding, compared to a model benchmark](docs/screenshots/portfolio-dashboard.png)<br>**Portfolio dashboard** — breakdown by class/holding, compared against a model benchmark | ![Portfolio risk grade with a plain-English explanation](docs/screenshots/portfolio-risk-grade.png)<br>**Risk grade & advice** — a plain-English read on how a portfolio tends to move |
+| ![Searchable, sortable asset browser table](docs/screenshots/asset-browser.png)<br>**Asset browser** — searchable, sortable, filterable across the full ~13,300-asset universe | ![Teaching Zone home screen with Library and Academy cards](docs/screenshots/academy-home.png)<br>**Teaching Zone home** — Library to learn, Academy to test yourself |
+| ![Library lesson content explaining stocks and ETFs in plain English](docs/screenshots/academy-library.png)<br>**Library** — plain-English lessons behind every indicator and metric | ![Academy modules list with a passed quiz and a cooldown timer](docs/screenshots/academy-modules.png)<br>**Academy** — graded quizzes per module, with a real retry cooldown |
+| ![Quiz results screen showing a passed attempt and an earned badge](docs/screenshots/academy-badge-earned.png)<br>**Badge earned** — 100% on the Asset Classes module | ![A downloadable PDF certificate of completion](docs/screenshots/academy-certificate.png)<br>**Downloadable certificate** — generated locally, with your own name on it |
 
 ## Features
 
