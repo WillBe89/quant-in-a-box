@@ -2,6 +2,12 @@
 
 Running log of autonomous build cycles. Newest entries at the top.
 
+## 2026-07-14 - Real screenshots in the README
+
+**Built:** Will supplied 14 real screenshots he'd captured himself (filtered to today's, 2026-07-14, per his instruction). Picked the 10 most representative and distinct - the candlestick workspace with the full analytics dashboard, the multi-chart forecast overlay, the portfolio dashboard and risk grade, the asset browser, and the full Academy flow (home, a library lesson, the modules list, an earned badge, and its downloaded PDF certificate) - and replaced the README's placeholder gallery with them, captioned. Left out a couple of the 14 (the Customize panel settings screens) as less visually compelling for a top-of-README gallery, and skipped the very similar duplicate forecast screenshot in favor of the clearer one.
+
+**Known gap, not silently dropped:** no RTL/non-English locale screenshot or the Phase 17 holdings-chart tab were among what Will captured this round, so those two placeholder line-items were dropped from the gallery rather than left mismatched - worth adding in a future pass if wanted.
+
 ## 2026-07-13 - Published v1.1.1
 
 **Built:** a patch release covering everything since v1.1.0 - the xlsx security fix, the Thai logo/branding work, and the trading-scope research documentation. No new app features, so a patch bump rather than another minor. All 4 CI jobs (typecheck/test, package on ubuntu/windows-2022/macos) went green on the first attempt this time, confirming the windows-2022 CI pin from the previous release holds.
