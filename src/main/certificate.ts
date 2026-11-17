@@ -155,7 +155,8 @@ export async function generateCertificatePdf(req: CertificateRequest): Promise<B
       printBackground: true,
       pageSize: 'Letter',
       landscape: true,
-      margins: { marginType: 'none' }
+      // Electron removed `marginType`; explicit zero margins are the equivalent of 'none'.
+      margins: { top: 0, bottom: 0, left: 0, right: 0 }
     })
     return buffer
   } finally {

@@ -9,6 +9,9 @@
   },
   "license": "SEE LICENSE IN LICENSE",
   "private": true,
+  "engines": {
+    "node": ">=22.12"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/WillBe89/quant-in-a-box.git"
@@ -17,17 +20,15 @@
     "dev": "electron-vite dev",
     "build": "electron-vite build",
     "typecheck": "tsc --noEmit -p tsconfig.web.json && tsc --noEmit -p tsconfig.node.json",
-    "test": "node scripts/test-with-rebuild.js",
-    "postinstall": "electron-builder install-app-deps",
+    "test": "vitest run",
     "build:win": "npm run build && electron-builder --win",
     "build:mac": "npm run build && electron-builder --mac",
     "build:linux": "npm run build && electron-builder --linux",
     "build:unpacked": "npm run build && electron-builder --dir"
   },
   "dependencies": {
-    "@electron-toolkit/preload": "^3.0.1",
-    "@electron-toolkit/utils": "^3.0.0",
-    "better-sqlite3": "^12.11.1",
+    "@electron-toolkit/utils": "^4.0.0",
+    "better-sqlite3": "^13.2.0",
     "cross-spawn": "^7.0.6",
     "i18next": "^26.3.6",
     "lightweight-charts": "^4.2.0",
@@ -38,23 +39,21 @@
     "xlsx": "file:vendor/xlsx-0.20.3.tgz"
   },
   "devDependencies": {
-    "@electron-toolkit/tsconfig": "^1.0.1",
+    "@electron-toolkit/tsconfig": "^2.0.0",
     "@types/better-sqlite3": "^7.6.13",
     "@types/cross-spawn": "^6.0.6",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^4.3.1",
-    "electron": "^31.3.0",
-    "electron-builder": "^24.13.3",
-    "electron-vite": "^2.3.0",
-    "typescript": "^5.5.4",
-    "vite": "^5.4.0",
-    "vitest": "^3.2.7"
+    "@vitejs/plugin-react": "^6.3.0",
+    "electron": "^45.3.3",
+    "electron-builder": "^26.18.0",
+    "electron-vite": "^6.0.0",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.0"
   },
   "allowScripts": {
-    "electron@31.7.7": true,
-    "esbuild@0.21.5": true,
-    "better-sqlite3@12.11.1": true
+    "electron-winstaller": false
   },
   "build": {
     "appId": "com.quantinabox.app",
@@ -99,6 +98,7 @@
       "provider": "github",
       "owner": "WillBe89",
       "repo": "quant-in-a-box"
-    }
+    },
+    "npmRebuild": false
   }
 }

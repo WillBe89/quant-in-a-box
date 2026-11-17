@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
       - run: npm ci
       - run: npm run typecheck
@@ -31,17 +31,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # windows-latest is pinned to windows-2022, not the floating label: GitHub's newer
-        # windows-latest image ships a Visual Studio version node-gyp@10.1.0 doesn't recognize
-        # ("unknown version \"undefined\""), which breaks better-sqlite3's native rebuild whenever
-        # its prebuilt binary doesn't match the runner's exact Node patch version.
+        # windows-2022 was pinned because the floating windows-latest image broke better-sqlite3's
+        # node-gyp rebuild. Since better-sqlite3 13 (N-API prebuilds) and npmRebuild: false, nothing
+        # compiles natively any more, so the pin is no longer load-bearing; kept until a release on
+        # windows-latest has been proven green.
         os: [ubuntu-latest, windows-2022, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
       - run: npm ci
       - run: npm run build
