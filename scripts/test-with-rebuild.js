@@ -6,12 +6,16 @@
 // tests fail, silently leaving the repo unable to launch Electron until someone reruns `npm install`.
 const { spawnSync } = require('child_process')
 
-function run(command, args) {
-  const result = spawnSync(command, args, { stdio: 'inherit', shell: true })
+function run(command, args, env = process.env) {
+  const result = spawnSync(command, args, { stdio: 'inherit', shell: true, env })
   return result.status ?? 1
 }
 
-run('npm', ['rebuild', 'better-sqlite3'])
-const testExitCode = run('npx', ['vitest', 'run'])
+// npm 12 refuses `npm rebuild <pkg>` (EALLOWSCRIPTS) when a user-level `allow-scripts` list in
+// ~/.npmrc coexists with this package.json's own `allowScripts` field. Clearing the user-level
+// setting for this one command lets the package.json field govern, as it does for `npm ci`.
+const rebuildExitCode = run('npm', ['rebuild', 'better-sqlite3'], { ...process.env, npm_config_allow_scripts: '' })
+const testExitCode = rebuildExitCode === 0 ? run('npx', ['vitest', 'run']) : rebuildExitCode
+if (rebuildExitCode !== 0) console.error('better-sqlite3 rebuild for host Node failed; tests not run.')
 run('npm', ['run', 'postinstall'])
 process.exit(testExitCode)
