@@ -1,4 +1,3 @@
-import { ElectronAPI } from '@electron-toolkit/preload'
 import type { PortfolioInsightsRequest, PortfolioInsightsResult } from '../main/aiInsights'
 import type { Candle, CompanyProfile, NewsItem, UserAssetRecord } from '../main/localDb'
 import type { PortfolioReportInput, SaveWorkbookResult } from '../main/exportData'
@@ -47,7 +46,6 @@ export interface QiabApi {
 
 declare global {
   interface Window {
-    electron: ElectronAPI
     api: QiabApi
   }
 }
