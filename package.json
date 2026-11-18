@@ -58,7 +58,7 @@
   "build": {
     "appId": "com.quantinabox.app",
     "productName": "Quant In A Box",
-    "copyright": "Copyright © 2026 Quant In A Box",
+    "copyright": "Copyright © 2026 will.be",
     "directories": {
       "output": "release",
       "buildResources": "build"
