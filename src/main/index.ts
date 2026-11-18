@@ -36,6 +36,15 @@ import {
   type CertificateRequest
 } from './certificate'
 
+function isWebUrl(url: string): boolean {
+  try {
+    const { protocol } = new URL(url)
+    return protocol === 'https:' || protocol === 'http:'
+  } catch {
+    return false
+  }
+}
+
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
     width: 1440,
@@ -51,7 +60,10 @@ function createWindow(): void {
     icon: join(__dirname, '../../resources/icon.png'),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      // Hardened defaults, stated explicitly: the preload only uses contextBridge + ipcRenderer.
+      contextIsolation: true,
+      nodeIntegration: false,
+      sandbox: true
     }
   })
 
@@ -59,9 +71,21 @@ function createWindow(): void {
     mainWindow.show()
   })
 
+  // Links that try to open a new window go to the system browser, but only real web links:
+  // never file:, javascript: or custom protocol handlers.
   mainWindow.webContents.setWindowOpenHandler((details) => {
-    shell.openExternal(details.url)
+    if (isWebUrl(details.url)) {
+      void shell.openExternal(details.url)
+    }
     return { action: 'deny' }
+  })
+
+  // The app is a single page: block in-place navigation away from it (e.g. a dropped file or a
+  // stray link), and send web links to the system browser instead.
+  mainWindow.webContents.on('will-navigate', (event, url) => {
+    if (url === mainWindow.webContents.getURL()) return
+    event.preventDefault()
+    if (isWebUrl(url)) void shell.openExternal(url)
   })
 
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {

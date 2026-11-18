@@ -1,5 +1,4 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import { electronAPI } from '@electron-toolkit/preload'
 import type { PortfolioInsightsRequest } from '../main/aiInsights'
 import type { Candle, CompanyProfile, NewsItem, UserAssetRecord } from '../main/localDb'
 import type { PortfolioReportInput, SaveWorkbookResult } from '../main/exportData'
@@ -35,16 +34,8 @@ const api = {
   getUserAssets: (): Promise<UserAssetRecord[]> => ipcRenderer.invoke('data:getUserAssets')
 }
 
-if (process.contextIsolated) {
-  try {
-    contextBridge.exposeInMainWorld('electron', electronAPI)
-    contextBridge.exposeInMainWorld('api', api)
-  } catch (error) {
-    console.error(error)
-  }
-} else {
-  // @ts-ignore (define in dts)
-  window.electron = electronAPI
-  // @ts-ignore (define in dts)
-  window.api = api
-}
+// Only the app's own narrow API is exposed. The renderer never used the toolkit's generic
+// `window.electron` (a raw ipcRenderer able to reach any channel), so it is no longer exposed.
+// contextIsolation and the sandbox are both on (see main/index.ts), so contextBridge is the
+// only way across; this preload imports nothing but `electron` so it can run sandboxed.
+contextBridge.exposeInMainWorld('api', api)
